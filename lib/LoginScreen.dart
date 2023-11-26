@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextFormField(
-                            decoration: InputDecoration(labelText: 'id'),
+                            decoration: InputDecoration(labelText: 'الرقم الجامعي'),
                             textAlign: TextAlign.right,
                             keyboardType: TextInputType.number,
                             autocorrect: false,
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                           TextFormField(
-                            decoration: InputDecoration(labelText: 'pass'),
+                            decoration: InputDecoration(labelText: 'الرقم السري'),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 print("invalid");
