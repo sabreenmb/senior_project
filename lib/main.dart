@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:senior_project/LoginScreen.dart';
+import 'package:senior_project/interface/LoginScreen.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'interface/LostAndFoundScreen.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
 
 
 
-      home: LoginScreen(),
+      home: LostAndFoundScreen(),
 
 
     );

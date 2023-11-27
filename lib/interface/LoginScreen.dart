@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:senior_project/theme.dart';
 import 'ServicesScreen.dart';
 
 final _firebase = FirebaseAuth.instance;
@@ -39,13 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
         content: Text(error.message ?? 'Athuntication Faild'),
       ));
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -68,7 +67,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextFormField(
-                            decoration: InputDecoration(labelText: 'الرقم الجامعي'),
+                            decoration: const InputDecoration(
+                              labelText: 'الرقم الجامعي',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: CustomColors.lightBlue, width: 2),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: CustomColors.lightBlue, width: 2),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(color: CustomColors.lightBlue),
+                              ),
+                            ),
                             textAlign: TextAlign.right,
                             keyboardType: TextInputType.number,
                             autocorrect: false,
@@ -85,8 +97,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               _enteredID = ("$value" + "@uj.edu.sa");
                             },
                           ),
+                          SizedBox(height: 20,),
                           TextFormField(
-                            decoration: InputDecoration(labelText: 'الرقم السري'),
+                            decoration:
+                                InputDecoration(labelText: 'الرقم السري',
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: CustomColors.lightBlue, width: 2),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: CustomColors.lightBlue, width: 2),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: CustomColors.lightBlue),
+                                  ),),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 print("invalid");
@@ -100,9 +125,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               _enteredPass = value!;
                             },
                           ),
+                          SizedBox(
+                            height: 100,
+                          ),
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: CustomColors.lightBlue,
+                                minimumSize: const Size.fromHeight(56),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(27))),
                             onPressed: _submit,
-                            child: const Text("login"),
+                            child: const Text("تسجيل الدخول"),
                           )
                         ],
                       ),
