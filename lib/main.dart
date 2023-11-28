@@ -29,14 +29,14 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.almaraiTextTheme(Theme.of(context).textTheme),
         useMaterial3: false,
       ),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [Locale('ar', 'AE')],
-      locale: Locale("ar", "AE"),
-      home: ServicesScreen(),
+      supportedLocales: const [Locale('ar', 'AE')],
+      locale: const Locale("ar", "AE"),
+      home: LoginScreen(),
     );
   }
 }
