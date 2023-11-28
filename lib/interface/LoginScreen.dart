@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:senior_project/theme.dart';
 import 'ServicesScreen.dart';
 
@@ -41,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';
       });
+      print(error.message ?? 'Athuntication Faild');
       // ScaffoldMessenger.of(context).clearSnackBars();
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       //   content: Text(error.message ?? 'Athuntication Faild'),
@@ -99,6 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             textAlign: TextAlign.right,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
                             autocorrect: false,
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
