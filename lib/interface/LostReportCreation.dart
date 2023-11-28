@@ -70,7 +70,13 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
         'Content-Type': 'application/json',
       },
       body: json.encode(
-        {'test': "name", 'val': '15'},
+        {
+          'PhotoBase64': "name",
+          'Category': '15',
+          "LostDate": '344',
+          "ExpectedPlace": 'بنى',
+          "Description": "اختار"
+        },
       ),
     );
     print(response.body);
@@ -293,7 +299,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                           child: ElevatedButton(
                             onPressed: _createLostItem,
                             style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(175, 40),
+                                fixedSize: const Size(175, 50),
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),

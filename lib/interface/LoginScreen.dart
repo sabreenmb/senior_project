@@ -54,7 +54,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(
                     top: 30, bottom: 20, left: 20, right: 20),
                 width: 200,
-                child: Text("logo"),
+                child:Image(
+                  image: AssetImage('assets/images/cyber.jpg'),
+                  width: 95,
+                  height: 130,
+                ),
               ),
               Container(
                 margin: const EdgeInsets.all(20),
@@ -135,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(27))),
                             onPressed: _submit,
-                            child: const Text("تسجيل الدخول"),
+                            child: Text("تسجيل الدخول",style: TextStyles.text3),
                           )
                         ],
                       ),

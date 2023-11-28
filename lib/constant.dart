@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
     NavigationDestinationLabelBehavior.alwaysHide;
+
 enum Categories {
   vegetables,
   fruit,
@@ -15,6 +16,7 @@ enum Categories {
   hygiene,
   other
 }
+
 final List services = [
   {
     "serviceName": "المفقودات",
