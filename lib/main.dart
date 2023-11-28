@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:senior_project/interface/LoginScreen.dart';
+import 'package:senior_project/interface/ServicesScreen.dart';
 import 'package:senior_project/interface/LostAndFoundScreen.dart';
 
 import 'firebase_options.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [Locale('ar', 'AE')],
       locale: Locale("ar", "AE"),
-      home: LostAndFoundScreen(),
+      home: ServicesScreen(),
     );
   }
 }
