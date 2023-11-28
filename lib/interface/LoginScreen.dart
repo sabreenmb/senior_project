@@ -13,12 +13,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-
+  String errorMessage = '';
   String _enteredID = '';
   String _enteredPass = '';
 
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
+
+    setState(() {
+      errorMessage = '';
+    });
 
     if (!isValid) {
       return;
@@ -34,15 +38,21 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => ServisesScreen()));
     } on FirebaseAuthException catch (error) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(error.message ?? 'Athuntication Faild'),
-      ));
+      setState(() {
+        errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';
+      });
+      // ScaffoldMessenger.of(context).clearSnackBars();
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(error.message ?? 'Athuntication Faild'),
+      // ));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final topMargin = screenHeight * 0.05;
+    final numericRegex = RegExp(r'^[0-9]+$');
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -95,6 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return "الرجاء إدخال الرقم الجامعي";
                               } else if (value.length != 7) {
                                 return "الرقم الجامعي يجب أن يتكون من ٧ أرقام";
+                              } else if (!numericRegex.hasMatch(value)) {
+                                return "الرقم الجامعي يجب أن يتكون من أرقام فقط";
                               }
                             },
                             onSaved: (value) {
@@ -134,6 +146,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             onSaved: (value) {
                               _enteredPass = value!;
                             },
+                          ),
+                          SizedBox(height: topMargin),
+                          Text(
+                            errorMessage,
+                            style: TextStyle(color: Colors.red),
                           ),
                           SizedBox(
                             height: 100,
