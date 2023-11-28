@@ -1,8 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:senior_project/interface/LostReportCreation.dart';
+import 'package:senior_project/interface/ServicesScreen.dart';
 import 'package:senior_project/widgets/LostAndFoundItems.dart';
 import 'package:senior_project/theme.dart';
+import 'package:http/http.dart' as http;
+import 'ChatScreen.dart';
+import 'HomeScreen.dart';
+import 'SaveListScreen.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
   const LostAndFoundScreen({super.key});
@@ -12,12 +17,48 @@ class LostAndFoundScreen extends StatefulWidget {
 }
 
 class _LostAndFoundState extends State<LostAndFoundScreen> {
-  int currentPageIndex = 0;
-  NavigationDestinationLabelBehavior labelBehavior =
-      NavigationDestinationLabelBehavior.alwaysHide;
-
+  late List<Map<String, Object>> _pages;
+  int _selectedPageIndex = 0;
   final _userInputController = TextEditingController();
   final isLost=true;
+  @override
+  void initState() {
+    _pages = [
+      {
+        'page': HomeScreen(),
+      },
+      {
+        'page': ChatScreen(),
+      },
+      {
+        'page': LostItemAddScreen(),
+      },
+      {
+        'page': ServisesScreen(),
+      },
+      {
+        'page': SaveListScreen(),
+      },
+    ];
+    super.initState();
+    _LoadItems();
+  }
+  void _LoadItems() async {
+    final url = Uri.https(
+        'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
+    final response=await http.get(url);
+    print(response.body);
+  }
+  void _addItem() async{
+    await Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=> LostItemAddScreen()));
+   _LoadItems();
+  }
+
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,45 +78,80 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
           )
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Colors.white,
-        indicatorColor: Colors.transparent,
-
-        labelBehavior: labelBehavior,
-        selectedIndex: currentPageIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home,color: CustomColors.lightBlue,),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+      bottomNavigationBar: BottomAppBar(
+        // color: Colors.white,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 0.01,
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          height: kBottomNavigationBarHeight * 0.98,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey,
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: BottomNavigationBar(
+              onTap: _selectPage,
+              backgroundColor: Theme.of(context).primaryColor,
+              unselectedItemColor: CustomColors.lightBlue,
+              selectedItemColor: Colors.purple,
+              currentIndex: _selectedPageIndex,
+              items: [
+                BottomNavigationBarItem(
+                  label: 'home',
+                  icon: Icon(Icons.home_outlined),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.apps),
+                  label: 'services'
+                ),
+                BottomNavigationBarItem(
+                  label: "",
+                  activeIcon: null,
+                  icon: Icon(null),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.messenger_outline,
+                  ),
+                  label: 'chat'
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.bookmark_border),
+                  label: 'save list'
+                ),
+              ],
+            ),
           ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.apps_rounded,color: CustomColors.lightBlue),
-            icon: Icon(Icons.apps),
-            label: 'Commute',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.messenger_rounded,color: CustomColors.lightBlue),
-            icon: Icon(Icons.messenger_outline_outlined),
-            label: 'Saved',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark,color: CustomColors.lightBlue),
-            icon: Icon(Icons.bookmark_border),
-            label: 'Saved',
-          ),
-        ],
+        ),
       ),
-      body: SafeArea(
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          hoverElevation: 10,
+          splashColor: Colors.grey,
+          tooltip: 'create',
+          elevation: 4,
+          child: Icon(Icons.add),
+          onPressed:_addItem,
+          //     () => setState(() {
+          //   _selectedPageIndex = 2;
+          //   Navigator.pushReplacement(
+          //       context, MaterialPageRoute(builder: (_) => LostItemAddScreen()));
+          // }),
+        ),
+      ),      body: SafeArea(
         bottom: false,
         child: Column(
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 15),
             Expanded(
                 child: Stack(
               children: [
@@ -93,7 +169,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
                       height: 60,
                       padding: EdgeInsets.only(top: 15,left: 15,right: 15),
                       child: TextField(
-                        autofocus: true,
+                        autofocus: false,
                         controller: _userInputController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.search,

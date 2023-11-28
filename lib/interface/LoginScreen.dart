@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _enteredID = '';
   String _enteredPass = '';
 
-  Future<void> _submit() async {
+  void _submit() async {
     final isValid = _formKey.currentState!.validate();
 
     if (!isValid) {
@@ -130,8 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(175, 50),
                                 backgroundColor: CustomColors.lightBlue,
-                                minimumSize: const Size.fromHeight(56),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(27))),
                             onPressed: _submit,
