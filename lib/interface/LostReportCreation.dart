@@ -47,28 +47,32 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
     }
   }
 
-  void _createLostItem() async{
+  void _createLostItem() async {
     final url = Uri.https(
         'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
-    final response=await http.post(
+    final response = await http.post(
       url,
       headers: {
         'Content-Type': 'application/json',
       },
       body: json.encode(
-        {'test': "name", 'val': '15'},
+        {
+          'PhotoBase64': "name",
+          'Category': '15',
+          "LostDate": '344',
+          "ExpectedPlace": 'بنى',
+          "Description": "اختار"
+        },
       ),
     );
     print(response.body);
     print(response.statusCode);
-    if(!context.mounted){
+    if (!context.mounted) {
       return;
     }
     Navigator.pop(context);
     // Navigator.pushReplacement(context,
     //     MaterialPageRoute(builder: (context) => LostAndFoundScreen()));
-
-
   }
 
   @override
@@ -281,7 +285,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                           child: ElevatedButton(
                             onPressed: _createLostItem,
                             style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(175, 40),
+                                fixedSize: const Size(175, 50),
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),

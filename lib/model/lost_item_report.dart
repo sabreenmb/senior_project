@@ -4,7 +4,7 @@ class LostItemReport {
   //Variables
   String? id;
   String? photo;
-  Category? category;
+  String? category;
   String? lostDate;
   String? expectedPlace;
   String? desription;

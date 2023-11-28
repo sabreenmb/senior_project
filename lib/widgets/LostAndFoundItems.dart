@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../model/lost_item_report.dart';
 import '../theme.dart';
 
 class LostAndFoundCard extends StatelessWidget {
+  LostItemReport lostItemReport;
+  LostAndFoundCard(this.lostItemReport, {super.key});
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,7 +34,7 @@ class LostAndFoundCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    "اغراض شخصية",
+                    lostItemReport.category!,
                     textAlign: TextAlign.right,
                     style: TextStyles.heading3B,
                   ),
@@ -49,7 +53,7 @@ class LostAndFoundCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        'التاريخ',
+                        lostItemReport.lostDate!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -69,7 +73,7 @@ class LostAndFoundCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        'الموقع',
+                        lostItemReport.expectedPlace!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
 
@@ -81,7 +85,7 @@ class LostAndFoundCard extends StatelessWidget {
                   ),
 
                   Text(
-                    'الوصف',
+                    lostItemReport.desription!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text2,
 

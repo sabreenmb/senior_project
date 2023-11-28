@@ -7,6 +7,7 @@ import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'interface/LostAndFoundScreen.dart';
+import 'interface/LostReportCreation.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -35,11 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [Locale('ar','AE')],
       locale: Locale("ar","AE"),
-
-
-
-      home: LoginScreen(),
-
+      home: LostAndFoundScreen(),
 
     );
   }
