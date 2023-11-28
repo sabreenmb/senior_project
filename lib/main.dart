@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:senior_project/interface/LoginScreen.dart';
+import 'package:senior_project/interface/ServicesScreen.dart';
+import 'package:senior_project/interface/LoginScreen.dart';
 import 'package:senior_project/interface/LostAndFoundScreen.dart';
 
 import 'firebase_options.dart';
@@ -24,19 +26,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       theme: ThemeData(
-        textTheme: GoogleFonts.almaraiTextTheme(Theme.of(context).textTheme)
-        ,useMaterial3: false,
-
+        textTheme: GoogleFonts.almaraiTextTheme(Theme.of(context).textTheme),
+        useMaterial3: false,
       ),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [Locale('ar', 'AE')],
-      locale: Locale("ar", "AE"),
+      supportedLocales: const [Locale('ar', 'AE')],
+      locale: const Locale("ar", "AE"),
       home: LoginScreen(),
     );
   }
