@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../constant.dart';
 import '../model/lost_item_report.dart';
 import '../theme.dart';
 
@@ -83,7 +84,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
     _formKey.currentState!.save();
 
     //todo right way to store an image
-    final storageRef= FirebaseStorage.instance.ref().child('lost_images');
+    final storageRef= FirebaseStorage.instance.ref().child('lost_images').child('${dateInput}.jpg');
     await storageRef.putFile(_selectedImage!);
     storageRef.getDownloadURL();
     lostItemReport.photo=_imageUrl;
