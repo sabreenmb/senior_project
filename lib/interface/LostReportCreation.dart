@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 //import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
@@ -18,10 +19,10 @@ class LostItemAddScreen extends StatefulWidget {
 
 class _LostItemAddScreenState extends State<LostItemAddScreen> {
   LostItemReport lostItemReport=LostItemReport(id: '', photo: '', category: '', lostDate: '', expectedPlace: '', desription: '');
-
+  File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
-  String _imageUrl =   'assets/images/logo-icon.png';
+  String _imageUrl ='assets/images/logo-icon.png';
   TextEditingController dateInput = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -57,16 +58,22 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
 
   Future<void> _takePhoto() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _imageUrl = pickedFile.path;
-      });
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if(pickedFile==null){
+      return;
     }
+    setState(() {
+      _selectedImage=File(pickedFile.path);
+
+    });
+    // if (pickedFile != null) {
+    //   setState(() {
+    //     _imageUrl = pickedFile.path;
+    //   });
+    // }
   }
 
-  void _checkInputValue() {
+  void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
 
     if (!isValid) {
@@ -76,6 +83,9 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
     _formKey.currentState!.save();
 
     //todo right way to store an image
+    final storageRef= FirebaseStorage.instance.ref().child('lost_images');
+    await storageRef.putFile(_selectedImage!);
+    storageRef.getDownloadURL();
     lostItemReport.photo=_imageUrl;
     _createLostItem();
   }
@@ -168,9 +178,9 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(14.0),
-                                          child: _imageUrl.isNotEmpty
+                                          child: _selectedImage!=null
                                               ? Image.file(
-                                                  File(_imageUrl),
+                                                  _selectedImage!,
                                                   height: screenWidth * 0.57,
                                                   width: double.infinity,
                                                   fit: BoxFit.cover,
