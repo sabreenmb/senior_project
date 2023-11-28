@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:senior_project/interface/LoginScreen.dart';
+import 'package:senior_project/interface/LostAndFoundScreen.dart';
 
 import 'firebase_options.dart';
+import 'interface/LostReportCreation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.almaraiTextTheme(Theme.of(context).textTheme),
-        // primaryColor:
+        useMaterial3: false,
       ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [Locale('ar', 'AE')],
       locale: Locale("ar", "AE"),
-      home: LoginScreen(),
+      home: LostAndFoundScreen(),
     );
   }
 }

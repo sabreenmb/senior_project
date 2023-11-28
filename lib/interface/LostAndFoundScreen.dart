@@ -22,7 +22,7 @@ class LostAndFoundScreen extends StatefulWidget {
 
 class _LostAndFoundState extends State<LostAndFoundScreen> {
   late List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 1;
   final _userInputController = TextEditingController();
   final isLost = true;
   List<LostItemReport> _lostItemReport = [];
@@ -78,12 +78,26 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
         .push(MaterialPageRoute(builder: (ctx) => LostItemAddScreen()));
     _LoadItems();
   }
-
   void _selectPage(int index) {
     setState(() {
+      if(index==0){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      }
+      else if (index==1){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+      }else if(index==2){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ChatScreen()));
+      }else if(index ==3){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => SaveListScreen()));
+      }
       _selectedPageIndex = index;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,35 +116,30 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        // color: Colors.white,
+        color: Colors.white,
         shape: CircularNotchedRectangle(),
-        notchMargin: 0.01,
-        clipBehavior: Clip.antiAlias,
+        notchMargin: 0.1,
+        clipBehavior: Clip.none,
         child: Container(
-          height: kBottomNavigationBarHeight * 0.98,
-          child: Container(
+          height: kBottomNavigationBarHeight * 1.2,
+          width:  MediaQuery.of(context).size.width,
+
+        child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border(
-                top: BorderSide(
-                  color: Colors.grey,
-                  width: 0.5,
-                ),
-              ),
             ),
             child: BottomNavigationBar(
               onTap: _selectPage,
-              backgroundColor: Theme.of(context).primaryColor,
-              unselectedItemColor: CustomColors.lightBlue,
-              selectedItemColor: Colors.purple,
+              unselectedItemColor: CustomColors.darkGrey,
+              selectedItemColor: CustomColors.lightBlue,
               currentIndex: _selectedPageIndex,
               items: [
                 BottomNavigationBarItem(
-                  label: 'home',
+                  label: 'الرئيسية',
                   icon: Icon(Icons.home_outlined),
                 ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.apps), label: 'services'),
+                    icon: Icon(Icons.apps), label: 'الخدمات'),
                 BottomNavigationBarItem(
                   label: "",
                   activeIcon: null,
@@ -140,9 +149,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
                     icon: Icon(
                       Icons.messenger_outline,
                     ),
-                    label: 'chat'),
+                    label: 'الدردشة'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.bookmark_border), label: 'save list'),
+                    icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
               ],
             ),
           ),
@@ -151,8 +160,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(6.0),
         child: FloatingActionButton(
+          backgroundColor: CustomColors.lightBlue,
           hoverElevation: 10,
           splashColor: Colors.grey,
           tooltip: 'create',
