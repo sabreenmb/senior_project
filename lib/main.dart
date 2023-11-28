@@ -24,9 +24,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
-        textTheme: GoogleFonts.almaraiTextTheme(Theme.of(context).textTheme),
-        // primaryColor:
+        textTheme: GoogleFonts.almaraiTextTheme(Theme.of(context).textTheme)
+        ,useMaterial3: false,
 
       ),
       localizationsDelegates: [

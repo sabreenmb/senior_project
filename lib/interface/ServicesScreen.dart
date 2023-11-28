@@ -6,6 +6,9 @@ import 'package:senior_project/widgets/ServiceCard.dart';
 
 import '../constant.dart';
 import '../theme.dart';
+import 'ChatScreen.dart';
+import 'HomeScreen.dart';
+import 'SaveListScreen.dart';
 
 class ServisesScreen extends StatefulWidget {
   ServisesScreen({super.key});
@@ -15,6 +18,26 @@ class ServisesScreen extends StatefulWidget {
 }
 
 class _ServisesState extends State<ServisesScreen> {
+  int _selectedPageIndex = 1;
+  void _selectPage(int index) {
+    setState(() {
+      if(index==0){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      }
+      else if (index==1){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+      }else if(index==2){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ChatScreen()));
+      }else if(index ==3){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => SaveListScreen()));
+      }
+      _selectedPageIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,44 +54,81 @@ class _ServisesState extends State<ServisesScreen> {
           )
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Colors.white,
-        indicatorColor: Colors.transparent,
-        labelBehavior: labelBehavior,
-        selectedIndex: currentPageIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(
-              Icons.home,
-              color: CustomColors.lightBlue,
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 0.1,
+        clipBehavior: Clip.none,
+        child: Container(
+          height: kBottomNavigationBarHeight * 1.2,
+          width:  MediaQuery.of(context).size.width,
+
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            child: BottomNavigationBar(
+              onTap:_selectPage ,
+              unselectedItemColor: CustomColors.darkGrey,
+              selectedItemColor: CustomColors.lightBlue,
+              currentIndex: _selectedPageIndex,
+              items: [
+                BottomNavigationBarItem(
+                  label: 'الرئيسية',
+                  icon: Icon(Icons.home_outlined),
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.apps), label: 'الخدمات'),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.messenger_outline,
+                    ),
+                    label: 'الدردشة'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
+              ],
+            ),
           ),
-          NavigationDestination(
-            selectedIcon:
-                Icon(Icons.apps_rounded, color: CustomColors.lightBlue),
-            icon: Icon(Icons.apps),
-            label: 'Commute',
-          ),
-          NavigationDestination(
-            selectedIcon:
-                Icon(Icons.messenger_rounded, color: CustomColors.lightBlue),
-            icon: Icon(Icons.messenger_outline_outlined),
-            label: 'Saved',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark, color: CustomColors.lightBlue),
-            icon: Icon(Icons.bookmark_border),
-            label: 'Saved',
-          ),
-        ],
+        ),
       ),
+      // bottomNavigationBar: NavigationBar(
+      //   backgroundColor: Colors.white,
+      //   indicatorColor: Colors.transparent,
+      //   labelBehavior: labelBehavior,
+      //   selectedIndex: currentPageIndex,
+      //   onDestinationSelected: (int index) {
+      //     setState(() {
+      //       currentPageIndex = index;
+      //     });
+      //   },
+      //   destinations: const <Widget>[
+      //     NavigationDestination(
+      //       selectedIcon: Icon(
+      //         Icons.home,
+      //         color: CustomColors.lightBlue,
+      //       ),
+      //       icon: Icon(Icons.home_outlined),
+      //       label: 'Home',
+      //     ),
+      //     NavigationDestination(
+      //       selectedIcon:
+      //           Icon(Icons.apps_rounded, color: CustomColors.lightBlue),
+      //       icon: Icon(Icons.apps),
+      //       label: 'Commute',
+      //     ),
+      //     NavigationDestination(
+      //       selectedIcon:
+      //           Icon(Icons.messenger_rounded, color: CustomColors.lightBlue),
+      //       icon: Icon(Icons.messenger_outline_outlined),
+      //       label: 'Saved',
+      //     ),
+      //     NavigationDestination(
+      //       selectedIcon: Icon(Icons.bookmark, color: CustomColors.lightBlue),
+      //       icon: Icon(Icons.bookmark_border),
+      //       label: 'Saved',
+      //     ),
+      //   ],
+      // ),
       body: SafeArea(
         bottom: false,
         child: Column(
