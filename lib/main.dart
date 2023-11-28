@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:senior_project/interface/FoundItemAddScreen.dart';
+import 'package:senior_project/interface/LoginScreen.dart';
 
 import 'firebase_options.dart';
 
@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.almaraiTextTheme(Theme.of(context).textTheme),
         useMaterial3: false,
       ),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [Locale('ar', 'AE')],
-      locale: Locale("ar", "AE"),
-      home: FoundItemAddScreen(),
+      supportedLocales: const [Locale('ar', 'AE')],
+      locale: const Locale("ar", "AE"),
+      home: LoginScreen(),
     );
   }
 }
