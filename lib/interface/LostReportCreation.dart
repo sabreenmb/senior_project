@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 //import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../constant.dart';
 import '../model/lost_item_report.dart';
 import '../theme.dart';
 
@@ -17,15 +19,21 @@ class LostItemAddScreen extends StatefulWidget {
 }
 
 class _LostItemAddScreenState extends State<LostItemAddScreen> {
-  LostItemReport lostItemReport=LostItemReport(id: '', photo: '', category: '', lostDate: '', expectedPlace: '', desription: '');
+  LostItemReport lostItemReport = LostItemReport(
+      id: '',
+      photo: '',
+      category: '',
+      lostDate: '',
+      expectedPlace: '',
+      desription: '');
 
+  File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
-  String _imageUrl =   'assets/images/logo-icon.png';
+  String _imageUrl ='assets/images/logo-icon.png';
   TextEditingController dateInput = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime currentDate = _selectedDate;
@@ -57,16 +65,22 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
 
   Future<void> _takePhoto() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _imageUrl = pickedFile.path;
-      });
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if(pickedFile==null){
+      return;
     }
+    setState(() {
+      _selectedImage=File(pickedFile.path);
+
+    });
+    // if (pickedFile != null) {
+    //   setState(() {
+    //     _imageUrl = pickedFile.path;
+    //   });
+    // }
   }
 
-  void _checkInputValue() {
+  void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
 
     if (!isValid) {
@@ -76,6 +90,10 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
     _formKey.currentState!.save();
 
     //todo right way to store an image
+
+    final storageRef= FirebaseStorage.instance.ref().child('lost_images').child('${dateInput}.jpg');
+    await storageRef.putFile(_selectedImage!);
+    storageRef.getDownloadURL();
     lostItemReport.photo=_imageUrl;
     _createLostItem();
   }
@@ -88,10 +106,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
       headers: {
         'Content-Type': 'application/json',
       },
-      body:
-      json.encode(
-       lostItemReport.toJson()
-      ),
+      body: json.encode(lostItemReport.toJson()),
     );
     print(response.body);
     print(response.statusCode);
@@ -168,9 +183,9 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(14.0),
-                                          child: _imageUrl.isNotEmpty
+                                          child: _selectedImage!=null
                                               ? Image.file(
-                                                  File(_imageUrl),
+                                                  _selectedImage!,
                                                   height: screenWidth * 0.57,
                                                   width: double.infinity,
                                                   fit: BoxFit.cover,
@@ -205,7 +220,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                 _selectedCategory = value!;
                               });
                             },
-                            items: ['fghj', 'اغراض شخصية', 'اخرى']
+                            items: ['الكترونيات', 'اغراض شخصية', 'اخرى']
                                 .map((category) {
                               return DropdownMenuItem(
                                 value: category,
@@ -229,13 +244,13 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                               ),
 
                             ),
-                            validator: (value){
-                              if(value ==null|| value.trim().isEmpty){
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
                             },
-                            onSaved: (value){
-                              lostItemReport.category=_selectedCategory;
+                            onSaved: (value) {
+                              lostItemReport.category = _selectedCategory;
                             },
                           ),
                           const SizedBox(height: 12.0),
@@ -278,8 +293,8 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                         return 'اختر تاريخ صحيح';
                                       }
                                     },
-                                    onSaved: (value){
-                                      lostItemReport.lostDate=value;
+                                    onSaved: (value) {
+                                      lostItemReport.lostDate = value;
                                     },
 
                                   ),
@@ -316,8 +331,8 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                             //     _selectedLocation = value;
                             //   });
                             // },
-                            onSaved: (value){
-                              lostItemReport.expectedPlace=value;
+                            onSaved: (value) {
+                              lostItemReport.expectedPlace = value;
                             },
                           ),
                           const SizedBox(height: 12.0),
@@ -346,8 +361,8 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                             //     _description = value;
                             //   });
                             // },
-                            onSaved: (value){
-                              lostItemReport.desription=value;
+                            onSaved: (value) {
+                              lostItemReport.desription = value;
                             },
                           ),
                           const SizedBox(height: 32.0),

@@ -29,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final userCridential = await _firebase.signInWithEmailAndPassword(
           email: _enteredID, password: _enteredPass);
+
       print("user:$userCridential");
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => ServisesScreen()));
