@@ -1,14 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:senior_project/interface/LoginScreen.dart';
-import 'package:senior_project/interface/ServicesScreen.dart';
-import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'interface/LostAndFoundScreen.dart';
-import 'interface/LostReportCreation.dart';
-void main() async{
+import 'firebase_options.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -35,10 +32,9 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [Locale('ar','AE')],
-      locale: Locale("ar","AE"),
-      home: LostAndFoundScreen(),
-
+      supportedLocales: [Locale('ar', 'AE')],
+      locale: Locale("ar", "AE"),
+      home: LoginScreen(),
     );
   }
 }

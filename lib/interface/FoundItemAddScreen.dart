@@ -2,19 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-//import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../theme.dart';
 
-class LostItemAddScreen extends StatefulWidget {
+class FoundItemAddScreen extends StatefulWidget {
   @override
-  _LostItemAddScreenState createState() => _LostItemAddScreenState();
+  _FoundItemAddScreenState createState() => _FoundItemAddScreenState();
 }
 
-class _LostItemAddScreenState extends State<LostItemAddScreen> {
+class _FoundItemAddScreenState extends State<FoundItemAddScreen> {
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
   String _selectedLocation = '';
@@ -52,7 +51,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
 
   Future<void> _takePhoto() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       setState(() {
@@ -70,13 +69,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
         'Content-Type': 'application/json',
       },
       body: json.encode(
-        {
-          'PhotoBase64': "name",
-          'Category': '15',
-          "LostDate": '344',
-          "ExpectedPlace": 'بنى',
-          "Description": "اختار"
-        },
+        {'test': "name", 'val': '15'},
       ),
     );
     print(response.body);
@@ -107,7 +100,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
             //     MaterialPageRoute(builder: (context) => LostAndFoundScreen()));
           },
         ),
-        title: Text("انشاء اعلان مفقود", style: TextStyles.heading1),
+        title: Text("انشاء اعلان موجود", style: TextStyles.heading1),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -169,7 +162,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                       Positioned(
                                         bottom: 8,
                                         child: Text(
-                                          'اضف صورة',
+                                          'التقط صورة',
                                           style: TextStyles.heading3B,
                                         ),
                                       ),
@@ -225,7 +218,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                       Icons.date_range_outlined,
                                       color: CustomColors.lightGrey,
                                     ),
-                                    labelText: "تاريخ الفقدان",
+                                    labelText: "تاريخ العثور",
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: CustomColors.lightBlue,
@@ -253,7 +246,32 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                               Icons.location_on,
                               color: CustomColors.lightGrey,
                             ),
-                            labelText: 'المكان المتوقع',
+                            labelText: 'مكان العثور',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: CustomColors.lightBlue,
+                              ),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: CustomColors.lightBlue,
+                              ),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedLocation = value;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 12.0),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.map,
+                              color: CustomColors.lightGrey,
+                            ),
+                            labelText: 'مكان استلام العنصر',
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: CustomColors.lightBlue,
@@ -299,7 +317,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                           child: ElevatedButton(
                             onPressed: _createLostItem,
                             style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(175, 50),
+                                fixedSize: const Size(175, 40),
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
@@ -322,5 +340,5 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
 }
 
 class AppConstants {
-  static const String uploadpic = 'assets/images/logo-icon.png';
+  static const String uploadpic = 'assets/images/take_photo.png';
 }
