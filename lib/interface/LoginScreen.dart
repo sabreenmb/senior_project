@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(
                     top: 30, bottom: 20, left: 20, right: 20),
                 width: 200,
-                child:Image(
+                child: Image(
                   image: AssetImage('assets/images/cyber.jpg'),
                   width: 95,
                   height: 130,
@@ -82,17 +82,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: CustomColors.lightBlue, width: 2),
                               ),
                               border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: CustomColors.lightBlue),
+                                borderSide:
+                                    BorderSide(color: CustomColors.lightBlue),
                               ),
                             ),
                             textAlign: TextAlign.right,
                             keyboardType: TextInputType.number,
                             autocorrect: false,
                             validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty ||
-                                  value.length != 7) {
-                                return "tsxt masage";
+                              if (value == null || value.trim().isEmpty) {
+                                return "الرجاء إدخال الرقم الجامعي";
+                              } else if (value.length != 7) {
+                                return "الرقم الجامعي يجب أن يتكون من ٧ أرقام";
                               }
                             },
                             onSaved: (value) {
@@ -101,26 +102,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               _enteredID = ("$value" + "@uj.edu.sa");
                             },
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           TextFormField(
-                            decoration:
-                                InputDecoration(labelText: 'الرقم السري',
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: CustomColors.lightBlue, width: 2),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: CustomColors.lightBlue, width: 2),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: CustomColors.lightBlue),
-                                  ),),
+                            decoration: const InputDecoration(
+                              labelText: 'الرقم السري',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: CustomColors.lightBlue, width: 2),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: CustomColors.lightBlue, width: 2),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: CustomColors.lightBlue),
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 print("invalid");
 
-                                return "pa'ss masage";
+                                return "الرجاء إدخال الرقم السري";
                               }
                             },
                             textAlign: TextAlign.right,
@@ -139,7 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(27))),
                             onPressed: _submit,
-                            child: Text("تسجيل الدخول",style: TextStyles.text3),
+                            child:
+                                Text("تسجيل الدخول", style: TextStyles.text3),
                           )
                         ],
                       ),
