@@ -52,7 +52,7 @@ class _FloatAddingButtonState extends State<FloatAddingButton>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromARGB(0, 158, 158, 158),
+      backgroundColor: Color.fromARGB(0, 201, 54, 54),
       floatingActionButton: FloatingActionButton(
         backgroundColor: CustomColors.lightBlue,
         hoverElevation: 10,

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:senior_project/interface/FoundItemAddScreen.dart';
 import 'package:senior_project/interface/LostReportCreation.dart';
 import 'package:senior_project/interface/ServicesScreen.dart';
 import 'package:senior_project/widgets/LostAndFoundItems.dart';
@@ -357,19 +358,26 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         width: _isExpanded ? _expandedSize : _collapsedSize,
                         height: _isExpanded ? _expandedSize : _collapsedSize,
                         child: Material(
-
                           color: CustomColors.noColor,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if (_isExpanded) ...[
-                                _buildOption('إنشاء إعلان موجود', () {
-                                  // Handle add item action
+                                _buildOption('إنشاء إعلان موجود', () async {
+                                  await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (ctx) =>
+                                              FoundItemAddScreen()));
+                                  _LoadItems();
                                 }),
                                 SizedBox(height: 16.0),
-                                _buildOption('إنشاء إعلان مفقود', () {
-                                  // Handle edit item action
+                                _buildOption('إنشاء إعلان مفقود', () async {
+                                  await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (ctx) =>
+                                              LostItemAddScreen()));
+                                  _LoadItems();
                                 }),
                               ],
                             ],
