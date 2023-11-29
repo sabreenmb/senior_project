@@ -1,24 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 //import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../constant.dart';
 import '../model/lost_item_report.dart';
 import '../theme.dart';
 
-class LostItemAddScreen extends StatefulWidget {
-
+class AddFoundItemScreen extends StatefulWidget {
   @override
-  _LostItemAddScreenState createState() => _LostItemAddScreenState();
+  _AddFoundItemScreenState createState() => _AddFoundItemScreenState();
 }
 
-class _LostItemAddScreenState extends State<LostItemAddScreen> {
+class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
   LostItemReport lostItemReport = LostItemReport(
       id: '',
       photo: '',
@@ -27,12 +24,11 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
       expectedPlace: '',
       desription: '');
 
-  File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
-  String _imageUrl ='assets/images/logo-icon.png';
+  String _imageUrl = '';
   TextEditingController dateInput = TextEditingController();
-  String uniqueFileName=DateTime.now().millisecondsSinceEpoch.toString();
+
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -65,24 +61,16 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
 
   Future<void> _takePhoto() async {
     final picker = ImagePicker();
-    XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
-    print('${pickedFile?.path}');
-    if(pickedFile==null){
-      return;
-    }
-    setState(() {
-      _selectedImage=File(pickedFile.path);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
-    });
-    // if (pickedFile != null) {
-    //   setState(() {
-    //     _imageUrl = pickedFile.path;
-    //   });
-    // }
+    if (pickedFile != null) {
+      setState(() {
+        _imageUrl = pickedFile.path;
+      });
+    }
   }
 
-  void _checkInputValue() async {
-
+  void _checkInputValue() {
     final isValid = _formKey.currentState!.validate();
 
     if (!isValid) {
@@ -92,16 +80,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
     _formKey.currentState!.save();
 
     //todo right way to store an image
-
-    final storageRef= FirebaseStorage.instance.ref().child('lost_images').child(uniqueFileName);
-    try{
-      await storageRef.putFile(_selectedImage!);
-      _imageUrl=await storageRef.getDownloadURL();
-
-    }catch(error){
-
-    }
-    lostItemReport.photo=_imageUrl;
+    lostItemReport.photo = _imageUrl;
     _createLostItem();
   }
 
@@ -143,7 +122,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
             //     MaterialPageRoute(builder: (context) => LostAndFoundScreen()));
           },
         ),
-        title: Text("انشاء اعلان مفقود", style: TextStyles.heading1),
+        title: Text("انشاء اعلان موجود", style: TextStyles.heading1),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -190,15 +169,16 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(14.0),
-                                          child: _selectedImage!=null
+                                          child: _imageUrl.isNotEmpty
                                               ? Image.file(
-                                                  _selectedImage!,
+                                                  File(_imageUrl),
                                                   height: screenWidth * 0.57,
                                                   width: double.infinity,
                                                   fit: BoxFit.cover,
                                                 )
                                               : Image.asset(
-                                                _imageUrl,
+                                                  'assets/images/take_photo.png',
+                                                  //  _imageUrl,
                                                   height: screenWidth * 0.57,
                                                   width: 170,
                                                   fit: BoxFit.contain,
@@ -207,7 +187,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                         Positioned(
                                           bottom: 8,
                                           child: Text(
-                                            'اضف صورة',
+                                            'التقط صورة',
                                             style: TextStyles.heading3B,
                                           ),
                                         ),
@@ -249,7 +229,6 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                   color: CustomColors.lightBlue,
                                 ),
                               ),
-
                             ),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
@@ -272,7 +251,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                         Icons.date_range_outlined,
                                         color: CustomColors.lightGrey,
                                       ),
-                                      labelText: "تاريخ الفقدان",
+                                      labelText: "تاريخ العثور",
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: CustomColors.lightBlue,
@@ -303,7 +282,6 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                     onSaved: (value) {
                                       lostItemReport.lostDate = value;
                                     },
-
                                   ),
                                 ),
                               ),
@@ -316,7 +294,40 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
                                 Icons.location_on,
                                 color: CustomColors.lightGrey,
                               ),
-                              labelText: 'المكان المتوقع',
+                              labelText: 'مكان العثور',
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: CustomColors.lightBlue,
+                                ),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: CustomColors.lightBlue,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'الرجاء تعبئة الحقل';
+                              }
+                            },
+                            // onChanged: (value) {
+                            //   setState(() {
+                            //     _selectedLocation = value;
+                            //   });
+                            // },
+                            onSaved: (value) {
+                              lostItemReport.expectedPlace = value;
+                            },
+                          ),
+                          const SizedBox(height: 12.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              suffixIcon: Icon(
+                                Icons.map,
+                                color: CustomColors.lightGrey,
+                              ),
+                              labelText: 'مكان استلام العنصر',
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: CustomColors.lightBlue,

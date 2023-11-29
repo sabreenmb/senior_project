@@ -65,7 +65,7 @@ class _ServisesState extends State<ServisesScreen> {
           width:  MediaQuery.of(context).size.width,
 
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
             child: BottomNavigationBar(
@@ -73,7 +73,7 @@ class _ServisesState extends State<ServisesScreen> {
               unselectedItemColor: CustomColors.darkGrey,
               selectedItemColor: CustomColors.lightBlue,
               currentIndex: 1,
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   label: 'الرئيسية',
                   icon: Icon(Icons.home_outlined),
@@ -139,7 +139,7 @@ class _ServisesState extends State<ServisesScreen> {
                 child: Stack(
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: CustomColors.BackgroundColor,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),

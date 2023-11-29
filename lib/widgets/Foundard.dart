@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
 import '../theme.dart';
 
-class LostAndFoundCard extends StatelessWidget {
-  LostItemReport lostItemReport;
-  LostAndFoundCard(this.lostItemReport, {super.key});
+class FoundCard extends StatelessWidget {
+  FoundItemReport foundItemReport;
+  FoundCard(this.foundItemReport, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +22,22 @@ class LostAndFoundCard extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         child: Row(
           children: [
-            const Image(
-              image: AssetImage('assets/images/mug.png'),
+
+            Container(
               width: 95,
               height: 130,
+              child: foundItemReport.photo=="empty"?
+              Image(image: AssetImage('assets/images/mug.png')):Image.network('${foundItemReport.photo}'),
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0),
+              const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    lostItemReport.category!,
+                    foundItemReport.category!,
                     textAlign: TextAlign.right,
                     style: TextStyles.heading3B,
                   ),
@@ -53,7 +56,7 @@ class LostAndFoundCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        lostItemReport.lostDate!,
+                        foundItemReport.lostDate!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -73,7 +76,7 @@ class LostAndFoundCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        lostItemReport.expectedPlace!,
+                        foundItemReport.expectedPlace!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
 
@@ -85,7 +88,7 @@ class LostAndFoundCard extends StatelessWidget {
                   ),
 
                   Text(
-                    lostItemReport.desription!,
+                    foundItemReport.desription!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text2,
 
