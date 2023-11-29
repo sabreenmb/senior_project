@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:senior_project/widgets/ServiceCard.dart';
+import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
 import '../theme.dart';
@@ -20,25 +21,25 @@ class ServisesScreen extends StatefulWidget {
 class _ServisesState extends State<ServisesScreen> {
   int _selectedPageIndex = 1;
   void _selectPage(int index) {
-    index=1;
+    index = 1;
     setState(() {
-      if(index==0){
+      if (index == 0) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      }
-      else if (index==1){
+      } else if (index == 1) {
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      }else if(index==2){
+      } else if (index == 2) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      }else if(index ==3){
+      } else if (index == 3) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => SaveListScreen()));
       }
       _selectedPageIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +49,6 @@ class _ServisesState extends State<ServisesScreen> {
         elevation: 0,
         title: Text("الخدمات", style: TextStyles.heading1),
         centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu),
-          )
-        ],
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
@@ -62,14 +57,13 @@ class _ServisesState extends State<ServisesScreen> {
         clipBehavior: Clip.none,
         child: Container(
           height: kBottomNavigationBarHeight * 1.2,
-          width:  MediaQuery.of(context).size.width,
-
+          width: MediaQuery.of(context).size.width,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
             ),
             child: BottomNavigationBar(
-              onTap:_selectPage ,
+              onTap: _selectPage,
               unselectedItemColor: CustomColors.darkGrey,
               selectedItemColor: CustomColors.lightBlue,
               currentIndex: 1,
@@ -92,44 +86,7 @@ class _ServisesState extends State<ServisesScreen> {
           ),
         ),
       ),
-      // bottomNavigationBar: NavigationBar(
-      //   backgroundColor: Colors.white,
-      //   indicatorColor: Colors.transparent,
-      //   labelBehavior: labelBehavior,
-      //   selectedIndex: currentPageIndex,
-      //   onDestinationSelected: (int index) {
-      //     setState(() {
-      //       currentPageIndex = index;
-      //     });
-      //   },
-      //   destinations: const <Widget>[
-      //     NavigationDestination(
-      //       selectedIcon: Icon(
-      //         Icons.home,
-      //         color: CustomColors.lightBlue,
-      //       ),
-      //       icon: Icon(Icons.home_outlined),
-      //       label: 'Home',
-      //     ),
-      //     NavigationDestination(
-      //       selectedIcon:
-      //           Icon(Icons.apps_rounded, color: CustomColors.lightBlue),
-      //       icon: Icon(Icons.apps),
-      //       label: 'Commute',
-      //     ),
-      //     NavigationDestination(
-      //       selectedIcon:
-      //           Icon(Icons.messenger_rounded, color: CustomColors.lightBlue),
-      //       icon: Icon(Icons.messenger_outline_outlined),
-      //       label: 'Saved',
-      //     ),
-      //     NavigationDestination(
-      //       selectedIcon: Icon(Icons.bookmark, color: CustomColors.lightBlue),
-      //       icon: Icon(Icons.bookmark_border),
-      //       label: 'Saved',
-      //     ),
-      //   ],
-      // ),
+      endDrawer: SideDrawer(),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -146,7 +103,6 @@ class _ServisesState extends State<ServisesScreen> {
                           topRight: Radius.circular(40))),
                 ),
                 Container(
-                  // color: const Color.fromRGBO(196, 196, 196, 0.2),
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 20.0),
                   child: GridView.builder(
