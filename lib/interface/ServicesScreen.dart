@@ -20,14 +20,15 @@ class ServisesScreen extends StatefulWidget {
 class _ServisesState extends State<ServisesScreen> {
   int _selectedPageIndex = 1;
   void _selectPage(int index) {
+    index=1;
     setState(() {
       if(index==0){
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
       }
       else if (index==1){
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
       }else if(index==2){
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => ChatScreen()));
@@ -71,7 +72,7 @@ class _ServisesState extends State<ServisesScreen> {
               onTap:_selectPage ,
               unselectedItemColor: CustomColors.darkGrey,
               selectedItemColor: CustomColors.lightBlue,
-              currentIndex: _selectedPageIndex,
+              currentIndex: 1,
               items: [
                 BottomNavigationBarItem(
                   label: 'الرئيسية',
