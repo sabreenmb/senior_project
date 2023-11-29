@@ -32,7 +32,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
   DateTime _selectedDate = DateTime.now();
   String _imageUrl ='assets/images/logo-icon.png';
   TextEditingController dateInput = TextEditingController();
-
+  String uniqueFileName=DateTime.now().millisecondsSinceEpoch.toString();
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -82,6 +82,7 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
   }
 
   void _checkInputValue() async {
+
     final isValid = _formKey.currentState!.validate();
 
     if (!isValid) {
@@ -92,9 +93,14 @@ class _LostItemAddScreenState extends State<LostItemAddScreen> {
 
     //todo right way to store an image
 
-    final storageRef= FirebaseStorage.instance.ref().child('lost_images').child('${dateInput}.jpg');
-    await storageRef.putFile(_selectedImage!);
-    storageRef.getDownloadURL();
+    final storageRef= FirebaseStorage.instance.ref().child('lost_images').child(uniqueFileName);
+    try{
+      await storageRef.putFile(_selectedImage!);
+      _imageUrl=await storageRef.getDownloadURL();
+
+    }catch(error){
+
+    }
     lostItemReport.photo=_imageUrl;
     _createLostItem();
   }

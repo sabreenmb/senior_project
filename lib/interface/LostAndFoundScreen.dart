@@ -20,16 +20,32 @@ class LostAndFoundScreen extends StatefulWidget {
   State<LostAndFoundScreen> createState() => _LostAndFoundState();
 }
 
-class _LostAndFoundState extends State<LostAndFoundScreen> {
+class _LostAndFoundState extends State<LostAndFoundScreen>
+    with SingleTickerProviderStateMixin {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 1;
   final _userInputController = TextEditingController();
   final isLost = true;
   List<LostItemReport> _lostItemReport = [];
+
+  //todo manar hepap
+  bool _isExpanded = false;
+  late AnimationController _animationController;
+  static const double _expandedSize = 200.0;
+  static const double _collapsedSize = 0.0;
   @override
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   void initState() {
     super.initState();
-
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
     _pages = [
       {
         'page': HomeScreen(),
@@ -57,7 +73,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
     final Map<String, dynamic> lostdata = json.decode(response.body);
     final List<LostItemReport> _loadedLostItems = [];
     for (final item in lostdata.entries) {
-
       _loadedLostItems.add(LostItemReport(
         id: item.key,
         photo: item.value['PhotoBase64'],
@@ -68,7 +83,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
       ));
     }
     setState(() {
-      _lostItemReport=_loadedLostItems;
+      _lostItemReport = _loadedLostItems;
     });
     print(response.body);
   }
@@ -78,19 +93,19 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
         .push(MaterialPageRoute(builder: (ctx) => LostItemAddScreen()));
     _LoadItems();
   }
+
   void _selectPage(int index) {
     setState(() {
-      if(index==0){
+      if (index == 0) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      }
-      else if (index==1){
+      } else if (index == 1) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      }else if(index==2){
+      } else if (index == 2) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      }else if(index ==3){
+      } else if (index == 3) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => SaveListScreen()));
       }
@@ -98,9 +113,21 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
     });
   }
 
+  void _toggleExpanded() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+      if (_isExpanded) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: CustomColors.pink,
       appBar: AppBar(
@@ -122,9 +149,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
         clipBehavior: Clip.none,
         child: Container(
           height: kBottomNavigationBarHeight * 1.2,
-          width:  MediaQuery.of(context).size.width,
-
-        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
             ),
@@ -167,13 +193,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
           splashColor: Colors.grey,
           tooltip: 'create',
           elevation: 4,
-          child: Icon(Icons.add),
-          onPressed: _addItem,
-          //     () => setState(() {
-          //   _selectedPageIndex = 2;
-          //   Navigator.pushReplacement(
-          //       context, MaterialPageRoute(builder: (_) => LostItemAddScreen()));
-          // }),
+          onPressed: _toggleExpanded,
+          child: _isExpanded ? Icon(Icons.close) : Icon(Icons.add),
         ),
       ),
       body: SafeArea(
@@ -322,11 +343,60 @@ class _LostAndFoundState extends State<LostAndFoundScreen> {
                       ),
                     )
                   ],
-                )
+                ),
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Positioned(
+                      //top: ,
+                      bottom: size.height * 0.06,
+
+                      child: AnimatedContainer(
+                        color: CustomColors.noColor,
+                        duration: Duration(milliseconds: 200),
+                        width: _isExpanded ? _expandedSize : _collapsedSize,
+                        height: _isExpanded ? _expandedSize : _collapsedSize,
+                        child: Material(
+
+                          color: CustomColors.noColor,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (_isExpanded) ...[
+                                _buildOption('إنشاء إعلان موجود', () {
+                                  // Handle add item action
+                                }),
+                                SizedBox(height: 16.0),
+                                _buildOption('إنشاء إعلان مفقود', () {
+                                  // Handle edit item action
+                                }),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ))
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildOption(String label, VoidCallback onPressed) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: FloatingActionButton.extended(
+        // fixedSize: const Size(175, 50),
+        backgroundColor: CustomColors.lightBlue,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(27)),
+        //focusColor: CustomColors.lightBlue,
+        onPressed: onPressed,
+        label: Text(label, style: TextStyles.text3),
       ),
     );
   }

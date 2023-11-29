@@ -9,6 +9,7 @@ class CustomColors {
   static const Color BackgroundColor = Color(0xFFF1EFF1);
   static const Color white = Colors.white;
   static const Color lightGreyLowTrans = Color.fromRGBO(171, 171, 171, 0.5);
+  static const Color noColor = Color.fromRGBO(171, 171,171,0.0);
 }
 
 class TextStyles {
