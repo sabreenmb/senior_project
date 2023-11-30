@@ -23,8 +23,7 @@ class _ServisesState extends State<ServisesScreen> {
       if (index == 0) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-      }
-      else if (index==1){
+      } else if (index == 1) {
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
       } else if (index == 2) {
@@ -47,13 +46,8 @@ class _ServisesState extends State<ServisesScreen> {
         elevation: 0,
         title: Text("الخدمات", style: TextStyles.heading1),
         centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.menu),
-          )
-        ],
       ),
+      endDrawer: SideDrawer(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
@@ -90,7 +84,6 @@ class _ServisesState extends State<ServisesScreen> {
           ),
         ),
       ),
-      endDrawer: SideDrawer(),
       body: SafeArea(
         bottom: false,
         child: Column(

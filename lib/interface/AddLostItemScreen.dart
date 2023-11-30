@@ -448,6 +448,8 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                             initialCountryCode: 'SA',
                             onChanged: (phone) {
                               print(phone.completeNumber);
+                              print("pooo0000p");
+                              print(phone);
                             },
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -463,7 +465,9 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             onSaved: (phone) {
-                              lostItemReport.phoneNumber = "0595543693";
+                              print(phone!.countryCode + phone!.number);
+                              lostItemReport.phoneNumber =
+                                  phone!.countryCode + phone!.number;
                             },
                           ),
                           //Description
