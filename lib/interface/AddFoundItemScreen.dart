@@ -22,6 +22,7 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
       category: '',
       lostDate: '',
       expectedPlace: '',
+      phoneNumber: '',
       desription: '');
 
   String? _selectedCategory;

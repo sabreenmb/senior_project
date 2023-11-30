@@ -7,6 +7,7 @@ class LostItemReport {
   String? category;
   String? lostDate;
   String? expectedPlace;
+  String? phoneNumber;
   String? desription;
 
   //Constructor
@@ -16,18 +17,17 @@ class LostItemReport {
     required this.category,
     required this.lostDate,
     required this.expectedPlace,
+    required this.phoneNumber,
     required this.desription,
   });
-    // ignore: avoid_print
-  LostItemReport.fromJson(Map<String,dynamic> json) {
-    category=json['Category'];
-    lostDate=json['LostDate'];
+  // ignore: avoid_print
+  LostItemReport.fromJson(Map<String, dynamic> json) {
+    category = json['Category'];
+    lostDate = json['LostDate'];
     expectedPlace = json['ExpectedPlace'];
     desription = json['Description'];
     photo = json['PhotoBase64'];
   }
-
-
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -38,5 +38,4 @@ class LostItemReport {
     map['PhotoBase64'] = photo;
     return map;
   }
-  }
-
+}

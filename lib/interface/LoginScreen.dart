@@ -114,6 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return "الرقم الجامعي يجب أن يتكون من أرقام فقط";
                               }
                             },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             onSaved: (value) {
                               print(_enteredID);
 
@@ -146,6 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return "الرجاء إدخال الرقم السري";
                               }
                             },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             textAlign: TextAlign.right,
                             obscureText: true,
                             onSaved: (value) {
