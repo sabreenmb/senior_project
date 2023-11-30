@@ -463,7 +463,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             onSaved: (phone) {
-                              lostItemReport.phoneNumber = phone.toString();
+                              lostItemReport.phoneNumber = "0595543693";
                             },
                           ),
                           //Description

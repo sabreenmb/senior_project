@@ -20,7 +20,9 @@ class LostCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Row(
-
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
              SizedBox(
@@ -30,10 +32,11 @@ class LostCard extends StatelessWidget {
                const Image(image: AssetImage('assets/images/logo-icon.png')):Image.network('${lostItemReport.photo}'),
              ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical:5 ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                //start the colom
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
@@ -45,7 +48,7 @@ class LostCard extends StatelessWidget {
                     height: 10,
                   ),
                   Row(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
                         Icons.date_range_outlined,

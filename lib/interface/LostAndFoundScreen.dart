@@ -461,6 +461,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     MaterialPageRoute(
                                         builder: (ctx) =>
                                             const AddFoundItemScreen()));
+                                _toggleExpanded();
                                 _LoadFoundItems();
                               }),
                               const SizedBox(height: 16.0),
@@ -469,6 +470,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     MaterialPageRoute(
                                         builder: (ctx) =>
                                             const AddLostItemScreen()));
+                                _toggleExpanded();
                                 _LoadLostItems();
                               }),
                             ],
