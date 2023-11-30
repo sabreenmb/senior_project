@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:senior_project/widgets/ServiceCard.dart';
 
 import '../constant.dart';
@@ -11,7 +8,7 @@ import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
 
 class ServisesScreen extends StatefulWidget {
-  ServisesScreen({super.key});
+  const ServisesScreen({super.key});
 
   @override
   State<ServisesScreen> createState() => _ServisesState();
@@ -24,17 +21,17 @@ class _ServisesState extends State<ServisesScreen> {
     setState(() {
       if(index==0){
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       }
       else if (index==1){
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
       }else if(index==2){
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => ChatScreen()));
+            context, MaterialPageRoute(builder: (_) => const ChatScreen()));
       }else if(index ==3){
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => SaveListScreen()));
+            context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
       }
       _selectedPageIndex = index;
     });
@@ -51,16 +48,16 @@ class _ServisesState extends State<ServisesScreen> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
           )
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 0.1,
         clipBehavior: Clip.none,
-        child: Container(
+        child: SizedBox(
           height: kBottomNavigationBarHeight * 1.2,
           width:  MediaQuery.of(context).size.width,
 
@@ -134,7 +131,7 @@ class _ServisesState extends State<ServisesScreen> {
         bottom: false,
         child: Column(
           children: [
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Expanded(
                 child: Stack(
               children: [

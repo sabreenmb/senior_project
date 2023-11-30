@@ -22,11 +22,11 @@ class LostCard extends StatelessWidget {
         child: Row(
           children: [
 
-             Container(
+             SizedBox(
                width: 95,
                height: 130,
                child: lostItemReport.photo=="empty"?
-               Image(image: AssetImage('assets/images/mug.png')):Image.network('${lostItemReport.photo}'),
+               const Image(image: AssetImage('assets/images/mug.png')):Image.network('${lostItemReport.photo}'),
              ),
             Padding(
               padding:
@@ -40,7 +40,7 @@ class LostCard extends StatelessWidget {
                     textAlign: TextAlign.right,
                     style: TextStyles.heading3B,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
@@ -61,7 +61,7 @@ class LostCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -82,7 +82,7 @@ class LostCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
 

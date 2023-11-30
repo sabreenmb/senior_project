@@ -8,14 +8,13 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../constant.dart';
 import '../model/lost_item_report.dart';
 import '../theme.dart';
 
 class AddLostItemScreen extends StatefulWidget {
-
+  const AddLostItemScreen({super.key});
   @override
-  _AddLostItemScreenState createState() => _AddLostItemScreenState();
+  State<AddLostItemScreen> createState() => _AddLostItemScreenState();
 }
 
 class _AddLostItemScreenState extends State<AddLostItemScreen> {
@@ -47,8 +46,8 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
           data: ThemeData.light().copyWith(
             primaryColor: CustomColors.lightBlue,
             hintColor: CustomColors.lightBlue,
-            colorScheme: ColorScheme.light(primary: CustomColors.lightBlue),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme: const ColorScheme.light(primary: CustomColors.lightBlue),
+            buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
         );
@@ -94,7 +93,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
 
     final storageRef = FirebaseStorage.instance.ref()
         .child('lost_images')
-        .child('${uniqueFileName}.jpg');
+        .child('$uniqueFileName.jpg');
     if (_selectedImage == null) {
       _imageUrl = "empty";
     } else {
@@ -144,7 +143,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
         backgroundColor: CustomColors.pink,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: CustomColors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.white),
           onPressed: () {
             Navigator.pop(context);
 
@@ -159,11 +158,11 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
         bottom: false,
         child: Column(
           children: [
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Expanded(
                 child: Stack(children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: CustomColors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -182,7 +181,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                             onTap: _takePhoto,
                             child: Column(
                               children: [
-                                Container(
+                                SizedBox(
                                   height: screenWidth * 0.57 + 2.0,
                                   width: double.infinity,
                                   child: Container(
@@ -246,7 +245,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 ),
                               );
                             }).toList(),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'اختر تصنيف',
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -264,6 +263,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
+                              return null;
                             },
                             onSaved: (value) {
                               lostItemReport.category = _selectedCategory;
@@ -276,7 +276,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 child: Center(
                                   child: TextFormField(
                                     controller: dateInput,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       suffixIcon: Icon(
                                         Icons.date_range_outlined,
                                         color: CustomColors.lightGrey,
@@ -308,6 +308,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                       if (selected.difference(now).inDays > 0) {
                                         return 'اختر تاريخ صحيح';
                                       }
+                                      return null;
                                     },
                                     onSaved: (value) {
                                       lostItemReport.lostDate = value;
@@ -320,7 +321,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                           ),
                           const SizedBox(height: 12.0),
                           TextFormField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               suffixIcon: Icon(
                                 Icons.location_on,
                                 color: CustomColors.lightGrey,
@@ -341,6 +342,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
+                              return null;
                             },
                             // onChanged: (value) {
                             //   setState(() {
@@ -354,7 +356,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                           const SizedBox(height: 12.0),
                           TextFormField(
                             maxLines: 1,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'وصف العنصر',
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -371,6 +373,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
+                              return null;
                             },
                             // onChanged: (value) {
                             //   setState(() {
@@ -383,7 +386,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                           ),
                           const SizedBox(height: 32.0),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 90),
+                            padding: const EdgeInsets.symmetric(horizontal: 90),
                             child: ElevatedButton(
                               onPressed: _checkInputValue,
                               style: ElevatedButton.styleFrom(

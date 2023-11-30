@@ -1,17 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:senior_project/interface/AddFoundItemScreen.dart';
 import 'package:senior_project/interface/AddLostItemScreen.dart';
 import 'package:senior_project/interface/ServicesScreen.dart';
+import 'package:senior_project/widgets/Foundard.dart';
 import 'package:senior_project/widgets/LostCard.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
-import '../constant.dart';
+import '../model/found_item_report.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
-import '../widgets/Foundard.dart';
 import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
@@ -27,10 +26,16 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     with SingleTickerProviderStateMixin {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 2;
+  //search
+  late List<LostItemReport> searchLostList = [];
+  late List<FoundItemReport> searchFoundList = [];
+
   final _userInputController = TextEditingController();
+  //filter
   bool isLost = true;
   List<LostItemReport> _lostItemReport = [];
-  List<FoundItemReport> _foundItemReport=[];
+  List<FoundItemReport> _foundItemReport = [];
+  //create button
   bool _isExpanded = false;
   late AnimationController _animationController;
   static const double _expandedSize = 200.0;
@@ -40,6 +45,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     _animationController.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     super.initState();
@@ -49,32 +55,55 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     );
     _pages = [
       {
-        'page': HomeScreen(),
+        'page': const HomeScreen(),
       },
       {
-        'page': ChatScreen(),
+        'page': const ChatScreen(),
       },
       {
-        'page': AddLostItemScreen(),
+        'page': const AddLostItemScreen(),
       },
       {
-        'page': ServisesScreen(),
+        'page': const ServisesScreen(),
       },
       {
-        'page': SaveListScreen(),
+        'page': const SaveListScreen(),
       },
     ];
-    _LoadItems();
+    _LoadLostItems();
   }
 
-  void _LoadItems() async {
+  void _LoadFoundItems() async {
+    final url = Uri.https(
+        'senior-project-72daf-default-rtdb.firebaseio.com', 'Found-Items.json');
+    final response = await http.get(url);
+    final Map<String, dynamic> lostdata = json.decode(response.body);
+    final List<FoundItemReport> loadedFoundItems = [];
+    for (final item in lostdata.entries) {
+      loadedFoundItems.add(FoundItemReport(
+        id: item.key,
+        category: item.value['Category'],
+        foundDate: item.value['FoundDate'],
+        foundPlace: item.value['FoundPlace'],
+        receivePlace: item.value['ReceivePlace'],
+        desription: item.value['Description'],
+        photo: item.value['Photo'],
+      ));
+    }
+    setState(() {
+      _foundItemReport = loadedFoundItems;
+    });
+    print(response.body);
+  }
+
+  void _LoadLostItems() async {
     final url = Uri.https(
         'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
     final response = await http.get(url);
     final Map<String, dynamic> lostdata = json.decode(response.body);
-    final List<LostItemReport> _loadedLostItems = [];
+    final List<LostItemReport> loadedLostItems = [];
     for (final item in lostdata.entries) {
-      _loadedLostItems.add(LostItemReport(
+      loadedLostItems.add(LostItemReport(
         id: item.key,
         photo: item.value['PhotoBase64'],
         category: item.value['Category'],
@@ -84,18 +113,17 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
       ));
     }
     setState(() {
-      _lostItemReport = _loadedLostItems;
+      _lostItemReport = loadedLostItems;
     });
-    print(response.body);
+    //print(response.body);
   }
 
   void _selectPage(int index) {
     setState(() {
       if (index == 1) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-          _selectedPageIndex = index;
-
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
+        _selectedPageIndex = index;
       }
       // if (index == 0) {
       //   Navigator.pushReplacement(
@@ -134,7 +162,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors.pink,
       appBar: AppBar(
-        automaticallyImplyLeading:false,
+        automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
         title: Text("المفقودات", style: TextStyles.heading1),
@@ -142,20 +170,20 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
           )
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 0.1,
         clipBehavior: Clip.none,
-        child: Container(
+        child: SizedBox(
           height: kBottomNavigationBarHeight * 1.2,
           width: MediaQuery.of(context).size.width,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
             child: BottomNavigationBar(
@@ -163,7 +191,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
               unselectedItemColor: CustomColors.darkGrey,
               selectedItemColor: CustomColors.darkGrey,
               currentIndex: _selectedPageIndex,
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   label: 'الرئيسية',
                   icon: Icon(Icons.home_outlined),
@@ -198,19 +226,19 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           tooltip: 'create',
           elevation: 4,
           onPressed: _toggleExpanded,
-          child: _isExpanded ? Icon(Icons.close) : Icon(Icons.add),
+          child: _isExpanded ? const Icon(Icons.close) : const Icon(Icons.add),
         ),
       ),
       body: SafeArea(
         bottom: false,
         child: Column(
           children: [
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Expanded(
                 child: Stack(
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: CustomColors.BackgroundColor,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
@@ -220,7 +248,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                   children: [
                     Container(
                       height: 60,
-                      padding: EdgeInsets.only(top: 15, left: 15, right: 15),
+                      padding:
+                          const EdgeInsets.only(top: 15, left: 15, right: 15),
                       child: TextField(
                         autofocus: false,
                         controller: _userInputController,
@@ -232,12 +261,12 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                           color: CustomColors.darkGrey,
                         ),
                         decoration: InputDecoration(
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                             color: CustomColors.darkGrey,
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(40),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                                 color: CustomColors.darkGrey, width: 1),
                             // style: BorderStyle.solid, color: CustomColors.white, width: 1,
                             // color: Colors.transparent,
@@ -248,41 +277,25 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                 color: CustomColors.darkGrey,
                               ),
                               onPressed: () {
-                                // searchList.clear();
-                                //
-                                // filterSearchResults(
-                                //     _userInputController.text);
+                                //TODO SEARCH NOT COMPLETE
+                                searchLostList.clear();
+                                 filterSearchResults(
+                                     _userInputController.text,_lostItemReport);
                               }),
                           hintText: 'ابحث',
-                            suffixIcon: _userInputController.text.length > 0
-                                ? IconButton(
-                                onPressed: () {
-                                  _userInputController.clear();
-                                  setState(() {});
-                                },
-                                icon: Icon(Icons.clear, color: CustomColors.darkGrey))
-                                : null,
-                          // suffixIcon: IconButton(
-                          //     icon: const Icon(
-                          //       Icons.clear,
-                          //       color: CustomColors.darkGrey,
-                          //     ),
-                          //     onPressed: () {
-                          //       setState(() {
-                          //         _userInputController.clear();
-                          //       });
-                          //       // searchList.clear();
-                          //       //
-                          //       // filterSearchResults(
-                          //       //     _userInputController.text);
-                          //     }),
+                          suffixIcon: _userInputController.text.isNotEmpty
+                              ? IconButton(
+                                  onPressed: () {
+                                    _userInputController.clear();
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(Icons.clear,
+                                      color: CustomColors.darkGrey))
+                              : null,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide: const BorderSide(
                                 color: CustomColors.darkGrey, width: 1),
-
-                            // style: BorderStyle.solid, color: Colors.white, width: 1,
-                            // color: Colors.transparent,
                           ),
                         ),
                         onChanged: (text) {
@@ -307,9 +320,10 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              if(isLost!=true){
+                              if (isLost != true) {
                                 setState(() {
-                                  isLost=true;
+                                  isLost = true;
+                                  _LoadLostItems();
                                 });
                                 //todo change the lest
                               }
@@ -335,9 +349,10 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                           // ),
                           ElevatedButton(
                             onPressed: () {
-                              if(isLost==true){
+                              if (isLost == true) {
                                 setState(() {
-                                  isLost=false;
+                                  isLost = false;
+                                  _LoadFoundItems();
                                 });
                                 //todo change the lest
                               }
@@ -369,14 +384,12 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListView.builder(
-                            itemCount: isLost?_lostItemReport.length:_foundItemReport.length,
-                            itemBuilder: (context, index) {
-                              isLost?
-                                LostCard(_lostItemReport[index]):
-                              FoundCard(_foundItemReport[index]);
-
-                            }
-                      ),
+                            itemCount: isLost
+                                ? _lostItemReport.length
+                                : _foundItemReport.length,
+                            itemBuilder: (context, index) => isLost
+                                ? LostCard(_lostItemReport[index])
+                                : FoundCard(_foundItemReport[index])),
                       ),
                     )
                   ],
@@ -390,7 +403,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
 
                       child: AnimatedContainer(
                         color: CustomColors.noColor,
-                        duration: Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 200),
                         width: _isExpanded ? _expandedSize : _collapsedSize,
                         height: _isExpanded ? _expandedSize : _collapsedSize,
                         child: Material(
@@ -404,16 +417,16 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                   await Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (ctx) =>
-                                              AddFoundItemScreen()));
-                                  _LoadItems();
+                                              const AddFoundItemScreen()));
+                                  _LoadFoundItems();
                                 }),
-                                SizedBox(height: 16.0),
+                                const SizedBox(height: 16.0),
                                 _buildOption('إنشاء إعلان مفقود', () async {
                                   await Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (ctx) =>
-                                              AddLostItemScreen()));
-                                  _LoadItems();
+                                              const AddLostItemScreen()));
+                                  _LoadLostItems();
                                 }),
                               ],
                             ],
@@ -431,9 +444,29 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     );
   }
 
+  void filterSearchResults(String query,List ls) {
+    setState(() {
+      for (int item = 0; item < ls.length; item++) {
+        if (ls[item].description!
+            .toLowerCase()
+            .contains(query.toLowerCase().trim())) {
+          searchLostList.add(ls[item]);
+        } //Add
+        else {
+          if(ls[item].category!
+              .toLowerCase()
+              .contains(query.toLowerCase().trim())) {
+            searchLostList.add(ls[item]);
+
+          }
+        }
+      }
+    });
+  }
+
   Widget _buildOption(String label, VoidCallback onPressed) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: FloatingActionButton.extended(
         // fixedSize: const Size(175, 50),
         backgroundColor: CustomColors.lightBlue,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../model/found_item_report.dart';
-import '../model/lost_item_report.dart';
 import '../theme.dart';
 
 class FoundCard extends StatelessWidget {
@@ -23,11 +22,11 @@ class FoundCard extends StatelessWidget {
         child: Row(
           children: [
 
-            Container(
+            SizedBox(
               width: 95,
               height: 130,
               child: foundItemReport.photo=="empty"?
-              Image(image: AssetImage('assets/images/mug.png')):Image.network('${foundItemReport.photo}'),
+              const Image(image: AssetImage('assets/images/mug.png')):Image.network('${foundItemReport.photo}'),
             ),
             Padding(
               padding:
@@ -41,7 +40,7 @@ class FoundCard extends StatelessWidget {
                     textAlign: TextAlign.right,
                     style: TextStyles.heading3B,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
@@ -56,13 +55,13 @@ class FoundCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        foundItemReport.lostDate!,
+                        foundItemReport.foundDate!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -76,14 +75,14 @@ class FoundCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        foundItemReport.expectedPlace!,
+                        foundItemReport.receivePlace!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
 
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
 

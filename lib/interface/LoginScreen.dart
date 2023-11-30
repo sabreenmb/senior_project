@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       print("user:$userCridential");
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+          context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
     } on FirebaseAuthException catch (error) {
       setState(() {
         errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';
@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(
                     top: 30, bottom: 20, left: 20, right: 20),
                 width: 200,
-                child: Image(
+                child: const Image(
                   image: AssetImage('assets/images/cyber.jpg'),
                   width: 95,
                   height: 130,
@@ -113,11 +113,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               } else if (!numericRegex.hasMatch(value)) {
                                 return "الرقم الجامعي يجب أن يتكون من أرقام فقط";
                               }
+                              return null;
                             },
                             onSaved: (value) {
                               print(_enteredID);
 
-                              _enteredID = ("$value" + "@uj.edu.sa");
+                              _enteredID = ("$value" "@uj.edu.sa");
                             },
                           ),
                           const SizedBox(
@@ -145,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 return "الرجاء إدخال الرقم السري";
                               }
+                              return null;
                             },
                             textAlign: TextAlign.right,
                             obscureText: true,
@@ -155,9 +157,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: topMargin),
                           Text(
                             errorMessage,
-                            style: TextStyle(color: Colors.red),
+                            style: const TextStyle(color: Colors.red),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 100,
                           ),
                           ElevatedButton(

@@ -1,34 +1,39 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 //import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../model/lost_item_report.dart';
+import '../model/found_item_report.dart';
 import '../theme.dart';
 
 class AddFoundItemScreen extends StatefulWidget {
+  const AddFoundItemScreen({super.key});
+
   @override
-  _AddFoundItemScreenState createState() => _AddFoundItemScreenState();
+  State<AddFoundItemScreen> createState() => _AddFoundItemState();
 }
 
-class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
-  LostItemReport lostItemReport = LostItemReport(
+class _AddFoundItemState extends State<AddFoundItemScreen> {
+  FoundItemReport foundItemReport = FoundItemReport(
       id: '',
       photo: '',
       category: '',
-      lostDate: '',
-      expectedPlace: '',
+      foundDate: '',
+      foundPlace: '',
+      receivePlace: '',
       desription: '');
-
+  bool imageEmpty=false;
+  File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
   String _imageUrl = '';
   TextEditingController dateInput = TextEditingController();
-
+  String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -43,8 +48,8 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
           data: ThemeData.light().copyWith(
             primaryColor: CustomColors.lightBlue,
             hintColor: CustomColors.lightBlue,
-            colorScheme: ColorScheme.light(primary: CustomColors.lightBlue),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme: const ColorScheme.light(primary: CustomColors.lightBlue),
+            buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
         );
@@ -61,18 +66,24 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
 
   Future<void> _takePhoto() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
-
-    if (pickedFile != null) {
-      setState(() {
-        _imageUrl = pickedFile.path;
-      });
+    XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if (pickedFile == null) {
+      return;
     }
+    setState(() {
+      _selectedImage = File(pickedFile.path);
+      imageEmpty=false;
+    });
   }
 
-  void _checkInputValue() {
+  void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
 
+  if (_selectedImage == null) {
+  setState(() {
+    imageEmpty=true;
+  });
+  }
     if (!isValid) {
       return;
     }
@@ -80,19 +91,31 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
     _formKey.currentState!.save();
 
     //todo right way to store an image
-    lostItemReport.photo = _imageUrl;
+
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('found_images')
+        .child('$uniqueFileName.jpg');
+
+    try {
+      await storageRef.putFile(_selectedImage!);
+      _imageUrl = await storageRef.getDownloadURL();
+      print(_imageUrl);
+    } catch (error) {}
+
+    foundItemReport.photo = _imageUrl;
     _createLostItem();
   }
 
   void _createLostItem() async {
     final url = Uri.https(
-        'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
+        'senior-project-72daf-default-rtdb.firebaseio.com', 'Found-Items.json');
     final response = await http.post(
       url,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.encode(lostItemReport.toJson()),
+      body: json.encode(foundItemReport.toJson()),
     );
     print(response.body);
     print(response.statusCode);
@@ -114,7 +137,7 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
         backgroundColor: CustomColors.pink,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: CustomColors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.white),
           onPressed: () {
             Navigator.pop(context);
 
@@ -129,15 +152,17 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
         bottom: false,
         child: Column(
           children: [
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Expanded(
                 child: Stack(children: [
               Container(
-                decoration: BoxDecoration(
-                    color: CustomColors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40))),
+                decoration: const BoxDecoration(
+                  color: CustomColors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
               ),
               ListView(
                 children: [
@@ -152,13 +177,13 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                             onTap: _takePhoto,
                             child: Column(
                               children: [
-                                Container(
+                                SizedBox(
                                   height: screenWidth * 0.57 + 2.0,
                                   width: double.infinity,
                                   child: Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                        color: CustomColors.lightBlue,
+                                        color: imageEmpty?Colors.red:CustomColors.lightBlue,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(40.0),
@@ -169,9 +194,9 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(14.0),
-                                          child: _imageUrl.isNotEmpty
+                                          child:  _selectedImage!=null
                                               ? Image.file(
-                                                  File(_imageUrl),
+                                                  _selectedImage!,
                                                   height: screenWidth * 0.57,
                                                   width: double.infinity,
                                                   fit: BoxFit.cover,
@@ -201,6 +226,8 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                           ),
                           const SizedBox(height: 12.0),
                           DropdownButtonFormField<String>(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             value: _selectedCategory,
                             onChanged: (value) {
                               setState(() {
@@ -217,7 +244,7 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                                 ),
                               );
                             }).toList(),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'اختر تصنيف',
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -234,9 +261,10 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
+                              return null;
                             },
                             onSaved: (value) {
-                              lostItemReport.category = _selectedCategory;
+                              foundItemReport.category = _selectedCategory;
                             },
                           ),
                           const SizedBox(height: 12.0),
@@ -245,8 +273,10 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                               Expanded(
                                 child: Center(
                                   child: TextFormField(
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     controller: dateInput,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       suffixIcon: Icon(
                                         Icons.date_range_outlined,
                                         color: CustomColors.lightGrey,
@@ -278,9 +308,10 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                                       if (selected.difference(now).inDays > 0) {
                                         return 'اختر تاريخ صحيح';
                                       }
+                                      return null;
                                     },
                                     onSaved: (value) {
-                                      lostItemReport.lostDate = value;
+                                      foundItemReport.foundDate = value;
                                     },
                                   ),
                                 ),
@@ -289,7 +320,10 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                           ),
                           const SizedBox(height: 12.0),
                           TextFormField(
-                            decoration: InputDecoration(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+
+                            decoration: const InputDecoration(
                               suffixIcon: Icon(
                                 Icons.location_on,
                                 color: CustomColors.lightGrey,
@@ -310,6 +344,7 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
+                              return null;
                             },
                             // onChanged: (value) {
                             //   setState(() {
@@ -317,12 +352,15 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                             //   });
                             // },
                             onSaved: (value) {
-                              lostItemReport.expectedPlace = value;
+                              foundItemReport.foundPlace = value;
                             },
                           ),
                           const SizedBox(height: 12.0),
                           TextFormField(
-                            decoration: InputDecoration(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+
+                            decoration: const InputDecoration(
                               suffixIcon: Icon(
                                 Icons.map,
                                 color: CustomColors.lightGrey,
@@ -343,6 +381,7 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
+                              return null;
                             },
                             // onChanged: (value) {
                             //   setState(() {
@@ -350,13 +389,16 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                             //   });
                             // },
                             onSaved: (value) {
-                              lostItemReport.expectedPlace = value;
+                              foundItemReport.receivePlace = value;
                             },
                           ),
                           const SizedBox(height: 12.0),
                           TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+
                             maxLines: 1,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'وصف العنصر',
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -373,6 +415,7 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
+                              return null;
                             },
                             // onChanged: (value) {
                             //   setState(() {
@@ -380,12 +423,12 @@ class _AddFoundItemScreenState extends State<AddFoundItemScreen> {
                             //   });
                             // },
                             onSaved: (value) {
-                              lostItemReport.desription = value;
+                              foundItemReport.desription = value;
                             },
                           ),
                           const SizedBox(height: 32.0),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 90),
+                            padding: const EdgeInsets.symmetric(horizontal: 90),
                             child: ElevatedButton(
                               onPressed: _checkInputValue,
                               style: ElevatedButton.styleFrom(

@@ -1,12 +1,12 @@
-import 'package:flutter/foundation.dart';
 
 class FoundItemReport {
   //Variables
   String? id;
   String? photo;
   String? category;
-  String? lostDate;
-  String? expectedPlace;
+  String? foundDate;
+  String? foundPlace;
+  String? receivePlace;
   String? desription;
 
   //Constructor
@@ -14,17 +14,19 @@ class FoundItemReport {
     required this.id,
     required this.photo,
     required this.category,
-    required this.lostDate,
-    required this.expectedPlace,
+    required this.foundDate,
+    required this.foundPlace,
+    required this.receivePlace,
     required this.desription,
   });
   // ignore: avoid_print
   FoundItemReport.fromJson(Map<String,dynamic> json) {
     category=json['Category'];
-    lostDate=json['LostDate'];
-    expectedPlace = json['ExpectedPlace'];
+    foundDate=json['FoundDate'];
+    foundPlace = json['FoundPlace'];
+    receivePlace = json['ReceivePlace'];
     desription = json['Description'];
-    photo = json['PhotoBase64'];
+    photo = json['Photo'];
   }
 
 
@@ -32,10 +34,11 @@ class FoundItemReport {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['Category'] = category;
-    map['LostDate'] = lostDate;
-    map['ExpectedPlace'] = expectedPlace;
+    map['FoundDate'] = foundDate;
+    map['FoundPlace'] = foundPlace;
+    map['ReceivePlace'] = receivePlace;
     map['Description'] = desription;
-    map['PhotoBase64'] = photo;
+    map['Photo'] = photo;
     return map;
   }
 }
