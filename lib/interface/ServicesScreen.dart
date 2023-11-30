@@ -46,6 +46,7 @@ class _ServisesState extends State<ServisesScreen> {
         elevation: 0,
         title: Text("الخدمات", style: TextStyles.heading1),
         centerTitle: false,
+        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
       ),
       endDrawer: SideDrawer(),
       bottomNavigationBar: BottomAppBar(

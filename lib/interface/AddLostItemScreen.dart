@@ -4,13 +4,12 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../constant.dart';
@@ -40,10 +39,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
   TextEditingController dateInput = TextEditingController();
   String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
   final _formKey = GlobalKey<FormState>();
-  // final TextEditingController controller = TextEditingController();
-  // String initialCountry = 'SA';
-  // PhoneNumber number = PhoneNumber(isoCode: 'SA');
-
   Future<void> _selectDate(BuildContext context) async {
     DateTime currentDate = _selectedDate;
     DateTime? picked = await showDatePicker(
@@ -136,14 +131,11 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       return;
     }
     Navigator.pop(context);
-    // Navigator.pushReplacement(context,
-    //     MaterialPageRoute(builder: (context) => LostAndFoundScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    final numericRegex = RegExp(r'^[0-9]+$');
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: CustomColors.pink,
@@ -154,9 +146,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
           icon: const Icon(Icons.arrow_back_ios, color: CustomColors.white),
           onPressed: () {
             Navigator.pop(context);
-
-            // Navigator.pushReplacement(context,
-            //     MaterialPageRoute(builder: (context) => LostAndFoundScreen()));
           },
         ),
         title: Text("انشاء اعلان مفقود", style: TextStyles.heading1),
@@ -374,64 +363,19 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                             },
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            // onChanged: (value) {
-                            //   setState(() {
-                            //     _selectedLocation = value;
-                            //   });
-                            // },
                             onSaved: (value) {
                               lostItemReport.expectedPlace = value;
                             },
                           ),
                           //Phone
-                          // const SizedBox(height: 12.0),
-                          // InternationalPhoneNumberInput(
-                          //   selectorConfig: const SelectorConfig(
-                          //     selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                          //     showFlags: false,
-                          //     leadingPadding:
-                          //         CircularProgressIndicator.strokeAlignCenter,
-                          //   ),
-                          //   locale: _selectedCategory,
-                          //   inputDecoration: const InputDecoration(
-                          //     labelText: 'رقم الجوال',
-                          //     focusedBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: CustomColors.lightBlue,
-                          //       ),
-                          //     ),
-                          //     enabledBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: CustomColors.lightBlue,
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   textAlignVertical: TextAlignVertical.top,
-                          //   keyboardType: TextInputType.phone,
-                          //   validator: (phone) {
-                          //     if (phone == null) {
-                          //       return 'الرجاء تعبئة الحقل';
-                          //     } else if (phone.toString().startsWith('9')) {
-                          //       return "رقم الجوال يجب أن يبدأ بـ 5";
-                          //     }
-                          //   },
-                          //   autoValidateMode:
-                          //       AutovalidateMode.onUserInteraction,
-                          //   onSaved: (phone) {
-                          //     lostItemReport.expectedPlace = phone.toString();
-                          //   },
-                          //   onInputChanged: (PhoneNumber value) {
-                          //     print(value.phoneNumber);
-                          //   },
-                          // ),
                           const SizedBox(height: 12.0),
                           IntlPhoneField(
                             decoration: const InputDecoration(
                               labelText: 'رقم الجوال',
-                              // suffixIcon: Icon(
-                              //   Icons.phone,
-                              //   color: CustomColors.lightGrey,
-                              // ),
+                              suffixIcon: Icon(
+                                Icons.phone,
+                                color: CustomColors.lightGrey,
+                              ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: CustomColors.lightBlue,
@@ -443,31 +387,42 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 ),
                               ),
                             ),
-                            textAlignVertical: TextAlignVertical.top,
                             languageCode: 'ar',
                             initialCountryCode: 'SA',
                             onChanged: (phone) {
                               print(phone.completeNumber);
-                              print("pooo0000p");
-                              print(phone);
                             },
+                            pickerDialogStyle: PickerDialogStyle(
+                              searchFieldInputDecoration: const InputDecoration(
+                                labelText: 'ابحث عن الدولة',
+                                icon: Icon(Icons.search),
+                              ),
+                            ),
+                            disableLengthCheck: true,
+                            showDropdownIcon: false,
+                            showCountryFlag: false,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                             ],
+                            flagsButtonMargin: EdgeInsets.all(0),
+                            textAlign: TextAlign.right,
                             validator: (phone) {
                               if (phone == null) {
-                                return 'الرجاء تعبئة الحقل';
-                              } else if (phone.toString().startsWith('9')) {
+                                return "الرجاء تعبئة الحقل";
+                              } else if (phone.number.length != 9) {
+                                return 'رقم الجوال يجب أن يتكون من 9 أرقام';
+                              } else if (phone.number.substring(0, 1) != '5') {
                                 return "رقم الجوال يجب أن يبدأ بـ 5";
                               }
+                              return '';
                             },
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             onSaved: (phone) {
-                              print(phone!.countryCode + phone!.number);
                               lostItemReport.phoneNumber =
-                                  phone!.countryCode + phone!.number;
+                                  phone!.countryCode.substring(0, 1) +
+                                      phone.number;
                             },
                           ),
                           //Description
@@ -495,11 +450,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                             },
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            // onChanged: (value) {
-                            //   setState(() {
-                            //     _description = value;
-                            //   });
-                            // },
                             onSaved: (value) {
                               lostItemReport.desription = value;
                             },

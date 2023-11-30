@@ -16,7 +16,7 @@ class ServiceCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (i == 0) {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => const LostAndFoundScreen()));
