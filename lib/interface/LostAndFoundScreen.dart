@@ -102,12 +102,10 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     setState(() {
       _foundItemReport = loadedFoundItems;
     });
-    //print(response.body);
   }
 
   void _LoadLostItems() async {
     final List<LostItemReport> loadedLostItems = [];
-
   try {
       final url = Uri.https(
           'senior-project-72daf-default-rtdb.firebaseio.com',
@@ -141,6 +139,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
             context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
         _selectedPageIndex = index;
       }
+      //todo uncomment on next sprints
       // if (index == 0) {
       //   Navigator.pushReplacement(
       //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
@@ -170,10 +169,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
 
   @override
   Widget build(BuildContext context) {
-    final bool keyboardIsVisible =
-        MediaQuery.of(context).viewInsets.bottom != 0;
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors.pink,
@@ -283,8 +278,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                             borderRadius: BorderRadius.circular(40),
                             borderSide: const BorderSide(
                                 color: CustomColors.darkGrey, width: 1),
-                            // style: BorderStyle.solid, color: CustomColors.white, width: 1,
-                            // color: Colors.transparent,
                           ),
                           prefixIcon: IconButton(
                               icon: const Icon(
@@ -292,8 +285,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                 color: CustomColors.darkGrey,
                               ),
                               onPressed: () {
-                                //TODO SEARCH NOT COMPLETE
-                                //clear the list
                                 isLost
                                     ? searchLostList.clear()
                                     : searchFoundList.clear();
@@ -328,17 +319,20 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         },
                         onSubmitted: (text) {
                           //todo the same value of on icon presed
-                          // searchList.clear();
-                          //
-                          // filterSearchResults(_userInputController.text);
-                          // searchList.clear();
+                          isLost
+                              ? searchLostList.clear()
+                              : searchFoundList.clear();
+                          filterSearchResults(
+                              _userInputController.text,
+                              isLost
+                                  ? _lostItemReport
+                                  : _foundItemReport);
+                          FocusScope.of(context).unfocus();
                         },
                         onTap: () {
                           isSearch = true;
-
                           searchLostList.clear();
                           searchFoundList.clear();
-                          // searchList.clear();
                         },
                       ),
                     ),
@@ -361,7 +355,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     isSearch = false;
                                   }
                                 });
-                                //todo change the lest
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -380,9 +373,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     : Colors.transparent),
                             child: Text("المفقودة", style: TextStyles.heading2),
                           ),
-                          // const SizedBox(
-                          //   width: 5,
-                          // ),
                           ElevatedButton(
                             onPressed: () {
                               if (isLost == true) {
@@ -394,7 +384,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     isSearch = false;
                                   }
                                 });
-                                //todo change the lest
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -416,7 +405,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                               style: TextStyles.heading2,
                             ),
                           ),
-                          // Show All button
                         ],
                       ),
                     ),
@@ -464,12 +452,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                   alignment: Alignment.bottomCenter,
                   children: [
                     Positioned(
-                      //top: ,
                       bottom: 0.0,
-
                       child: Container(
                         color: CustomColors.lightGrey.withOpacity(0),
-                        //duration: const Duration(milliseconds: 200),
                         width: _isExpanded ? _expandedSize : _collapsedSize,
                         height: _isExpanded ? _expandedSize : _collapsedSize,
                         child: Column(
@@ -535,10 +520,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
 
   Widget _buildOption(String label, VoidCallback onPressed) {
     return FloatingActionButton.extended(
-      // fixedSize: const Size(175, 50),
       backgroundColor: CustomColors.lightBlue,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(27)),
-      //focusColor: CustomColors.lightBlue,
       onPressed: onPressed,
       label: Text(label, style: TextStyles.text3),
     );

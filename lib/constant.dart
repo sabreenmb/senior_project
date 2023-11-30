@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:senior_project/theme.dart';
 
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
     NavigationDestinationLabelBehavior.alwaysHide;
+bool isLoading=false;
 
 List<String> Categories = [
   'بطاقات',
@@ -15,19 +17,42 @@ List<String> Categories = [
   'اخرى'
 ];
 
-// final List pages = [
-//   {
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//     LostAndFoundScreen(),
-//   }
-// ];
+
+Widget loadingFunction(BuildContext context,bool load) {
+  return Center(
+    child: Container(
+      height: 200,
+      width: 170,
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: CustomColors.white,
+      ),
+      padding: EdgeInsets.only(top: 30,bottom: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 70,
+            width: 70,
+            child: CircularProgressIndicator(
+              backgroundColor: CustomColors.lightGrey,
+              color: CustomColors.lightBlue,
+              strokeWidth: 6,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(load?'..جاري التحميل':'..جاري التحقق',
+              style: TextStyles.heading3B, textAlign: TextAlign.center),
+        ],
+      ),
+    ),
+  );
+}
+
 final List services = [
   {
     "serviceName": "المفقودات",

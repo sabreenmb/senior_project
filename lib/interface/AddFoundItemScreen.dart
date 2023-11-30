@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 //import 'package:senior_project/interface/LostAndFoundScreen.dart';
@@ -8,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../constant.dart';
 import '../model/found_item_report.dart';
 import '../theme.dart';
 
@@ -27,7 +29,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       foundPlace: '',
       receivePlace: '',
       desription: '');
-  bool imageEmpty=false;
+  bool imageEmpty = false;
   File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
@@ -48,8 +50,10 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
           data: ThemeData.light().copyWith(
             primaryColor: CustomColors.lightBlue,
             hintColor: CustomColors.lightBlue,
-            colorScheme: const ColorScheme.light(primary: CustomColors.lightBlue),
-            buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme:
+                const ColorScheme.light(primary: CustomColors.lightBlue),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
         );
@@ -72,37 +76,30 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
     }
     setState(() {
       _selectedImage = File(pickedFile.path);
-      imageEmpty=false;
+      imageEmpty = false;
     });
   }
 
   void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
-
-  if (_selectedImage == null) {
-  setState(() {
-    imageEmpty=true;
-  });
-  }
+    if (_selectedImage == null) {
+      setState(() {
+        imageEmpty = true;
+      });
+    }
     if (!isValid) {
       return;
     }
-
     _formKey.currentState!.save();
-
-    //todo right way to store an image
-
     final storageRef = FirebaseStorage.instance
         .ref()
         .child('found_images')
         .child('$uniqueFileName.jpg');
-
     try {
       await storageRef.putFile(_selectedImage!);
       _imageUrl = await storageRef.getDownloadURL();
       print(_imageUrl);
     } catch (error) {}
-
     foundItemReport.photo = _imageUrl;
     _createLostItem();
   }
@@ -123,26 +120,20 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       return;
     }
     Navigator.pop(context);
-    // Navigator.pushReplacement(context,
-    //     MaterialPageRoute(builder: (context) => LostAndFoundScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: CustomColors.pink,
       appBar: AppBar(
         backgroundColor: CustomColors.pink,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
           onPressed: () {
             Navigator.pop(context);
-
-            // Navigator.pushReplacement(context,
-            //     MaterialPageRoute(builder: (context) => LostAndFoundScreen()));
           },
         ),
         title: Text("انشاء اعلان موجود", style: TextStyles.heading1),
@@ -183,7 +174,9 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                        color: imageEmpty?Colors.red:CustomColors.lightBlue,
+                                        color: imageEmpty
+                                            ? Colors.red
+                                            : CustomColors.lightBlue,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(40.0),
@@ -194,7 +187,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(14.0),
-                                          child:  _selectedImage!=null
+                                          child: _selectedImage != null
                                               ? Image.file(
                                                   _selectedImage!,
                                                   height: screenWidth * 0.57,
@@ -225,25 +218,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                             ),
                           ),
                           const SizedBox(height: 12.0),
-                          DropdownButtonFormField<String>(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            value: _selectedCategory,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedCategory = value!;
-                              });
-                            },
-                            items: ['الكترونيات', 'اغراض شخصية', 'اخرى']
-                                .map((category) {
-                              return DropdownMenuItem(
-                                value: category,
-                                child: Text(
-                                  category,
-                                  style: TextStyles.heading2,
-                                ),
-                              );
-                            }).toList(),
+                          DropdownButtonFormField2<String>(
                             decoration: const InputDecoration(
                               labelText: 'اختر تصنيف',
                               focusedBorder: UnderlineInputBorder(
@@ -257,15 +232,47 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                 ),
                               ),
                             ),
+                            value: _selectedCategory,
+                            items: Categories.map((category) {
+                              return DropdownMenuItem(
+                                value: category,
+                                child: Text(
+                                  category,
+                                  style: TextStyles.heading2,
+                                ),
+                              );
+                            }).toList(),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 return 'الرجاء تعبئة الحقل';
                               }
                               return null;
                             },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedCategory = value!;
+                              });
+                            },
                             onSaved: (value) {
                               foundItemReport.category = _selectedCategory;
                             },
+                            iconStyleData: const IconStyleData(
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                color: CustomColors.darkGrey,
+                              ),
+                              iconSize: 24,
+                            ),
+                            dropdownStyleData: DropdownStyleData(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                            ),
                           ),
                           const SizedBox(height: 12.0),
                           Row(
@@ -346,11 +353,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                               }
                               return null;
                             },
-                            // onChanged: (value) {
-                            //   setState(() {
-                            //     _selectedLocation = value;
-                            //   });
-                            // },
                             onSaved: (value) {
                               foundItemReport.foundPlace = value;
                             },
@@ -383,11 +385,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                               }
                               return null;
                             },
-                            // onChanged: (value) {
-                            //   setState(() {
-                            //     _selectedLocation = value;
-                            //   });
-                            // },
                             onSaved: (value) {
                               foundItemReport.receivePlace = value;
                             },
@@ -417,11 +414,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                               }
                               return null;
                             },
-                            // onChanged: (value) {
-                            //   setState(() {
-                            //     _description = value;
-                            //   });
-                            // },
                             onSaved: (value) {
                               foundItemReport.desription = value;
                             },

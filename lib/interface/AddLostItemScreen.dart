@@ -31,7 +31,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       expectedPlace: '',
       phoneNumber: '',
       desription: '');
-
   File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
@@ -68,7 +67,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       });
     }
   }
-
   void _takePhoto() async {
     final picker = ImagePicker();
     XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
@@ -79,24 +77,14 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
     setState(() {
       _selectedImage = File(pickedFile.path);
     });
-    // if (pickedFile != null) {
-    //   setState(() {
-    //     _imageUrl = pickedFile.path;
-    //   });
-    // }
   }
 
   void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
-
     if (!isValid) {
       return;
     }
-
     _formKey.currentState!.save();
-
-    //todo right way to store an image
-
     final storageRef = FirebaseStorage.instance
         .ref()
         .child('lost_images')
@@ -110,7 +98,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
         print(_imageUrl);
       } catch (error) {}
     }
-
     lostItemReport.photo = _imageUrl;
     _createLostItem();
   }
@@ -125,8 +112,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       },
       body: json.encode(lostItemReport.toJson()),
     );
-    print(response.body);
-    print(response.statusCode);
     if (!context.mounted) {
       return;
     }
@@ -143,7 +128,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
         backgroundColor: CustomColors.pink,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
           onPressed: () {
             Navigator.pop(context);
           },
