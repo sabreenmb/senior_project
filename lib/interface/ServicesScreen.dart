@@ -42,6 +42,7 @@ class _ServisesState extends State<ServisesScreen> {
     return Scaffold(
       backgroundColor: CustomColors.pink,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
         title: Text("الخدمات", style: TextStyles.heading1),

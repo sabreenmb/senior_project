@@ -76,21 +76,28 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   }
 
   void _LoadFoundItems() async {
-    final url = Uri.https(
-        'senior-project-72daf-default-rtdb.firebaseio.com', 'Found-Items.json');
-    final response = await http.get(url);
-    final Map<String, dynamic> founddata = json.decode(response.body);
     final List<FoundItemReport> loadedFoundItems = [];
-    for (final item in founddata.entries) {
-      loadedFoundItems.add(FoundItemReport(
-        id: item.key,
-        category: item.value['Category'],
-        foundDate: item.value['FoundDate'],
-        foundPlace: item.value['FoundPlace'],
-        receivePlace: item.value['ReceivePlace'],
-        desription: item.value['Description'],
-        photo: item.value['Photo'],
-      ));
+
+  try {
+      final url = Uri.https(
+          'senior-project-72daf-default-rtdb.firebaseio.com',
+          'Found-Items.json');
+      final response = await http.get(url);
+
+      final Map<String, dynamic> founddata = json.decode(response.body);
+      for (final item in founddata.entries) {
+        loadedFoundItems.add(FoundItemReport(
+          id: item.key,
+          category: item.value['Category'],
+          foundDate: item.value['FoundDate'],
+          foundPlace: item.value['FoundPlace'],
+          receivePlace: item.value['ReceivePlace'],
+          desription: item.value['Description'],
+          photo: item.value['Photo'],
+        ));
+      }
+    }catch(error){
+      print('Empty List');
     }
     setState(() {
       _foundItemReport = loadedFoundItems;
@@ -99,21 +106,27 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   }
 
   void _LoadLostItems() async {
-    final url = Uri.https(
-        'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
-    final response = await http.get(url);
-    final Map<String, dynamic> lostdata = json.decode(response.body);
     final List<LostItemReport> loadedLostItems = [];
-    for (final item in lostdata.entries) {
-      loadedLostItems.add(LostItemReport(
-        id: item.key,
-        photo: item.value['Photo'],
-        category: item.value['Category'],
-        lostDate: item.value['LostDate'],
-        expectedPlace: item.value['ExpectedPlace'],
-        phoneNumber: item.value['PhoneNumber'],
-        desription: item.value['Description'],
-      ));
+
+  try {
+      final url = Uri.https(
+          'senior-project-72daf-default-rtdb.firebaseio.com',
+          'Lost-Items.json');
+      final response = await http.get(url);
+      final Map<String, dynamic> lostdata = json.decode(response.body);
+      for (final item in lostdata.entries) {
+        loadedLostItems.add(LostItemReport(
+          id: item.key,
+          photo: item.value['Photo'],
+          category: item.value['Category'],
+          lostDate: item.value['LostDate'],
+          expectedPlace: item.value['ExpectedPlace'],
+          phoneNumber: item.value['PhoneNumber'],
+          desription: item.value['Description'],
+        ));
+      }
+    }catch(error){
+      print('empty list');
     }
     setState(() {
       _lostItemReport = loadedLostItems;
@@ -222,17 +235,14 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: FloatingActionButton(
-          backgroundColor: CustomColors.lightBlue,
-          hoverElevation: 10,
-          splashColor: Colors.grey,
-          tooltip: 'create',
-          elevation: 4,
-          onPressed: _toggleExpanded,
-          child: _isExpanded ? const Icon(Icons.close) : const Icon(Icons.add),
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: CustomColors.lightBlue,
+        hoverElevation: 10,
+        splashColor: Colors.grey,
+        tooltip: '',
+        elevation: 4,
+        onPressed: _toggleExpanded,
+        child: _isExpanded ? const Icon(Icons.close) : const Icon(Icons.add),
       ),
       body: SafeArea(
         bottom: false,
@@ -340,6 +350,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         children: [
                           ElevatedButton(
                             onPressed: () {
+                              FocusScope.of(context).unfocus();
+
                               if (isLost != true) {
                                 setState(() {
                                   isLost = true;
@@ -408,16 +420,14 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         ],
                       ),
                     ),
-                    if (isLost
-                        ? _lostItemReport.isEmpty
-                        : _foundItemReport.isEmpty)
+                    if (isLost? (isSearch?searchLostList.isEmpty:_lostItemReport.isEmpty)
+                        : (isSearch?searchFoundList.isEmpty:_foundItemReport.isEmpty))
                       Expanded(
                         child: Center(
                           child: Container(
                             // padding: EdgeInsets.only(bottom: 20),
                             // alignment: Alignment.topCenter,
-                            height: 178,
-                            width: 162,
+                            height: 200,
                             child: Image.asset('assets/images/notFound.png'),
                           ),
                         ),
@@ -457,9 +467,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                       //top: ,
                       bottom: 0.0,
 
-                      child: AnimatedContainer(
+                      child: Container(
                         color: CustomColors.lightGrey.withOpacity(0),
-                        duration: const Duration(milliseconds: 200),
+                        //duration: const Duration(milliseconds: 200),
                         width: _isExpanded ? _expandedSize : _collapsedSize,
                         height: _isExpanded ? _expandedSize : _collapsedSize,
                         child: Column(

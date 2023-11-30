@@ -383,55 +383,10 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                               lostItemReport.expectedPlace = value;
                             },
                           ),
-                          //Phone
-                          // const SizedBox(height: 12.0),
-                          // InternationalPhoneNumberInput(
-                          //   selectorConfig: const SelectorConfig(
-                          //     selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                          //     showFlags: false,
-                          //     leadingPadding:
-                          //         CircularProgressIndicator.strokeAlignCenter,
-                          //   ),
-                          //   locale: _selectedCategory,
-                          //   inputDecoration: const InputDecoration(
-                          //     labelText: 'رقم الجوال',
-                          //     focusedBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: CustomColors.lightBlue,
-                          //       ),
-                          //     ),
-                          //     enabledBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: CustomColors.lightBlue,
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   textAlignVertical: TextAlignVertical.top,
-                          //   keyboardType: TextInputType.phone,
-                          //   validator: (phone) {
-                          //     if (phone == null) {
-                          //       return 'الرجاء تعبئة الحقل';
-                          //     } else if (phone.toString().startsWith('9')) {
-                          //       return "رقم الجوال يجب أن يبدأ بـ 5";
-                          //     }
-                          //   },
-                          //   autoValidateMode:
-                          //       AutovalidateMode.onUserInteraction,
-                          //   onSaved: (phone) {
-                          //     lostItemReport.expectedPlace = phone.toString();
-                          //   },
-                          //   onInputChanged: (PhoneNumber value) {
-                          //     print(value.phoneNumber);
-                          //   },
-                          // ),
                           const SizedBox(height: 12.0),
                           IntlPhoneField(
                             decoration: const InputDecoration(
                               labelText: 'رقم الجوال',
-                              // suffixIcon: Icon(
-                              //   Icons.phone,
-                              //   color: CustomColors.lightGrey,
-                              // ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: CustomColors.lightBlue,

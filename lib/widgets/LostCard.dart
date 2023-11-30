@@ -20,26 +20,25 @@ class LostCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisSize: MainAxisSize.min,
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-             SizedBox(
+             Container(
                width: 95,
                height: 130,
                child: lostItemReport.photo=="empty"?
                const Image(image: AssetImage('assets/images/logo-icon.png')):Image.network('${lostItemReport.photo}'),
              ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical:5 ),
-              child: Expanded(
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical:5 ),
                 child: Column(
-
+                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   //start the colom
                   mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       lostItemReport.category!,
@@ -53,7 +52,6 @@ class LostCard extends StatelessWidget {
                       lostItemReport.desription!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text2,
-                        softWrap:true
                     ),
                     const SizedBox(
                       height: 10,
