@@ -56,8 +56,10 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
           data: ThemeData.light().copyWith(
             primaryColor: CustomColors.lightBlue,
             hintColor: CustomColors.lightBlue,
-            colorScheme: const ColorScheme.light(primary: CustomColors.lightBlue),
-            buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme:
+                const ColorScheme.light(primary: CustomColors.lightBlue),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
         );
@@ -251,16 +253,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                               ),
                             ),
                             value: _selectedCategory,
-                            items: [
-                              "بطاقات",
-                              'نقود ',
-                              'مستندات',
-                              'مجوهرات',
-                              'ملابس',
-                              'إلكترونيات',
-                              'أغراض شخصية',
-                              'اخرى'
-                            ].map((category) {
+                            items: Categories.map((category) {
                               return DropdownMenuItem(
                                 value: category,
                                 child: Text(
@@ -470,7 +463,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             onSaved: (phone) {
-                              lostItemReport.expectedPlace = phone.toString();
+                              lostItemReport.phoneNumber = phone.toString();
                             },
                           ),
                           //Description

@@ -25,16 +25,17 @@ class LostItemReport {
     lostDate = json['LostDate'];
     expectedPlace = json['ExpectedPlace'];
     desription = json['Description'];
-    photo = json['PhotoBase64'];
+    photo = json['Photo'];
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['PhoneNumber']=phoneNumber;
     map['Category'] = category;
     map['LostDate'] = lostDate;
     map['ExpectedPlace'] = expectedPlace;
     map['Description'] = desription;
-    map['PhotoBase64'] = photo;
+    map['Photo'] = photo;
     return map;
   }
 }

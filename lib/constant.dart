@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
     NavigationDestinationLabelBehavior.alwaysHide;
-enum Categories {
-  vegetables,
-  fruit,
-  meat,
-  dairy,
-  carbs,
-  sweets,
-  spices,
-  convenience,
-  hygiene,
-  other
-}
+
+List<String> Categories = [
+  'بطاقات',
+  'نقود ',
+  'مستندات',
+  'مجوهرات',
+  'ملابس',
+  'إلكترونيات',
+  'أغراض شخصية',
+  'اخرى'
+];
 
 // final List pages = [
 //   {

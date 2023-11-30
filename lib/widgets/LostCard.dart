@@ -20,13 +20,14 @@ class LostCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Row(
+
           children: [
 
              SizedBox(
                width: 95,
                height: 130,
                child: lostItemReport.photo=="empty"?
-               const Image(image: AssetImage('assets/images/mug.png')):Image.network('${lostItemReport.photo}'),
+               const Image(image: AssetImage('assets/images/logo-icon.png')):Image.network('${lostItemReport.photo}'),
              ),
             Padding(
               padding:
@@ -43,8 +44,8 @@ class LostCard extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-
                   Row(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       const Icon(
                         Icons.date_range_outlined,
@@ -76,6 +77,27 @@ class LostCard extends StatelessWidget {
                       ),
                       Text(
                         lostItemReport.expectedPlace!,
+                        textAlign: TextAlign.right,
+                        style: TextStyles.text,
+
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.call,
+                        color: CustomColors.lightGrey,
+                        size: 14.0,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        lostItemReport.phoneNumber!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
 
