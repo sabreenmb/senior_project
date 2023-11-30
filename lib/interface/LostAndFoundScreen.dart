@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:senior_project/interface/AddFoundItemScreen.dart';
 import 'package:senior_project/interface/AddLostItemScreen.dart';
 import 'package:senior_project/interface/ServicesScreen.dart';
-import 'package:senior_project/widgets/Foundard.dart';
+import 'package:senior_project/widgets/FoundCard.dart';
 import 'package:senior_project/widgets/LostCard.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
@@ -27,8 +27,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 2;
   //search
-   List<LostItemReport> searchLostList = [];
-   List<FoundItemReport> searchFoundList = [];
+  List<LostItemReport> searchLostList = [];
+  List<FoundItemReport> searchFoundList = [];
 
   final _userInputController = TextEditingController();
   //filter
@@ -173,7 +173,10 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.menu),
+            icon: const Icon(
+              Icons.menu,
+              color: CustomColors.darkGrey,
+            ),
           )
         ],
       ),
@@ -218,8 +221,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           ),
         ),
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(6.0),
         child: FloatingActionButton(
@@ -282,12 +284,15 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                               onPressed: () {
                                 //TODO SEARCH NOT COMPLETE
                                 //clear the list
-                                isLost?
-                                searchLostList.clear():searchFoundList.clear();
-                                 filterSearchResults(
-                                     _userInputController.text,isLost?_lostItemReport:_foundItemReport);
+                                isLost
+                                    ? searchLostList.clear()
+                                    : searchFoundList.clear();
+                                filterSearchResults(
+                                    _userInputController.text,
+                                    isLost
+                                        ? _lostItemReport
+                                        : _foundItemReport);
                                 FocusScope.of(context).unfocus();
-
                               }),
                           hintText: 'ابحث',
                           suffixIcon: _userInputController.text.isNotEmpty
@@ -296,9 +301,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     _userInputController.clear();
 
                                     setState(() {
-                                      isSearch=false;
+                                      isSearch = false;
                                     });
-
                                   },
                                   icon: const Icon(Icons.clear,
                                       color: CustomColors.darkGrey))
@@ -320,7 +324,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                           // searchList.clear();
                         },
                         onTap: () {
-                          isSearch=true;
+                          isSearch = true;
 
                           searchLostList.clear();
                           searchFoundList.clear();
@@ -340,9 +344,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                 setState(() {
                                   isLost = true;
                                   _LoadLostItems();
-                                  if(isSearch){
+                                  if (isSearch) {
                                     _userInputController.clear();
-                                    isSearch=false;
+                                    isSearch = false;
                                   }
                                 });
                                 //todo change the lest
@@ -373,9 +377,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                 setState(() {
                                   isLost = false;
                                   _LoadFoundItems();
-                                  if(isSearch){
+                                  if (isSearch) {
                                     _userInputController.clear();
-                                    isSearch=false;
+                                    isSearch = false;
                                   }
                                 });
                                 //todo change the lest
@@ -404,7 +408,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         ],
                       ),
                     ),
-                    if (isLost?_lostItemReport.isEmpty:_foundItemReport.isEmpty)
+                    if (isLost
+                        ? _lostItemReport.isEmpty
+                        : _foundItemReport.isEmpty)
                       Expanded(
                         child: Center(
                           child: Container(
@@ -416,26 +422,29 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                           ),
                         ),
                       ),
-                    if(isLost?_lostItemReport.isNotEmpty:_foundItemReport.isNotEmpty)
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: isSearch?ListView.builder(
-                            itemCount: isLost
-                                ? searchLostList.length
-                                : searchFoundList.length,
-                            itemBuilder: (context, index) => isLost
-                                ? LostCard(searchLostList[index])
-                                : FoundCard(searchFoundList[index]))
-                        :ListView.builder(
-                            itemCount: isLost
-                                ? _lostItemReport.length
-                                : _foundItemReport.length,
-                            itemBuilder: (context, index) => isLost
-                                ? LostCard(_lostItemReport[index])
-                                : FoundCard(_foundItemReport[index])),
-                      ),
-                    )
+                    if (isLost
+                        ? _lostItemReport.isNotEmpty
+                        : _foundItemReport.isNotEmpty)
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: isSearch
+                              ? ListView.builder(
+                                  itemCount: isLost
+                                      ? searchLostList.length
+                                      : searchFoundList.length,
+                                  itemBuilder: (context, index) => isLost
+                                      ? LostCard(searchLostList[index])
+                                      : FoundCard(searchFoundList[index]))
+                              : ListView.builder(
+                                  itemCount: isLost
+                                      ? _lostItemReport.length
+                                      : _foundItemReport.length,
+                                  itemBuilder: (context, index) => isLost
+                                      ? LostCard(_lostItemReport[index])
+                                      : FoundCard(_foundItemReport[index])),
+                        ),
+                      )
                   ],
                 ),
                 Stack(
@@ -446,7 +455,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                       bottom: 0.0,
 
                       child: AnimatedContainer(
-                        color: CustomColors.lightGrey,
+                        color: CustomColors.lightGrey.withOpacity(0),
                         duration: const Duration(milliseconds: 200),
                         width: _isExpanded ? _expandedSize : _collapsedSize,
                         height: _isExpanded ? _expandedSize : _collapsedSize,
@@ -462,6 +471,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                         builder: (ctx) =>
                                             const AddFoundItemScreen()));
                                 _LoadFoundItems();
+                                _toggleExpanded();
                               }),
                               const SizedBox(height: 16.0),
                               _buildOption('إنشاء إعلان مفقود', () async {
@@ -470,6 +480,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                         builder: (ctx) =>
                                             const AddLostItemScreen()));
                                 _LoadLostItems();
+                                _toggleExpanded();
                               }),
                             ],
                           ],
@@ -486,20 +497,23 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     );
   }
 
-  void filterSearchResults(String query,List ls) {
+  void filterSearchResults(String query, List ls) {
     setState(() {
       for (int item = 0; item < ls.length; item++) {
-        if (ls[item].desription!
+        if (ls[item]
+            .desription!
             .toLowerCase()
             .contains(query.toLowerCase().trim())) {
-          isLost?searchLostList.add(ls[item]):searchFoundList.add(ls[item]);
+          isLost ? searchLostList.add(ls[item]) : searchFoundList.add(ls[item]);
         } //Add
         else {
-          if(ls[item].category!
+          if (ls[item]
+              .category!
               .toLowerCase()
               .contains(query.toLowerCase().trim())) {
-            isLost?searchLostList.add(ls[item]):searchFoundList.add(ls[item]);
-
+            isLost
+                ? searchLostList.add(ls[item])
+                : searchFoundList.add(ls[item]);
           }
         }
       }

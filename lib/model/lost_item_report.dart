@@ -1,4 +1,3 @@
-
 class LostItemReport {
   //Variables
   String? id;
@@ -30,7 +29,7 @@ class LostItemReport {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['PhoneNumber']=phoneNumber;
+    map['PhoneNumber'] = phoneNumber;
     map['Category'] = category;
     map['LostDate'] = lostDate;
     map['ExpectedPlace'] = expectedPlace;
