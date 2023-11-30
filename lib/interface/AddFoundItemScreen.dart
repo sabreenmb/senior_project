@@ -64,7 +64,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
     }
   }
 
-  Future<void> _takePhoto() async {
+  void _takePhoto() async {
     final picker = ImagePicker();
     XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
     if (pickedFile == null) {

@@ -428,6 +428,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
+                          child:MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
                           child: isSearch
                               ? ListView.builder(
                                   itemCount: isLost
@@ -445,7 +448,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                       : FoundCard(_foundItemReport[index])),
                         ),
                       )
-                  ],
+                      ),],
                 ),
                 Stack(
                   alignment: Alignment.bottomCenter,
@@ -472,7 +475,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                             const AddFoundItemScreen()));
                                 _toggleExpanded();
                                 _LoadFoundItems();
-                                _toggleExpanded();
                               }),
                               const SizedBox(height: 16.0),
                               _buildOption('إنشاء إعلان مفقود', () async {
@@ -482,7 +484,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                             const AddLostItemScreen()));
                                 _toggleExpanded();
                                 _LoadLostItems();
-                                _toggleExpanded();
                               }),
                             ],
                           ],

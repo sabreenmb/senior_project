@@ -74,7 +74,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
     }
   }
 
-  Future<void> _takePhoto() async {
+  void _takePhoto() async {
     final picker = ImagePicker();
     XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
     print('${pickedFile?.path}');

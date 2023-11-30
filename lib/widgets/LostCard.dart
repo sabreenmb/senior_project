@@ -20,7 +20,7 @@ class LostCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,91 +33,94 @@ class LostCard extends StatelessWidget {
              ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical:5 ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                //start the colom
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    lostItemReport.category!,
-                    textAlign: TextAlign.right,
-                    style: TextStyles.heading3B,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.date_range_outlined,
-                        color: CustomColors.lightGrey,
-                        size: 14.0,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        lostItemReport.lostDate!,
-                        textAlign: TextAlign.right,
-                        style: TextStyles.text,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on_outlined,
-                        color: CustomColors.lightGrey,
-                        size: 14.0,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        lostItemReport.expectedPlace!,
-                        textAlign: TextAlign.right,
-                        style: TextStyles.text,
+              child: Expanded(
+                child: Column(
 
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.call,
-                        color: CustomColors.lightGrey,
-                        size: 14.0,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        lostItemReport.phoneNumber!,
-                        textAlign: TextAlign.right,
-                        style: TextStyles.text,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  //start the colom
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      lostItemReport.category!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.heading3B,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      lostItemReport.desription!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.text2,
+                        softWrap:true
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.date_range_outlined,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          lostItemReport.lostDate!,
+                          textAlign: TextAlign.right,
+                          style: TextStyles.text,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on_outlined,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          lostItemReport.expectedPlace!,
+                          textAlign: TextAlign.right,
+                          style: TextStyles.text,
 
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.call,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          lostItemReport.phoneNumber!,
+                          textAlign: TextAlign.right,
+                          style: TextStyles.text,
 
-                  Text(
-                    lostItemReport.desription!,
-                    textAlign: TextAlign.right,
-                    style: TextStyles.text2,
+                        ),
+                      ],
+                    ),
 
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],

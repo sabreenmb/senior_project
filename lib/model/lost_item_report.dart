@@ -18,14 +18,6 @@ class LostItemReport {
     required this.phoneNumber,
     required this.desription,
   });
-  // ignore: avoid_print
-  LostItemReport.fromJson(Map<String, dynamic> json) {
-    category = json['Category'];
-    lostDate = json['LostDate'];
-    expectedPlace = json['ExpectedPlace'];
-    desription = json['Description'];
-    photo = json['Photo'];
-  }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

@@ -19,16 +19,6 @@ class FoundItemReport {
     required this.receivePlace,
     required this.desription,
   });
-  // ignore: avoid_print
-  FoundItemReport.fromJson(Map<String,dynamic> json) {
-    category=json['Category'];
-    foundDate=json['FoundDate'];
-    foundPlace = json['FoundPlace'];
-    receivePlace = json['ReceivePlace'];
-    desription = json['Description'];
-    photo = json['Photo'];
-  }
-
 
 
   Map<String, dynamic> toJson() {
