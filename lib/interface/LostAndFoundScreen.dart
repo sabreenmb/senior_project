@@ -109,6 +109,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         category: item.value['Category'],
         lostDate: item.value['LostDate'],
         expectedPlace: item.value['ExpectedPlace'],
+        phoneNumber: item.value[''],
         desription: item.value['Description'],
       ));
     }

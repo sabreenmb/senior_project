@@ -115,6 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               return null;
                             },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             onSaved: (value) {
                               print(_enteredID);
 
@@ -148,6 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               return null;
                             },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             textAlign: TextAlign.right,
                             obscureText: true,
                             onSaved: (value) {
