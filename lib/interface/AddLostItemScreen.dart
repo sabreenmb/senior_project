@@ -93,25 +93,47 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       _imageUrl = "empty";
     } else {
       try {
+        setState(() {
+          isLoading=true;
+        });
         await storageRef.putFile(_selectedImage!);
         _imageUrl = await storageRef.getDownloadURL();
         print(_imageUrl);
-      } catch (error) {}
+      } catch (error) {
+
+      }
+      finally{
+        setState(() {
+          isLoading=false;
+        });
+      }
     }
     lostItemReport.photo = _imageUrl;
     _createLostItem();
   }
 
   void _createLostItem() async {
-    final url = Uri.https(
-        'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: json.encode(lostItemReport.toJson()),
-    );
+    try{
+      setState(() {
+        isLoading=true;
+      });
+      final url = Uri.https(
+          'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(lostItemReport.toJson()),
+      );
+    }catch(e){
+
+    }finally{
+      setState(() {
+        isLoading=false;
+      });
+    }
+
     if (!context.mounted) {
       return;
     }
@@ -383,7 +405,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 icon: Icon(Icons.search),
                               ),
                             ),
-                            disableLengthCheck: true,
+                            // disableLengthCheck: true,
                             showDropdownIcon: false,
                             showCountryFlag: false,
                             keyboardType: TextInputType.number,

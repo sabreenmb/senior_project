@@ -6,6 +6,7 @@ import 'package:senior_project/interface/LoginScreen.dart';
 import 'package:senior_project/interface/LostAndFoundScreen.dart';
 
 import 'firebase_options.dart';
+import 'interface/LaunchScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const LoginScreen(),
+      home: const LaunchScreen(),
     );
   }
 }

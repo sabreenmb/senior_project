@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/AddFoundItemScreen.dart';
 import 'package:senior_project/interface/AddLostItemScreen.dart';
 import 'package:senior_project/interface/ServicesScreen.dart';
@@ -8,6 +9,7 @@ import 'package:senior_project/widgets/FoundCard.dart';
 import 'package:senior_project/widgets/LostCard.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
+import '../constant.dart';
 import '../model/found_item_report.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
@@ -79,6 +81,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     final List<FoundItemReport> loadedFoundItems = [];
 
   try {
+      setState(() {
+        isLoading=true;
+      });
       final url = Uri.https(
           'senior-project-72daf-default-rtdb.firebaseio.com',
           'Found-Items.json');
@@ -98,7 +103,11 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
       }
     }catch(error){
       print('Empty List');
-    }
+    }finally{
+    setState(() {
+      isLoading=false;
+    });
+  }
     setState(() {
       _foundItemReport = loadedFoundItems;
     });
@@ -107,6 +116,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   void _LoadLostItems() async {
     final List<LostItemReport> loadedLostItems = [];
   try {
+    setState(() {
+      isLoading=true;
+    });
       final url = Uri.https(
           'senior-project-72daf-default-rtdb.firebaseio.com',
           'Lost-Items.json');
@@ -125,6 +137,10 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
       }
     }catch(error){
       print('empty list');
+    }finally{
+      setState(() {
+        isLoading=false;
+      });
     }
     setState(() {
       _lostItemReport = loadedLostItems;
@@ -239,257 +255,288 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         onPressed: _toggleExpanded,
         child: _isExpanded ? const Icon(Icons.close) : const Icon(Icons.add),
       ),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            const SizedBox(height: 15),
-            Expanded(
-                child: Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      color: CustomColors.BackgroundColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40))),
-                ),
-                Column(
-                  children: [
-                    Container(
-                      height: 60,
-                      padding:
-                          const EdgeInsets.only(top: 15, left: 15, right: 15),
-                      child: TextField(
-                        autofocus: false,
-                        controller: _userInputController,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.search,
-                        textAlignVertical: TextAlignVertical.bottom,
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          color: CustomColors.darkGrey,
-                        ),
-                        decoration: InputDecoration(
-                          hintStyle: const TextStyle(
+      body: ModalProgressHUD(
+        color: Colors.black,
+        opacity: 0.5,
+        progressIndicator: loadingFunction(context, true),
+        inAsyncCall: isLoading,
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              Expanded(
+                  child: Stack(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: CustomColors.BackgroundColor,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40))),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 60,
+                        padding:
+                            const EdgeInsets.only(top: 15, left: 15, right: 15),
+                        child: TextField(
+                          autofocus: false,
+                          controller: _userInputController,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.search,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
                             color: CustomColors.darkGrey,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: const BorderSide(
-                                color: CustomColors.darkGrey, width: 1),
-                          ),
-                          prefixIcon: IconButton(
-                              icon: const Icon(
-                                Icons.search,
-                                color: CustomColors.darkGrey,
-                              ),
-                              onPressed: () {
-                                isLost
-                                    ? searchLostList.clear()
-                                    : searchFoundList.clear();
-                                filterSearchResults(
-                                    _userInputController.text,
-                                    isLost
-                                        ? _lostItemReport
-                                        : _foundItemReport);
-                                FocusScope.of(context).unfocus();
-                              }),
-                          hintText: 'ابحث',
-                          suffixIcon: _userInputController.text.isNotEmpty
-                              ? IconButton(
-                                  onPressed: () {
-                                    _userInputController.clear();
-
-                                    setState(() {
-                                      isSearch = false;
-                                    });
-                                  },
-                                  icon: const Icon(Icons.clear,
-                                      color: CustomColors.darkGrey))
-                              : null,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(
-                                color: CustomColors.darkGrey, width: 1),
-                          ),
-                        ),
-                        onChanged: (text) {
-                          setState(() {});
-                        },
-                        onSubmitted: (text) {
-                          //todo the same value of on icon presed
-                          isLost
-                              ? searchLostList.clear()
-                              : searchFoundList.clear();
-                          filterSearchResults(
-                              _userInputController.text,
-                              isLost
-                                  ? _lostItemReport
-                                  : _foundItemReport);
-                          FocusScope.of(context).unfocus();
-                        },
-                        onTap: () {
-                          isSearch = true;
-                          searchLostList.clear();
-                          searchFoundList.clear();
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              FocusScope.of(context).unfocus();
-
-                              if (isLost != true) {
-                                setState(() {
-                                  isLost = true;
-                                  _LoadLostItems();
-                                  if (isSearch) {
-                                    _userInputController.clear();
-                                    isSearch = false;
-                                  }
-                                });
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(175, 40),
-                                side: BorderSide(
-                                    color: isLost
-                                        ? Colors.transparent
-                                        : CustomColors.darkGrey,
-                                    width: 1),
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                          decoration: InputDecoration(
+                            hintStyle: const TextStyle(
+                              color: CustomColors.darkGrey,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide: const BorderSide(
+                                  color: CustomColors.darkGrey, width: 1),
+                            ),
+                            prefixIcon: IconButton(
+                                icon: const Icon(
+                                  Icons.search,
+                                  color: CustomColors.darkGrey,
                                 ),
-                                backgroundColor: isLost
-                                    ? CustomColors.pink
-                                    : Colors.transparent),
-                            child: Text("المفقودة", style: TextStyles.heading2),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (isLost == true) {
-                                setState(() {
-                                  isLost = false;
-                                  _LoadFoundItems();
-                                  if (isSearch) {
-                                    _userInputController.clear();
-                                    isSearch = false;
-                                  }
-                                });
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(175, 40),
-                                side: BorderSide(
-                                    color: !isLost
-                                        ? Colors.transparent
-                                        : CustomColors.darkGrey,
-                                    width: 1),
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                backgroundColor: !isLost
-                                    ? CustomColors.pink
-                                    : Colors.transparent),
-                            child: Text(
-                              "الموجودة",
-                              style: TextStyles.heading2,
+                                onPressed: () {
+                                  isLost
+                                      ? searchLostList.clear()
+                                      : searchFoundList.clear();
+                                  filterSearchResults(
+                                      _userInputController.text,
+                                      isLost
+                                          ? _lostItemReport
+                                          : _foundItemReport);
+                                  FocusScope.of(context).unfocus();
+                                }),
+                            hintText: 'ابحث',
+                            suffixIcon: _userInputController.text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () {
+                                      _userInputController.clear();
+
+                                      setState(() {
+                                        isSearch = false;
+                                      });
+                                    },
+                                    icon: const Icon(Icons.clear,
+                                        color: CustomColors.darkGrey))
+                                : null,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                  color: CustomColors.darkGrey, width: 1),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    if (isLost? (isSearch?searchLostList.isEmpty:_lostItemReport.isEmpty)
-                        : (isSearch?searchFoundList.isEmpty:_foundItemReport.isEmpty))
-                      Expanded(
-                        child: Center(
-                          child: Container(
-                            // padding: EdgeInsets.only(bottom: 20),
-                            // alignment: Alignment.topCenter,
-                            height: 200,
-                            child: Image.asset('assets/images/notFound.png'),
-                          ),
+                          onChanged: (text) {
+                            setState(() {});
+                          },
+                          onSubmitted: (text) {
+                            //todo the same value of on icon presed
+                            isLost
+                                ? searchLostList.clear()
+                                : searchFoundList.clear();
+                            filterSearchResults(
+                                _userInputController.text,
+                                isLost
+                                    ? _lostItemReport
+                                    : _foundItemReport);
+                            FocusScope.of(context).unfocus();
+                          },
+                          onTap: () {
+                            isSearch = true;
+                            searchLostList.clear();
+                            searchFoundList.clear();
+                          },
                         ),
                       ),
-                    if (isLost
-                        ? _lostItemReport.isNotEmpty
-                        : _foundItemReport.isNotEmpty)
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                          child: isSearch
-                              ? ListView.builder(
-                                  itemCount: isLost
-                                      ? searchLostList.length
-                                      : searchFoundList.length,
-                                  itemBuilder: (context, index) => isLost
-                                      ? LostCard(searchLostList[index])
-                                      : FoundCard(searchFoundList[index]))
-                              : ListView.builder(
-                                  itemCount: isLost
-                                      ? _lostItemReport.length
-                                      : _foundItemReport.length,
-                                  itemBuilder: (context, index) => isLost
-                                      ? LostCard(_lostItemReport[index])
-                                      : FoundCard(_foundItemReport[index])),
-                        ),
-                      )
-                      ),],
-                ),
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Positioned(
-                      bottom: 0.0,
-                      child: Container(
-                        color: CustomColors.lightGrey.withOpacity(0),
-                        width: _isExpanded ? _expandedSize : _collapsedSize,
-                        height: _isExpanded ? _expandedSize : _collapsedSize,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (_isExpanded) ...[
-                              _buildOption('إنشاء إعلان موجود', () async {
-                                await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (ctx) =>
-                                            const AddFoundItemScreen()));
-                                _toggleExpanded();
-                                _LoadFoundItems();
-                              }),
-                              const SizedBox(height: 16.0),
-                              _buildOption('إنشاء إعلان مفقود', () async {
-                                await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (ctx) =>
-                                            const AddLostItemScreen()));
-                                _toggleExpanded();
-                                _LoadLostItems();
-                              }),
-                            ],
+                            ElevatedButton(
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+
+                                if (isLost != true) {
+                                  setState(() {
+                                    isLost = true;
+                                    _LoadLostItems();
+                                    if (isSearch) {
+                                      _userInputController.clear();
+                                      isSearch = false;
+                                    }
+                                  });
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  fixedSize: const Size(175, 40),
+                                  side: BorderSide(
+                                      color: isLost
+                                          ? Colors.transparent
+                                          : CustomColors.darkGrey,
+                                      width: 1),
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  backgroundColor: isLost
+                                      ? CustomColors.pink
+                                      : Colors.transparent),
+                              child: Text("المفقودة", style: TextStyles.heading2),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (isLost == true) {
+                                  setState(() {
+                                    isLost = false;
+                                    _LoadFoundItems();
+                                    if (isSearch) {
+                                      _userInputController.clear();
+                                      isSearch = false;
+                                    }
+                                  });
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  fixedSize: const Size(175, 40),
+                                  side: BorderSide(
+                                      color: !isLost
+                                          ? Colors.transparent
+                                          : CustomColors.darkGrey,
+                                      width: 1),
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  backgroundColor: !isLost
+                                      ? CustomColors.pink
+                                      : Colors.transparent),
+                              child: Text(
+                                "الموجودة",
+                                style: TextStyles.heading2,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ))
-          ],
+                      if (isLost? (isSearch?searchLostList.isEmpty:_lostItemReport.isEmpty)
+                          : (isSearch?searchFoundList.isEmpty:_foundItemReport.isEmpty))
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset('assets/images/notFound.png'),
+                            ),
+                          ),
+                        ),
+                      if (isLost
+                          ? _lostItemReport.isNotEmpty
+                          : _foundItemReport.isNotEmpty)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child:MediaQuery.removePadding(
+                              context: context,
+                              removeTop: true,
+                            child: isSearch
+                                ? ListView.builder(
+                                    itemCount: isLost
+                                        ? searchLostList.length
+                                        : searchFoundList.length,
+                                    itemBuilder: (context, index) => isLost
+                                        ? LostCard(searchLostList[index])
+                                        : FoundCard(searchFoundList[index]))
+                                : ListView.builder(
+                                    itemCount: isLost
+                                        ? _lostItemReport.length
+                                        : _foundItemReport.length,
+                                    itemBuilder: (context, index) => isLost
+                                        ? LostCard(_lostItemReport[index])
+                                        : FoundCard(_foundItemReport[index])),
+                          ),
+                        )
+                        ),],
+                  ),
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Positioned(
+                        bottom: 0.0,
+                        child: Container(
+                          color: CustomColors.lightGrey.withOpacity(0),
+                          width: _isExpanded ? _expandedSize : _collapsedSize,
+                          height: _isExpanded ? _expandedSize : _collapsedSize,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (_isExpanded) ...[
+                                _buildOption('إنشاء إعلان موجود', () async {
+                                  try {
+                                    setState(() {
+                                      isLoading=true;
+                                    });
+                                    await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (ctx) =>
+                                            const AddFoundItemScreen()));
+
+                                  }catch(error){
+
+                                  }finally{
+                                    setState(() {
+                                      isLoading=false;
+                                    });
+                                    _toggleExpanded();
+                                    _LoadFoundItems();
+                                  }
+                                }),
+                                const SizedBox(height: 16.0),
+                                _buildOption('إنشاء إعلان مفقود', () async {
+                                  try{
+                                    setState(() {
+                                      isLoading=true;
+                                    });
+                                    await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (ctx) =>
+                                            const AddLostItemScreen()));
+
+                                  }catch(error){
+
+                                  }finally{
+                                    setState(() {
+                                      isLoading=false;
+                                    });
+                                    _toggleExpanded();
+                                    _LoadLostItems();
+                                  }
+
+                                }),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ))
+            ],
+          ),
         ),
       ),
     );

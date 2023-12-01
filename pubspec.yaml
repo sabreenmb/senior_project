@@ -86,6 +86,7 @@ flutter:
      - assets/icons/volunteering-opportunity.svg
      - assets/icons/psychological-guidance.svg
      - assets/images/
+     - assets/images/logo/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
