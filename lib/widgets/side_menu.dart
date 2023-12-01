@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:senior_project/interface/LoginScreen.dart';
 import '../theme.dart';
 
 class SideDrawer extends StatelessWidget {
@@ -24,74 +26,83 @@ class SideDrawer extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   height: 150,
                   decoration: BoxDecoration(
-                    color: CustomColors.lightGrey.withOpacity(0.3),
+                    //color: Color.fromARGB(255, 139, 139, 139),
                     shape: BoxShape.circle,
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/UserProfile.png'),
+                    border: new Border.all(
+                      color: CustomColors.darkGrey,
+                      width: 3,
+                    ),
+                  ),
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      'assets/icons/UserProfile.svg',
+                      height: 100,
+                      width: 100,
+                      color: CustomColors.darkGrey,
                     ),
                   ),
                 ),
-                Text(
+                const Text(
                   "منار محمود مجيد",
-                  style: TextStyles.heading2,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: CustomColors.darkGrey),
                 ),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(top: 15),
-            child: Column(
-                //mainAxisAlignment: ,
-                children: [
-                  menuItem("assets/icons/profileIcon.svg", "الملف الشخصي"),
-                  SizedBox(height: 10),
-                  menuItem("assets/icons/logout.svg", "تسجيل الخروج"),
-                ]),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget menuItem(String itemIcon, String itemTitle) {
-    return Material(
-      child: InkWell(
-        //onTap: (){}, //  Padding(
-        child: Container(
-          decoration: BoxDecoration(
-            color: CustomColors.lightBlue.withOpacity(0.3),
-            border: const Border(
-              top: BorderSide(color: CustomColors.lightBlue, width: 1),
-              bottom: BorderSide(color: CustomColors.lightBlue, width: 1),
-              left: BorderSide(color: CustomColors.lightBlue, width: 8),
-              right: BorderSide(color: CustomColors.lightBlue, width: 1),
+            decoration: BoxDecoration(
+              color: CustomColors.lightBlue.withOpacity(0.3),
+              border: const Border(
+                top: BorderSide(color: CustomColors.lightBlue, width: 1),
+                bottom: BorderSide(color: CustomColors.lightBlue, width: 1),
+                left: BorderSide(color: CustomColors.lightBlue, width: 8),
+                right: BorderSide(color: CustomColors.lightBlue, width: 1),
+              ),
+            ),
+            child: ListTile(
+              leading: SvgPicture.asset(
+                "assets/icons/profileIcon.svg",
+                height: 30,
+                width: 30,
+                color: CustomColors.darkGrey.withOpacity(0.8),
+              ),
+              title: Text("الملف الشخصي"),
+              onTap: () {},
             ),
           ),
-          height: 50,
-          child: Row(
-            children: [
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    itemIcon,
-                    height: 30,
-                    width: 30,
-                    color: CustomColors.darkGrey.withOpacity(0.8),
-                  ),
-                ),
+          SizedBox(height: 10),
+          Container(
+            decoration: BoxDecoration(
+              color: CustomColors.lightBlue.withOpacity(0.3),
+              border: const Border(
+                top: BorderSide(color: CustomColors.lightBlue, width: 1),
+                bottom: BorderSide(color: CustomColors.lightBlue, width: 1),
+                left: BorderSide(color: CustomColors.lightBlue, width: 8),
+                right: BorderSide(color: CustomColors.lightBlue, width: 1),
               ),
-              Expanded(
-                flex: 3,
-                child: Text(
-                  itemTitle,
-                  textAlign: TextAlign.right,
-                ),
+            ),
+            child: ListTile(
+              leading: SvgPicture.asset(
+                "assets/icons/logout.svg",
+                height: 30,
+                width: 30,
+                color: CustomColors.darkGrey.withOpacity(0.8),
               ),
-            ],
+              title: Text("تسجيل الخروج"),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+              },
+            ),
           ),
-        ),
-        //),
+        ],
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:senior_project/widgets/FoundCard.dart';
 import 'package:senior_project/widgets/LostCard.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:senior_project/widgets/side_menu.dart';
 import '../model/found_item_report.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
@@ -78,9 +79,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   void _LoadFoundItems() async {
     final List<FoundItemReport> loadedFoundItems = [];
 
-  try {
-      final url = Uri.https(
-          'senior-project-72daf-default-rtdb.firebaseio.com',
+    try {
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
           'Found-Items.json');
       final response = await http.get(url);
 
@@ -96,7 +96,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           photo: item.value['Photo'],
         ));
       }
-    }catch(error){
+    } catch (error) {
       print('Empty List');
     }
     setState(() {
@@ -106,9 +106,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
 
   void _LoadLostItems() async {
     final List<LostItemReport> loadedLostItems = [];
-  try {
-      final url = Uri.https(
-          'senior-project-72daf-default-rtdb.firebaseio.com',
+    try {
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
           'Lost-Items.json');
       final response = await http.get(url);
       final Map<String, dynamic> lostdata = json.decode(response.body);
@@ -123,7 +122,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           desription: item.value['Description'],
         ));
       }
-    }catch(error){
+    } catch (error) {
       print('empty list');
     }
     setState(() {
@@ -178,16 +177,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         elevation: 0,
         title: Text("المفقودات", style: TextStyles.heading1),
         centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              color: CustomColors.darkGrey,
-            ),
-          )
-        ],
+        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
       ),
+      endDrawer: const SideDrawer(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
@@ -322,11 +314,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                           isLost
                               ? searchLostList.clear()
                               : searchFoundList.clear();
-                          filterSearchResults(
-                              _userInputController.text,
-                              isLost
-                                  ? _lostItemReport
-                                  : _foundItemReport);
+                          filterSearchResults(_userInputController.text,
+                              isLost ? _lostItemReport : _foundItemReport);
                           FocusScope.of(context).unfocus();
                         },
                         onTap: () {
@@ -408,8 +397,13 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         ],
                       ),
                     ),
-                    if (isLost? (isSearch?searchLostList.isEmpty:_lostItemReport.isEmpty)
-                        : (isSearch?searchFoundList.isEmpty:_foundItemReport.isEmpty))
+                    if (isLost
+                        ? (isSearch
+                            ? searchLostList.isEmpty
+                            : _lostItemReport.isEmpty)
+                        : (isSearch
+                            ? searchFoundList.isEmpty
+                            : _foundItemReport.isEmpty))
                       Expanded(
                         child: Center(
                           child: Container(
@@ -424,11 +418,11 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         ? _lostItemReport.isNotEmpty
                         : _foundItemReport.isNotEmpty)
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
+                          child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
                           child: isSearch
                               ? ListView.builder(
                                   itemCount: isLost
@@ -445,8 +439,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                       ? LostCard(_lostItemReport[index])
                                       : FoundCard(_foundItemReport[index])),
                         ),
-                      )
-                      ),],
+                      )),
+                  ],
                 ),
                 Stack(
                   alignment: Alignment.bottomCenter,

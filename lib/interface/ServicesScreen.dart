@@ -49,7 +49,7 @@ class _ServisesState extends State<ServisesScreen> {
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
       ),
-      endDrawer: SideDrawer(),
+      endDrawer: const SideDrawer(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
