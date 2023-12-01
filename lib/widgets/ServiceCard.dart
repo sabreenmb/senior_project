@@ -54,6 +54,7 @@ class ServiceCard extends StatelessWidget {
                 details['icon']!,
                 width: 70,
                 height: 70,
+                //color: CustomColors.lightBlue.withOpacity(0.6),
               ),
             ),
             Text(
