@@ -9,6 +9,7 @@ import 'package:senior_project/widgets/FoundCard.dart';
 import 'package:senior_project/widgets/LostCard.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:senior_project/widgets/side_menu.dart';
 import '../constant.dart';
 import '../model/found_item_report.dart';
 import '../model/found_item_report.dart';
@@ -101,7 +102,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           photo: item.value['Photo'],
         ));
       }
-    }catch(error){
+    } catch (error) {
       print('Empty List');
     }finally{
     setState(() {
@@ -135,7 +136,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           desription: item.value['Description'],
         ));
       }
-    }catch(error){
+    } catch (error) {
       print('empty list');
     }finally{
       setState(() {
@@ -194,16 +195,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         elevation: 0,
         title: Text("المفقودات", style: TextStyles.heading1),
         centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              color: CustomColors.darkGrey,
-            ),
-          )
-        ],
+        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
       ),
+      endDrawer: const SideDrawer(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
