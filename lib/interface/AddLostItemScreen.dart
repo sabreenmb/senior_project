@@ -211,7 +211,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                                   fit: BoxFit.cover,
                                                 )
                                               : Image.asset(
-                                                  _imageUrl,
+                                                  'assets/images/logo-icon.png',
                                                   height: screenWidth * 0.57,
                                                   width: 170,
                                                   fit: BoxFit.contain,
@@ -376,7 +376,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                           ),
                           //Phone
                           const SizedBox(height: 12.0),
-                          IntlPhoneField(
+                          TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'رقم الجوال',
                               suffixIcon: Icon(
@@ -394,42 +394,29 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 ),
                               ),
                             ),
-                            languageCode: 'ar',
-                            initialCountryCode: 'SA',
+
                             onChanged: (phone) {
-                              print(phone.completeNumber);
+                             // print(phone.completeNumber);
                             },
-                            pickerDialogStyle: PickerDialogStyle(
-                              searchFieldInputDecoration: const InputDecoration(
-                                labelText: 'ابحث عن الدولة',
-                                icon: Icon(Icons.search),
-                              ),
-                            ),
-                            // disableLengthCheck: true,
-                            showDropdownIcon: false,
-                            showCountryFlag: false,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                             ],
-                            flagsButtonMargin: EdgeInsets.all(0),
                             textAlign: TextAlign.right,
                             validator: (phone) {
-                              if (phone == null) {
+                              if (phone == null||phone.trim().isEmpty) {
                                 return "الرجاء تعبئة الحقل";
-                              } else if (phone.number.length != 9) {
+                              } else if (phone.length != 10) {
                                 return 'رقم الجوال يجب أن يتكون من 9 أرقام';
-                              } else if (phone.number.substring(0, 1) != '5') {
-                                return "رقم الجوال يجب أن يبدأ بـ 5";
+                              } else if (phone.substring(0, 2) != '05') {
+                                return "0رقم الجوال يجب أن يبدأ بـ 5";
                               }
-                              return '';
+                              return null;
                             },
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             onSaved: (phone) {
-                              lostItemReport.phoneNumber =
-                                  phone!.countryCode.substring(0, 1) +
-                                      phone.number;
+                              lostItemReport.phoneNumber = phone;
                             },
                           ),
                           //Description
