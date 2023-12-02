@@ -18,7 +18,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
     super.initState();
     Future.delayed(
-      Duration(seconds: 4),(){
+      Duration(seconds: 3),(){
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
       });

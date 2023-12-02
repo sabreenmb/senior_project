@@ -29,7 +29,7 @@ class LostCard extends StatelessWidget {
                width: 95,
                height: 130,
                child: lostItemReport.photo=="empty"?
-               const Image(image: AssetImage('assets/images/logo-icon.png')):Image.network('${lostItemReport.photo}'),
+               const Image(image: AssetImage('assets/images/logo-icon.png')):Image.network('${lostItemReport.photo}',fit: BoxFit.cover,),
              ),
             Expanded(
               child: Padding(

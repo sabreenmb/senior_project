@@ -26,7 +26,7 @@ class FoundCard extends StatelessWidget {
               height: 130,
               child: foundItemReport.photo == "empty"
                   ? const Image(image: AssetImage('assets/images/mug.png'))
-                  : Image.network('${foundItemReport.photo}'),
+                  : Image.network('${foundItemReport.photo}',fit: BoxFit.fill,),
             ),
             Expanded(
               child: Padding(

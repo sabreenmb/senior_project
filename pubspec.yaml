@@ -49,10 +49,12 @@ dependencies:
   mask_text_input_formatter: ^2.7.0
   intl_phone_number_input: ^0.7.3+1
   modal_progress_hud_nsn: ^0.4.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -61,7 +63,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
+  flutter_launcher_icons: "^0.13.1"
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo/Logo.png"
+  min_sdk_android: 21
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
