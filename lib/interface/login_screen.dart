@@ -1,10 +1,12 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/theme.dart';
 import '../constant.dart';
-import 'ServicesScreen.dart';
+import 'services_screen.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -21,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _enteredPass = '';
   bool _newVal = true;
   void _submit() async {
-    _newVal=false;
+    _newVal = false;
     final isValid = _formKey.currentState!.validate();
     setState(() {
       errorMessage = '';
@@ -51,10 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     final topMargin = screenHeight * 0.05;
     final numericRegex = RegExp(r'^[0-9]+$');
-    // TODO: implement build
     return Scaffold(
       backgroundColor: CustomColors.white,
-
       resizeToAvoidBottomInset: true,
       body: ModalProgressHUD(
         color: Colors.black,
@@ -71,7 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       top: 30, bottom: 20, left: 20, right: 20),
                   width: 200,
                   child: const Image(
-                    image: AssetImage('assets/images/logo/Sabreen_Logo_NoEdge1.png'),
+                    image: AssetImage(
+                        'assets/images/logo/Sabreen_Logo_NoEdge1.png'),
                     // width: 95,
                     // height: 130,
                   ),
@@ -113,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (value == null || value.trim().isEmpty) {
                                   return "الرجاء إدخال الرقم الجامعي";
                                 } else {
-                                  if (value.length != 7&&!_newVal) {
+                                  if (value.length != 7 && !_newVal) {
                                     return "الرقم الجامعي يجب أن يتكون من ٧ أرقام";
                                   }
                                   if (!numericRegex.hasMatch(value)) {
@@ -122,8 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 }
                               },
-                              onTap:()=> _newVal=true,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              onTap: () => _newVal = true,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               onSaved: (value) {
                                 _enteredID = ("$value" "@uj.edu.sa");
                               },

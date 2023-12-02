@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:senior_project/widgets/ServiceCard.dart';
+import 'package:senior_project/widgets/service_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
@@ -16,6 +16,7 @@ class ServisesScreen extends StatefulWidget {
 }
 
 class _ServisesState extends State<ServisesScreen> {
+  // ignore: unused_field
   int _selectedPageIndex = 1;
   void _selectPage(int index) {
     index = 1;

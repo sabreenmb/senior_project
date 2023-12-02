@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import '../model/lost_item_report.dart';
@@ -9,8 +11,6 @@ class LostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
@@ -24,16 +24,21 @@ class LostCard extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-             Container(
-               width: 95,
-               height: 130,
-               child: lostItemReport.photo=="empty"?
-               const Image(image: AssetImage('assets/images/logo-icon.png')):Image.network('${lostItemReport.photo}',fit: BoxFit.cover,),
-             ),
+            Container(
+              width: 95,
+              height: 130,
+              child: lostItemReport.photo == "empty"
+                  ? const Image(
+                      image: AssetImage('assets/images/logo-icon.png'))
+                  : Image.network(
+                      '${lostItemReport.photo}',
+                      fit: BoxFit.cover,
+                    ),
+            ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical:5 ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +96,6 @@ class LostCard extends StatelessWidget {
                           lostItemReport.expectedPlace!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
-
                         ),
                       ],
                     ),
@@ -112,11 +116,9 @@ class LostCard extends StatelessWidget {
                           lostItemReport.phoneNumber!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
-
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),

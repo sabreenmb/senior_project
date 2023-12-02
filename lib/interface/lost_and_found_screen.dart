@@ -1,17 +1,18 @@
+// ignore_for_file: unused_field
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/AddFoundItemScreen.dart';
-import 'package:senior_project/interface/AddLostItemScreen.dart';
-import 'package:senior_project/interface/ServicesScreen.dart';
-import 'package:senior_project/widgets/FoundCard.dart';
-import 'package:senior_project/widgets/LostCard.dart';
+import 'package:senior_project/interface/add_found_item_screen.dart';
+import 'package:senior_project/interface/add_lost_item_screen.dart';
+import 'package:senior_project/interface/services_screen.dart';
+import 'package:senior_project/widgets/found_card.dart';
+import 'package:senior_project/widgets/lost_card.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:senior_project/widgets/side_menu.dart';
 import '../constant.dart';
-import '../model/found_item_report.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
 import 'ChatScreen.dart';
@@ -110,10 +111,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         _foundItemReport = loadedFoundItems;
       });
     }
-    // setState(() {
-    // _foundItemReport = loadedFoundItems;
-
-    // });
   }
 
   void _LoadLostItems() async {
@@ -145,10 +142,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         _lostItemReport = loadedLostItems;
       });
     }
-    // setState(() {
-    //   _lostItemReport = loadedLostItems;
-    // });
-    //print(response.body);
   }
 
   void _selectPage(int index) {
@@ -498,7 +491,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                   }
                                 }),
                                 const SizedBox(height: 16.0),
-                                _buildOption('إنشاء إعلان مفقود', () async {
+                                _buildOption(
+                                  'إنشاء إعلان مفقود',
+                                  () async {
                                     bool result = false;
                                     try {
                                       result = await Navigator.of(context).push(
