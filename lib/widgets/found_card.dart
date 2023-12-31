@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, unused_local_variable
+
 import 'package:flutter/material.dart';
 
 import '../model/found_item_report.dart';
@@ -26,7 +28,10 @@ class FoundCard extends StatelessWidget {
               height: 130,
               child: foundItemReport.photo == "empty"
                   ? const Image(image: AssetImage('assets/images/mug.png'))
-                  : Image.network('${foundItemReport.photo}',fit: BoxFit.fill,),
+                  : Image.network(
+                      '${foundItemReport.photo}',
+                      fit: BoxFit.fill,
+                    ),
             ),
             Expanded(
               child: Padding(

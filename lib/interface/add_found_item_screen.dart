@@ -1,42 +1,46 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+//import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:intl_phone_field/country_picker_dialog.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../constant.dart';
-import '../model/lost_item_report.dart';
+import '../model/found_item_report.dart';
 import '../theme.dart';
 
-class AddLostItemScreen extends StatefulWidget {
-  const AddLostItemScreen({super.key});
+class AddFoundItemScreen extends StatefulWidget {
+  const AddFoundItemScreen({super.key});
+
   @override
-  State<AddLostItemScreen> createState() => _AddLostItemScreenState();
+  State<AddFoundItemScreen> createState() => _AddFoundItemState();
 }
 
-class _AddLostItemScreenState extends State<AddLostItemScreen> {
-  LostItemReport lostItemReport = LostItemReport(
+class _AddFoundItemState extends State<AddFoundItemScreen> {
+  FoundItemReport foundItemReport = FoundItemReport(
       id: '',
       photo: '',
       category: '',
-      lostDate: '',
-      expectedPlace: '',
-      phoneNumber: '',
+      foundDate: '',
+      foundPlace: '',
+      receivePlace: '',
       desription: '');
+  bool imageEmpty = false;
   File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
-  String _imageUrl = 'assets/images/logo-icon.png';
+  String _imageUrl = '';
   TextEditingController dateInput = TextEditingController();
   String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
   final _formKey = GlobalKey<FormState>();
+
   Future<void> _selectDate(BuildContext context) async {
     DateTime currentDate = _selectedDate;
     DateTime? picked = await showDatePicker(
@@ -66,80 +70,77 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       });
     }
   }
+
   void _takePhoto() async {
     final picker = ImagePicker();
-    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    print('${pickedFile?.path}');
+    XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
     if (pickedFile == null) {
       return;
     }
     setState(() {
       _selectedImage = File(pickedFile.path);
+      imageEmpty = false;
     });
   }
 
   void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
+    if (_selectedImage == null) {
+      setState(() {
+        imageEmpty = true;
+      });
+    }
     if (!isValid) {
       return;
     }
     _formKey.currentState!.save();
     final storageRef = FirebaseStorage.instance
         .ref()
-        .child('lost_images')
+        .child('found_images')
         .child('$uniqueFileName.jpg');
-    if (_selectedImage == null) {
-      _imageUrl = "empty";
-    } else {
-      try {
-        setState(() {
-          isLoading=true;
-        });
-        await storageRef.putFile(_selectedImage!);
-        _imageUrl = await storageRef.getDownloadURL();
-        print(_imageUrl);
-      } catch (error) {
 
-      }
-      finally{
-        setState(() {
-          isLoading=false;
-          FocusScope.of(context).unfocus();
-
-        });
-      }
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await storageRef.putFile(_selectedImage!);
+      _imageUrl = await storageRef.getDownloadURL();
+      print(_imageUrl);
+    } catch (error) {
+    } finally {
+      setState(() {
+        isLoading = false;
+        FocusScope.of(context).unfocus();
+      });
     }
-    lostItemReport.photo = _imageUrl;
-    _createLostItem();
+
+    foundItemReport.photo = _imageUrl;
+    _createFoundItem();
   }
 
-  void _createLostItem() async {
-    try{
-
-      final url = Uri.https(
-          'senior-project-72daf-default-rtdb.firebaseio.com', 'Lost-Items.json');
+  void _createFoundItem() async {
+    try {
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'Found-Items.json');
       final response = await http.post(
         url,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: json.encode(lostItemReport.toJson()),
+        body: json.encode(foundItemReport.toJson()),
       );
-    }catch(e){
-
-    }
+    } catch (e) {}
 
     if (!context.mounted) {
       return;
     }
-    Navigator.pop(context,true);
+    Navigator.pop(context, true);
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       backgroundColor: CustomColors.pink,
       appBar: AppBar(
         backgroundColor: CustomColors.pink,
@@ -147,10 +148,10 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
           onPressed: () {
-            Navigator.pop(context,false);
+            Navigator.pop(context, false);
           },
         ),
-        title: Text("انشاء اعلان مفقود", style: TextStyles.heading1),
+        title: Text("انشاء اعلان موجود", style: TextStyles.heading1),
         centerTitle: true,
       ),
       body: ModalProgressHUD(
@@ -167,10 +168,12 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                   child: Stack(children: [
                 Container(
                   decoration: const BoxDecoration(
-                      color: CustomColors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40))),
+                    color: CustomColors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                  ),
                 ),
                 ListView(
                   children: [
@@ -181,7 +184,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            //Camera
                             InkWell(
                               onTap: _takePhoto,
                               child: Column(
@@ -192,10 +194,13 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: CustomColors.lightBlue,
+                                          color: imageEmpty
+                                              ? Colors.red
+                                              : CustomColors.lightBlue,
                                           width: 1.0,
                                         ),
-                                        borderRadius: BorderRadius.circular(40.0),
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
                                       ),
                                       child: Stack(
                                         alignment: Alignment.center,
@@ -211,7 +216,8 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                                     fit: BoxFit.cover,
                                                   )
                                                 : Image.asset(
-                                                    'assets/images/logo-icon.png',
+                                                    'assets/images/take_photo.png',
+                                                    //  _imageUrl,
                                                     height: screenWidth * 0.57,
                                                     width: 170,
                                                     fit: BoxFit.contain,
@@ -220,7 +226,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                           Positioned(
                                             bottom: 8,
                                             child: Text(
-                                              'اضف صورة',
+                                              'التقط صورة',
                                               style: TextStyles.heading3B,
                                             ),
                                           ),
@@ -232,7 +238,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 ],
                               ),
                             ),
-                            //Categories
                             const SizedBox(height: 12.0),
                             DropdownButtonFormField2<String>(
                               decoration: const InputDecoration(
@@ -272,7 +277,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 });
                               },
                               onSaved: (value) {
-                                lostItemReport.category = _selectedCategory;
+                                foundItemReport.category = _selectedCategory;
                               },
                               iconStyleData: const IconStyleData(
                                 icon: Icon(
@@ -290,20 +295,21 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                               ),
                             ),
-                            //Lost Date
                             const SizedBox(height: 12.0),
                             Row(
                               children: [
                                 Expanded(
                                   child: Center(
                                     child: TextFormField(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       controller: dateInput,
                                       decoration: const InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.date_range_outlined,
                                           color: CustomColors.lightGrey,
                                         ),
-                                        labelText: "تاريخ الفقدان",
+                                        labelText: "تاريخ العثور",
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             color: CustomColors.lightBlue,
@@ -325,32 +331,33 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                             value.trim().isEmpty) {
                                           return 'الرجاء تعبئة الحقل';
                                         }
-                                        DateTime selected = DateTime.parse(value);
+                                        DateTime selected =
+                                            DateTime.parse(value);
                                         DateTime now = DateTime.now();
-                                        if (selected.difference(now).inDays > 0) {
+                                        if (selected.difference(now).inDays >
+                                            0) {
                                           return 'اختر تاريخ صحيح';
                                         }
                                         return null;
                                       },
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
                                       onSaved: (value) {
-                                        lostItemReport.lostDate = value;
+                                        foundItemReport.foundDate = value;
                                       },
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            //Expected Place
                             const SizedBox(height: 12.0),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 suffixIcon: Icon(
                                   Icons.location_on,
                                   color: CustomColors.lightGrey,
                                 ),
-                                labelText: 'المكان المتوقع',
+                                labelText: 'مكان العثور',
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: CustomColors.lightBlue,
@@ -368,21 +375,20 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 }
                                 return null;
                               },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
                               onSaved: (value) {
-                                lostItemReport.expectedPlace = value;
+                                foundItemReport.foundPlace = value;
                               },
                             ),
-                            //Phone
                             const SizedBox(height: 12.0),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
-                                labelText: 'رقم الجوال',
                                 suffixIcon: Icon(
-                                  Icons.phone,
+                                  Icons.map,
                                   color: CustomColors.lightGrey,
                                 ),
+                                labelText: 'مكان استلام العنصر',
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: CustomColors.lightBlue,
@@ -394,34 +400,20 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                   ),
                                 ),
                               ),
-
-                              onChanged: (phone) {
-                               // print(phone.completeNumber);
-                              },
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              textAlign: TextAlign.right,
-                              validator: (phone) {
-                                if (phone == null||phone.trim().isEmpty) {
-                                  return "الرجاء تعبئة الحقل";
-                                } else if (phone.length != 10) {
-                                  return 'رقم الجوال يجب أن يتكون من 10 أرقام';
-                                } else if (phone.substring(0, 2) != '05') {
-                                  return " قم الجوال يجب أن يبدأ بـ05 ";
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'الرجاء تعبئة الحقل';
                                 }
                                 return null;
                               },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              onSaved: (phone) {
-                                lostItemReport.phoneNumber = phone;
+                              onSaved: (value) {
+                                foundItemReport.receivePlace = value;
                               },
                             ),
-                            //Description
                             const SizedBox(height: 12.0),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               maxLines: 1,
                               decoration: const InputDecoration(
                                 labelText: 'وصف العنصر',
@@ -442,16 +434,14 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 }
                                 return null;
                               },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
                               onSaved: (value) {
-                                lostItemReport.desription = value;
+                                foundItemReport.desription = value;
                               },
                             ),
-                            //Submit Button
                             const SizedBox(height: 32.0),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 90),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 90),
                               child: ElevatedButton(
                                 onPressed: _checkInputValue,
                                 style: ElevatedButton.styleFrom(

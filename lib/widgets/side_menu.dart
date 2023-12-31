@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:senior_project/interface/LoginScreen.dart';
+import 'package:senior_project/interface/login_screen.dart';
 import '../theme.dart';
 
 class SideDrawer extends StatelessWidget {
