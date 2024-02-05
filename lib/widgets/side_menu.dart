@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,7 +7,9 @@ import 'package:senior_project/interface/login_screen.dart';
 import '../theme.dart';
 
 class SideDrawer extends StatelessWidget {
-  const SideDrawer({super.key});
+  final void Function()? onProfileTap;
+
+  const SideDrawer({super.key, this.onProfileTap});
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -71,10 +75,10 @@ class SideDrawer extends StatelessWidget {
                 color: CustomColors.darkGrey.withOpacity(0.8),
               ),
               title: Text("الملف الشخصي"),
-              onTap: () {},
+              onTap: onProfileTap,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
               color: CustomColors.lightBlue.withOpacity(0.3),

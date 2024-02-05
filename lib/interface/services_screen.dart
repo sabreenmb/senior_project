@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/widgets/service_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
@@ -38,6 +39,16 @@ class _ServisesState extends State<ServisesScreen> {
     });
   }
 
+  void goToProfilePage() {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +60,11 @@ class _ServisesState extends State<ServisesScreen> {
         title: Text("الخدمات", style: TextStyles.heading1),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+        // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
       ),
-      endDrawer: const SideDrawer(),
+      endDrawer: SideDrawer(
+        onProfileTap: goToProfilePage,
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
