@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/interface/add_found_item_screen.dart';
 import 'package:senior_project/interface/add_lost_item_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
@@ -179,6 +180,16 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     });
   }
 
+  void goToProfilePage() {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print('build enter');
@@ -194,7 +205,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
       ),
-      endDrawer: const SideDrawer(),
+      endDrawer: SideDrawer(
+        onProfileTap: goToProfilePage,
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
@@ -210,7 +223,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
             child: BottomNavigationBar(
               onTap: _selectPage,
               unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.darkGrey,
+              selectedItemColor: CustomColors.lightBlue,
               currentIndex: _selectedPageIndex,
               items: const [
                 BottomNavigationBarItem(
