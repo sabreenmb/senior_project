@@ -32,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   );
   int _selectedPageIndex = 2;
   String errorMessage = '';
+
   // ignore: unused_field
   bool _newVal = true;
   final _formKey = GlobalKey<FormState>();
@@ -96,7 +97,10 @@ class _ProfilePageState extends State<ProfilePage> {
           clipBehavior: Clip.none,
           child: SizedBox(
             height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -135,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
-                          //const SizedBox(height: 12.0),
+                        //const SizedBox(height: 12.0),
                           children: [
                             Container(
                               margin: const EdgeInsets.only(top: 5, bottom: 20),
@@ -169,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               controller: yourController,
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' كلية ',
                                 focusedBorder: UnderlineInputBorder(
@@ -190,7 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' التخصص ',
                                 focusedBorder: UnderlineInputBorder(
@@ -211,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' الاهتمامات ',
                                 focusedBorder: UnderlineInputBorder(
@@ -232,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' الهوايات ',
                                 focusedBorder: UnderlineInputBorder(
@@ -253,7 +257,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' ما يمكنك اضافتة للمجتمع؟ ',
                                 focusedBorder: UnderlineInputBorder(
@@ -274,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(height: 32.0),
                             Container(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 90),
+                              const EdgeInsets.symmetric(horizontal: 90),
                               child: ElevatedButton(
                                 onPressed: _submit,
                                 style: ElevatedButton.styleFrom(
