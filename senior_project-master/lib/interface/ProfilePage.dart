@@ -79,19 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           const SizedBox(height: 10),
 
-          //users name
-          /* Text(currentUser.displayName!,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey[700])),
-          //users "كلية"  **change the ID**
-          Text(currentUser.uid,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey[700])),
-          // users major
-          Text(currentUser.uid,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey[700])),
-*/
+
           //intrests   **change the ID**
           MyTextBox(
             text: '',
