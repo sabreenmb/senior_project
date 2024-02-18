@@ -86,7 +86,6 @@ class _StudyGroupState extends State<StudyGroup>
         loadedCreatedGroups.add(CreateGroupReport(
           id: item.key,
           //model name : firebase name
-          subject: item.value['Subject'],
           subjectCode: item.value['SubjectCode'],
           sessionDate: item.value['SessionDate'],
           sessionPlace: item.value['SessionPlace'],

@@ -24,7 +24,6 @@ class CreateGroup extends StatefulWidget {
 class _CreateGroupState extends State<CreateGroup> {
   CreateGroupReport createGroupReport = CreateGroupReport(
       id: '',
-      subject: '',
       subjectCode: '',
       sessionDate: '',
       sessionPlace: '',
@@ -168,41 +167,13 @@ class _CreateGroupState extends State<CreateGroup> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const SizedBox(height: 12.0),
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              maxLines: 1,
+                            DropdownButtonFormField2<String>(
                               decoration: const InputDecoration(
                                 suffixIcon: Icon(
                                   Icons.book_outlined,
                                   color: CustomColors.lightGrey,
                                 ),
-                                labelText: 'اسم المادة',
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                createGroupReport.subject = value;
-                              },
-                            ),
-                            const SizedBox(height: 12.0),
-                            DropdownButtonFormField2<String>(
-                              decoration: const InputDecoration(
-                                labelText: 'رمز المادة',
+                                labelText: 'اسم و رمز المادة',
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: CustomColors.lightBlue,
@@ -345,6 +316,7 @@ class _CreateGroupState extends State<CreateGroup> {
                             TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
+                              keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 suffixIcon: Icon(
                                   //تغيير الايقونه هنا
@@ -366,6 +338,8 @@ class _CreateGroupState extends State<CreateGroup> {
                               validator: (value) {
                                 if (value == null || value.trim().isEmpty) {
                                   return 'الرجاء تعبئة الحقل';
+                                } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                                  return 'الرجاء إدخال أرقام فقط';
                                 }
                                 return null;
                               },

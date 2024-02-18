@@ -18,7 +18,7 @@ List<String> Categories = [
 ];
 List<String> SubjectsCode = [
   'ESPE-201',
-  'CCCY-225 ',
+  'CCCY-225',
   'SCBZ-447',
   'CCSW-438',
   'CMCR-212',

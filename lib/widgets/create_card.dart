@@ -40,14 +40,6 @@ class CreateCard extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      createGroupReport.numPerson!,
-                      textAlign: TextAlign.right,
-                      style: TextStyles.text2,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -92,7 +84,7 @@ class CreateCard extends StatelessWidget {
                     Row(
                       children: [
                         const Icon(
-                          Icons.map,
+                          Icons.people,
                           color: CustomColors.lightGrey,
                           size: 14.0,
                         ),
@@ -100,24 +92,9 @@ class CreateCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          createGroupReport.numPerson!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.map,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          createGroupReport.subject!,
+                          createGroupReport.numPerson! +
+                              // هنا الدمج ياشهد
+                              createGroupReport.sessionPlace!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
                         ),
