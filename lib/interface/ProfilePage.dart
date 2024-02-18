@@ -1,15 +1,11 @@
 // ignore_for_file: dead_code
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/widgets/side_menu.dart';
-import 'package:senior_project/widgets/textBox.dart';
-import '../constant.dart';
-import '../theme.dart';
+
 import '../model/entered_user_info.dart';
+import '../theme.dart';
 import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
@@ -97,10 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
           clipBehavior: Clip.none,
           child: SizedBox(
             height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+            width: MediaQuery.of(context).size.width,
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -139,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
-                        //const SizedBox(height: 12.0),
+                          //const SizedBox(height: 12.0),
                           children: [
                             Container(
                               margin: const EdgeInsets.only(top: 5, bottom: 20),
@@ -173,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               controller: yourController,
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' كلية ',
                                 focusedBorder: UnderlineInputBorder(
@@ -194,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' التخصص ',
                                 focusedBorder: UnderlineInputBorder(
@@ -215,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' الاهتمامات ',
                                 focusedBorder: UnderlineInputBorder(
@@ -236,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' الهوايات ',
                                 focusedBorder: UnderlineInputBorder(
@@ -257,7 +250,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               keyboardType: TextInputType.text,
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               decoration: const InputDecoration(
                                 labelText: ' ما يمكنك اضافتة للمجتمع؟ ',
                                 focusedBorder: UnderlineInputBorder(
@@ -278,7 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(height: 32.0),
                             Container(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 90),
+                                  const EdgeInsets.symmetric(horizontal: 90),
                               child: ElevatedButton(
                                 onPressed: _submit,
                                 style: ElevatedButton.styleFrom(

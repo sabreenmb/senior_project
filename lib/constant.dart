@@ -4,7 +4,7 @@ import 'package:senior_project/theme.dart';
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
     NavigationDestinationLabelBehavior.alwaysHide;
-bool isLoading=false;
+bool isLoading = false;
 
 List<String> Categories = [
   'بطاقات',
@@ -16,19 +16,27 @@ List<String> Categories = [
   'أغراض شخصية',
   'اخرى'
 ];
+List<String> SubjectsCode = [
+  'ESPE-201',
+  'CCCY-225 ',
+  'SCBZ-447',
+  'CCSW-438',
+  'CMCR-212',
+  'CCCS-214',
+  'CCCN-212',
+  'اخرى'
+];
 
-
-Widget loadingFunction(BuildContext context,bool load) {
+Widget loadingFunction(BuildContext context, bool load) {
   return Center(
     child: Container(
       height: 200,
       width: 170,
-
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: CustomColors.white,
       ),
-      padding: EdgeInsets.only(top: 30,bottom: 20),
+      padding: EdgeInsets.only(top: 30, bottom: 20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -45,7 +53,7 @@ Widget loadingFunction(BuildContext context,bool load) {
           const SizedBox(
             height: 20,
           ),
-          Text(load?'..جاري التحميل':'..جاري التحقق',
+          Text(load ? '..جاري التحميل' : '..جاري التحقق',
               style: TextStyles.heading3B, textAlign: TextAlign.center),
         ],
       ),
