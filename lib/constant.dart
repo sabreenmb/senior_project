@@ -29,6 +29,16 @@ String? userMajor = '';
 String? userIntrests = '';
 String? userHobbies = '';
 String? userSkills = '';
+List<String> SubjectsCode = [
+  'ESPE-201',
+  'CCCY-225',
+  'SCBZ-447',
+  'CCSW-438',
+  'CMCR-212',
+  'CCCS-214',
+  'CCCN-212',
+  'اخرى'
+];
 
 Widget loadingFunction(BuildContext context, bool load) {
   return Center(
