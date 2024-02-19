@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
 
 int currentPageIndex = 0;
@@ -19,16 +18,20 @@ List<String> Categories = [
   'اخرى'
 ];
 
-final userProfileDoc = FirebaseFirestore.instance
-    .collection("userProfile")
-    .doc(FirebaseAuth.instance.currentUser!.email!.split('@')[0]);
-String? userRule = '';
-String? userName = '';
-String? userCollage = '';
-String? userMajor = '';
-String? userIntrests = '';
-String? userHobbies = '';
-String? userSkills = '';
+String userID = '';
+// DocumentReference<Map<String, dynamic>> userProfileDoc =
+//     FirebaseFirestore.instance.collection("userProfile").doc(userID);
+
+enteredUserInfo userInfo = enteredUserInfo(
+  rule: '',
+  name: '',
+  collage: '',
+  major: '',
+  intrests: '',
+  hobbies: '',
+  skills: '',
+);
+
 List<String> SubjectsCode = [
   'ESPE-201',
   'CCCY-225',

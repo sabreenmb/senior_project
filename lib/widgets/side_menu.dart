@@ -49,7 +49,7 @@ class SideDrawer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  userName!,
+                  userInfo.name!,
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -100,6 +100,7 @@ class SideDrawer extends StatelessWidget {
               title: const Text("تسجيل الخروج"),
               onTap: () {
                 FirebaseAuth.instance.signOut();
+                // print('saaabreeeeeeeeeeeeeeeeeeena $userProfileDoc');
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

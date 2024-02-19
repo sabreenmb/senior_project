@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _enteredID = '';
   String _enteredPass = '';
   bool _newVal = true;
+
   void _submit() async {
     _newVal = false;
     final isValid = _formKey.currentState!.validate();
@@ -38,10 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
       final userCridential = await _firebase.signInWithEmailAndPassword(
           email: _enteredID, password: _enteredPass);
 
-      DocumentSnapshot snapshot = await userProfileDoc.get();
+      userID = _enteredID.split("@")[0];
+      // print('saaabreeeeeeeeeeeeeeeeeeenaaaaa $userProfileDoc ,,,, $userID');
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection("userProfile")
+          .doc(userID)
+          .get();
 
       if (!snapshot.exists) {
-        userProfileDoc.set({
+        FirebaseFirestore.instance.collection("userProfile").doc(userID).set({
           'rule': 'user',
           'name': 'منار مجيد',
           'collage': 'الحاسبات',
@@ -51,17 +57,20 @@ class _LoginScreenState extends State<LoginScreen> {
           'skills': '',
         });
       }
-      snapshot = await userProfileDoc.get();
+      snapshot = await FirebaseFirestore.instance
+          .collection("userProfile")
+          .doc(userID)
+          .get();
       // Cast the data to Map<String, dynamic> type
       final userProfileData = snapshot.data() as Map<String, dynamic>?;
 
-      userRule = userProfileData?['rule'] as String?;
-      userName = userProfileData?['name'] as String?;
-      userCollage = userProfileData?['collage'] as String?;
-      userMajor = userProfileData?['major'] as String?;
-      userIntrests = userProfileData?['intrests'] as String?;
-      userHobbies = userProfileData?['hobbies'] as String?;
-      userSkills = userProfileData?['skills'] as String?;
+      userInfo.rule = userProfileData?['rule'] as String?;
+      userInfo.name = userProfileData?['name'] as String?;
+      userInfo.collage = userProfileData?['collage'] as String?;
+      userInfo.major = userProfileData?['major'] as String?;
+      userInfo.intrests = userProfileData?['intrests'] as String?;
+      userInfo.hobbies = userProfileData?['hobbies'] as String?;
+      userInfo.skills = userProfileData?['skills'] as String?;
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
