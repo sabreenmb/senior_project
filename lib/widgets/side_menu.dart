@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:senior_project/constant.dart';
 import 'package:senior_project/interface/login_screen.dart';
 import '../theme.dart';
 
@@ -20,19 +21,19 @@ class SideDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             height: 300,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 //border: Unde
                 ),
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 50, bottom: 20),
+                  margin: const EdgeInsets.only(top: 50, bottom: 20),
                   alignment: Alignment.topCenter,
                   height: 150,
                   decoration: BoxDecoration(
                     //color: Color.fromARGB(255, 139, 139, 139),
                     shape: BoxShape.circle,
-                    border: new Border.all(
+                    border: Border.all(
                       color: CustomColors.darkGrey,
                       width: 3,
                     ),
@@ -47,9 +48,9 @@ class SideDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Text(
-                  "منار محمود مجيد",
-                  style: TextStyle(
+                Text(
+                  userName!,
+                  style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: CustomColors.darkGrey),
@@ -74,7 +75,7 @@ class SideDrawer extends StatelessWidget {
                 width: 30,
                 color: CustomColors.darkGrey.withOpacity(0.8),
               ),
-              title: Text("الملف الشخصي"),
+              title: const Text("الملف الشخصي"),
               onTap: onProfileTap,
             ),
           ),
@@ -96,7 +97,7 @@ class SideDrawer extends StatelessWidget {
                 width: 30,
                 color: CustomColors.darkGrey.withOpacity(0.8),
               ),
-              title: Text("تسجيل الخروج"),
+              title: const Text("تسجيل الخروج"),
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(

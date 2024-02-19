@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -36,6 +37,32 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => isLoading = true);
       final userCridential = await _firebase.signInWithEmailAndPassword(
           email: _enteredID, password: _enteredPass);
+
+      DocumentSnapshot snapshot = await userProfileDoc.get();
+
+      if (!snapshot.exists) {
+        userProfileDoc.set({
+          'rule': 'user',
+          'name': 'منار مجيد',
+          'collage': 'الحاسبات',
+          'major': 'هندسة برمجيات',
+          'intrests': '',
+          'hobbies': '',
+          'skills': '',
+        });
+      }
+      snapshot = await userProfileDoc.get();
+      // Cast the data to Map<String, dynamic> type
+      final userProfileData = snapshot.data() as Map<String, dynamic>?;
+
+      userRule = userProfileData?['rule'] as String?;
+      userName = userProfileData?['name'] as String?;
+      userCollage = userProfileData?['collage'] as String?;
+      userMajor = userProfileData?['major'] as String?;
+      userIntrests = userProfileData?['intrests'] as String?;
+      userHobbies = userProfileData?['hobbies'] as String?;
+      userSkills = userProfileData?['skills'] as String?;
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
     } on FirebaseAuthException catch (error) {
