@@ -88,6 +88,7 @@ class _StudyGroupState extends State<StudyGroup>
           //model name : firebase name
           subjectCode: item.value['SubjectCode'],
           sessionDate: item.value['SessionDate'],
+          sessionTime: item.value['SessionTime'],
           sessionPlace: item.value['SessionPlace'],
           numPerson: item.value['NumPerson'],
         ));
