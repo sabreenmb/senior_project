@@ -39,15 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
       final userCridential = await _firebase.signInWithEmailAndPassword(
           email: _enteredID, password: _enteredPass);
 
-      userID = _enteredID.split("@")[0];
+      // userID = _enteredID.split("@")[0];
       // print('saaabreeeeeeeeeeeeeeeeeeenaaaaa $userProfileDoc ,,,, $userID');
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+      userProfileDoc = FirebaseFirestore.instance
           .collection("userProfile")
-          .doc(userID)
-          .get();
+          .doc(_enteredID.split("@")[0]);
+      DocumentSnapshot snapshot = await userProfileDoc.get();
 
       if (!snapshot.exists) {
-        FirebaseFirestore.instance.collection("userProfile").doc(userID).set({
+        userProfileDoc.set({
           'rule': 'user',
           'name': 'منار مجيد',
           'collage': 'الحاسبات',
@@ -57,10 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'skills': '',
         });
       }
-      snapshot = await FirebaseFirestore.instance
-          .collection("userProfile")
-          .doc(userID)
-          .get();
+      snapshot = await userProfileDoc.get();
       // Cast the data to Map<String, dynamic> type
       final userProfileData = snapshot.data() as Map<String, dynamic>?;
 

@@ -32,10 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _formKey.currentState!.save();
     try {
       // Save data to Firestore
-      await FirebaseFirestore.instance
-          .collection("userProfile")
-          .doc(userID)
-          .update({
+      await userProfileDoc.update({
         'intrests': userInfo.intrests,
         'hobbies': userInfo.hobbies,
         'skills': userInfo.skills,

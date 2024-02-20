@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
@@ -19,8 +21,10 @@ List<String> Categories = [
 ];
 
 String userID = '';
-// DocumentReference<Map<String, dynamic>> userProfileDoc =
-//     FirebaseFirestore.instance.collection("userProfile").doc(userID);
+DocumentReference<Map<String, dynamic>> userProfileDoc = FirebaseFirestore
+    .instance
+    .collection("userProfile")
+    .doc(FirebaseAuth.instance.currentUser!.email!.split("@")[0]);
 
 enteredUserInfo userInfo = enteredUserInfo(
   rule: '',
