@@ -9,7 +9,8 @@ import '../theme.dart';
 class ServiceCard extends StatelessWidget {
   Map<String, dynamic> details;
   int i;
-  ServiceCard(this.details, this.i, {super.key});
+  ServiceCard(this.details, this.i,
+      {super.key, required Null Function() onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -127,7 +127,11 @@ class _ServisesState extends State<ServisesScreen> {
                               crossAxisSpacing: 10.0,
                               childAspectRatio: 1.3),
                       itemCount: services.length,
-                      itemBuilder: (context, i) => ServiceCard(services[i], i)),
+                      itemBuilder: (context, i) => ServiceCard(
+                            services[i],
+                            i,
+                            onTap: () {},
+                          )),
                 ),
               ],
             ))

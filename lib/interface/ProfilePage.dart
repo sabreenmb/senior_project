@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
     hobbies: '',
     skills: '',
   );
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 2;
   String errorMessage = '';
 
   // ignore: unused_field
@@ -54,19 +54,23 @@ class _ProfilePageState extends State<ProfilePage> {
         _selectedPageIndex = index;
       }
       //todo uncomment on next sprints
-      // if (index == 0) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      // } else if (index == 1) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      // } else if (index == 2) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      // } else if (index == 3) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      // }
+      if (index == 0) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+        _selectedPageIndex = index;
+      } else if (index == 1) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
+        _selectedPageIndex = index;
+      } else if (index == 2) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ChatScreen()));
+        _selectedPageIndex = index;
+      } else if (index == 3) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
+        _selectedPageIndex = index;
+      }
     });
   }
 

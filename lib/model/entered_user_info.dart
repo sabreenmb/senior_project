@@ -1,5 +1,7 @@
 class enteredUserInfo {
   //Variables
+  String? rule;
+  String? name;
   String? collage;
   String? major;
   String? intrests;
@@ -8,8 +10,10 @@ class enteredUserInfo {
 
   //Constructor
   enteredUserInfo({
-    required this.collage,
-    required this.major,
+    this.rule,
+    this.name,
+    this.collage,
+    this.major,
     required this.intrests,
     required this.hobbies,
     required this.skills,
@@ -17,8 +21,6 @@ class enteredUserInfo {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['collage'] = collage;
-    map['major'] = major;
     map['intrests'] = intrests;
     map['hobbies'] = hobbies;
     map['skills'] = skills;

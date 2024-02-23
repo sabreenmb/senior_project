@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -22,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _enteredID = '';
   String _enteredPass = '';
   bool _newVal = true;
+
   void _submit() async {
     _newVal = false;
     final isValid = _formKey.currentState!.validate();
@@ -36,6 +38,37 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => isLoading = true);
       final userCridential = await _firebase.signInWithEmailAndPassword(
           email: _enteredID, password: _enteredPass);
+
+      // userID = _enteredID.split("@")[0];
+      // print('saaabreeeeeeeeeeeeeeeeeeenaaaaa $userProfileDoc ,,,, $userID');
+      userProfileDoc = FirebaseFirestore.instance
+          .collection("userProfile")
+          .doc(_enteredID.split("@")[0]);
+      DocumentSnapshot snapshot = await userProfileDoc.get();
+
+      if (!snapshot.exists) {
+        userProfileDoc.set({
+          'rule': 'user',
+          'name': 'منار مجيد',
+          'collage': 'الحاسبات',
+          'major': 'هندسة برمجيات',
+          'intrests': '',
+          'hobbies': '',
+          'skills': '',
+        });
+      }
+      snapshot = await userProfileDoc.get();
+      // Cast the data to Map<String, dynamic> type
+      final userProfileData = snapshot.data() as Map<String, dynamic>?;
+
+      userInfo.rule = userProfileData?['rule'] as String?;
+      userInfo.name = userProfileData?['name'] as String?;
+      userInfo.collage = userProfileData?['collage'] as String?;
+      userInfo.major = userProfileData?['major'] as String?;
+      userInfo.intrests = userProfileData?['intrests'] as String?;
+      userInfo.hobbies = userProfileData?['hobbies'] as String?;
+      userInfo.skills = userProfileData?['skills'] as String?;
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
     } on FirebaseAuthException catch (error) {

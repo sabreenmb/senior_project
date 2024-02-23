@@ -3,6 +3,7 @@ class CreateGroupReport {
   String? id;
   String? subjectCode;
   String? sessionDate;
+  String? sessionTime;
   String? sessionPlace;
   String? numPerson;
 
@@ -11,6 +12,7 @@ class CreateGroupReport {
     required this.id,
     required this.subjectCode,
     required this.sessionDate,
+    required this.sessionTime,
     required this.sessionPlace,
     required this.numPerson,
   });
@@ -19,6 +21,7 @@ class CreateGroupReport {
     final map = <String, dynamic>{};
     map['SubjectCode'] = subjectCode;
     map['SessionDate'] = sessionDate;
+    map['SessionTime'] = sessionTime;
     map['SessionPlace'] = sessionPlace;
     map['NumPerson'] = numPerson;
     return map;

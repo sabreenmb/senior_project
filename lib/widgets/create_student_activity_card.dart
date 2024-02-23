@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/create_student_activity_report.dart';
 
 import '../theme.dart';
 
-class CreateCard extends StatelessWidget {
-  CreateGroupReport createGroupReport;
-  CreateCard(this.createGroupReport, {super.key});
+class CreateStudentActivityCard extends StatelessWidget {
+  CreateStudentActivityReport createStudentActivityReport;
+  CreateStudentActivityCard(this.createStudentActivityReport, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class CreateCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      createGroupReport.subjectCode!,
+                      createStudentActivityReport.activityName!,
                       textAlign: TextAlign.right,
                       style: TextStyles.heading3B,
                     ),
@@ -51,7 +51,7 @@ class CreateCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          createGroupReport.sessionPlace!,
+                          createStudentActivityReport.activityPlace!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
                         ),
@@ -72,9 +72,9 @@ class CreateCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          createGroupReport.sessionDate! +
+                          createStudentActivityReport.activityDate! +
                               '   ' +
-                              createGroupReport.sessionTime!,
+                              createStudentActivityReport.activityTime!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
                         ),
@@ -91,7 +91,7 @@ class CreateCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          createGroupReport.numPerson!,
+                          createStudentActivityReport.numOfPerson!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
                         ),
