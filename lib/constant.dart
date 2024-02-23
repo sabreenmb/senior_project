@@ -61,6 +61,90 @@ Widget loadingFunction(BuildContext context, bool load) {
   );
 }
 
+final List offers = [
+  {
+    "offerCategory": "رياضة",
+    "icon": "assets/icons/Fitness.svg",
+    "semanticsLabel": "Fitness",
+    "categoryList":[],
+
+    //'whenClick': LostAndFoundScreen() ,
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "تعليم وتدريب",
+    "icon": "assets/icons/board.svg",
+    "semanticsLabel": "board",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "مطاعم ومقاهي",
+    "icon": "assets/icons/resturants.svg",
+    "semanticsLabel": "resturants",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "ترفيه",
+    "icon": "assets/icons/entertainment.svg",
+    "semanticsLabel": "entertainment",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "مراكز صحية",
+    "icon": "assets/icons/hospital.svg",
+    "semanticsLabel": "hospital",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "عناية وجمال",
+    "icon": "assets/icons/beauty.svg",
+    "semanticsLabel": "beauty",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "سياحة وفنادق",
+    "icon": "assets/icons/travel.svg",
+    "semanticsLabel": "travel",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "خدمات السيارات",
+    "icon": "assets/icons/carServises.svg",
+    "semanticsLabel": "carServises",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "تسوق",
+    "icon": "assets/icons/shopcart.svg",
+    "semanticsLabel": "shopcart",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "عقارات وبناء",
+    "icon": "assets/icons/construction.svg",
+    "semanticsLabel": "construction",
+    "categoryList":[],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+];
+
 final List services = [
   {
     "serviceName": "المفقودات",

@@ -9,12 +9,18 @@ class CustomColors {
   static const Color BackgroundColor = Color(0xFFF1EFF1);
   static const Color white = Colors.white;
   static const Color lightGreyLowTrans = Color.fromRGBO(171, 171, 171, 0.5);
+
   static const Color noColor = Color.fromRGBO(171, 171,171,0.0);
 }
 
 class TextStyles {
   static TextStyle heading1 = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 30);
+  static TextStyle heading1B = GoogleFonts.getFont("Almarai",
+      color: CustomColors.lightBlue, fontWeight: FontWeight.bold, fontSize: 16);
+  static TextStyle heading1D = GoogleFonts.getFont("Almarai",
+      color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 18);
+
   static TextStyle heading2 = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 16);
   static TextStyle heading3G = GoogleFonts.getFont("Almarai",
@@ -25,6 +31,8 @@ class TextStyles {
       color: CustomColors.lightBlue, fontWeight: FontWeight.bold, fontSize: 14);
   static TextStyle text2 = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 12);
+  static TextStyle text4 = GoogleFonts.getFont("Almarai",
+      color: CustomColors.lightBlue, fontWeight: FontWeight.w400, fontSize: 12);
   static TextStyle text3 = GoogleFonts.getFont("Almarai",
       color: CustomColors.white, fontWeight: FontWeight.w400, fontSize: 16);
 }
