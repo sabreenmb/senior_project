@@ -8,43 +8,32 @@ import 'package:senior_project/interface/ChatScreen.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/SaveListScreen.dart';
 import 'package:senior_project/interface/add_lost_item_screen.dart';
-import 'package:senior_project/interface/create_group.dart';
+import 'package:senior_project/interface/create_student_activity.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/create_student_activity_report.dart';
 import 'package:senior_project/theme.dart';
-import 'package:senior_project/widgets/create_card.dart';
+import 'package:senior_project/widgets/create_student_activity_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
 
-class StudyGroup extends StatefulWidget {
-  const StudyGroup({super.key});
+class StudentActivity extends StatefulWidget {
+  const StudentActivity({super.key});
 
   @override
-  State<StudyGroup> createState() => _StudyGroupState();
+  State<StudentActivity> createState() => _StudentActivityState();
 }
 
-class _StudyGroupState extends State<StudyGroup>
+class _StudentActivityState extends State<StudentActivity>
     with SingleTickerProviderStateMixin {
-  void goToProfilePage() {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
-    );
-  }
-
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 2;
   //search
-  List<CreateGroupReport> searchSessionList = [];
-  List<CreateGroupReport> _createGroupReport = [];
+  List<CreateStudentActivityReport> searchActivityList = [];
+
   final _userInputController = TextEditingController();
   //filter
   bool isSearch = false;
   bool isNew = false;
-
+  List<CreateStudentActivityReport> _createStudentActivityReport = [];
   //create button
   late AnimationController _animationController;
 
@@ -78,30 +67,30 @@ class _StudyGroupState extends State<StudyGroup>
         'page': const SaveListScreen(),
       },
     ];
-    _LoadCreatedSessions();
+    _LoadCreatedActivities();
   }
 
-  void _LoadCreatedSessions() async {
-    final List<CreateGroupReport> loadedCreatedGroups = [];
+  void _LoadCreatedActivities() async {
+    final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
 
     try {
       setState(() {
         isLoading = true;
       });
       final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'create-group.json');
+          'create-activity.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
-        loadedCreatedGroups.add(CreateGroupReport(
+        loadedCreatedStudentActivity.add(CreateStudentActivityReport(
           id: item.key,
           //model name : firebase name
-          subjectCode: item.value['SubjectCode'],
-          sessionDate: item.value['SessionDate'],
-          sessionTime: item.value['SessionTime'],
-          sessionPlace: item.value['SessionPlace'],
-          numPerson: item.value['NumPerson'],
+          activityName: item.value['ActivityName'],
+          activityDate: item.value['ActivityDate'],
+          activityTime: item.value['ActivityTime'],
+          activityPlace: item.value['ActivityPlace'],
+          numOfPerson: item.value['NumOfPerson'],
         ));
       }
     } catch (error) {
@@ -109,8 +98,8 @@ class _StudyGroupState extends State<StudyGroup>
     } finally {
       setState(() {
         isLoading = false;
-        print("sabreeeen: $loadedCreatedGroups");
-        _createGroupReport = loadedCreatedGroups;
+        print("sabreeeen: $loadedCreatedStudentActivity");
+        _createStudentActivityReport = loadedCreatedStudentActivity;
       });
     }
   }
@@ -150,13 +139,11 @@ class _StudyGroupState extends State<StudyGroup>
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
-        title: Text("جلسة مذاكرة", style: TextStyles.heading1),
+        title: Text("أنشطة طلابية", style: TextStyles.heading1),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
       ),
-      endDrawer: SideDrawer(
-        onProfileTap: goToProfilePage,
-      ),
+      endDrawer: const SideDrawer(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
@@ -207,9 +194,9 @@ class _StudyGroupState extends State<StudyGroup>
         tooltip: '',
         elevation: 4,
         onPressed: () async {
-          await Navigator.of(context)
-              .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
-          _LoadCreatedSessions();
+          await Navigator.of(context).push(MaterialPageRoute(
+              builder: (ctx) => const CreateStudentActivity()));
+          _LoadCreatedActivities();
         },
         child: const Icon(Icons.add),
       ),
@@ -264,9 +251,9 @@ class _StudyGroupState extends State<StudyGroup>
                                   color: CustomColors.darkGrey,
                                 ),
                                 onPressed: () {
-                                  searchSessionList.clear();
+                                  searchActivityList.clear();
                                   filterSearchResults(_userInputController.text,
-                                      _createGroupReport);
+                                      _createStudentActivityReport);
                                   FocusScope.of(context).unfocus();
                                 }),
                             hintText: 'ابحث',
@@ -293,21 +280,21 @@ class _StudyGroupState extends State<StudyGroup>
                           },
                           onSubmitted: (text) {
                             //todo the same value of on icon presed
-                            searchSessionList.clear();
-                            filterSearchResults(
-                                _userInputController.text, _createGroupReport);
+                            searchActivityList.clear();
+                            filterSearchResults(_userInputController.text,
+                                _createStudentActivityReport);
                             FocusScope.of(context).unfocus();
                           },
                           onTap: () {
                             isSearch = true;
-                            searchSessionList.clear();
-                            searchSessionList.clear();
+                            searchActivityList.clear();
+                            searchActivityList.clear();
                           },
                         ),
                       ),
                       if ((isSearch
-                          ? searchSessionList.isEmpty
-                          : _createGroupReport.isEmpty))
+                          ? searchActivityList.isEmpty
+                          : _createStudentActivityReport.isEmpty))
                         Expanded(
                           child: Center(
                             child: SizedBox(
@@ -318,7 +305,7 @@ class _StudyGroupState extends State<StudyGroup>
                             ),
                           ),
                         ),
-                      if (_createGroupReport.isNotEmpty)
+                      if (_createStudentActivityReport.isNotEmpty)
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -327,13 +314,17 @@ class _StudyGroupState extends State<StudyGroup>
                             removeTop: true,
                             child: isSearch
                                 ? ListView.builder(
-                                    itemCount: searchSessionList.length,
+                                    itemCount: searchActivityList.length,
                                     itemBuilder: (context, index) =>
-                                        CreateCard(searchSessionList[index]))
+                                        CreateStudentActivityCard(
+                                            searchActivityList[index]))
                                 : ListView.builder(
-                                    itemCount: _createGroupReport.length,
+                                    itemCount:
+                                        _createStudentActivityReport.length,
                                     itemBuilder: (context, index) =>
-                                        CreateCard(_createGroupReport[index])),
+                                        CreateStudentActivityCard(
+                                            _createStudentActivityReport[
+                                                index])),
                           ),
                         )),
                     ],
@@ -351,10 +342,10 @@ class _StudyGroupState extends State<StudyGroup>
     setState(() {
       for (int item = 0; item < ls.length; item++) {
         if (ls[item]
-            .subjectCode!
+            .activityName!
             .toLowerCase()
             .contains(query.toLowerCase().trim())) {
-          searchSessionList.add(ls[item]);
+          searchActivityList.add(ls[item]);
         } //Add
         // else {
         //   if (ls[item]
