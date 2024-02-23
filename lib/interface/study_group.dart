@@ -14,6 +14,7 @@ import 'package:senior_project/model/create_group_report.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/create_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+import 'package:senior_project/interface/ProfilePage.dart';
 
 class StudyGroup extends StatefulWidget {
   const StudyGroup({super.key});
@@ -24,16 +25,26 @@ class StudyGroup extends StatefulWidget {
 
 class _StudyGroupState extends State<StudyGroup>
     with SingleTickerProviderStateMixin {
+  void goToProfilePage() {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ProfilePage(),
+      ),
+    );
+  }
+
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 2;
   //search
   List<CreateGroupReport> searchSessionList = [];
-
+  List<CreateGroupReport> _createGroupReport = [];
   final _userInputController = TextEditingController();
   //filter
   bool isSearch = false;
   bool isNew = false;
-  List<CreateGroupReport> _createGroupReport = [];
+
   //create button
   late AnimationController _animationController;
 
@@ -142,7 +153,9 @@ class _StudyGroupState extends State<StudyGroup>
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
       ),
-      endDrawer: const SideDrawer(),
+      endDrawer: SideDrawer(
+        onProfileTap: goToProfilePage,
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
