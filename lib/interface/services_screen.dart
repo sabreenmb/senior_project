@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
-import 'package:senior_project/widgets/service_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
 import '../theme.dart';
+import '../widgets/grid_card.dart';
 import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
@@ -127,10 +127,10 @@ class _ServisesState extends State<ServisesScreen> {
                               crossAxisSpacing: 10.0,
                               childAspectRatio: 1.3),
                       itemCount: services.length,
-                      itemBuilder: (context, i) => ServiceCard(
+                      itemBuilder: (context, i) => GridCard(
                             services[i],
                             i,
-                            onTap: () {},
+                            true,
                           )),
                 ),
               ],

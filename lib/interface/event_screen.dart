@@ -47,9 +47,9 @@ class _EventState extends State<EventScreen> {
   bool isSearch = false;
 
   bool isSelectedourse = true;
-  bool isSelectedWorkshop = true;
-  bool isSelectedConfre = true;
-  bool isSelectedOther = true;
+  bool isSelectedWorkshop = false;
+  bool isSelectedConfre = false;
+  bool isSelectedOther = false;
 
   void _selectPage(int index) {
     setState(() {
@@ -409,130 +409,184 @@ class _EventState extends State<EventScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
+                            getFilterButton((){
+                              if (!isSelectedourse) {
+                                isSelectedourse = !isSelectedourse;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedourse == true) isSelectedConfre = false;
+                                  isSelectedWorkshop=false;
+                                  isSelectedOther=false;
+                                });
+                              }
+                            },isSelectedourse
+                          ? CustomColors.pink
+                          : Colors.transparent,"الدورات"),
+                            getFilterButton((){
+                              if (!isSelectedWorkshop) {
+                                isSelectedWorkshop = !isSelectedWorkshop;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedWorkshop == true) isSelectedConfre = false;
+                                  isSelectedourse=false;
+                                  isSelectedOther=false;
+                                });
+                              }
+                            },isSelectedWorkshop
+                                ? CustomColors.pink
+                                : Colors.transparent,"ورش عمل"),
+                            getFilterButton((){
+                              if (!isSelectedConfre) {
+                                isSelectedConfre = !isSelectedConfre;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedConfre == true) isSelectedourse = false;
+                                  isSelectedWorkshop=false;
+                                  isSelectedOther=false;
+                                });
+                              }
+                            },isSelectedConfre
+                                ? CustomColors.pink
+                                : Colors.transparent,"المؤتمرات"),
+                            getFilterButton((){
+                              if (!isSelectedOther) {
+                                isSelectedOther = !isSelectedOther;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedOther == true) isSelectedConfre = false;
+                                  isSelectedWorkshop=false;
+                                  isSelectedourse=false;
+                                });
+                              }
+                            },isSelectedOther
+                                ? CustomColors.pink
+                                : Colors.transparent,"اخرى"),
 
-                                if (isSelected != true) {
-                                  setState(() {
-                                    isSelected = true;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(90, 40),
-                                  side: BorderSide(
-                                      color: isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child:
-                                  Text("الدورات", style: TextStyles.heading2),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (isSelected == true) {
-                                  setState(() {
-                                    isSelected = false;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(110, 40),
-                                  side: BorderSide(
-                                      color: !isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: !isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child: Text(
-                                "ورش عمل",
-                                style: TextStyles.heading2,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (isSelected == false) {
-                                  setState(() {
-                                    isSelected = true;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = true;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(100, 40),
-                                  side: BorderSide(
-                                      color: !isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: !isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child: Text(
-                                "المؤتمرات",
-                                style: TextStyles.heading2,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (isSelected == true) {
-                                  setState(() {
-                                    isSelected = false;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(50, 40),
-                                  side: BorderSide(
-                                      color: !isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: !isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child: Text(
-                                "اخرى",
-                                style: TextStyles.heading2,
-                              ),
-                            ),
+
+                            // ElevatedButton(
+                            //   onPressed: () {
+                            //     FocusScope.of(context).unfocus();
+                            //
+                            //     if (isSelected != true) {
+                            //       setState(() {
+                            //         isSelected = true;
+                            //         if (isSearch) {
+                            //           _userInputController.clear();
+                            //           isSearch = false;
+                            //         }
+                            //       });
+                            //     }
+                            //   },
+                            //   style: ElevatedButton.styleFrom(
+                            //       fixedSize: const Size(90, 40),
+                            //       side: BorderSide(
+                            //           color: isSelected
+                            //               ? Colors.transparent
+                            //               : CustomColors.darkGrey,
+                            //           width: 1),
+                            //       elevation: 0,
+                            //       shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(20),
+                            //       ),
+                            //       backgroundColor: isSelected
+                            //           ? CustomColors.pink
+                            //           : Colors.transparent),
+                            //   child:
+                            //       Text("الدورات", style: TextStyles.heading2),
+                            // ),
+                            // ElevatedButton(
+                            //   onPressed: () {
+                            //     if (isSelected == true) {
+                            //       setState(() {
+                            //         isSelected = false;
+                            //         if (isSearch) {
+                            //           _userInputController.clear();
+                            //           isSearch = false;
+                            //         }
+                            //       });
+                            //     }
+                            //   },
+                            //   style: ElevatedButton.styleFrom(
+                            //       fixedSize: const Size(110, 40),
+                            //       side: BorderSide(
+                            //           color: !isSelected
+                            //               ? Colors.transparent
+                            //               : CustomColors.darkGrey,
+                            //           width: 1),
+                            //       elevation: 0,
+                            //       shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(20),
+                            //       ),
+                            //       backgroundColor: !isSelected
+                            //           ? CustomColors.pink
+                            //           : Colors.transparent),
+                            //   child: Text(
+                            //     "ورش عمل",
+                            //     style: TextStyles.heading2,
+                            //   ),
+                            // ),
+                            // ElevatedButton(
+                            //   onPressed: () {
+                            //     if (isSelected == false) {
+                            //       setState(() {
+                            //         isSelected = true;
+                            //         if (isSearch) {
+                            //           _userInputController.clear();
+                            //           isSearch = true;
+                            //         }
+                            //       });
+                            //     }
+                            //   },
+                            //   style: ElevatedButton.styleFrom(
+                            //       fixedSize: const Size(100, 40),
+                            //       side: BorderSide(
+                            //           color: !isSelected
+                            //               ? Colors.transparent
+                            //               : CustomColors.darkGrey,
+                            //           width: 1),
+                            //       elevation: 0,
+                            //       shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(20),
+                            //       ),
+                            //       backgroundColor: !isSelected
+                            //           ? CustomColors.pink
+                            //           : Colors.transparent),
+                            //   child: Text(
+                            //     "المؤتمرات",
+                            //     style: TextStyles.heading2,
+                            //   ),
+                            // ),
+                            // ElevatedButton(
+                            //   onPressed: () {
+                            //     if (isSelected == true) {
+                            //       setState(() {
+                            //         isSelected = false;
+                            //         if (isSearch) {
+                            //           _userInputController.clear();
+                            //           isSearch = false;
+                            //         }
+                            //       });
+                            //     }
+                            //   },
+                            //   style: ElevatedButton.styleFrom(
+                            //       fixedSize: const Size(50, 40),
+                            //       side: BorderSide(
+                            //           color: !isSelected
+                            //               ? Colors.transparent
+                            //               : CustomColors.darkGrey,
+                            //           width: 1),
+                            //       elevation: 0,
+                            //       shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(20),
+                            //       ),
+                            //       backgroundColor: !isSelected
+                            //           ? CustomColors.pink
+                            //           : Colors.transparent),
+                            //   child: Text(
+                            //     "اخرى",
+                            //     style: TextStyles.heading2,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -663,21 +717,22 @@ class _EventState extends State<EventScreen> {
                 ]))));
   }
 
-  // Widget getFilterButton(void Function() onButtonPress, Color buttonColor,
-  //     bool isImage, String title, Color textColor) {
-  //   return ElevatedButton(
-  //       onPressed: onButtonPress,
-  //       style: ElevatedButton.styleFrom(
-  //           side: BorderSide(
-  //               color: isSelected ? Colors.transparent : CustomColors.darkGrey,
-  //               width: 1),
-  //           elevation: 0,
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(20),
-  //           ),
-  //           backgroundColor:
-  //               isSelected ? CustomColors.pink : Colors.transparent)
-  // }
+  Widget getFilterButton(void Function() onButtonPress, Color buttonColor,
+      String title) {
+    return ElevatedButton(
+      onPressed: onButtonPress,
+      style: ElevatedButton.styleFrom(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: buttonColor),
+      child: Text(
+        title,
+        style: TextStyles.heading2
+      ),
+    );
+  }
 
   void filterSearchResults(
       String query,

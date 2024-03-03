@@ -10,6 +10,7 @@ import 'package:senior_project/interface/OffersListScreen.dart';
 import 'firebase_options.dart';
 import 'interface/OfferCategoryScreen.dart';
 import 'interface/create_group.dart';
+import 'interface/event_screen.dart';
 import 'interface/services_screen.dart';
 import 'interface/study_group.dart';
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const ServisesScreen(),
+      home: const EventScreen(),
     );
   }
 }
