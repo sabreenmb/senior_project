@@ -7,7 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:senior_project/interface/lost_and_found_screen.dart';
 
 import 'firebase_options.dart';
-import 'interface/study_group.dart';
+import 'interface/VolunteerOpportunities.dart';
+//import 'interface/study_group.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const StudyGroup(),
+      home: const VolunteerOp(),
     );
   }
 }
