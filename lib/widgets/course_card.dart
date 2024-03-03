@@ -1,13 +1,14 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
+// ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/courses_item_report.dart';
 
 import '../theme.dart';
 
-class CreateCard extends StatelessWidget {
-  CreateGroupReport createGroupReport;
-  CreateCard(this.createGroupReport, {super.key});
+// ignore: must_be_immutable
+class CoursesCard extends StatelessWidget {
+  CoursesItemReport courseItem;
+  CoursesCard(this.courseItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +34,73 @@ class CreateCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      createGroupReport.subjectCode!,
+                      courseItem.Name!,
                       textAlign: TextAlign.right,
                       style: TextStyles.heading3B,
                     ),
                     const SizedBox(
                       height: 10,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.person,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          courseItem.presentBy!,
+                          textAlign: TextAlign.right,
+                          style: TextStyles.text,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.date_range_outlined,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          courseItem.courseDate!,
+                          textAlign: TextAlign.right,
+                          style: TextStyles.text,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.access_time_outlined,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          courseItem.courseTime!,
+                          textAlign: TextAlign.right,
+                          style: TextStyles.text,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
                     ),
                     Row(
                       children: [
@@ -51,52 +113,24 @@ class CreateCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          createGroupReport.sessionPlace!,
+                          courseItem.coursePlace!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.timer_sharp,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          createGroupReport.sessionDate! +
-                              '   ' +
-                              createGroupReport.sessionTime!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.people,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          createGroupReport.numPerson!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
+                    Container(
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(children: [
+                              ElevatedButton(
+                                child: Text(
+                                  "سجل",
+                                  style: TextStyles.heading3B,
+                                ),
+                                onPressed: () {},
+                              ),
+                            ])))
                   ],
                 ),
               ),

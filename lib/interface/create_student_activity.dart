@@ -2,35 +2,34 @@
 
 import 'dart:convert';
 
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 //import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/create_student_activity_report.dart';
 
 import '../constant.dart';
 //import '../model/found_item_report.dart';
 import '../theme.dart';
 
-class CreateGroup extends StatefulWidget {
-  const CreateGroup({super.key});
+class CreateStudentActivity extends StatefulWidget {
+  const CreateStudentActivity({super.key});
 
   @override
-  State<CreateGroup> createState() => _CreateGroupState();
+  State<CreateStudentActivity> createState() => _CreateStudentActivityState();
 }
 
-class _CreateGroupState extends State<CreateGroup> {
-  CreateGroupReport createGroupReport = CreateGroupReport(
-      id: '',
-      subjectCode: '',
-      sessionDate: '',
-      sessionTime: '',
-      sessionPlace: '',
-      numPerson: '');
+class _CreateStudentActivityState extends State<CreateStudentActivity> {
+  CreateStudentActivityReport createStudentActivityReport =
+      CreateStudentActivityReport(
+          id: '',
+          activityName: '',
+          activityDate: '',
+          activityTime: '',
+          activityPlace: '',
+          numOfPerson: '');
   // bool imageEmpty = false;
-  String? _selectedSubject;
   DateTime _selectedDate = DateTime.now();
   TextEditingController dateInput = TextEditingController();
 
@@ -118,19 +117,19 @@ class _CreateGroupState extends State<CreateGroup> {
     }
 
     // foundItemReport.photo = _imageUrl;
-    _createGroupState();
+    _createStudentActivityState();
   }
 
-  void _createGroupState() async {
+  void _createStudentActivityState() async {
     try {
       final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'create-group.json');
+          'create-activity.json');
       final response = await http.post(
         url,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: json.encode(createGroupReport.toJson()),
+        body: json.encode(createStudentActivityReport.toJson()),
       );
     } catch (e) {}
 
@@ -154,7 +153,7 @@ class _CreateGroupState extends State<CreateGroup> {
             Navigator.pop(context, false);
           },
         ),
-        title: Text("انشاء جلسة مذاكرة", style: TextStyles.heading1),
+        title: Text("انشاء نشاط", style: TextStyles.heading1),
         centerTitle: true,
       ),
       body: ModalProgressHUD(
@@ -188,75 +187,33 @@ class _CreateGroupState extends State<CreateGroup> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const SizedBox(height: 12.0),
-                            Container(
-                              width: 100,
-                              child: DropdownButtonFormField2<String>(
-                                isExpanded: true,
-                                decoration: const InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.book_outlined,
-                                    color: CustomColors.lightGrey,
-                                  ),
-                                  labelText: 'اسم و رمز المادة',
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: CustomColors.lightBlue,
-                                    ),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: CustomColors.lightBlue,
-                                    ),
+                            TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              maxLines: 1,
+                              decoration: const InputDecoration(
+                                labelText: 'اسم النشاط',
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: CustomColors.lightBlue,
                                   ),
                                 ),
-                                value: _selectedSubject,
-                                items: SubjectsCode.map((subjectCode) {
-                                  return DropdownMenuItem(
-                                    value: subjectCode,
-                                    child: Text(
-                                      subjectCode,
-                                      style: TextStyles.heading2,
-                                      overflow: TextOverflow
-                                          .ellipsis, // Add this line
-                                      maxLines: 2,
-                                    ),
-                                  );
-                                }).toList(),
-                                validator: (value) {
-                                  if (value == null || value.trim().isEmpty) {
-                                    return 'الرجاء تعبئة الحقل';
-                                  }
-                                  return null;
-                                },
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedSubject = value!;
-                                  });
-                                },
-                                onSaved: (value) {
-                                  createGroupReport.subjectCode =
-                                      _selectedSubject;
-                                },
-                                //هذا اللاين حق الكود مو راضي ينحذف ولازم احذفه
-                                iconStyleData: const IconStyleData(
-                                  icon: Icon(
-                                    Icons.arrow_drop_down,
-                                    color: CustomColors.darkGrey,
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: CustomColors.lightBlue,
                                   ),
-                                  iconSize: 24,
-                                ),
-                                dropdownStyleData: DropdownStyleData(
-                                  maxHeight: 300,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                ),
-                                menuItemStyleData: const MenuItemStyleData(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
                                 ),
                               ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'الرجاء تعبئة الحقل';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                createStudentActivityReport.activityName =
+                                    value;
+                              },
                             ),
                             const SizedBox(height: 12.0),
                             Row(
@@ -272,7 +229,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                           Icons.date_range_outlined,
                                           color: CustomColors.lightGrey,
                                         ),
-                                        labelText: "تاريخ الجلسة",
+                                        labelText: "تاريخ النشاط",
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             color: CustomColors.lightBlue,
@@ -304,7 +261,8 @@ class _CreateGroupState extends State<CreateGroup> {
                                         return null;
                                       },
                                       onSaved: (value) {
-                                        createGroupReport.sessionDate = value;
+                                        createStudentActivityReport
+                                            .activityDate = value;
                                       },
                                     ),
                                   ),
@@ -326,7 +284,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                           Icons.timer_sharp,
                                           color: CustomColors.lightGrey,
                                         ),
-                                        labelText: "وقت الجلسة",
+                                        labelText: "وقت النشاط",
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             color: CustomColors.lightBlue,
@@ -352,7 +310,8 @@ class _CreateGroupState extends State<CreateGroup> {
                                         return null;
                                       },
                                       onSaved: (value) {
-                                        createGroupReport.sessionTime = value;
+                                        createStudentActivityReport
+                                            .activityTime = value;
                                       },
                                     ),
                                   ),
@@ -368,7 +327,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                   Icons.location_on,
                                   color: CustomColors.lightGrey,
                                 ),
-                                labelText: 'مكان الجلسة',
+                                labelText: 'مكان النشاط',
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: CustomColors.lightBlue,
@@ -387,7 +346,8 @@ class _CreateGroupState extends State<CreateGroup> {
                                 return null;
                               },
                               onSaved: (value) {
-                                createGroupReport.sessionPlace = value;
+                                createStudentActivityReport.activityPlace =
+                                    value;
                               },
                             ),
                             const SizedBox(height: 12.0),
@@ -422,7 +382,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                 return null;
                               },
                               onSaved: (value) {
-                                createGroupReport.numPerson = value;
+                                createStudentActivityReport.numOfPerson = value;
                               },
                             ),
                             const SizedBox(height: 32.0),
