@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
+import 'package:http/http.dart' as http;
+
+import 'model/offer_info.dart';
 
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
@@ -222,3 +227,51 @@ final List services = [
     //"whenClick": LostAndFoundScreen(),
   },
 ];
+
+
+
+void LoadOffers() async {
+  final List<OfferInfo> loadedOfferInfo = [];
+
+  try {
+
+    final url = Uri.https(
+        'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
+    final response = await http.get(url);
+
+    final Map<String, dynamic> founddata = json.decode(response.body);
+    for (final item in founddata.entries) {
+      print(item.value['of_name']);
+      loadedOfferInfo.add(OfferInfo(
+        id: item.key,
+        //model name : firebase name
+        name: item.value['of_name'],
+        logo: item.value['of_logo'],
+        category: item.value['of_category'],
+        code: item.value['of_code'],
+        details: item.value['of_details'],
+        discount: item.value['of_discount'],
+        expDate: item.value['of_expDate'],
+        contact: item.value['of_contact'],
+        targetUsers: item.value['of_target'],
+      ));
+    }
+  } catch (error) {
+    print('Empty List');
+  } finally {
+    List<OfferInfo> fetchedOffers = await loadedOfferInfo;// fetched data from Firebase
+
+    for (OfferInfo offer in fetchedOffers) {
+      for (Map<String, dynamic> item in offers) {
+        if (offer.category == item['offerCategory']) {
+          item['categoryList'].add(offer);
+          break;
+        }
+      }
+    }
+    print(offers[0]);
+
+
+
+  }
+}

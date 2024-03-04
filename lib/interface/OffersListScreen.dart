@@ -24,58 +24,59 @@ class _OffersListState extends State<OffersListScreen> {
   @override
   void initState() {
     super.initState();
-    _LoadOffers();
+    // _LoadOffers();
   }
 
-  void _LoadOffers() async {
-    final List<OfferInfo> loadedOfferInfo = [];
-
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final url = Uri.https(
-          'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
-      final response = await http.get(url);
-
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        print(item.value['of_name']);
-        loadedOfferInfo.add(OfferInfo(
-          id: item.key,
-          //model name : firebase name
-          name: item.value['of_name'],
-          logo: item.value['of_logo'],
-          category: item.value['of_category'],
-          code: item.value['of_code'],
-          details: item.value['of_details'],
-          discount: item.value['of_discount'],
-          expDate: item.value['of_expDate'],
-          contact: item.value['of_contact'],
-          targetUsers: item.value['of_target'],
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-
-      });
-      List<OfferInfo> fetchedOffers = loadedOfferInfo;// fetched data from Firebase
-
-      for (OfferInfo offer in fetchedOffers) {
-        for (Map<String, dynamic> item in offers) {
-          if (offer.category == item['offerCategory']) {
-            item['categoryList'].add(offer);
-            break;
-          }
-        }
-      }
-      print(offers);
-
-    }
-  }
+  // void _LoadOffers() async {
+  //   final List<OfferInfo> loadedOfferInfo = [];
+  //
+  //   try {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //     final url = Uri.https(
+  //         'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
+  //     final response = await http.get(url);
+  //
+  //     final Map<String, dynamic> founddata = json.decode(response.body);
+  //     for (final item in founddata.entries) {
+  //       print(item.value['of_name']);
+  //       loadedOfferInfo.add(OfferInfo(
+  //         id: item.key,
+  //         //model name : firebase name
+  //         name: item.value['of_name'],
+  //         logo: item.value['of_logo'],
+  //         category: item.value['of_category'],
+  //         code: item.value['of_code'],
+  //         details: item.value['of_details'],
+  //         discount: item.value['of_discount'],
+  //         expDate: item.value['of_expDate'],
+  //         contact: item.value['of_contact'],
+  //         targetUsers: item.value['of_target'],
+  //       ));
+  //     }
+  //   } catch (error) {
+  //     print('Empty List');
+  //   } finally {
+  //     List<OfferInfo> fetchedOffers = await loadedOfferInfo;// fetched data from Firebase
+  //
+  //     for (OfferInfo offer in fetchedOffers) {
+  //       for (Map<String, dynamic> item in offers) {
+  //         if (offer.category == item['offerCategory']) {
+  //           item['categoryList'].add(offer);
+  //           break;
+  //         }
+  //       }
+  //     }
+  //     print(offers[0]);
+  //     setState(() {
+  //       isLoading = false;
+  //
+  //     });
+  //
+  //
+  //   }
+  // }
 
   // ignore: unused_field
   int _selectedPageIndex = 1;

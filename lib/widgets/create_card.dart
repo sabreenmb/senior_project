@@ -20,87 +20,78 @@ class CreateCard extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          //start the colom
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  //start the colom
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      createGroupReport.subjectCode!,
-                      textAlign: TextAlign.right,
-                      style: TextStyles.heading3B,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on_outlined,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          createGroupReport.sessionPlace!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.timer_sharp,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          createGroupReport.sessionDate! +
-                              '   ' +
-                              createGroupReport.sessionTime!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.people,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          createGroupReport.numPerson!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                  ],
+            Text(
+              createGroupReport.subjectCode!,
+              textAlign: TextAlign.right,
+              style: TextStyles.heading3B,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.location_on_outlined,
+                  color: CustomColors.lightGrey,
+                  size: 14.0,
                 ),
-              ),
-            )
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  createGroupReport.sessionPlace!,
+                  textAlign: TextAlign.right,
+                  style: TextStyles.text,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.timer_sharp,
+                  color: CustomColors.lightGrey,
+                  size: 14.0,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  createGroupReport.sessionDate! +
+                      '   ' +
+                      createGroupReport.sessionTime!,
+                  textAlign: TextAlign.right,
+                  style: TextStyles.text,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.people,
+                  color: CustomColors.lightGrey,
+                  size: 14.0,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  createGroupReport.numPerson!,
+                  textAlign: TextAlign.right,
+                  style: TextStyles.text,
+                ),
+              ],
+            ),
           ],
         ),
       ),

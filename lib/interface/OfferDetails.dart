@@ -5,15 +5,22 @@ import 'package:flutter_svg/svg.dart';
 
 import '../model/offer_info.dart';
 import '../theme.dart';
-
-class OfferDetails extends StatelessWidget {
+class OfferDetails extends StatefulWidget {
   OfferInfo offerInfo;
+
   OfferDetails(this.offerInfo, {super.key});
+  @override
+  State<OfferDetails> createState() => _OfferDetailsState();
+}
+class _OfferDetailsState extends State<OfferDetails> {
   String imageURL =
       "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2Ftile_background.png?alt=media&token=db53f43f-268e-4877-a5b2-be156851f822";
       // "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2FFITNESS-ZONE.png?alt=media&token=3e01d171-fd56-4ae5-a65e-5a4298b7ab53";
+  bool isClicked=false;
   @override
   Widget build(BuildContext context) {
+    OfferInfo offerInfo= widget.offerInfo;
+
     // TODO: implement build
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
@@ -28,16 +35,9 @@ class OfferDetails extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: 300,
                   decoration: BoxDecoration(
-                    color: CustomColors.BackgroundColor,
+                    color: CustomColors.darkGrey,
                   ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Image.network(
-                      '${imageURL}',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+
                 ),
                 SizedBox(
                   height: 700,
@@ -89,12 +89,12 @@ class OfferDetails extends StatelessWidget {
                                       style: TextStyles.text4,
                                     ),
                                     Text(
-                                      " tfhtfhfh خصم يصل الى : ",
+                                      " الفئة المستهدفة : ",
                                       textAlign: TextAlign.right,
                                       style: TextStyles.text4,
                                     ),
                                     Text(
-                                      " خصم يصل الى : ",
+                                      " وسيلة التواصل : ",
                                       textAlign: TextAlign.right,
                                       style: TextStyles.text4,
                                     ),
@@ -132,23 +132,30 @@ class OfferDetails extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 50, bottom: 25),
+                            margin: EdgeInsets.only(top: 40, bottom: 25),
                             width: 250,
                             height: 1,
                             color: CustomColors.lightGreyLowTrans,
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              Clipboard.setData(
-                                      new ClipboardData(text: offerInfo.code!))
-                                  .then((_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text('${offerInfo.code} !')));
-                              });
+                              if(!isClicked){
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  isClicked=true;
+                                });
+                              }
+
+                              // Clipboard.setData(
+                              //         new ClipboardData(text: offerInfo.code!))
+                              //     .then((_) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //       SnackBar(
+                              //           content: Text('${offerInfo.code} !')));
+                              // });
                             },
                             style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(175, 50),
+                                fixedSize: const Size(170, 40),
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(27),
@@ -157,6 +164,11 @@ class OfferDetails extends StatelessWidget {
                             child:
                                 Text("احصل على الخصم", style: TextStyles.text3),
                           ),
+                          if(isClicked)
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(offerInfo.code!, style: TextStyles.heading3B),
+                            )
                         ],
                       ),
                     ),
@@ -167,16 +179,17 @@ class OfferDetails extends StatelessWidget {
                   children: [
                     AppBar(
                       systemOverlayStyle: const SystemUiOverlayStyle(
-                        statusBarColor: CustomColors.darkGrey,
+                        statusBarColor: Colors.transparent,
                         statusBarIconBrightness: Brightness.light,
                         statusBarBrightness: Brightness.light,
                       ),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       leading: IconButton(
-                        icon: Icon(Icons.arrow_back_ios,
+                        icon: const Icon(Icons.arrow_back_ios,
                             color: CustomColors.white),
                         onPressed: () {
+                          Navigator.pop(context);
                           // Navigator.pushReplacement(
                           //     context,
                           //     MaterialPageRoute(
@@ -251,9 +264,8 @@ class OfferDetails extends StatelessWidget {
                         style: TextStyles.heading3B,
                       ),
                       Text(
-                        '======== Exception caught by widgets library =======================================================                        The following assertion was thrown while applying parent datacorrect use of ParentDataWidget.The ParentDataWidget Expanded(flex: 1) wants to apply ParentData of type FlexParentData to a RenderObject, which has been set up to accept ParentData of incompatible type BoxParentData.                  Usually,  means that the Expanded widget has the wrong ancestor RenderObjectWidget. Typically, Expanded widgets are placed directly inside Flex widgets.'
-                        // ' ${offerInfo.details}',
-                       , textAlign: TextAlign.right,
+                        ' ${offerInfo.details}',
+                        textAlign: TextAlign.right,
                         style: TextStyles.text2,
                       ),
                     ],

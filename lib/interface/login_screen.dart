@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
       userInfo.intrests = userProfileData?['intrests'] as String?;
       userInfo.hobbies = userProfileData?['hobbies'] as String?;
       userInfo.skills = userProfileData?['skills'] as String?;
-
+      LoadOffers();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
     } on FirebaseAuthException catch (error) {

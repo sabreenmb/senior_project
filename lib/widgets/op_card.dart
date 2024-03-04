@@ -103,7 +103,8 @@ class OpCard extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
+          if(volunteerOpReport.opLink!="")
+            Positioned(
             bottom: 8.0,
             left: 15.0,
             child: TextButton(
