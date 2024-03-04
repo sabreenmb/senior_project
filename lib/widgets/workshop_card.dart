@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/courses_item_report.dart';
 import 'package:senior_project/model/workshop_item_report.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 
@@ -120,18 +121,21 @@ class WorkshopCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Container(
-                        child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(children: [
-                              ElevatedButton(
-                                child: Text(
-                                  "سجل",
-                                  style: TextStyles.heading3B,
-                                ),
-                                onPressed: () {},
-                              ),
-                            ])))
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () =>
+                              _launchURL(workshopItem.workshopLink!, context),
+                          child: Text(
+                            'سجل',
+                            style: TextStyle(
+                              color: TextStyles.heading3B.color,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -140,5 +144,21 @@ class WorkshopCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(String? urlString, BuildContext context) async {
+    if (urlString == null || urlString.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('The URL is not available.')),
+      );
+      return;
+    }
+    final Uri url = Uri.parse(urlString);
+
+    if (!await launchUrl(url)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $urlString')),
+      );
+    }
   }
 }

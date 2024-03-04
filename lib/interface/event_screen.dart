@@ -107,8 +107,8 @@ class _EventState extends State<EventScreen> {
       setState(() {
         isLoading = true;
       });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'eventsCoursesDB.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> founddata = json.decode(response.body);
@@ -120,6 +120,7 @@ class _EventState extends State<EventScreen> {
           courseDate: item.value['CourseDate'],
           courseTime: item.value['CourseTime'],
           coursePlace: item.value['CoursePlace'],
+          courseLink: item.value['CoursetLink'],
         ));
       }
     } catch (error) {
@@ -152,6 +153,7 @@ class _EventState extends State<EventScreen> {
           workshopDate: item.value['WorkshopDate'],
           workshopPlace: item.value['WorkshopPlace'],
           workshopTime: item.value['WorkshopTime'],
+          workshopLink: item.value['WorkshopLink'],
         ));
       }
     } catch (error) {
@@ -184,6 +186,7 @@ class _EventState extends State<EventScreen> {
           confDate: item.value['ConfDate'],
           confTime: item.value['ConfTime'],
           confPlace: item.value['ConfPlace'],
+          confLink: item.value['confLink'],
         ));
       }
     } catch (error) {
@@ -203,8 +206,8 @@ class _EventState extends State<EventScreen> {
       setState(() {
         isLoading = true;
       });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'eventsOthersDB.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> founddata = json.decode(response.body);
@@ -216,6 +219,7 @@ class _EventState extends State<EventScreen> {
           otherEventDate: item.value['OtherEventDate'],
           otherEventTime: item.value['OtherEventTime'],
           otherEventPlace: item.value['OtherEventPlace'],
+          otherEventLink: item.value['OtherEventLink'],
         ));
       }
     } catch (error) {
@@ -493,20 +497,15 @@ class _EventState extends State<EventScreen> {
                       if (_courseItem.isNotEmpty)
                         Expanded(
                             child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8.0, bottom: 8.0),
                           child: MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: isSearch
-                                ? ListView.builder(
-                                    itemCount: searchCourseList.length,
-                                    itemBuilder: (context, index) =>
-                                        CoursesCard(searchCourseList[index]))
-                                : ListView.builder(
-                                    itemCount: _courseItem.length,
-                                    itemBuilder: (context, index) =>
-                                        CoursesCard(_courseItem[index])),
-                          ),
+                              context: context,
+                              removeTop: true,
+                              child: ListView.builder(
+                                  itemCount: searchCourseList.length,
+                                  itemBuilder: (context, index) =>
+                                      CoursesCard(searchCourseList[index]))),
                         )),
                       if (_workshopItem.isNotEmpty)
                         Expanded(
