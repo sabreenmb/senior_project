@@ -10,7 +10,7 @@ import '../theme.dart';
 class CoursesCard extends StatelessWidget {
   CoursesItemReport courseItem;
   CoursesCard(this.courseItem, {super.key});
-
+//
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
