@@ -10,7 +10,8 @@ class OfferDetails extends StatelessWidget {
   OfferInfo offerInfo;
   OfferDetails(this.offerInfo, {super.key});
   String imageURL =
-      "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2FFITNESS-ZONE.png?alt=media&token=3e01d171-fd56-4ae5-a65e-5a4298b7ab53";
+      "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2Ftile_background.png?alt=media&token=db53f43f-268e-4877-a5b2-be156851f822";
+      // "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2FFITNESS-ZONE.png?alt=media&token=3e01d171-fd56-4ae5-a65e-5a4298b7ab53";
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -131,7 +132,7 @@ class OfferDetails extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 50, bottom: 50),
+                            margin: EdgeInsets.only(top: 50, bottom: 25),
                             width: 250,
                             height: 1,
                             color: CustomColors.lightGreyLowTrans,

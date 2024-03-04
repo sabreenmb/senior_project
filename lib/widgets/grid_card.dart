@@ -6,6 +6,7 @@ import 'package:senior_project/interface/OfferCategoryScreen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 
 import '../interface/OffersListScreen.dart';
+import '../interface/VolunteerOpportunities.dart';
 import '../interface/study_group.dart';
 import '../theme.dart';
 
@@ -83,14 +84,14 @@ class GridCard extends StatelessWidget {
         break;
       // Add cases for other services as needed
 
-      // case 1:
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => LostAndFoundScreen(),
-      //   ),
-      // );
-      // break;
+      case 1:
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VolunteerOp(),
+        ),
+      );
+      break;
       case 2:
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const OffersListScreen()));
@@ -145,13 +146,17 @@ class GridCard extends StatelessWidget {
   }
 
   void _navigateOnOffers(BuildContext context) {
-    switch (i) {
-      case 1:
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>  OfferCategoryScreen(i,details)));
-        break;
-    }
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>  OfferCategoryScreen(i,details)));
+    // switch (i) {
+    //   case 1:
+    //     Navigator.pushReplacement(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) =>  OfferCategoryScreen(i,details)));
+    //     break;
+    // }
   }
 }

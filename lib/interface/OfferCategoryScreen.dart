@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/interface/OffersListScreen.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/widgets/grid_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
@@ -135,7 +136,17 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
         title: Text(details['offerCategory']!, style: TextStyles.heading1),
         centerTitle: true,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-        leading:  const Icon(Icons.arrow_back_ios),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () { Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>  OffersListScreen())); },
+            );
+          },
+        ),
 
         // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
       ),

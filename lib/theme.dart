@@ -36,3 +36,20 @@ class TextStyles {
   static TextStyle text3 = GoogleFonts.getFont("Almarai",
       color: CustomColors.white, fontWeight: FontWeight.w400, fontSize: 16);
 }
+class CustomGradiant {
+
+
+  static BoxDecoration background1 = const BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      // stops: [0.3, 0.5, ],
+      colors: [
+// Colors are easy thanks to Flutter's Colors class.
+        CustomColors.darkGrey,
+        CustomColors.darkGrey
+
+      ],
+    ),
+  );
+}

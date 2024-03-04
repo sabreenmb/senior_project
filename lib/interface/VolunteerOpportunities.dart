@@ -29,27 +29,18 @@ class _VolunteerOpState extends State<VolunteerOp>
   //search
   ////List<VolunteerOpReport> searchSessionList = [];
 
-  final _userInputController = TextEditingController();
-  //filter
-  //// bool isSearch = false;
-  bool isNew = false;
   List<VolunteerOpReport> _volunteerOpReport = [];
   //create button
-  late AnimationController _animationController;
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
+
     _pages = [
       {
         'page': const HomeScreen(),
@@ -224,9 +215,9 @@ class _VolunteerOpState extends State<VolunteerOp>
                   Column(
                     children: [
                       Container(
-                        height: 60,
+                        height: 5,
                         padding:
-                            const EdgeInsets.only(top: 15, left: 15, right: 15),
+                            const EdgeInsets.only( left: 15, right: 15),
                         //   child: TextField(
                         //  autofocus: false,
                         //  controller: _userInputController,
@@ -309,9 +300,7 @@ class _VolunteerOpState extends State<VolunteerOp>
                       if (_volunteerOpReport.isNotEmpty)
                         Expanded(
                             child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, right: 8.0, bottom: 8.0),
-                          //  padding: const EdgeInsets.all(8.0),
+  padding: const EdgeInsets.all(8.0),
                           child: MediaQuery.removePadding(
                               context: context,
                               removeTop: true,
