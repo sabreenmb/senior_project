@@ -6,6 +6,7 @@ class WorkshopsItemReport {
   String? workshopDate;
   String? workshopTime;
   String? workshopPlace;
+  String? workshopLink;
 
   //Constructor
   WorkshopsItemReport({
@@ -15,6 +16,7 @@ class WorkshopsItemReport {
     required this.workshopDate,
     required this.workshopTime,
     required this.workshopPlace,
+    required this.workshopLink,
   });
 
   Map<String, dynamic> toJson() {
@@ -24,6 +26,7 @@ class WorkshopsItemReport {
     map['WorkshopDate'] = workshopDate;
     map['WorkshopTime'] = workshopTime;
     map['WorkshopPlace'] = workshopPlace;
+    map['WorkshopLink'] = workshopLink;
     return map;
   }
 }

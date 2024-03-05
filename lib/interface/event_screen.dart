@@ -39,10 +39,6 @@ class _EventState extends State<EventScreen> {
   List<ConferencesItemReport> _confItem = [];
   List<OtherEventsItemReport> _otherItem = [];
 
-  // bool isValid = false;
-  // bool isExpired = false;
-
-  late AnimationController _animationController;
   late List<Map<String, Object>> _pages;
 
   int _selectedPageIndex = 1;
@@ -73,32 +69,32 @@ class _EventState extends State<EventScreen> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _animationController = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 200),
-  //   );
-  //   _pages = [
-  //     {
-  //       'page': const HomeScreen(),
-  //     },
-  //     {
-  //       'page': const ChatScreen(),
-  //     },
-  //     {
-  //       'page': const ServisesScreen(),
-  //     },
-  //     {
-  //       'page': const SaveListScreen(),
-  //     },
-  //   ];
-  //   _LoadCoursesItems();
-  //   _LoadWorkshopsItems();
-  //   _LoadConferencesItems();
-  //   _LoadOtherEventsItems();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    // _animationController = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(milliseconds: 200),
+    // );
+    _pages = [
+      {
+        'page': const HomeScreen(),
+      },
+      {
+        'page': const ChatScreen(),
+      },
+      {
+        'page': const ServisesScreen(),
+      },
+      {
+        'page': const SaveListScreen(),
+      },
+    ];
+    _LoadCoursesItems();
+    //_LoadWorkshopsItems();
+    //_LoadConferencesItems();
+    _LoadOtherEventsItems();
+  }
 
   void _LoadCoursesItems() async {
     final List<CoursesItemReport> loadedCoursesItems = [];
@@ -107,19 +103,20 @@ class _EventState extends State<EventScreen> {
       setState(() {
         isLoading = true;
       });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'eventsCoursesDB.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
         loadedCoursesItems.add(CoursesItemReport(
           id: item.key,
-          Name: item.value['Name'],
-          presentBy: item.value['PresentBy'],
-          courseDate: item.value['CourseDate'],
-          courseTime: item.value['CourseTime'],
-          coursePlace: item.value['CoursePlace'],
+          Name: item.value['course_name'],
+          presentBy: item.value['course_presenter'],
+          courseDate: item.value['course_date'],
+          courseTime: item.value['course_time'],
+          coursePlace: item.value['course_location'],
+          courseLink: item.value['course_link'],
         ));
       }
     } catch (error) {
@@ -152,6 +149,7 @@ class _EventState extends State<EventScreen> {
           workshopDate: item.value['WorkshopDate'],
           workshopPlace: item.value['WorkshopPlace'],
           workshopTime: item.value['WorkshopTime'],
+          workshopLink: item.value['WorkshopLink'],
         ));
       }
     } catch (error) {
@@ -184,6 +182,7 @@ class _EventState extends State<EventScreen> {
           confDate: item.value['ConfDate'],
           confTime: item.value['ConfTime'],
           confPlace: item.value['ConfPlace'],
+          confLink: item.value['confLink'],
         ));
       }
     } catch (error) {
@@ -203,19 +202,20 @@ class _EventState extends State<EventScreen> {
       setState(() {
         isLoading = true;
       });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'eventsOthersDB.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
         loadedOtherEventsItems.add(OtherEventsItemReport(
           id: item.key,
-          Name: item.value['Name'],
-          presentBy: item.value['PresentBy'],
-          otherEventDate: item.value['OtherEventDate'],
-          otherEventTime: item.value['OtherEventTime'],
-          otherEventPlace: item.value['OtherEventPlace'],
+          Name: item.value['OEvent_name'],
+          presentBy: item.value['OEvent_presenter'],
+          otherEventDate: item.value['OEvent_date'],
+          otherEventTime: item.value['OEvent_time'],
+          otherEventPlace: item.value['OEvent_location'],
+          otherEventLink: item.value['OEvent_link'],
         ));
       }
     } catch (error) {
@@ -478,37 +478,38 @@ class _EventState extends State<EventScreen> {
                           ],
                         ),
                       ),
-                      if ((isSearch
-                          ? searchCourseList.isEmpty
-                          : searchWorkshopList.isEmpty))
-                        Expanded(
-                          child: Center(
-                            child: SizedBox(
-                              // padding: EdgeInsets.only(bottom: 20),
-                              // alignment: Alignment.topCenter,
-                              height: 200,
-                              child: Image.asset('assets/images/notFound.png'),
-                            ),
-                          ),
-                        ),
+                      // if ((isSearch
+                      //     ? searchCourseList.isEmpty
+                      //     : searchWorkshopList.isEmpty))
+                      // Expanded(
+                      //   child: Center(
+                      //     child: SizedBox(
+                      //       // padding: EdgeInsets.only(bottom: 20),
+                      //       // alignment: Alignment.topCenter,
+                      //       height: 200,
+                      //       child: Image.asset('assets/images/notFound.png'),
+                      //     ),
+                      //   ),
+                      // ),
                       if (_courseItem.isNotEmpty)
                         Expanded(
                             child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: isSearch
-                                ? ListView.builder(
-                                    itemCount: searchCourseList.length,
-                                    itemBuilder: (context, index) =>
-                                        CoursesCard(searchCourseList[index]))
-                                : ListView.builder(
-                                    itemCount: _courseItem.length,
-                                    itemBuilder: (context, index) =>
-                                        CoursesCard(_courseItem[index])),
-                          ),
-                        )),
+                                padding: const EdgeInsets.all(8.0),
+                                child: MediaQuery.removePadding(
+                                  context: context,
+                                  removeTop: true,
+                                  child: isSearch
+                                      ? ListView.builder(
+                                          itemCount: searchCourseList.length,
+                                          itemBuilder: (context, index) =>
+                                              CoursesCard(
+                                                  searchCourseList[index]))
+                                      : ListView.builder(
+                                          itemCount: _courseItem.length,
+                                          itemBuilder: (context, index) =>
+                                              CoursesCard(_courseItem[index])),
+                                ))),
+
                       if (_workshopItem.isNotEmpty)
                         Expanded(
                             child: Padding(
@@ -527,6 +528,7 @@ class _EventState extends State<EventScreen> {
                                         WorkshopCard(_workshopItem[index])),
                           ),
                         )),
+
                       if (_confItem.isNotEmpty)
                         Expanded(
                             child: Padding(
@@ -545,6 +547,7 @@ class _EventState extends State<EventScreen> {
                                         ConfCard(_confItem[index])),
                           ),
                         )),
+
                       if (_otherItem.isNotEmpty)
                         Expanded(
                             child: Padding(

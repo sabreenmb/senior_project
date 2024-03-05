@@ -6,6 +6,7 @@ class OtherEventsItemReport {
   String? otherEventDate;
   String? otherEventTime;
   String? otherEventPlace;
+  String? otherEventLink;
 
   //Constructor
   OtherEventsItemReport({
@@ -15,6 +16,7 @@ class OtherEventsItemReport {
     required this.otherEventDate,
     required this.otherEventTime,
     required this.otherEventPlace,
+    required this.otherEventLink,
   });
 
   Map<String, dynamic> toJson() {
@@ -24,6 +26,8 @@ class OtherEventsItemReport {
     map['OtherEventDate'] = otherEventDate;
     map['OtherEventTime'] = otherEventTime;
     map['OtherEventPlace'] = otherEventPlace;
+    map['OtherEventLink'] = otherEventLink;
+
     return map;
   }
 }
