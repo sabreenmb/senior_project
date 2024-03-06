@@ -48,6 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (!snapshot.exists) {
         userProfileDoc.set({
+          // 'image_url':,
+          'userID': _enteredID.split("@")[0],
           'rule': 'user',
           'name': 'منار مجيد',
           'collage': 'الحاسبات',
@@ -61,13 +63,15 @@ class _LoginScreenState extends State<LoginScreen> {
       // Cast the data to Map<String, dynamic> type
       final userProfileData = snapshot.data() as Map<String, dynamic>?;
 
-      userInfo.rule = userProfileData?['rule'] as String?;
-      userInfo.name = userProfileData?['name'] as String?;
-      userInfo.collage = userProfileData?['collage'] as String?;
-      userInfo.major = userProfileData?['major'] as String?;
-      userInfo.intrests = userProfileData?['intrests'] as String?;
-      userInfo.hobbies = userProfileData?['hobbies'] as String?;
-      userInfo.skills = userProfileData?['skills'] as String?;
+      userInfo.image_url = userProfileData?['image_url'];
+      userInfo.userID = userProfileData?['userID'];
+      userInfo.rule = userProfileData?['rule'];
+      userInfo.name = userProfileData?['name'];
+      userInfo.collage = userProfileData?['collage'];
+      userInfo.major = userProfileData?['major'];
+      userInfo.intrests = userProfileData?['intrests'];
+      userInfo.hobbies = userProfileData?['hobbies'];
+      userInfo.skills = userProfileData?['skills'];
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));

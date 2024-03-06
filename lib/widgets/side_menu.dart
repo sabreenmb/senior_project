@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,15 +39,30 @@ class SideDrawer extends StatelessWidget {
                       width: 3,
                     ),
                   ),
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset(
-                      'assets/icons/UserProfile.svg',
-                      height: 100,
-                      width: 100,
-                      color: CustomColors.darkGrey,
-                    ),
-                  ),
+                  child: userInfo.image_url == ''
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: SvgPicture.asset(
+                            'assets/icons/UserProfile.svg',
+                            height: 100,
+                            width: 100,
+                            color: CustomColors.darkGrey,
+                          ))
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedNetworkImage(
+                            width: 145,
+                            height: 150,
+                            fit: BoxFit.cover,
+                            imageUrl: userInfo.image_url,
+                            errorWidget: (context, url, error) => CircleAvatar(
+                              child: SvgPicture.asset(
+                                'assets/icons/UserProfile.svg',
+                                color: CustomColors.darkGrey,
+                              ),
+                            ),
+                          ),
+                        ),
                 ),
                 Text(
                   userInfo.name!,
