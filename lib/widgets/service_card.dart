@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:senior_project/interface/VolunteerOpportunities.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 
+import '../interface/event_screen.dart';
 import '../theme.dart';
 
 class ServiceCard extends StatelessWidget {
@@ -23,6 +25,12 @@ class ServiceCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => const LostAndFoundScreen()));
+        } else if (i == 1) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const VolunteerOp()));
+        } else if (i == 4) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const EventScreen()));
         }
       },
       child: Container(

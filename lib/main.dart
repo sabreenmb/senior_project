@@ -2,12 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:senior_project/interface/event_screen.dart';
 import 'package:senior_project/interface/login_screen.dart';
 
-// import 'package:senior_project/interface/login_screen.dart';
-// import 'package:senior_project/interface/lost_and_found_screen.dart';
-
 import 'firebase_options.dart';
+import 'interface/VolunteerOpportunities.dart';
+import 'interface/study_group.dart';
+//import 'interface/study_group.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const LoginScreen(),
+      home: const EventScreen(),
     );
   }
 }
