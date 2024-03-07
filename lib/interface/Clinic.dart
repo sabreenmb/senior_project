@@ -497,7 +497,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
           .where((clinic) => clinic.clBranch == selectedBranch)
           .toList();
     }
-    // Sort filteredClinicList by date
     filteredClinicList.sort((a, b) => DateFormat('yyyy-MM-dd')
         .parse(a.clDate!)
         .compareTo(DateFormat('yyyy-MM-dd').parse(b.clDate!)));
