@@ -20,13 +20,14 @@ List<String> Categories = [
   'اخرى'
 ];
 
-String userID = '';
 DocumentReference<Map<String, dynamic>> userProfileDoc = FirebaseFirestore
     .instance
     .collection("userProfile")
     .doc(FirebaseAuth.instance.currentUser!.email!.split("@")[0]);
 
 enteredUserInfo userInfo = enteredUserInfo(
+  image_url: '',
+  userID: '',
   rule: '',
   name: '',
   collage: '',

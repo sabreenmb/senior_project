@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:senior_project/interface/Chat_Pages/current_chats.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/widgets/service_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
 import '../theme.dart';
-import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
 
@@ -20,7 +20,7 @@ class _ServisesState extends State<ServisesScreen> {
   // ignore: unused_field
   int _selectedPageIndex = 1;
   void _selectPage(int index) {
-    index = 1;
+    index = 2;
     setState(() {
       if (index == 0) {
         Navigator.pushReplacement(
@@ -30,7 +30,7 @@ class _ServisesState extends State<ServisesScreen> {
         //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
       } else if (index == 2) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ChatScreen()));
+            context, MaterialPageRoute(builder: (_) => const CurrentChats()));
       } else if (index == 3) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const SaveListScreen()));

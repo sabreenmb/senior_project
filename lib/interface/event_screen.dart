@@ -11,7 +11,10 @@ import 'package:senior_project/model/courses_item_report.dart';
 import 'package:senior_project/model/other_event_item_report.dart';
 import 'package:senior_project/model/workshop_item_report.dart';
 import 'package:senior_project/theme.dart';
+import 'package:senior_project/widgets/conf_card.dart';
+import 'package:senior_project/widgets/other_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+import 'package:senior_project/widgets/workshop_card.dart';
 import '../widgets/course_card.dart';
 import 'ChatScreen.dart';
 import 'SaveListScreen.dart';
@@ -36,20 +39,16 @@ class _EventState extends State<EventScreen> {
   List<ConferencesItemReport> _confItem = [];
   List<OtherEventsItemReport> _otherItem = [];
 
-  // bool isValid = false;
-  // bool isExpired = false;
-
-  late AnimationController _animationController;
   late List<Map<String, Object>> _pages;
 
   int _selectedPageIndex = 1;
   bool isSelected = true;
   bool isSearch = false;
 
-  bool isSelectedourse = true;
-  bool isSelectedWorkshop = true;
-  bool isSelectedConfre = true;
-  bool isSelectedOther = true;
+  bool isSelectedCourse = true;
+  bool isSelectedWorkshop = false;
+  bool isSelectedConfre = false;
+  bool isSelectedOther = false;
 
   void _selectPage(int index) {
     setState(() {
@@ -70,32 +69,32 @@ class _EventState extends State<EventScreen> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _animationController = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 200),
-  //   );
-  //   _pages = [
-  //     {
-  //       'page': const HomeScreen(),
-  //     },
-  //     {
-  //       'page': const ChatScreen(),
-  //     },
-  //     {
-  //       'page': const ServisesScreen(),
-  //     },
-  //     {
-  //       'page': const SaveListScreen(),
-  //     },
-  //   ];
-  //   _LoadCoursesItems();
-  //   _LoadWorkshopsItems();
-  //   _LoadConferencesItems();
-  //   _LoadOtherEventsItems();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    // _animationController = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(milliseconds: 200),
+    // );
+    _pages = [
+      {
+        'page': const HomeScreen(),
+      },
+      {
+        'page': const ChatScreen(),
+      },
+      {
+        'page': const ServisesScreen(),
+      },
+      {
+        'page': const SaveListScreen(),
+      },
+    ];
+    _LoadCoursesItems();
+    //_LoadWorkshopsItems();
+    //_LoadConferencesItems();
+    _LoadOtherEventsItems();
+  }
 
   void _LoadCoursesItems() async {
     final List<CoursesItemReport> loadedCoursesItems = [];
@@ -104,19 +103,20 @@ class _EventState extends State<EventScreen> {
       setState(() {
         isLoading = true;
       });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'eventsCoursesDB.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
         loadedCoursesItems.add(CoursesItemReport(
           id: item.key,
-          Name: item.value['Name'],
-          presentBy: item.value['PresentBy'],
-          courseDate: item.value['CourseDate'],
-          courseTime: item.value['CourseTime'],
-          coursePlace: item.value['CoursePlace'],
+          Name: item.value['course_name'],
+          presentBy: item.value['course_presenter'],
+          courseDate: item.value['course_date'],
+          courseTime: item.value['course_time'],
+          coursePlace: item.value['course_location'],
+          courseLink: item.value['course_link'],
         ));
       }
     } catch (error) {
@@ -149,6 +149,7 @@ class _EventState extends State<EventScreen> {
           workshopDate: item.value['WorkshopDate'],
           workshopPlace: item.value['WorkshopPlace'],
           workshopTime: item.value['WorkshopTime'],
+          workshopLink: item.value['WorkshopLink'],
         ));
       }
     } catch (error) {
@@ -181,6 +182,7 @@ class _EventState extends State<EventScreen> {
           confDate: item.value['ConfDate'],
           confTime: item.value['ConfTime'],
           confPlace: item.value['ConfPlace'],
+          confLink: item.value['confLink'],
         ));
       }
     } catch (error) {
@@ -200,19 +202,20 @@ class _EventState extends State<EventScreen> {
       setState(() {
         isLoading = true;
       });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'eventsOthersDB.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
         loadedOtherEventsItems.add(OtherEventsItemReport(
           id: item.key,
-          Name: item.value['Name'],
-          presentBy: item.value['PresentBy'],
-          otherEventDate: item.value['OtherEventDate'],
-          otherEventTime: item.value['OtherEventTime'],
-          otherEventPlace: item.value['OtherEventPlace'],
+          Name: item.value['OEvent_name'],
+          presentBy: item.value['OEvent_presenter'],
+          otherEventDate: item.value['OEvent_date'],
+          otherEventTime: item.value['OEvent_time'],
+          otherEventPlace: item.value['OEvent_location'],
+          otherEventLink: item.value['OEvent_link'],
         ));
       }
     } catch (error) {
@@ -378,7 +381,6 @@ class _EventState extends State<EventScreen> {
                             setState(() {});
                           },
                           onSubmitted: (text) {
-                            //todo the same value of on icon presed
                             isSelected
                                 ? searchCourseList.clear()
                                 : searchWorkshopList.clear();
@@ -402,245 +404,112 @@ class _EventState extends State<EventScreen> {
                           },
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-
-                                if (isSelected != true) {
-                                  setState(() {
-                                    isSelected = true;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(90, 40),
-                                  side: BorderSide(
-                                      color: isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child:
-                                  Text("الدورات", style: TextStyles.heading2),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (isSelected == true) {
-                                  setState(() {
-                                    isSelected = false;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(110, 40),
-                                  side: BorderSide(
-                                      color: !isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: !isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child: Text(
-                                "ورش عمل",
-                                style: TextStyles.heading2,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (isSelected == false) {
-                                  setState(() {
-                                    isSelected = true;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = true;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(100, 40),
-                                  side: BorderSide(
-                                      color: !isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: !isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child: Text(
-                                "المؤتمرات",
-                                style: TextStyles.heading2,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (isSelected == true) {
-                                  setState(() {
-                                    isSelected = false;
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(50, 40),
-                                  side: BorderSide(
-                                      color: !isSelected
-                                          ? Colors.transparent
-                                          : CustomColors.darkGrey,
-                                      width: 1),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: !isSelected
-                                      ? CustomColors.pink
-                                      : Colors.transparent),
-                              child: Text(
-                                "اخرى",
-                                style: TextStyles.heading2,
-                              ),
-                            ),
+                            getFilterButton(() {
+                              if (!isSelectedCourse) {
+                                isSelectedCourse = !isSelectedCourse;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedCourse == true)
+                                    isSelectedConfre = false;
+                                  isSelectedWorkshop = false;
+                                  isSelectedOther = false;
+                                });
+                              }
+                            },
+                                isSelectedCourse
+                                    ? CustomColors.pink
+                                    : Colors.transparent,
+                                "الدورات"),
+                            getFilterButton(() {
+                              if (!isSelectedWorkshop) {
+                                isSelectedWorkshop = !isSelectedWorkshop;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedWorkshop == true)
+                                    isSelectedConfre = false;
+                                  isSelectedCourse = false;
+                                  isSelectedOther = false;
+                                });
+                              }
+                            },
+                                isSelectedWorkshop
+                                    ? CustomColors.pink
+                                    : Colors.transparent,
+                                "ورش عمل"),
+                            getFilterButton(() {
+                              if (!isSelectedConfre) {
+                                isSelectedConfre = !isSelectedConfre;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedConfre == true)
+                                    isSelectedCourse = false;
+                                  isSelectedWorkshop = false;
+                                  isSelectedOther = false;
+                                });
+                              }
+                            },
+                                isSelectedConfre
+                                    ? CustomColors.pink
+                                    : Colors.transparent,
+                                "المؤتمرات"),
+                            getFilterButton(() {
+                              if (!isSelectedOther) {
+                                isSelectedOther = !isSelectedOther;
+                                setState(() {
+                                  // searchList = getValidCertificates();
+                                  if (isSelectedOther == true)
+                                    isSelectedConfre = false;
+                                  isSelectedWorkshop = false;
+                                  isSelectedCourse = false;
+                                });
+                              }
+                            },
+                                isSelectedOther
+                                    ? CustomColors.pink
+                                    : Colors.transparent,
+                                "اخرى"),
                           ],
                         ),
                       ),
-                      // getFilterButton(() {
-                      //   setState(() {
-                      //     searchCourseList = _courseItem;
-                      //     searchWorkshopList = _workshopItem;
-                      //     searchConfList = _confItem;
-                      //     searchOtherList = _otherItem;
-                      //   });
-                      // },
-                      //     searchWorkshopList == false &&
-                      //             searchConfList == false &&
-                      //             searchOtherList == false
-                      //         ? Colors.transparent
-                      //         : CustomColors.darkGrey,
-                      //     false,
-                      //     'دورات',
-                      //     searchWorkshopList == false &&
-                      //             searchConfList == false &&
-                      //             searchOtherList == false
-                      //         ? CustomColors.pink
-                      //         : Colors.transparent.withOpacity(0.7)),
-                      // const SizedBox(
-                      //   width: 5,
+                      // if ((isSearch
+                      //     ? searchCourseList.isEmpty
+                      //     : searchWorkshopList.isEmpty))
+                      // Expanded(
+                      //   child: Center(
+                      //     child: SizedBox(
+                      //       // padding: EdgeInsets.only(bottom: 20),
+                      //       // alignment: Alignment.topCenter,
+                      //       height: 200,
+                      //       child: Image.asset('assets/images/notFound.png'),
+                      //     ),
+                      //   ),
                       // ),
-                      // getFilterButton(() {
-                      //   if (!searchWorkshopList) {
-                      //     isValid = !isValid;
-                      //     setState(() {
-                      //       searchWorkshopList = _workshopItem;
-                      //       if (isValid == true) isExpired = false;
-                      //     });
-                      //   }
-                      // },
-                      //     isValid ? Colors.transparent : CustomColors.darkGrey,
-                      //     false,
-                      //     'ورش عمل',
-                      //     isValid
-                      //         ? CustomColors.pink
-                      //         : Colors.transparent.withOpacity(0.7)),
-
-                      // const SizedBox(
-                      //   width: 5,
-                      // ),
-
-                      // getFilterButton(() {
-                      //   setState(() {
-                      //     searchCourseList = _courseItem;
-                      //     searchWorkshopList = _workshopItem;
-                      //     searchConfList = _confItem;
-                      //     searchOtherList = _otherItem;
-                      //   });
-                      // },
-                      //     searchCourseList == false &&
-                      //             searchWorkshopList == false &&
-                      //             searchOtherList == false
-                      //         ? Colors.transparent
-                      //         : CustomColors.darkGrey,
-                      //     false,
-                      //     'المؤتمرات',
-                      //     searchCourseList == false &&
-                      //             searchWorkshopList == false &&
-                      //             searchOtherList == false
-                      //         ? CustomColors.pink
-                      //         : Colors.transparent.withOpacity(0.7)),
-                      // const SizedBox(
-                      //   width: 5,
-                      // ),
-                      // getFilterButton(() {
-                      //   setState(() {
-                      //     searchCourseList = _courseItem;
-                      //     searchWorkshopList = _workshopItem;
-                      //     searchConfList = _confItem;
-                      //     searchOtherList = _otherItem;
-                      //   });
-                      // },
-                      //     searchCourseList == false &&
-                      //             searchWorkshopList == false &&
-                      //             searchConfList == false
-                      //         ? Colors.transparent
-                      //         : CustomColors.darkGrey,
-                      //     false,
-                      //     'اخرى',
-                      //     searchCourseList == false &&
-                      //             searchWorkshopList == false &&
-                      //             searchConfList == false
-                      //         ? CustomColors.pink
-                      //         : Colors.transparent.withOpacity(0.7)),
-                      // const SizedBox(
-                      //   width: 5,
-                      // ),
-
-                      if ((isSearch
-                          ? searchCourseList.isEmpty
-                          : searchWorkshopList.isEmpty))
-                        Expanded(
-                          child: Center(
-                            child: SizedBox(
-                              // padding: EdgeInsets.only(bottom: 20),
-                              // alignment: Alignment.topCenter,
-                              height: 200,
-                              child: Image.asset('assets/images/notFound.png'),
-                            ),
-                          ),
-                        ),
-
                       if (_courseItem.isNotEmpty)
+                        Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: MediaQuery.removePadding(
+                                  context: context,
+                                  removeTop: true,
+                                  child: isSearch
+                                      ? ListView.builder(
+                                          itemCount: searchCourseList.length,
+                                          itemBuilder: (context, index) =>
+                                              CoursesCard(
+                                                  searchCourseList[index]))
+                                      : ListView.builder(
+                                          itemCount: _courseItem.length,
+                                          itemBuilder: (context, index) =>
+                                              CoursesCard(_courseItem[index])),
+                                ))),
+
+                      if (_workshopItem.isNotEmpty)
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -649,13 +518,51 @@ class _EventState extends State<EventScreen> {
                             removeTop: true,
                             child: isSearch
                                 ? ListView.builder(
-                                    itemCount: searchCourseList.length,
+                                    itemCount: searchWorkshopList.length,
                                     itemBuilder: (context, index) =>
-                                        CoursesCard(searchCourseList[index]))
+                                        WorkshopCard(searchWorkshopList[index]))
                                 : ListView.builder(
-                                    itemCount: _courseItem.length,
+                                    itemCount: _workshopItem.length,
                                     itemBuilder: (context, index) =>
-                                        CoursesCard(_courseItem[index])),
+                                        WorkshopCard(_workshopItem[index])),
+                          ),
+                        )),
+
+                      if (_confItem.isNotEmpty)
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
+                            child: isSearch
+                                ? ListView.builder(
+                                    itemCount: searchConfList.length,
+                                    itemBuilder: (context, index) =>
+                                        ConfCard(searchConfList[index]))
+                                : ListView.builder(
+                                    itemCount: _workshopItem.length,
+                                    itemBuilder: (context, index) =>
+                                        ConfCard(_confItem[index])),
+                          ),
+                        )),
+
+                      if (_otherItem.isNotEmpty)
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
+                            child: isSearch
+                                ? ListView.builder(
+                                    itemCount: searchOtherList.length,
+                                    itemBuilder: (context, index) =>
+                                        OtherCard(searchOtherList[index]))
+                                : ListView.builder(
+                                    itemCount: _otherItem.length,
+                                    itemBuilder: (context, index) =>
+                                        OtherCard(_otherItem[index])),
                           ),
                         )),
                     ])
@@ -663,21 +570,20 @@ class _EventState extends State<EventScreen> {
                 ]))));
   }
 
-  // Widget getFilterButton(void Function() onButtonPress, Color buttonColor,
-  //     bool isImage, String title, Color textColor) {
-  //   return ElevatedButton(
-  //       onPressed: onButtonPress,
-  //       style: ElevatedButton.styleFrom(
-  //           side: BorderSide(
-  //               color: isSelected ? Colors.transparent : CustomColors.darkGrey,
-  //               width: 1),
-  //           elevation: 0,
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(20),
-  //           ),
-  //           backgroundColor:
-  //               isSelected ? CustomColors.pink : Colors.transparent)
-  // }
+  Widget getFilterButton(
+      void Function() onButtonPress, Color buttonColor, String title) {
+    return ElevatedButton(
+      onPressed: onButtonPress,
+      style: ElevatedButton.styleFrom(
+          side: const BorderSide(color: CustomColors.darkGrey, width: 1),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: buttonColor),
+      child: Text(title, style: TextStyles.heading2),
+    );
+  }
 
   void filterSearchResults(
       String query,
