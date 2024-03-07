@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:senior_project/interface/Clinic.dart';
 import 'package:senior_project/interface/VolunteerOpportunities.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 
@@ -27,6 +28,9 @@ class ServiceCard extends StatelessWidget {
         } else if (i == 1) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const VolunteerOp()));
+        } else if (i == 7) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => const Clinic()));
         }
       },
       child: Container(
