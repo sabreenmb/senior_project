@@ -8,76 +8,72 @@ import 'package:senior_project/widgets/side_menu.dart';
 import 'package:http/http.dart' as http;
 
 import '../constant.dart';
+import '../model/SClubInfo.dart';
 import '../model/offer_info.dart';
 import '../theme.dart';
+import '../widgets/clubs_card.dart';
 import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
 
-class OffersListScreen extends StatefulWidget {
-  const OffersListScreen({super.key});
+class StudentClubsScreen extends StatefulWidget {
+  const StudentClubsScreen({super.key});
 
   @override
-  State<OffersListScreen> createState() => _OffersListState();
+  State<StudentClubsScreen> createState() => _StudentClubsState();
 }
 
-class _OffersListState extends State<OffersListScreen> {
+class _StudentClubsState extends State<StudentClubsScreen> {
+   List<SClubInfo> _SClubs = [];
+
   @override
   void initState() {
     super.initState();
-    // _LoadOffers();
+    _LoadSClubs();
   }
 
-  // void _LoadOffers() async {
-  //   final List<OfferInfo> loadedOfferInfo = [];
-  //
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-  //     final url = Uri.https(
-  //         'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
-  //     final response = await http.get(url);
-  //
-  //     final Map<String, dynamic> founddata = json.decode(response.body);
-  //     for (final item in founddata.entries) {
-  //       print(item.value['of_name']);
-  //       loadedOfferInfo.add(OfferInfo(
-  //         id: item.key,
-  //         //model name : firebase name
-  //         name: item.value['of_name'],
-  //         logo: item.value['of_logo'],
-  //         category: item.value['of_category'],
-  //         code: item.value['of_code'],
-  //         details: item.value['of_details'],
-  //         discount: item.value['of_discount'],
-  //         expDate: item.value['of_expDate'],
-  //         contact: item.value['of_contact'],
-  //         targetUsers: item.value['of_target'],
-  //       ));
-  //     }
-  //   } catch (error) {
-  //     print('Empty List');
-  //   } finally {
-  //     List<OfferInfo> fetchedOffers = await loadedOfferInfo;// fetched data from Firebase
-  //
-  //     for (OfferInfo offer in fetchedOffers) {
-  //       for (Map<String, dynamic> item in offers) {
-  //         if (offer.category == item['offerCategory']) {
-  //           item['categoryList'].add(offer);
-  //           break;
-  //         }
-  //       }
-  //     }
-  //     print(offers[0]);
-  //     setState(() {
-  //       isLoading = false;
-  //
-  //     });
-  //
-  //
-  //   }
-  // }
+  void _LoadSClubs() async {
+     List<SClubInfo> loadedClubsInfo = [];
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final url = Uri.https(
+          'senior-project-72daf-default-rtdb.firebaseio.com', 'studentClubsDB.json');
+      final response = await http.get(url);
+
+      final Map<String, dynamic> clubdata = json.decode(response.body);
+      for (final item in clubdata.entries) {
+        print(item.value['club_name']);
+        loadedClubsInfo.add(SClubInfo(
+          id: item.key,
+          //model name : firebase name
+          name: item.value['club_name'],
+          logo: item.value['club_logo'],
+          details: item.value['club_details'],
+          contact: item.value['club_contact'],
+          regTime: item.value['club_regTime'],
+          leader: item.value['club_leader'],
+          membersLink: item.value['clubMB_link'],
+          MngLink: item.value['clubMG_link'],
+        ));
+      }
+    } catch (error) {
+      print('Empty List');
+    } finally {
+      _SClubs = await loadedClubsInfo;// fetched data from Firebase
+
+
+
+      setState(() {
+        isLoading = false;
+
+      });
+
+
+    }
+  }
 
   // ignore: unused_field
   int _selectedPageIndex = 1;
@@ -119,7 +115,7 @@ class _OffersListState extends State<OffersListScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
-        title: Text("العروض", style: TextStyles.heading1),
+        title: Text("النوادي الطلابية", style: TextStyles.heading1),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
@@ -142,7 +138,7 @@ class _OffersListState extends State<OffersListScreen> {
             child: BottomNavigationBar(
               onTap: _selectPage,
               unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.lightBlue,
+              selectedItemColor: CustomColors.darkGrey,
               currentIndex: 1,
               items: const [
                 BottomNavigationBarItem(
@@ -180,16 +176,16 @@ class _OffersListState extends State<OffersListScreen> {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
+                          vertical: 10.0, horizontal: 15.0),
                       child: GridView.builder(
                           gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              mainAxisSpacing: 25.0,
+                              mainAxisSpacing: 20.0,
                               crossAxisSpacing: 10.0,
-                              childAspectRatio: 1.3),
-                          itemCount: offers.length,
-                          itemBuilder: (context, i) => GridCard(offers[i], i,false)),
+                              childAspectRatio: 1.1),
+                          itemCount: _SClubs.length,
+                          itemBuilder: (context, i) => ClubsCard(_SClubs[i], i)),
                     ),
                   ],
                 ))

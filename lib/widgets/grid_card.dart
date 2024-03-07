@@ -6,6 +6,7 @@ import 'package:senior_project/interface/OfferCategoryScreen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 
 import '../interface/OffersListScreen.dart';
+import '../interface/StudentClubsScreen.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
 import '../interface/student_activity.dart';
@@ -99,14 +100,14 @@ class GridCard extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const OffersListScreen()));
 
         break;
-      // case 3:
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => LostAndFoundScreen(),
-      //   ),
-      // );
-      // break;
+      case 3:
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>StudentClubsScreen(),
+        ),
+      );
+      break;
       case 4:
       Navigator.push(
         context,

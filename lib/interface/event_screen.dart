@@ -29,6 +29,7 @@ class EventScreen extends StatefulWidget {
 
 class _EventState extends State<EventScreen> {
   final _userInputController = TextEditingController();
+
   List<CoursesItemReport> searchCourseList = [];
   List<WorkshopsItemReport> searchWorkshopList = [];
   List<ConferencesItemReport> searchConfList = [];
@@ -39,8 +40,6 @@ class _EventState extends State<EventScreen> {
   List<ConferencesItemReport> _confItem = [];
   List<OtherEventsItemReport> _otherItem = [];
 
-  late List<Map<String, Object>> _pages;
-
   int _selectedPageIndex = 1;
   bool isSelected = true;
   bool isSearch = false;
@@ -49,185 +48,158 @@ class _EventState extends State<EventScreen> {
   bool isSelectedWorkshop = false;
   bool isSelectedConfre = false;
   bool isSelectedOther = false;
-
-  void _selectPage(int index) {
-    setState(() {
-      if (index == 0) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-      } else if (index == 1) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      } else if (index == 2) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ChatScreen()));
-      } else if (index == 3) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
-      }
-      _selectedPageIndex = index;
-    });
-  }
+  String errorMessage = '';
 
   @override
   void initState() {
     super.initState();
-    // _animationController = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(milliseconds: 200),
-    // );
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const ChatScreen(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
-    _LoadCoursesItems();
-    //_LoadWorkshopsItems();
-    //_LoadConferencesItems();
-    _LoadOtherEventsItems();
+    _loadData();
   }
-
-  void _LoadCoursesItems() async {
-    final List<CoursesItemReport> loadedCoursesItems = [];
+  void _loadData() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = '';
+    });
 
     try {
-      setState(() {
-        isLoading = true;
-      });
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'eventsCoursesDB.json');
-      final response = await http.get(url);
-
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        loadedCoursesItems.add(CoursesItemReport(
-          id: item.key,
-          Name: item.value['course_name'],
-          presentBy: item.value['course_presenter'],
-          courseDate: item.value['course_date'],
-          courseTime: item.value['course_time'],
-          coursePlace: item.value['course_location'],
-          courseLink: item.value['course_link'],
-        ));
-      }
+      await Future.wait([
+        _loadCoursesItems(),
+        _loadWorkshopsItems(),
+        _loadConferencesItems(),
+        _loadOtherEventsItems(),
+      ]);
     } catch (error) {
-      print('Empty List');
+      setState(() {
+        errorMessage = 'Failed to load data. Please check your connection.';
+      });
     } finally {
       setState(() {
         isLoading = false;
-        _courseItem = loadedCoursesItems;
       });
     }
   }
 
-  void _LoadWorkshopsItems() async {
-    final List<WorkshopsItemReport> loadedWorkshopsItems = [];
+  Future<void> _loadCoursesItems() async {
+    final url = Uri.https(
+      'senior-project-72daf-default-rtdb.firebaseio.com',
+      'eventsCoursesDB.json',
+    );
+    final response = await http.get(url);
 
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
-      final response = await http.get(url);
+    final Map<String, dynamic> foundData = json.decode(response.body);
+    final loadedCoursesItems = foundData.entries.map((item) {
+      return CoursesItemReport(
+        id: item.key,
+        Name: item.value['course_name'],
+        presentBy: item.value['course_presenter'],
+        courseDate: item.value['course_date'],
+        courseTime: item.value['course_time'],
+        coursePlace: item.value['course_location'],
+        courseLink: item.value['course_link'],
+      );
+    }).toList();
 
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        loadedWorkshopsItems.add(WorkshopsItemReport(
-          id: item.key,
-          Name: item.value['Name'],
-          presentBy: item.value['PresentBy'],
-          workshopDate: item.value['WorkshopDate'],
-          workshopPlace: item.value['WorkshopPlace'],
-          workshopTime: item.value['WorkshopTime'],
-          workshopLink: item.value['WorkshopLink'],
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-        _workshopItem = loadedWorkshopsItems;
-      });
-    }
+    setState(() {
+      _courseItem = loadedCoursesItems;
+    });
   }
 
-  void _LoadConferencesItems() async {
-    final List<ConferencesItemReport> loadedConferencesItems = [];
+  Future<void> _loadWorkshopsItems() async {
+    final url = Uri.https(
+      'senior-project-72daf-default-rtdb.firebaseio.com',
+      'eventsWorkshopsDB.json',
+    );
+    final response = await http.get(url);
 
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final url =
-          Uri.https('senior-project-72daf-default-rtdb.firebaseio.com', '    ');
-      final response = await http.get(url);
+    final Map<String, dynamic> foundData = json.decode(response.body);
+    final loadedWorkshopsItems = foundData.entries.map((item) {
+      return WorkshopsItemReport(
+        id: item.key,
+        Name: item.value['workshop_name'],
+        presentBy: item.value['workshop_presenter'],
+        workshopDate: item.value['workshop_date'],
+        workshopPlace: item.value['workshop_location'],
+        workshopTime: item.value['workshop_time'],
+        workshopLink: item.value['workshop_link'],
+      );
+    }).toList();
 
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        loadedConferencesItems.add(ConferencesItemReport(
-          id: item.key,
-          Name: item.value['Name'],
-          presentBy: item.value['PresentBy'],
-          confDate: item.value['ConfDate'],
-          confTime: item.value['ConfTime'],
-          confPlace: item.value['ConfPlace'],
-          confLink: item.value['confLink'],
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-        _confItem = loadedConferencesItems;
-      });
-    }
+    setState(() {
+      _workshopItem = loadedWorkshopsItems;
+    });
   }
 
-  void _LoadOtherEventsItems() async {
-    final List<OtherEventsItemReport> loadedOtherEventsItems = [];
+  Future<void> _loadConferencesItems() async {
+    final url = Uri.https(
+      'senior-project-72daf-default-rtdb.firebaseio.com',
+      'eventsConferencesDB.json',
+    );
+    final response = await http.get(url);
 
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'eventsOthersDB.json');
-      final response = await http.get(url);
+    final Map<String, dynamic> foundData = json.decode(response.body);
+    final loadedConferencesItems = foundData.entries.map((item) {
+      return ConferencesItemReport(
+        id: item.key,
+        Name: item.value['conference_name'],
+        confDate: item.value['conference_date'],
+        confTime: item.value['conference_time'],
+        confPlace: item.value['conference_location'],
+        confLink: item.value['conference_link'],
+      );
+    }).toList();
 
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        loadedOtherEventsItems.add(OtherEventsItemReport(
-          id: item.key,
-          Name: item.value['OEvent_name'],
-          presentBy: item.value['OEvent_presenter'],
-          otherEventDate: item.value['OEvent_date'],
-          otherEventTime: item.value['OEvent_time'],
-          otherEventPlace: item.value['OEvent_location'],
-          otherEventLink: item.value['OEvent_link'],
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-        _otherItem = loadedOtherEventsItems;
-      });
-    }
+    setState(() {
+      _confItem = loadedConferencesItems;
+    });
   }
 
+  Future<void> _loadOtherEventsItems() async {
+    final url = Uri.https(
+      'senior-project-72daf-default-rtdb.firebaseio.com',
+      'eventsOthersDB.json',
+    );
+    final response = await http.get(url);
+
+    final Map<String, dynamic> eventData = json.decode(response.body);
+    final loadedOtherEventsItems = eventData.entries.map((item) {
+      return OtherEventsItemReport(
+        id: item.key,
+        Name: item.value['OEvent_name'],
+        presentBy: item.value['OEvent_presenter'],
+        otherEventDate: item.value['OEvent_date'],
+        otherEventTime: item.value['OEvent_time'],
+        otherEventPlace: item.value['OEvent_location'],
+        otherEventLink: item.value['OEvent_link'],
+      );
+    }).toList();
+
+    setState(() {
+      _otherItem = loadedOtherEventsItems;
+    });
+  }
+  void _selectPage(int index) {
+    setState(() {
+      if (index == 1) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
+        _selectedPageIndex = index;
+      }
+      // todo uncomment on next sprints
+     //  if (index == 0) {
+     //    Navigator.pushReplacement(
+     //        context, MaterialPageRoute(builder: (_) => HomeScreen()));
+     //  } else if (index == 1) {
+     //    Navigator.pushReplacement(
+     //        context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+     //  } else if (index == 2) {
+     //    Navigator.pushReplacement(
+     //        context, MaterialPageRoute(builder: (_) => ChatScreen()));
+     //  } else if (index == 3) {
+     //    Navigator.pushReplacement(
+     //        context, MaterialPageRoute(builder: (_) => SaveListScreen()));
+     //  }
+    });
+  }
   void goToProfilePage() {
     Navigator.pop(context);
     Navigator.push(
@@ -240,7 +212,6 @@ class _EventState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('build enter');
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: CustomColors.pink,
@@ -270,7 +241,7 @@ class _EventState extends State<EventScreen> {
               child: BottomNavigationBar(
                 onTap: _selectPage,
                 unselectedItemColor: CustomColors.darkGrey,
-                selectedItemColor: CustomColors.lightBlue,
+                selectedItemColor: CustomColors.darkGrey,
                 currentIndex: _selectedPageIndex,
                 items: const [
                   BottomNavigationBarItem(
@@ -344,18 +315,18 @@ class _EventState extends State<EventScreen> {
                                   color: CustomColors.darkGrey,
                                 ),
                                 onPressed: () {
-                                  isSelected
-                                      ? searchCourseList.clear()
-                                      : searchWorkshopList.clear();
-                                  searchConfList.clear();
-                                  searchOtherList.clear();
-
                                   filterSearchResults(
-                                      _userInputController.text,
-                                      isSelected ? _courseItem : _workshopItem,
-                                      _confItem,
-                                      _otherItem);
-
+                                    _userInputController.text,
+                                    isSelectedCourse
+                                        ? _courseItem
+                                        : isSelectedConfre
+                                            ? _confItem
+                                            : isSelectedWorkshop
+                                                ? _workshopItem
+                                                : isSelectedOther
+                                                    ? _otherItem
+                                                    : [],
+                                  );
                                   FocusScope.of(context).unfocus();
                                 }),
                             hintText: 'ابحث',
@@ -381,17 +352,23 @@ class _EventState extends State<EventScreen> {
                             setState(() {});
                           },
                           onSubmitted: (text) {
-                            isSelected
-                                ? searchCourseList.clear()
-                                : searchWorkshopList.clear();
-                            searchConfList.clear();
-                            searchOtherList.clear();
-
+                            // isSelected
+                            //     ? searchCourseList.clear()
+                            //     : searchWorkshopList.clear();
+                            // searchConfList.clear();
+                            // searchOtherList.clear();
                             filterSearchResults(
-                                _userInputController.text,
-                                isSelected ? _courseItem : _workshopItem,
-                                _confItem,
-                                _otherItem);
+                              _userInputController.text,
+                              isSelectedCourse
+                                  ? _courseItem
+                                  : isSelectedConfre
+                                      ? _confItem
+                                      : isSelectedWorkshop
+                                          ? _workshopItem
+                                          : isSelectedOther
+                                              ? _otherItem
+                                              : [],
+                            );
 
                             FocusScope.of(context).unfocus();
                           },
@@ -404,7 +381,6 @@ class _EventState extends State<EventScreen> {
                           },
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -412,14 +388,21 @@ class _EventState extends State<EventScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             getFilterButton(() {
+                              FocusScope.of(context).unfocus();
+
                               if (!isSelectedCourse) {
                                 isSelectedCourse = !isSelectedCourse;
                                 setState(() {
                                   // searchList = getValidCertificates();
-                                  if (isSelectedCourse == true)
+                                  if (isSelectedCourse == true) {
                                     isSelectedConfre = false;
-                                  isSelectedWorkshop = false;
-                                  isSelectedOther = false;
+                                    isSelectedWorkshop = false;
+                                    isSelectedOther = false;
+                                  }
+                                  if (isSearch) {
+                                    _userInputController.clear();
+                                    isSearch = false;
+                                  }
                                 });
                               }
                             },
@@ -428,14 +411,21 @@ class _EventState extends State<EventScreen> {
                                     : Colors.transparent,
                                 "الدورات"),
                             getFilterButton(() {
+                              FocusScope.of(context).unfocus();
+
                               if (!isSelectedWorkshop) {
                                 isSelectedWorkshop = !isSelectedWorkshop;
                                 setState(() {
                                   // searchList = getValidCertificates();
-                                  if (isSelectedWorkshop == true)
+                                  if (isSelectedWorkshop == true) {
                                     isSelectedConfre = false;
-                                  isSelectedCourse = false;
-                                  isSelectedOther = false;
+                                    isSelectedCourse = false;
+                                    isSelectedOther = false;
+                                  }
+                                  if (isSearch) {
+                                    _userInputController.clear();
+                                    isSearch = false;
+                                  }
                                 });
                               }
                             },
@@ -444,14 +434,21 @@ class _EventState extends State<EventScreen> {
                                     : Colors.transparent,
                                 "ورش عمل"),
                             getFilterButton(() {
+                              FocusScope.of(context).unfocus();
+
                               if (!isSelectedConfre) {
                                 isSelectedConfre = !isSelectedConfre;
                                 setState(() {
                                   // searchList = getValidCertificates();
-                                  if (isSelectedConfre == true)
+                                  if (isSelectedConfre == true) {
                                     isSelectedCourse = false;
-                                  isSelectedWorkshop = false;
-                                  isSelectedOther = false;
+                                    isSelectedWorkshop = false;
+                                    isSelectedOther = false;
+                                  }
+                                  if (isSearch) {
+                                    _userInputController.clear();
+                                    isSearch = false;
+                                  }
                                 });
                               }
                             },
@@ -460,14 +457,20 @@ class _EventState extends State<EventScreen> {
                                     : Colors.transparent,
                                 "المؤتمرات"),
                             getFilterButton(() {
+                              FocusScope.of(context).unfocus();
                               if (!isSelectedOther) {
                                 isSelectedOther = !isSelectedOther;
                                 setState(() {
                                   // searchList = getValidCertificates();
-                                  if (isSelectedOther == true)
+                                  if (isSelectedOther == true) {
                                     isSelectedConfre = false;
-                                  isSelectedWorkshop = false;
-                                  isSelectedCourse = false;
+                                    isSelectedWorkshop = false;
+                                    isSelectedCourse = false;
+                                  }
+                                  if (isSearch) {
+                                    _userInputController.clear();
+                                    isSearch = false;
+                                  }
                                 });
                               }
                             },
@@ -478,97 +481,82 @@ class _EventState extends State<EventScreen> {
                           ],
                         ),
                       ),
-                      // if ((isSearch
-                      //     ? searchCourseList.isEmpty
-                      //     : searchWorkshopList.isEmpty))
-                      // Expanded(
-                      //   child: Center(
-                      //     child: SizedBox(
-                      //       // padding: EdgeInsets.only(bottom: 20),
-                      //       // alignment: Alignment.topCenter,
-                      //       height: 200,
-                      //       child: Image.asset('assets/images/notFound.png'),
+                      if ((isSelectedCourse && _courseItem.isEmpty) ||
+                          (isSelectedWorkshop && _workshopItem.isEmpty) ||
+                          (isSelectedConfre && _confItem.isEmpty) ||
+                          (isSelectedOther && _otherItem.isEmpty) ||
+                          (isSearch &&
+                              ((searchCourseList.isEmpty && isSelectedCourse) ||
+                                  (isSelectedWorkshop &&
+                                      searchWorkshopList.isEmpty) ||
+                                  (isSelectedConfre &&
+                                      searchConfList.isEmpty) ||
+                                  (isSelectedOther &&
+                                      searchOtherList.isEmpty))))
+                        Expanded(
+                          child: Center(
+                            child: SizedBox(
+                              height: 200,
+                              child: Image.asset('assets/images/notFound.png'),
+                            ),
+                          ),
+                        ),
+                      // if (isSelectedCourse
+                      //     ? (isSearch
+                      //         ? searchCourseList.isEmpty
+                      //         : _courseItem.isEmpty)
+                      //     : false)
+                      //   Expanded(
+                      //     child: Center(
+                      //       child: Container(
+                      //         // padding: EdgeInsets.only(bottom: 20),
+                      //         // alignment: Alignment.topCenter,
+                      //         height: 200,
+                      //         child: Image.asset('assets/images/notFound.png'),
+                      //       ),
                       //     ),
                       //   ),
-                      // ),
-                      if (_courseItem.isNotEmpty)
-                        Expanded(
-                            child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: MediaQuery.removePadding(
-                                  context: context,
-                                  removeTop: true,
-                                  child: isSearch
-                                      ? ListView.builder(
-                                          itemCount: searchCourseList.length,
-                                          itemBuilder: (context, index) =>
-                                              CoursesCard(
-                                                  searchCourseList[index]))
-                                      : ListView.builder(
-                                          itemCount: _courseItem.length,
-                                          itemBuilder: (context, index) =>
-                                              CoursesCard(_courseItem[index])),
-                                ))),
+                      if (isSelectedCourse && _courseItem.isNotEmpty)
+                        buildExpandedWidget(_courseItem, searchCourseList,
+                            (item) => CoursesCard(item)),
 
-                      if (_workshopItem.isNotEmpty)
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: isSearch
-                                ? ListView.builder(
-                                    itemCount: searchWorkshopList.length,
-                                    itemBuilder: (context, index) =>
-                                        WorkshopCard(searchWorkshopList[index]))
-                                : ListView.builder(
-                                    itemCount: _workshopItem.length,
-                                    itemBuilder: (context, index) =>
-                                        WorkshopCard(_workshopItem[index])),
-                          ),
-                        )),
+                      if (isSelectedWorkshop && _workshopItem.isNotEmpty)
+                        buildExpandedWidget(_workshopItem, searchWorkshopList,
+                            (item) => WorkshopCard(item)),
 
-                      if (_confItem.isNotEmpty)
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: isSearch
-                                ? ListView.builder(
-                                    itemCount: searchConfList.length,
-                                    itemBuilder: (context, index) =>
-                                        ConfCard(searchConfList[index]))
-                                : ListView.builder(
-                                    itemCount: _workshopItem.length,
-                                    itemBuilder: (context, index) =>
-                                        ConfCard(_confItem[index])),
-                          ),
-                        )),
+                      if (isSelectedConfre && _confItem.isNotEmpty)
+                        buildExpandedWidget(_confItem, searchConfList,
+                            (item) => ConfCard(item)),
 
-                      if (_otherItem.isNotEmpty)
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: isSearch
-                                ? ListView.builder(
-                                    itemCount: searchOtherList.length,
-                                    itemBuilder: (context, index) =>
-                                        OtherCard(searchOtherList[index]))
-                                : ListView.builder(
-                                    itemCount: _otherItem.length,
-                                    itemBuilder: (context, index) =>
-                                        OtherCard(_otherItem[index])),
-                          ),
-                        )),
+                      if (isSelectedOther && _otherItem.isNotEmpty)
+                        buildExpandedWidget(_otherItem, searchOtherList,
+                            (item) => OtherCard(item)),
                     ])
                   ]))
                 ]))));
+  }
+
+  Widget buildExpandedWidget(
+      List itemList, List searchList, Widget Function(dynamic) itemBuilder) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: isSearch
+              ? ListView.builder(
+                  itemCount: searchList.length,
+                  itemBuilder: (context, index) =>
+                      itemBuilder(searchList[index]),
+                )
+              : ListView.builder(
+                  itemCount: itemList.length,
+                  itemBuilder: (context, index) => itemBuilder(itemList[index]),
+                ),
+        ),
+      ),
+    );
   }
 
   Widget getFilterButton(
@@ -587,32 +575,32 @@ class _EventState extends State<EventScreen> {
   }
 
   void filterSearchResults(
-      String query,
-      List ls,
-      List<ConferencesItemReport> confItem,
-      List<OtherEventsItemReport> otherItem) {
+    String query,
+    List ls,
+  ) {
     setState(() {
+      searchCourseList.clear();
+      searchWorkshopList.clear();
+      searchConfList.clear();
+      searchOtherList.clear();
+
       for (int item = 0; item < ls.length; item++) {
-        if (ls[item].name!.toLowerCase().contains(query.toLowerCase().trim())) {
-          isSelected
-              ? searchCourseList.add(ls[item])
-              : searchWorkshopList.add(ls[item]);
-          searchConfList.add(ls[item]);
-          searchOtherList.add(ls[item]);
-        } //Add
-        // else {
-        //   if (ls[item]
-        //       .category!
-        //       .toLowerCase()
-        //       .contains(query.toLowerCase().trim())) {
-        //     isSelected
-        //         ? searchCourseList.add(ls[item])
-        //         : searchWorkshopList.add(ls[item]);
-        //     searchConfList.add(ls[item]);
-        //     searchOtherList.add(ls[item]);
-        //   }
+        if (ls[item].Name!.toLowerCase().contains(query.toLowerCase().trim())) {
+          if (isSelectedCourse) {
+            searchCourseList.add(ls[item]);
+          } else if (isSelectedWorkshop) {
+            searchWorkshopList.add(ls[item]);
+          } else if (isSelectedConfre) {
+            searchConfList.add(ls[item]);
+          } else {
+            searchOtherList.add(ls[item]);
+          }
+        }
+        // else if (ls[item].category!.toLowerCase().contains(query.toLowerCase().trim())) {
+        //
         // }
       }
     });
   }
+
 }

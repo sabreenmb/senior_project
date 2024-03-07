@@ -20,6 +20,8 @@ class TextStyles {
       color: CustomColors.lightBlue, fontWeight: FontWeight.bold, fontSize: 16);
   static TextStyle heading1D = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 18);
+  static TextStyle heading1L = GoogleFonts.getFont("Almarai",
+      color: CustomColors.lightGrey, fontWeight: FontWeight.bold, fontSize: 15);
 
   static TextStyle heading2 = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 16);

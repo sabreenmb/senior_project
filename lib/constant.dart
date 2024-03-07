@@ -91,7 +91,7 @@ final List offers = [
     "offerCategory": "رياضة",
     "icon": "assets/icons/Fitness.svg",
     "semanticsLabel": "Fitness",
-    "categoryList":[],
+    "categoryList": [],
 
     //'whenClick': LostAndFoundScreen() ,
     //"whenClick": LostAndFoundScreen(),
@@ -100,7 +100,7 @@ final List offers = [
     "offerCategory": "تعليم وتدريب",
     "icon": "assets/icons/board.svg",
     "semanticsLabel": "board",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -108,7 +108,7 @@ final List offers = [
     "offerCategory": "مطاعم ومقاهي",
     "icon": "assets/icons/resturants.svg",
     "semanticsLabel": "resturants",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -116,7 +116,7 @@ final List offers = [
     "offerCategory": "ترفيه",
     "icon": "assets/icons/entertainment.svg",
     "semanticsLabel": "entertainment",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -124,7 +124,7 @@ final List offers = [
     "offerCategory": "مراكز صحية",
     "icon": "assets/icons/hospital.svg",
     "semanticsLabel": "hospital",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -132,7 +132,7 @@ final List offers = [
     "offerCategory": "عناية وجمال",
     "icon": "assets/icons/beauty.svg",
     "semanticsLabel": "beauty",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -140,7 +140,7 @@ final List offers = [
     "offerCategory": "سياحة وفنادق",
     "icon": "assets/icons/travel.svg",
     "semanticsLabel": "travel",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -148,7 +148,7 @@ final List offers = [
     "offerCategory": "خدمات السيارات",
     "icon": "assets/icons/carServises.svg",
     "semanticsLabel": "carServises",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -156,7 +156,7 @@ final List offers = [
     "offerCategory": "تسوق",
     "icon": "assets/icons/shopcart.svg",
     "semanticsLabel": "shopcart",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
@@ -164,12 +164,29 @@ final List offers = [
     "offerCategory": "عقارات وبناء",
     "icon": "assets/icons/construction.svg",
     "semanticsLabel": "construction",
-    "categoryList":[],
+    "categoryList": [],
 
     //"whenClick": LostAndFoundScreen(),
   },
 ];
-
+final List clubs = [
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  },
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  },
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  },
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  }
+];
 final List services = [
   {
     "serviceName": "المفقودات",
@@ -228,13 +245,10 @@ final List services = [
   },
 ];
 
-
-
 void LoadOffers() async {
   final List<OfferInfo> loadedOfferInfo = [];
 
   try {
-
     final url = Uri.https(
         'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
     final response = await http.get(url);
@@ -259,7 +273,8 @@ void LoadOffers() async {
   } catch (error) {
     print('Empty List');
   } finally {
-    List<OfferInfo> fetchedOffers = await loadedOfferInfo;// fetched data from Firebase
+    List<OfferInfo> fetchedOffers =
+        await loadedOfferInfo; // fetched data from Firebase
 
     for (OfferInfo offer in fetchedOffers) {
       for (Map<String, dynamic> item in offers) {
@@ -270,8 +285,5 @@ void LoadOffers() async {
       }
     }
     print(offers[0]);
-
-
-
   }
 }

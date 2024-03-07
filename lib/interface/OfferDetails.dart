@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../model/offer_info.dart';
 import '../theme.dart';
+
 class OfferDetails extends StatefulWidget {
   OfferInfo offerInfo;
 
@@ -12,15 +13,15 @@ class OfferDetails extends StatefulWidget {
   @override
   State<OfferDetails> createState() => _OfferDetailsState();
 }
+
 class _OfferDetailsState extends State<OfferDetails> {
   String imageURL =
       "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2Ftile_background.png?alt=media&token=db53f43f-268e-4877-a5b2-be156851f822";
-      // "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2FFITNESS-ZONE.png?alt=media&token=3e01d171-fd56-4ae5-a65e-5a4298b7ab53";
-  bool isClicked=false;
+  // "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2FFITNESS-ZONE.png?alt=media&token=3e01d171-fd56-4ae5-a65e-5a4298b7ab53";
+  bool isClicked = false;
   @override
   Widget build(BuildContext context) {
-    OfferInfo offerInfo= widget.offerInfo;
-
+    OfferInfo offerInfo = widget.offerInfo;
     // TODO: implement build
     return Scaffold(
       backgroundColor: CustomColors.BackgroundColor,
@@ -37,8 +38,30 @@ class _OfferDetailsState extends State<OfferDetails> {
                   decoration: BoxDecoration(
                     color: CustomColors.darkGrey,
                   ),
-
                 ),
+                Positioned(
+                  child: AppBar(
+                    systemOverlayStyle: const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.light,
+                      statusBarBrightness: Brightness.light,
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    leading: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios,
+                          color: CustomColors.white),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => SearchScreen()));
+                      },
+                    ),
+                  ),
+                ),
+
                 SizedBox(
                   height: 700,
                   width: MediaQuery.of(context).size.width - 50,
@@ -51,9 +74,9 @@ class _OfferDetailsState extends State<OfferDetails> {
                     child: Padding(
                       padding: const EdgeInsets.all(50.0),
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
+
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        //start the colom
+                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
@@ -67,82 +90,26 @@ class _OfferDetailsState extends State<OfferDetails> {
                           const SizedBox(
                             height: 25,
                           ),
-                          SizedBox(
-                            height: 100,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      " خصم يصل الى : ",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text4,
-                                    ),
-                                    Text(
-                                      "صلاحية الخصم إلى: ",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text4,
-                                    ),
-                                    Text(
-                                      " الفئة المستهدفة : ",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text4,
-                                    ),
-                                    Text(
-                                      " وسيلة التواصل : ",
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text4,
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      offerInfo.discount!,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text2,
-                                    ),
-                                    Text(
-                                      offerInfo.expDate!,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text2,
-                                    ),
-                                    Text(
-                                      offerInfo.targetUsers!,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text2,
-                                    ),
-                                    Text(
-                                      offerInfo.contact!,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyles.text2,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                          _buildInfoColumn(
+                              "خصم يصل الى : ", offerInfo.discount!),
+                          _buildInfoColumn(
+                              "صلاحية الخصم إلى: ", offerInfo.expDate!),
+                          _buildInfoColumn("الفئة المستهدفة : ",
+                              offerInfo.targetUsers!),
+                          _buildInfoColumn(
+                              "وسيلة التواصل : ", offerInfo.contact!),
                           Container(
-                            margin: EdgeInsets.only(top: 40, bottom: 25),
+                            margin: EdgeInsets.only(top: 25, bottom: 25),
                             width: 250,
                             height: 1,
                             color: CustomColors.lightGreyLowTrans,
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              if(!isClicked){
+                              if (!isClicked) {
                                 setState(() {
                                   // searchList = getValidCertificates();
-                                  isClicked=true;
+                                  isClicked = true;
                                 });
                               }
 
@@ -161,85 +128,54 @@ class _OfferDetailsState extends State<OfferDetails> {
                                   borderRadius: BorderRadius.circular(27),
                                 ),
                                 backgroundColor: CustomColors.lightBlue),
-                            child:
-                                Text("احصل على الخصم", style: TextStyles.text3),
+                            child: Text("احصل على الخصم",
+                                style: TextStyles.text3),
                           ),
-                          if(isClicked)
+                          if (isClicked)
                             Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: Text(offerInfo.code!, style: TextStyles.heading3B),
+                              child: Text(offerInfo.code!,
+                                  style: TextStyles.heading3B),
                             )
                         ],
                       ),
                     ),
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    AppBar(
-                      systemOverlayStyle: const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.light,
-                        statusBarBrightness: Brightness.light,
-                      ),
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      leading: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios,
-                            color: CustomColors.white),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => SearchScreen()));
-                        },
-                      ),
+
+                Positioned(
+                  top:180,
+                  child:  Container(
+                    width: 130,
+                    height: 130,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0,
+                              3), // changes the position of the shadow
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 80),
-                      width: MediaQuery.of(context).size.width - 100,
-                      height: 400,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                      child: Stack(
-                        alignment: Alignment.topCenter,
-                        children: [
-                          Container(
-                            width: 130,
-                            height: 130,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: Offset(0,
-                                      3), // changes the position of the shadow
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: offerInfo.logo == "empty"
-                                  ? const Image(
-                                      image:
-                                          AssetImage('assets/images/mug.png'))
-                                  : Image.network(
-                                      '${offerInfo.logo}',
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: offerInfo.logo == "empty"
+                            ? const Image(
+                            image:
+                            AssetImage('assets/images/mug.png'))
+                            :Image.network(
+                        '${offerInfo.logo}',
+                          fit: BoxFit.cover,
+                        ),
                     ),
-                  ],
-                ),
+                  ),
+
+                )
+
               ],
             ),
             Container(
@@ -271,6 +207,33 @@ class _OfferDetailsState extends State<OfferDetails> {
                     ],
                   ),
                 )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoColumn(String label, String value) {
+    double width = MediaQuery.of(context).size.width / 10;
+print(width);
+    return Expanded(
+
+      child: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: width),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyles.text2,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              value,
+              style: TextStyles.text,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),

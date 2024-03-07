@@ -18,12 +18,13 @@ class ConfCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        child: Padding(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      child: Stack(children: [
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
           child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -38,27 +39,6 @@ class ConfCard extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.person,
-                      color: CustomColors.lightGrey,
-                      size: 14.0,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      confItem.presentBy!,
-                      textAlign: TextAlign.right,
-                      style: TextStyles.text,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
                 ),
                 Row(
                   children: [
@@ -97,21 +77,23 @@ class ConfCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Positioned(
-                  bottom: 8.0,
-                  left: 15.0,
-                  child: TextButton(
-                    onPressed: () => _launchURL(confItem.confLink!, context),
-                    child: Text(
-                      'سجل',
-                      style: TextStyle(
-                        color: TextStyles.heading3B.color,
-                      ),
-                    ),
-                  ),
-                )
               ]),
-        ));
+        ),
+        Positioned(
+          bottom: 8.0,
+          left: 15.0,
+          child: TextButton(
+            onPressed: () => _launchURL(confItem.confLink!, context),
+            child: Text(
+              'سجل',
+              style: TextStyle(
+                color: TextStyles.heading3B.color,
+              ),
+            ),
+          ),
+        )
+      ]),
+    );
   }
 
   Future<void> _launchURL(String? urlString, BuildContext context) async {

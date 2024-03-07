@@ -9,6 +9,7 @@ import 'package:senior_project/interface/lost_and_found_screen.dart';
 
 import 'firebase_options.dart';
 import 'interface/OfferCategoryScreen.dart';
+import 'interface/StudentClubsScreen.dart';
 import 'interface/create_group.dart';
 import 'interface/event_screen.dart';
 import 'interface/services_screen.dart';
