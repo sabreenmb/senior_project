@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
-import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/model/conference_item_report.dart';
 import 'package:senior_project/model/courses_item_report.dart';
@@ -16,8 +15,6 @@ import 'package:senior_project/widgets/other_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:senior_project/widgets/workshop_card.dart';
 import '../widgets/course_card.dart';
-import 'ChatScreen.dart';
-import 'SaveListScreen.dart';
 import 'services_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -205,7 +202,7 @@ class _EventState extends State<EventScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProfilePage(),
+        builder: (context) => const ProfilePage(),
       ),
     );
   }

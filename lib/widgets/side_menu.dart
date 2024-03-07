@@ -65,7 +65,7 @@ class SideDrawer extends StatelessWidget {
                         ),
                 ),
                 Text(
-                  userInfo.name!,
+                  userInfo.name,
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

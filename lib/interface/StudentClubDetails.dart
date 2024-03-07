@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../model/SClubInfo.dart';
-import '../model/offer_info.dart';
 import '../theme.dart';
 
 class ClubDetails extends StatefulWidget {
@@ -35,7 +31,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 300,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: CustomColors.darkGrey,
                   ),
                 ),
@@ -70,7 +66,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                     ),
-                    margin: EdgeInsets.only(top: 250),
+                    margin: const EdgeInsets.only(top: 250),
                     child: Padding(
                       padding: const EdgeInsets.all(50.0),
                       child: Column(
@@ -78,7 +74,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 50,
                           ),
                           Text(
@@ -126,7 +122,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(
+                          offset: const Offset(
                               0, 3), // changes the position of the shadow
                         ),
                       ],
@@ -135,12 +131,13 @@ class _ClubDetailsState extends State<ClubDetails> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
+                      child:Padding(padding: EdgeInsets.all(8),
                       child: clubDetails.logo == "empty"
                           ? const Image(image: AssetImage('assets/images/mug.png'))
                           : Image.network(
                         '${clubDetails.logo}',
-                        fit: BoxFit.fill,
-                      ),
+                        fit: BoxFit.contain,
+                      ),)
                       // child: details['icon'] == "empty"
                       //     ? const Image(
                       //         image: AssetImage('assets/images/mug.png'))
@@ -153,7 +150,7 @@ class _ClubDetailsState extends State<ClubDetails> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

@@ -91,7 +91,7 @@ class GridCard extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => VolunteerOp(),
+          builder: (context) => const VolunteerOp(),
         ),
       );
       break;
@@ -104,7 +104,7 @@ class GridCard extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>StudentClubsScreen(),
+          builder: (context) =>const StudentClubsScreen(),
         ),
       );
       break;
@@ -112,7 +112,7 @@ class GridCard extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EventScreen(),
+          builder: (context) => const EventScreen(),
         ),
       );
       break;
@@ -124,7 +124,7 @@ class GridCard extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => StudentActivity(),
+          builder: (context) => const StudentActivity(),
         ),
       );
       break;
@@ -153,13 +153,6 @@ class GridCard extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (context) =>  OfferCategoryScreen(i,details)));
-    // switch (i) {
-    //   case 1:
-    //     Navigator.pushReplacement(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) =>  OfferCategoryScreen(i,details)));
-    //     break;
-    // }
+
   }
 }

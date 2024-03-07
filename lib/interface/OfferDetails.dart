@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../model/offer_info.dart';
 import '../theme.dart';
@@ -35,7 +33,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 300,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: CustomColors.darkGrey,
                   ),
                 ),
@@ -70,7 +68,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                     ),
-                    margin: EdgeInsets.only(top: 250),
+                    margin: const EdgeInsets.only(top: 250),
                     child: Padding(
                       padding: const EdgeInsets.all(50.0),
                       child: Column(
@@ -79,7 +77,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 50,
                           ),
                           Text(
@@ -99,7 +97,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                           _buildInfoColumn(
                               "وسيلة التواصل : ", offerInfo.contact!),
                           Container(
-                            margin: EdgeInsets.only(top: 25, bottom: 25),
+                            margin: const EdgeInsets.only(top: 25, bottom: 25),
                             width: 250,
                             height: 1,
                             color: CustomColors.lightGreyLowTrans,
@@ -154,7 +152,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0,
+                          offset: const Offset(0,
                               3), // changes the position of the shadow
                         ),
                       ],
@@ -180,10 +178,10 @@ class _OfferDetailsState extends State<OfferDetails> {
             ),
             Container(
                 height: 170,
-                padding: EdgeInsets.all(25),
-                margin: EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.all(25),
+                margin: const EdgeInsets.only(top: 50),
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                       top: BorderSide(
                           width: 2, color: CustomColors.lightGreyLowTrans)),

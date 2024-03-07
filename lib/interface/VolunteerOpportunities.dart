@@ -32,10 +32,6 @@ class _VolunteerOpState extends State<VolunteerOp>
   List<VolunteerOpReport> _volunteerOpReport = [];
   //create button
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   void initState() {

@@ -72,9 +72,7 @@ class CreateStudentActivityCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          createStudentActivityReport.activityDate! +
-                              '   ' +
-                              createStudentActivityReport.activityTime!,
+                          '${createStudentActivityReport.activityDate!}   ${createStudentActivityReport.activityTime!}',
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
                         ),

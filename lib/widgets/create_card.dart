@@ -67,9 +67,7 @@ class CreateCard extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  createGroupReport.sessionDate! +
-                      '   ' +
-                      createGroupReport.sessionTime!,
+                  '${createGroupReport.sessionDate!}   ${createGroupReport.sessionTime!}',
                   textAlign: TextAlign.right,
                   style: TextStyles.text,
                 ),

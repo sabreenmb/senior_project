@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/widgets/grid_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:http/http.dart' as http;
 
 import '../constant.dart';
 import '../model/SClubInfo.dart';
-import '../model/offer_info.dart';
 import '../theme.dart';
 import '../widgets/clubs_card.dart';
 import 'ChatScreen.dart';
@@ -62,7 +60,7 @@ class _StudentClubsState extends State<StudentClubsScreen> {
     } catch (error) {
       print('Empty List');
     } finally {
-      _SClubs = await loadedClubsInfo;// fetched data from Firebase
+      _SClubs = loadedClubsInfo;// fetched data from Firebase
 
 
 
@@ -85,7 +83,7 @@ class _StudentClubsState extends State<StudentClubsScreen> {
             context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       } else if (index == 1) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
       } else if (index == 2) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const ChatScreen()));
@@ -102,7 +100,7 @@ class _StudentClubsState extends State<StudentClubsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProfilePage(),
+        builder: (context) => const ProfilePage(),
       ),
     );
   }

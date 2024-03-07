@@ -70,7 +70,7 @@ class OfferCard extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          " خصم يصل الى  "+ offerInfo.discount! +"%",
+                          " خصم يصل الى  ${offerInfo.discount!}%",
                           textAlign: TextAlign.right,
                           style: TextStyles.text2,
                         ),

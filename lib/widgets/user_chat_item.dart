@@ -106,12 +106,12 @@ class UserChatItem extends StatelessWidget {
                               MyDateUtil.getLastMessageTime(
                                   context: context,
                                   time: chatInfo!.lastMsgTime),
-                              style: TextStyle(color: Colors.black54),
+                              style: const TextStyle(color: Colors.black54),
                             )
                       : Text(
                           MyDateUtil.getLastMessageTime(
                               context: context, time: chatInfo!.lastMsgTime),
-                          style: TextStyle(color: Colors.black54),
+                          style: const TextStyle(color: Colors.black54),
                         ),
               leading: GestureDetector(
                 onTap: () {

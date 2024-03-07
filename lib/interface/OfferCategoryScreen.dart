@@ -1,22 +1,13 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/OffersListScreen.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
-import 'package:senior_project/widgets/grid_card.dart';
-import 'package:senior_project/widgets/side_menu.dart';
-import 'package:http/http.dart' as http;
 
 import '../constant.dart';
 import '../model/create_group_report.dart';
-import '../model/offer_info.dart';
 import '../theme.dart';
-import '../widgets/create_card.dart';
 import '../widgets/offer_card.dart';
-import 'ChatScreen.dart';
-import 'HomeScreen.dart';
-import 'SaveListScreen.dart';
 
 class OfferCategoryScreen extends StatefulWidget {
   Map<String, dynamic> details;
@@ -31,7 +22,7 @@ class OfferCategoryScreen extends StatefulWidget {
 class _OfferCategoryState extends State<OfferCategoryScreen> {
   // ignore: unused_field
   late List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 2;
+  final int _selectedPageIndex = 2;
   //search
   List<CreateGroupReport> searchSessionList = [];
 
@@ -48,7 +39,7 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProfilePage(),
+        builder: (context) => const ProfilePage(),
       ),
     );
   }
@@ -70,11 +61,11 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.arrow_back_ios),
               onPressed: () { Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>  OffersListScreen())); },
+                      builder: (context) =>  const OffersListScreen())); },
             );
           },
         ),

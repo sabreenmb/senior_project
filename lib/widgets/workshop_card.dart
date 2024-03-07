@@ -1,7 +1,6 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/courses_item_report.dart';
 import 'package:senior_project/model/workshop_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 

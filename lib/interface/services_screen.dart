@@ -6,7 +6,6 @@ import 'package:senior_project/widgets/side_menu.dart';
 import '../constant.dart';
 import '../theme.dart';
 import '../widgets/grid_card.dart';
-import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
 
@@ -45,7 +44,7 @@ class _ServisesState extends State<ServisesScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProfilePage(),
+        builder: (context) => const ProfilePage(),
       ),
     );
   }

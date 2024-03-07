@@ -1,16 +1,8 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:senior_project/interface/OfferCategoryScreen.dart';
-import 'package:senior_project/interface/lost_and_found_screen.dart';
 
-import '../interface/OffersListScreen.dart';
 import '../interface/StudentClubDetails.dart';
-import '../interface/VolunteerOpportunities.dart';
-import '../interface/event_screen.dart';
-import '../interface/student_activity.dart';
-import '../interface/study_group.dart';
 import '../model/SClubInfo.dart';
 import '../theme.dart';
 
@@ -74,7 +66,7 @@ class ClubsCard extends StatelessWidget {
               //   //color: CustomColors.lightBlue.withOpacity(0.6),
               // ),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             Text(
                clubDetails.name! ,
               textAlign: TextAlign.center,

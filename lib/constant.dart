@@ -62,7 +62,7 @@ Widget loadingFunction(BuildContext context, bool load) {
         borderRadius: BorderRadius.circular(20),
         color: CustomColors.white,
       ),
-      padding: EdgeInsets.only(top: 30, bottom: 20),
+      padding: const EdgeInsets.only(top: 30, bottom: 20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -275,7 +275,7 @@ void LoadOffers() async {
     print('Empty List');
   } finally {
     List<OfferInfo> fetchedOffers =
-        await loadedOfferInfo; // fetched data from Firebase
+        loadedOfferInfo; // fetched data from Firebase
 
     for (OfferInfo offer in fetchedOffers) {
       for (Map<String, dynamic> item in offers) {
