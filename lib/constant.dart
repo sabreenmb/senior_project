@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
+import 'package:http/http.dart' as http;
+
+import 'model/offer_info.dart';
 
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
@@ -57,7 +62,7 @@ Widget loadingFunction(BuildContext context, bool load) {
         borderRadius: BorderRadius.circular(20),
         color: CustomColors.white,
       ),
-      padding: EdgeInsets.only(top: 30, bottom: 20),
+      padding: const EdgeInsets.only(top: 30, bottom: 20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -82,6 +87,107 @@ Widget loadingFunction(BuildContext context, bool load) {
   );
 }
 
+final List offers = [
+  {
+    "offerCategory": "رياضة",
+    "icon": "assets/icons/Fitness.svg",
+    "semanticsLabel": "Fitness",
+    "categoryList": [],
+
+    //'whenClick': LostAndFoundScreen() ,
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "تعليم وتدريب",
+    "icon": "assets/icons/board.svg",
+    "semanticsLabel": "board",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "مطاعم ومقاهي",
+    "icon": "assets/icons/resturants.svg",
+    "semanticsLabel": "resturants",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "ترفيه",
+    "icon": "assets/icons/entertainment.svg",
+    "semanticsLabel": "entertainment",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "مراكز صحية",
+    "icon": "assets/icons/hospital.svg",
+    "semanticsLabel": "hospital",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "عناية وجمال",
+    "icon": "assets/icons/beauty.svg",
+    "semanticsLabel": "beauty",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "سياحة وفنادق",
+    "icon": "assets/icons/travel.svg",
+    "semanticsLabel": "travel",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "خدمات السيارات",
+    "icon": "assets/icons/carServises.svg",
+    "semanticsLabel": "carServises",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "تسوق",
+    "icon": "assets/icons/shopcart.svg",
+    "semanticsLabel": "shopcart",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+  {
+    "offerCategory": "عقارات وبناء",
+    "icon": "assets/icons/construction.svg",
+    "semanticsLabel": "construction",
+    "categoryList": [],
+
+    //"whenClick": LostAndFoundScreen(),
+  },
+];
+final List clubs = [
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  },
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  },
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  },
+  {
+    "ClubName": "نادي الذكاء الاصطناعي",
+    "icon": "assets/icons/Ailogo_2.png",
+  }
+];
 final List services = [
   {
     "serviceName": "المفقودات",
@@ -139,3 +245,46 @@ final List services = [
     //"whenClick": LostAndFoundScreen(),
   },
 ];
+
+void LoadOffers() async {
+  final List<OfferInfo> loadedOfferInfo = [];
+
+  try {
+    final url = Uri.https(
+        'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
+    final response = await http.get(url);
+
+    final Map<String, dynamic> founddata = json.decode(response.body);
+    for (final item in founddata.entries) {
+      print(item.value['of_name']);
+      loadedOfferInfo.add(OfferInfo(
+        id: item.key,
+        //model name : firebase name
+        name: item.value['of_name'],
+        logo: item.value['of_logo'],
+        category: item.value['of_category'],
+        code: item.value['of_code'],
+        details: item.value['of_details'],
+        discount: item.value['of_discount'],
+        expDate: item.value['of_expDate'],
+        contact: item.value['of_contact'],
+        targetUsers: item.value['of_target'],
+      ));
+    }
+  } catch (error) {
+    print('Empty List');
+  } finally {
+    List<OfferInfo> fetchedOffers =
+        loadedOfferInfo; // fetched data from Firebase
+
+    for (OfferInfo offer in fetchedOffers) {
+      for (Map<String, dynamic> item in offers) {
+        if (offer.category == item['offerCategory']) {
+          item['categoryList'].add(offer);
+          break;
+        }
+      }
+    }
+    print(offers[0]);
+  }
+}

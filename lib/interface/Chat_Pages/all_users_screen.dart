@@ -17,7 +17,7 @@ class AllUsersScreen extends StatefulWidget {
 
 class _AllUsersState extends State<AllUsersScreen>
     with SingleTickerProviderStateMixin {
-  int _selectedPageIndex = 2;
+  final int _selectedPageIndex = 2;
 
   final _userInputController = TextEditingController();
 

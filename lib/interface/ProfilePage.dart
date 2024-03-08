@@ -221,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       CircleAvatar(
                                         radius: 80,
                                         backgroundColor:
-                                            Color.fromARGB(0, 15, 66, 186),
+                                            const Color.fromARGB(0, 15, 66, 186),
                                         child: Stack(
                                           children: [
                                             userInfo.image_url == ''
@@ -304,14 +304,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
-                                        userInfo.collage!,
+                                        userInfo.collage,
                                         style: const TextStyle(
                                             fontSize: 18,
                                             color: CustomColors.darkGrey),
                                       ),
                                       const SizedBox(height: 6),
                                       Text(
-                                        userInfo.major!,
+                                        userInfo.major,
                                         style: const TextStyle(
                                             fontSize: 16,
                                             color: CustomColors.darkGrey),

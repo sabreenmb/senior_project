@@ -106,7 +106,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       await storageRef.putFile(_selectedImage!);
       _imageUrl = await storageRef.getDownloadURL();
       print(_imageUrl);
-    } catch (error) {
     } finally {
       setState(() {
         isLoading = false;

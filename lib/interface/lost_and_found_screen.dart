@@ -185,7 +185,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProfilePage(),
+        builder: (context) => const ProfilePage(),
       ),
     );
   }
@@ -439,7 +439,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                               : _foundItemReport.isEmpty))
                         Expanded(
                           child: Center(
-                            child: Container(
+                            child: SizedBox(
                               // padding: EdgeInsets.only(bottom: 20),
                               // alignment: Alignment.topCenter,
                               height: 200,

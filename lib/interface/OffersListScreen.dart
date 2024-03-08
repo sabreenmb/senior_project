@@ -1,36 +1,95 @@
+
 import 'package:flutter/material.dart';
-import 'package:senior_project/interface/Chat_Pages/current_chats.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
+import 'package:senior_project/interface/services_screen.dart';
+import 'package:senior_project/widgets/grid_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
 import '../theme.dart';
-import '../widgets/grid_card.dart';
+import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
 
-class ServisesScreen extends StatefulWidget {
-  const ServisesScreen({super.key});
+class OffersListScreen extends StatefulWidget {
+  const OffersListScreen({super.key});
 
   @override
-  State<ServisesScreen> createState() => _ServisesState();
+  State<OffersListScreen> createState() => _OffersListState();
 }
 
-class _ServisesState extends State<ServisesScreen> {
+class _OffersListState extends State<OffersListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // _LoadOffers();
+  }
+
+  // void _LoadOffers() async {
+  //   final List<OfferInfo> loadedOfferInfo = [];
+  //
+  //   try {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //     final url = Uri.https(
+  //         'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
+  //     final response = await http.get(url);
+  //
+  //     final Map<String, dynamic> founddata = json.decode(response.body);
+  //     for (final item in founddata.entries) {
+  //       print(item.value['of_name']);
+  //       loadedOfferInfo.add(OfferInfo(
+  //         id: item.key,
+  //         //model name : firebase name
+  //         name: item.value['of_name'],
+  //         logo: item.value['of_logo'],
+  //         category: item.value['of_category'],
+  //         code: item.value['of_code'],
+  //         details: item.value['of_details'],
+  //         discount: item.value['of_discount'],
+  //         expDate: item.value['of_expDate'],
+  //         contact: item.value['of_contact'],
+  //         targetUsers: item.value['of_target'],
+  //       ));
+  //     }
+  //   } catch (error) {
+  //     print('Empty List');
+  //   } finally {
+  //     List<OfferInfo> fetchedOffers = await loadedOfferInfo;// fetched data from Firebase
+  //
+  //     for (OfferInfo offer in fetchedOffers) {
+  //       for (Map<String, dynamic> item in offers) {
+  //         if (offer.category == item['offerCategory']) {
+  //           item['categoryList'].add(offer);
+  //           break;
+  //         }
+  //       }
+  //     }
+  //     print(offers[0]);
+  //     setState(() {
+  //       isLoading = false;
+  //
+  //     });
+  //
+  //
+  //   }
+  // }
+
   // ignore: unused_field
   int _selectedPageIndex = 1;
   void _selectPage(int index) {
-    index = 2;
+    index = 1;
     setState(() {
       if (index == 0) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       } else if (index == 1) {
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
       } else if (index == 2) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const CurrentChats()));
+            context, MaterialPageRoute(builder: (_) => const ChatScreen()));
       } else if (index == 3) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
@@ -57,7 +116,7 @@ class _ServisesState extends State<ServisesScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
-        title: Text("الخدمات", style: TextStyles.heading1),
+        title: Text("العروض", style: TextStyles.heading1),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
@@ -108,36 +167,34 @@ class _ServisesState extends State<ServisesScreen> {
             const SizedBox(height: 15),
             Expanded(
                 child: Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      color: CustomColors.BackgroundColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40))),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 20.0),
-                  child: GridView.builder(
-                      gridDelegate:
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40))),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: GridView.builder(
+                          gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: 25.0,
                               crossAxisSpacing: 10.0,
                               childAspectRatio: 1.3),
-                      itemCount: services.length,
-                      itemBuilder: (context, i) => GridCard(
-                            services[i],
-                            i,
-                            true,
-                          )),
-                ),
-              ],
-            ))
+                          itemCount: offers.length,
+                          itemBuilder: (context, i) => GridCard(offers[i], i,false)),
+                    ),
+                  ],
+                ))
           ],
         ),
       ),
     );
   }
+
+
 }

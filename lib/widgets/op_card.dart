@@ -20,109 +20,103 @@ class OpCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(22),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  //start the colom
-                  mainAxisAlignment: MainAxisAlignment.start,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              //start the colom
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  volunteerOpReport.opName!,
+                  textAlign: TextAlign.right,
+                  style: TextStyles.heading3B,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    const Icon(
+                      Icons.date_range_outlined,
+                      color: CustomColors.lightGrey,
+                      size: 14.0,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     Text(
-                      volunteerOpReport.opName!,
+                      "${volunteerOpReport.opDate!} , ${volunteerOpReport.opTime!}",
                       textAlign: TextAlign.right,
-                      style: TextStyles.heading3B,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.date_range_outlined,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "${volunteerOpReport.opDate!} , ${volunteerOpReport.opTime!}",
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on_outlined,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          volunteerOpReport.opLocation!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.people,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          volunteerOpReport.opNumber!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () =>
-                              _launchURL(volunteerOpReport.opLink!, context),
-                          child: Text(
-                            'سجل',
-                            style: TextStyle(
-                              color: TextStyles.heading3B.color,
-                            ),
-                          ),
-                        ),
-                      ],
+                      style: TextStyles.text,
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on_outlined,
+                      color: CustomColors.lightGrey,
+                      size: 14.0,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      volunteerOpReport.opLocation!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.text,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.people,
+                      color: CustomColors.lightGrey,
+                      size: 14.0,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      volunteerOpReport.opNumber!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.text,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+              ],
+            ),
+          ),
+          if(volunteerOpReport.opLink!="")
+            Positioned(
+            bottom: 8.0,
+            left: 15.0,
+            child: TextButton(
+              onPressed: () => _launchURL(volunteerOpReport.opLink!, context),
+              child: Text(
+                'سجل',
+                style: TextStyle(
+                  color: TextStyles.heading3B.color,
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

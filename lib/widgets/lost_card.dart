@@ -24,7 +24,7 @@ class LostCard extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: 95,
               height: 130,
               child: lostItemReport.photo == "empty"

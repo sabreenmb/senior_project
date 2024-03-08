@@ -6,7 +6,6 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
 import '../../constant.dart';
-import '../../theme.dart';
 
 class OtherUserProfileScreen extends StatefulWidget {
   final enteredUserInfo otherUserInfo;

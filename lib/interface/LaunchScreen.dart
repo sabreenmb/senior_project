@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/theme.dart';
 
@@ -15,17 +14,17 @@ class _LaunchScreenState extends State<LaunchScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          context, MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: CustomColors.white,
-      body: const Center(
+      body: Center(
         child: Image(
           width: 158,
           height: 170,

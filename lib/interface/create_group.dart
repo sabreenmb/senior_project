@@ -109,7 +109,6 @@ class _CreateGroupState extends State<CreateGroup> {
       // await storageRef.putFile(_selectedImage!);
       // _imageUrl = await storageRef.getDownloadURL();
       // print(_imageUrl);
-    } catch (error) {
     } finally {
       setState(() {
         isLoading = false;
@@ -188,7 +187,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const SizedBox(height: 12.0),
-                            Container(
+                            SizedBox(
                               width: 100,
                               child: DropdownButtonFormField2<String>(
                                 isExpanded: true,

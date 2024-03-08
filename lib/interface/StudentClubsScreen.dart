@@ -1,36 +1,92 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:senior_project/interface/Chat_Pages/current_chats.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
+import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+import 'package:http/http.dart' as http;
 
 import '../constant.dart';
+import '../model/SClubInfo.dart';
 import '../theme.dart';
-import '../widgets/grid_card.dart';
+import '../widgets/clubs_card.dart';
+import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
 
-class ServisesScreen extends StatefulWidget {
-  const ServisesScreen({super.key});
+class StudentClubsScreen extends StatefulWidget {
+  const StudentClubsScreen({super.key});
 
   @override
-  State<ServisesScreen> createState() => _ServisesState();
+  State<StudentClubsScreen> createState() => _StudentClubsState();
 }
 
-class _ServisesState extends State<ServisesScreen> {
+class _StudentClubsState extends State<StudentClubsScreen> {
+   List<SClubInfo> _SClubs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _LoadSClubs();
+  }
+
+  void _LoadSClubs() async {
+     List<SClubInfo> loadedClubsInfo = [];
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final url = Uri.https(
+          'senior-project-72daf-default-rtdb.firebaseio.com', 'studentClubsDB.json');
+      final response = await http.get(url);
+
+      final Map<String, dynamic> clubdata = json.decode(response.body);
+      for (final item in clubdata.entries) {
+        print(item.value['club_name']);
+        loadedClubsInfo.add(SClubInfo(
+          id: item.key,
+          //model name : firebase name
+          name: item.value['club_name'],
+          logo: item.value['club_logo'],
+          details: item.value['club_details'],
+          contact: item.value['club_contact'],
+          regTime: item.value['club_regTime'],
+          leader: item.value['club_leader'],
+          membersLink: item.value['clubMB_link'],
+          MngLink: item.value['clubMG_link'],
+        ));
+      }
+    } catch (error) {
+      print('Empty List');
+    } finally {
+      _SClubs = loadedClubsInfo;// fetched data from Firebase
+
+
+
+      setState(() {
+        isLoading = false;
+
+      });
+
+
+    }
+  }
+
   // ignore: unused_field
   int _selectedPageIndex = 1;
   void _selectPage(int index) {
-    index = 2;
+    index = 1;
     setState(() {
       if (index == 0) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       } else if (index == 1) {
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
       } else if (index == 2) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const CurrentChats()));
+            context, MaterialPageRoute(builder: (_) => const ChatScreen()));
       } else if (index == 3) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
@@ -57,7 +113,7 @@ class _ServisesState extends State<ServisesScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
-        title: Text("الخدمات", style: TextStyles.heading1),
+        title: Text("النوادي الطلابية", style: TextStyles.heading1),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
@@ -80,7 +136,7 @@ class _ServisesState extends State<ServisesScreen> {
             child: BottomNavigationBar(
               onTap: _selectPage,
               unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.lightBlue,
+              selectedItemColor: CustomColors.darkGrey,
               currentIndex: 1,
               items: const [
                 BottomNavigationBarItem(
@@ -108,36 +164,34 @@ class _ServisesState extends State<ServisesScreen> {
             const SizedBox(height: 15),
             Expanded(
                 child: Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      color: CustomColors.BackgroundColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40))),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 20.0),
-                  child: GridView.builder(
-                      gridDelegate:
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40))),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 15.0),
+                      child: GridView.builder(
+                          gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              mainAxisSpacing: 25.0,
+                              mainAxisSpacing: 20.0,
                               crossAxisSpacing: 10.0,
-                              childAspectRatio: 1.3),
-                      itemCount: services.length,
-                      itemBuilder: (context, i) => GridCard(
-                            services[i],
-                            i,
-                            true,
-                          )),
-                ),
-              ],
-            ))
+                              childAspectRatio: 1.1),
+                          itemCount: _SClubs.length,
+                          itemBuilder: (context, i) => ClubsCard(_SClubs[i], i)),
+                    ),
+                  ],
+                ))
           ],
         ),
       ),
     );
   }
+
+
 }
