@@ -64,21 +64,6 @@ class ClinicCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    // Row(
-                    //   children: [
-                    //     const Icon(
-                    //       Icons.people,
-                    //       color: CustomColors.lightGrey,
-                    //       size: 14.0,
-                    //     ),
-                    //     const SizedBox(width: 5),
-                    //     Text(
-                    //       clinicReport.clDoctor!,
-                    //       style: TextStyles.text,
-                    //     ),
-                    //   ],
-                    // ),
-                    // const SizedBox(height: 5),
                     Row(
                       children: [
                         const Icon(
@@ -93,6 +78,7 @@ class ClinicCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         const Icon(

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-//import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
@@ -43,18 +42,13 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
   List<ClinicReport> _clinicReport = [];
   List<String> sortedDates = [];
   Map<String, List<ClinicReport>> sortedGroupedClinics = {};
-  // Map<String, List<ClinicReport>> groupedClinicReports = {};
   String selectedBranch = 'المقر الرئيسي';
   final _userInputController = TextEditingController();
-  //String currentFilter = "";
 
-  //filter
-  //bool isSelected = true;
   bool isSearch = false;
   bool isNew = false;
   bool isLoading = false;
 
-  //create button
   late AnimationController _animationController;
   @override
   void dispose() {
@@ -124,7 +118,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
       });
     }
     _filterClinicListByBranch();
-    //  _groupAndSortClinicsByDate();
   }
 
   void _selectPage(int index) {
@@ -281,8 +274,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                   onPressed: () {
                                     filteredClinicList.clear();
                                     filterSearchResults(
-                                        _userInputController.text,
-                                        _clinicReport);
+                                        _userInputController.text);
                                     FocusScope.of(context).unfocus();
                                   }),
                               hintText: 'ابحث',
@@ -293,8 +285,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
                                         setState(() {
                                           isSearch = false;
-                                          // selectedBranch =
-                                          //     "";
                                         });
                                       },
                                       icon: const Icon(Icons.clear,
@@ -312,8 +302,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                             onSubmitted: (text) {
                               //todo the same value of on icon presed
                               filteredClinicList.clear();
-                              filterSearchResults(
-                                  _userInputController.text, _clinicReport);
+                              filterSearchResults(text);
                               FocusScope.of(context).unfocus();
                             },
                             onTap: () {
@@ -342,20 +331,20 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        if ((isSearch
-                            ? filteredClinicList.isEmpty
-                            : _clinicReport.isEmpty))
-                          Expanded(
-                            child: Center(
-                              child: SizedBox(
-                                // padding: EdgeInsets.only(bottom: 20),
-                                // alignment: Alignment.topCenter,
-                                height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
-                              ),
-                            ),
-                          ),
+                        // if ((isSearch
+                        //     ? filteredClinicList.isEmpty
+                        //     : _clinicReport.isEmpty))
+                        //   Expanded(
+                        //     child: Center(
+                        //       child: SizedBox(
+                        //         // padding: EdgeInsets.only(bottom: 20),
+                        //         // alignment: Alignment.topCenter,
+                        //         height: 200,
+                        //         child:
+                        //             Image.asset('assets/images/notFound.png'),
+                        //       ),
+                        //     ),
+                        //   ),
                         if (_clinicReport.isNotEmpty)
                           Expanded(
                             child: Padding(
@@ -372,8 +361,8 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                       return Center(
                                         child: SizedBox(
                                           height: 200,
-                                          //child: Image.asset(
-                                          //   'assets/images/notFound.png'),
+                                          child: Image.asset(
+                                              'assets/images/notFound.png'),
                                         ),
                                       );
                                     } else {
@@ -393,7 +382,9 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                         children: [
                                           if (showDateHeader)
                                             Container(
-                                              padding: EdgeInsets.all(8),
+                                              padding: const EdgeInsets.all(6),
+                                              // padding: const EdgeInsets.only(
+                                              //     bottom: 8),
                                               //     style: TextStyle(
                                               color: TextStyles.heading3B.color,
                                               //  ),
@@ -402,13 +393,18 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                                 date,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.grey,
-                                                  // color: CustomColors.lightGrey,
+                                                  color: CustomColors.darkGrey,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
+                                          // SizedBox(height: 3.0),
                                           ClinicCard(report),
+                                          //    ),
+                                          if (index <
+                                              filteredClinicList.length - 1)
+                                            SizedBox(height: 3),
+                                          //),
                                         ],
                                       );
                                     }
@@ -431,8 +427,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                                //  foregroundColor:
-                                // Colors.white,
                                 fixedSize: const Size(175, 50),
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
@@ -456,9 +450,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
   Widget _buildDynamicButton(String branchName) {
     bool isChipSelected = selectedBranch == branchName;
-    // isSearch =
-    //     false;
-
+    isSearch = false;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ChoiceChip(
@@ -502,27 +494,37 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
         .compareTo(DateFormat('yyyy-MM-dd').parse(b.clDate!)));
   }
 
-  void filterSearchResults(String query, List ls) {
+  void filterSearchResults(String query) {
     setState(() {
-      for (int item = 0; item < ls.length; item++) {
-        if (ls[item]
-            //.clBranch!
-            .clDepartment!
-            .toLowerCase()
-            .contains(query.toLowerCase().trim())) {
-          filteredClinicList.add(ls[item]);
-        }
+      filteredClinicList.clear();
 
-        //Add
-        // else {
-        //   if (ls[item]
-        //       .category!
-        //       .toLowerCase()
-        //       .contains(query.toLowerCase().trim())) {
-        //     searchClinicList.add(ls[item]);
-        //   }
-        // }
+      if (query.isNotEmpty) {
+        List<ClinicReport> tempList = _clinicReport.where((report) {
+          bool isSameBranch = report.clBranch == selectedBranch;
+          bool matchesQuery = report.clDepartment!
+                  .toLowerCase()
+                  .contains(query.toLowerCase()) ||
+              report.clDoctor!.toLowerCase().contains(query.toLowerCase());
+
+          return isSameBranch && matchesQuery;
+        }).toList();
+
+        filteredClinicList.addAll(tempList);
+      } else {
+        filteredClinicList = _clinicReport
+            .where((report) => report.clBranch == selectedBranch)
+            .toList();
       }
     });
   }
+
+  //Add
+  // else {
+  //   if (ls[item]
+  //       .category!
+  //       .toLowerCase()
+  //       .contains(query.toLowerCase().trim())) {
+  //     searchClinicList.add(ls[item]);
+  //   }
+  // }
 }
