@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:senior_project/interface/Clinic.dart';
 import 'package:senior_project/interface/OfferCategoryScreen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 
@@ -24,8 +25,8 @@ class GridCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: (){
-        isServises?_navigateOnServises(context):_navigateOnOffers(context);
+      onTap: () {
+        isServises ? _navigateOnServises(context) : _navigateOnOffers(context);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -88,46 +89,54 @@ class GridCard extends StatelessWidget {
       // Add cases for other services as needed
 
       case 1:
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const VolunteerOp(),
-        ),
-      );
-      break;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const VolunteerOp(),
+          ),
+        );
+        break;
       case 2:
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const OffersListScreen()));
 
         break;
       case 3:
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>const StudentClubsScreen(),
-        ),
-      );
-      break;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const StudentClubsScreen(),
+          ),
+        );
+        break;
       case 4:
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const EventScreen(),
-        ),
-      );
-      break;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const EventScreen(),
+          ),
+        );
+        break;
       case 5:
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const StudyGroup()));
         break;
       case 6:
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const StudentActivity(),
-        ),
-      );
-      break;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const StudentActivity(),
+          ),
+        );
+        break;
+      case 7:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Clinic(),
+          ),
+        );
+        break;
       // case 7:
       // Navigator.push(
       //   context,
@@ -148,11 +157,10 @@ class GridCard extends StatelessWidget {
     }
   }
 
-  void _navigateOnOffers(BuildContext context) async{
-   await Navigator.pushReplacement(
+  void _navigateOnOffers(BuildContext context) async {
+    await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>  OfferCategoryScreen(i,details)));
-
+            builder: (context) => OfferCategoryScreen(i, details)));
   }
 }

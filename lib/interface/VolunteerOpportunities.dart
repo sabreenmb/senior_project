@@ -58,7 +58,7 @@ class _VolunteerOpState extends State<VolunteerOp>
   }
 
   void _LoadCreatedSessions() async {
-    final List<VolunteerOpReport> loadedVpolunteerOp = [];
+    final List<VolunteerOpReport> loadedVolunteerOp = [];
 
     try {
       setState(() {
@@ -68,9 +68,9 @@ class _VolunteerOpState extends State<VolunteerOp>
           'opportunities.json');
       final response = await http.get(url);
 
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        loadedVpolunteerOp.add(VolunteerOpReport(
+      final Map<String, dynamic> volunteerdata = json.decode(response.body);
+      for (final item in volunteerdata.entries) {
+        loadedVolunteerOp.add(VolunteerOpReport(
           id: item.key,
           //model name : firebase name
           opName: item.value['op_name'],
@@ -86,8 +86,8 @@ class _VolunteerOpState extends State<VolunteerOp>
     } finally {
       setState(() {
         isLoading = false;
-        print("sabreeeen: $loadedVpolunteerOp");
-        _volunteerOpReport = loadedVpolunteerOp;
+        print("sabreeeen: $loadedVolunteerOp");
+        _volunteerOpReport = loadedVolunteerOp;
       });
     }
   }
