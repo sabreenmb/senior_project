@@ -9,6 +9,7 @@ class enteredUserInfo {
   late String intrests;
   late String hobbies;
   late String skills;
+  late String pushToken;
 
   //Constructor
   enteredUserInfo({
@@ -21,6 +22,7 @@ class enteredUserInfo {
     required this.intrests,
     required this.hobbies,
     required this.skills,
+    required this.pushToken,
   });
 
   enteredUserInfo.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,8 @@ class enteredUserInfo {
     intrests = json['userID'] ?? '';
     hobbies = json['userID'] ?? '';
     skills = json['userID'] ?? '';
+
+    pushToken = json['pushToken'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +44,8 @@ class enteredUserInfo {
     map['intrests'] = intrests;
     map['hobbies'] = hobbies;
     map['skills'] = skills;
+
+    map['pushToken'] = pushToken;
     return map;
   }
 }

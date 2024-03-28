@@ -169,12 +169,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: CustomColors.pink,
+        backgroundColor: CustomColors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: CustomColors.pink,
+          backgroundColor: CustomColors.white,
           elevation: 0,
-          title: Text("الملف الشخصي", style: TextStyles.heading1),
+          title: Text("ملفي الشخصي", style: TextStyles.heading1),
           leading: IconButton(
             icon:
                 const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
@@ -194,12 +194,96 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: [
                 const SizedBox(height: 15),
+                CircleAvatar(
+                  radius: 80,
+                  backgroundColor: const Color.fromARGB(0, 15, 66, 186),
+                  child: Stack(
+                    children: [
+                      userInfo.image_url == ''
+                          ? Container(
+                              padding: const EdgeInsets.all(20),
+                              alignment: Alignment.topCenter,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: CustomColors.darkGrey,
+                                  width: 3,
+                                ),
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/icons/UserProfile.svg',
+                                height: 100,
+                                width: 100,
+                                color: CustomColors.darkGrey,
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                width: 140,
+                                height: 140,
+                                fit: BoxFit.cover,
+                                imageUrl: userInfo.image_url,
+                                errorWidget: (context, url, error) =>
+                                    CircleAvatar(
+                                  child: SvgPicture.asset(
+                                    'assets/icons/UserProfile.svg',
+                                    height: 100,
+                                    width: 100,
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                      Positioned(
+                        right: -9,
+                        bottom: 3,
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: CustomColors.white,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.camera_alt_rounded,
+                              //Icons.camera_rounded,
+                              color: CustomColors.lightBlue,
+                              size: 35,
+                            ),
+                            onPressed: () {
+                              _showBottomSheet();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  userInfo.name,
+                  style: const TextStyle(
+                      fontSize: 22,
+                      color: CustomColors.lightBlue,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  userInfo.collage,
+                  style: const TextStyle(
+                      fontSize: 18, color: CustomColors.darkGrey),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  userInfo.major,
+                  style: const TextStyle(
+                      fontSize: 16, color: CustomColors.darkGrey),
+                ),
+                const SizedBox(height: 25),
                 Expanded(
                   child: Stack(
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                          color: CustomColors.white,
+                          color: CustomColors.pink,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40),
@@ -209,7 +293,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ListView(
                         children: [
                           Container(
-                            margin: const EdgeInsets.all(20),
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, top: 10),
                             child: SingleChildScrollView(
                               child: Padding(
                                 padding: const EdgeInsets.all(16),
@@ -218,105 +303,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Column(
                                     // const SizedBox(height: 12.0),
                                     children: [
-                                      CircleAvatar(
-                                        radius: 80,
-                                        backgroundColor:
-                                            const Color.fromARGB(0, 15, 66, 186),
-                                        child: Stack(
-                                          children: [
-                                            userInfo.image_url == ''
-                                                ? Container(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20),
-                                                    alignment:
-                                                        Alignment.topCenter,
-                                                    height: 150,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
-                                                        color: CustomColors
-                                                            .darkGrey,
-                                                        width: 3,
-                                                      ),
-                                                    ),
-                                                    child: SvgPicture.asset(
-                                                      'assets/icons/UserProfile.svg',
-                                                      height: 100,
-                                                      width: 100,
-                                                      color:
-                                                          CustomColors.darkGrey,
-                                                    ),
-                                                  )
-                                                : ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                    child: CachedNetworkImage(
-                                                      width: 140,
-                                                      height: 140,
-                                                      fit: BoxFit.cover,
-                                                      imageUrl:
-                                                          userInfo.image_url,
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          CircleAvatar(
-                                                        child: SvgPicture.asset(
-                                                          'assets/icons/UserProfile.svg',
-                                                          height: 100,
-                                                          width: 100,
-                                                          color: CustomColors
-                                                              .darkGrey,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                            Positioned(
-                                              right: -9,
-                                              bottom: 3,
-                                              child: CircleAvatar(
-                                                radius: 25,
-                                                backgroundColor:
-                                                    CustomColors.white,
-                                                child: IconButton(
-                                                  icon: const Icon(
-                                                    Icons.camera_alt_rounded,
-                                                    //Icons.camera_rounded,
-                                                    color:
-                                                        CustomColors.lightBlue,
-                                                    size: 35,
-                                                  ),
-                                                  onPressed: () {
-                                                    _showBottomSheet();
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Text(
-                                        userInfo.name,
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            color: CustomColors.lightBlue,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        userInfo.collage,
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            color: CustomColors.darkGrey),
-                                      ),
-                                      const SizedBox(height: 6),
-                                      Text(
-                                        userInfo.major,
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            color: CustomColors.darkGrey),
-                                      ),
-                                      const SizedBox(height: 18),
                                       TextFormField(
                                         keyboardType: TextInputType.text,
                                         autovalidateMode:
@@ -325,12 +311,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                           labelText: "الاهتمامات",
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: CustomColors.lightBlue,
+                                              color: CustomColors.darkGrey,
                                             ),
                                           ),
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: CustomColors.lightBlue,
+                                              color: CustomColors.lightGrey,
                                             ),
                                           ),
                                         ),
@@ -348,12 +334,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                           labelText: 'الهوايات',
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: CustomColors.lightBlue,
+                                              color: CustomColors.darkGrey,
                                             ),
                                           ),
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: CustomColors.lightBlue,
+                                              color: CustomColors.lightGrey,
                                             ),
                                           ),
                                         ),
@@ -372,12 +358,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ' ما يمكنك اضافتة للمجتمع؟ ',
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: CustomColors.lightBlue,
+                                              color: CustomColors.darkGrey,
                                             ),
                                           ),
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: CustomColors.lightBlue,
+                                              color: CustomColors.lightGrey,
                                             ),
                                           ),
                                         ),
@@ -399,8 +385,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                               ),
-                                              backgroundColor:
-                                                  CustomColors.lightBlue),
+                                              backgroundColor: CustomColors
+                                                  .darkGrey
+                                                  .withOpacity(0.6)),
                                           child: Text("تحديث",
                                               style: TextStyles.text3),
                                         ),

@@ -1,5 +1,6 @@
 // ignore_for_file: dead_code
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -23,7 +24,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
-        title: Text(widget.otherUserInfo.name, style: TextStyles.heading1),
+        title: Text("المعلومات الشخصية", style: TextStyles.heading1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
           onPressed: () {
@@ -41,7 +42,72 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
           bottom: false,
           child: Column(
             children: [
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
+              CircleAvatar(
+                radius: 90,
+                backgroundColor: Color.fromARGB(0, 32, 57, 113),
+                child: Stack(
+                  children: [
+                    widget.otherUserInfo.image_url == ''
+                        ? Container(
+                            padding: const EdgeInsets.all(20),
+                            alignment: Alignment.topCenter,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: CustomColors.darkGrey,
+                                width: 3,
+                              ),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/UserProfile.svg',
+                              height: 100,
+                              width: 100,
+                              color: CustomColors.darkGrey,
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              width: 140,
+                              height: 140,
+                              fit: BoxFit.cover,
+                              imageUrl: widget.otherUserInfo.image_url,
+                              errorWidget: (context, url, error) =>
+                                  CircleAvatar(
+                                child: SvgPicture.asset(
+                                  'assets/icons/UserProfile.svg',
+                                  height: 100,
+                                  width: 100,
+                                  color: CustomColors.darkGrey,
+                                ),
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+              Text(
+                widget.otherUserInfo.name,
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: CustomColors.darkGrey,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                widget.otherUserInfo.collage,
+                style:
+                    const TextStyle(fontSize: 18, color: CustomColors.darkGrey),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                widget.otherUserInfo.major,
+                style:
+                    const TextStyle(fontSize: 16, color: CustomColors.darkGrey),
+              ),
+              const SizedBox(height: 20),
               Expanded(
                 child: Stack(
                   children: [
@@ -65,54 +131,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                               padding: const EdgeInsets.all(16),
                               child: Column(
                                 //const SizedBox(height: 12.0),
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        top: 5, bottom: 20),
-                                    alignment: Alignment.topCenter,
-                                    height: 150,
-                                    decoration: BoxDecoration(
-                                      //color: Color.fromARGB(255, 139, 139, 139),
-                                      shape: BoxShape.circle,
-                                      // ignore: unnecessary_new
-                                      border: new Border.all(
-                                        color: CustomColors.darkGrey,
-                                        width: 3,
-                                      ),
-                                    ),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      child: SvgPicture.asset(
-                                        'assets/icons/UserProfile.svg',
-                                        height: 100,
-                                        width: 100,
-                                        color: CustomColors.darkGrey,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.otherUserInfo.name,
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        color: CustomColors.lightBlue,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    widget.otherUserInfo.collage,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        color: CustomColors.darkGrey),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    widget.otherUserInfo.major,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.darkGrey),
-                                  ),
-                                  const SizedBox(height: 18),
-                                ],
+                                children: [],
                               ),
                             ),
                           ),
