@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../model/SClubInfo.dart';
 import '../theme.dart';
@@ -85,14 +86,12 @@ class _ClubDetailsState extends State<ClubDetails> {
                           const SizedBox(
                             height: 25,
                           ),
-                          // _buildInfoColumn(
-                          //     "خصم يصل الى : ", offerInfo.discount!),
-                          // _buildInfoColumn(
-                          //     "صلاحية الخصم إلى: ", offerInfo.expDate!),
-                          // _buildInfoColumn("الفئة المستهدفة : ",
-                          //     offerInfo.targetUsers!),
-                          // _buildInfoColumn(
-                          //     "وسيلة التواصل : ", offerInfo.contact!),
+                          _buildInfoColumn(
+                              "قائد/ة النادي:  ", clubDetails.leader!),
+                          _buildInfoColumn(
+                              "موعد فتح التسجيل:  ", clubDetails.regTime!),
+                          _buildInfoColumn(
+                              "وسيلة التواصل : ", clubDetails.contact!),
 
                           // if (isClicked)
                           //   Padding(
@@ -130,21 +129,24 @@ class _ClubDetailsState extends State<ClubDetails> {
                       color: Colors.white,
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child:Padding(padding: EdgeInsets.all(8),
-                      child: clubDetails.logo == "empty"
-                          ? const Image(image: AssetImage('assets/images/mug.png'))
-                          : Image.network(
-                        '${clubDetails.logo}',
-                        fit: BoxFit.contain,
-                      ),)
-                      // child: details['icon'] == "empty"
-                      //     ? const Image(
-                      //         image: AssetImage('assets/images/mug.png'))
-                      //     : Image(
-                      //         image: AssetImage('${details['icon']}'),
-                      //       ),
-                    ),
+                        borderRadius: BorderRadius.circular(20),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: clubDetails.logo == "empty"
+                              ? const Image(
+                                  image: AssetImage('assets/images/mug.png'))
+                              : Image.network(
+                                  '${clubDetails.logo}',
+                                  fit: BoxFit.contain,
+                                ),
+                        )
+                        // child: details['icon'] == "empty"
+                        //     ? const Image(
+                        //         image: AssetImage('assets/images/mug.png'))
+                        //     : Image(
+                        //         image: AssetImage('${details['icon']}'),
+                        //       ),
+                        ),
                   ),
                 ),
               ],
@@ -156,10 +158,20 @@ class _ClubDetailsState extends State<ClubDetails> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (!isClicked) {
-                        setState(() {
-                          isClicked = true;
-                        });
+                      if (clubDetails.membersLink == "") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('التسجيل غير متاح حاليًا. '),
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: CustomColors.darkGrey,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        );
+                      } else {
+                        _launchURL(clubDetails.membersLink!, context);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -174,10 +186,20 @@ class _ClubDetailsState extends State<ClubDetails> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (!isClicked) {
-                        setState(() {
-                          isClicked = true;
-                        });
+                      if (clubDetails.MngLink == "") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('التسجيل غير متاح حاليًا. '),
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: CustomColors.darkGrey,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        );
+                      } else {
+                        _launchURL(clubDetails.MngLink!, context);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -199,28 +221,42 @@ class _ClubDetailsState extends State<ClubDetails> {
     );
   }
 
+  Future<void> _launchURL(String? urlString, BuildContext context) async {
+    if (urlString == null || urlString.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('The URL is not available.')),
+      );
+      return;
+    }
+    final Uri url = Uri.parse(urlString);
+
+    if (!await launchUrl(url)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $urlString')),
+      );
+    }
+  }
+
   Widget _buildInfoColumn(String label, String value) {
     double width = MediaQuery.of(context).size.width / 10;
     print(width);
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyles.text2,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 5),
-            Text(
-              value,
-              style: TextStyles.text,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width,vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            label,
+            style: TextStyles.text2,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 5),
+          Text(
+            value,
+            style: TextStyles.text,
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

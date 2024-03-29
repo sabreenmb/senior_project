@@ -42,7 +42,6 @@ class _ServisesState extends State<ServisesScreen> {
   }
 
   void _selectPage(int index) {
-    index = 2;
     setState(() {
       if (index == 0) {
         Navigator.pushReplacement(
