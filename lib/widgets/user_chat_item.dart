@@ -62,15 +62,17 @@ class UserChatItem extends StatelessWidget {
             var data = snapshot.data!.docs[0];
 
             enteredUserInfo otherUserInfo = enteredUserInfo(
-                userID: data.get('userID'),
-                rule: data.get('rule'),
-                name: data.get('name'),
-                collage: data.get('collage'),
-                major: data.get('major'),
-                intrests: data.get('intrests'),
-                hobbies: data.get('hobbies'),
-                skills: data.get('skills'),
-                image_url: data.get("image_url"));
+              userID: data.get('userID'),
+              rule: data.get('rule'),
+              name: data.get('name'),
+              collage: data.get('collage'),
+              major: data.get('major'),
+              intrests: data.get('intrests'),
+              hobbies: data.get('hobbies'),
+              skills: data.get('skills'),
+              image_url: data.get("image_url"),
+              pushToken: data.get("pushToken"),
+            );
 
             return InkWell(
                 child: ListTile(
@@ -98,7 +100,7 @@ class UserChatItem extends StatelessWidget {
                               width: 15,
                               height: 15,
                               decoration: BoxDecoration(
-                                  color: Colors.greenAccent.shade400,
+                                  color: Colors.blue,
                                   borderRadius: BorderRadius.circular(10)),
                             )
                           // message sent time

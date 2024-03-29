@@ -2,13 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/constant.dart';
 import 'package:senior_project/model/chat_info.dart';
+import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/model/message_info.dart';
+import 'package:senior_project/push_notification.dart';
 
 class ChatService extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //send
-  Future<void> sendMessage(String receiverID, String message) async {
+  Future<void> sendMessage(
+      enteredUserInfo otherUserInfo, String message) async {
     //get current user info ----
 
     try {
@@ -17,21 +20,21 @@ class ChatService extends ChangeNotifier {
       //create new message
       Message newMessage = Message(
         senderID: userInfo.userID,
-        receiverID: receiverID,
+        receiverID: otherUserInfo.userID,
         message: message,
         time: time,
         readF: '',
       );
 
       //construct chat room id -> sender+receiver
-      List<String> ids = [userInfo.userID, receiverID];
+      List<String> ids = [userInfo.userID, otherUserInfo.userID];
       ids.sort();
       String chatRoomID = ids.join("_");
 
       if (!await isChatExist(chatRoomID)) {
         ChatInfo newChat = ChatInfo(
           user1: userInfo.userID,
-          user2: receiverID,
+          user2: otherUserInfo.userID,
           lastMsg: newMessage.message,
           lastMsgSender: newMessage.senderID,
           readF: newMessage.readF,
@@ -56,7 +59,9 @@ class ChatService extends ChangeNotifier {
           .doc(chatRoomID)
           .collection("messages")
           .doc(time)
-          .set(newMessage.toMap());
+          .set(newMessage.toMap())
+          .then((value) => notificationServices.sendPushNotification(
+              otherUserInfo, message));
     } catch (error) {
       // Handle the error condition
       print("Error sending message: $error");
@@ -105,4 +110,10 @@ class ChatService extends ChangeNotifier {
 
     _firestore.collection("chat_rooms").doc(chatRoomID).update({'readF': time});
   }
+
+// Future<void> updateActiveStatus(bool isOnline) async {
+//     _firestore.collection('userProfile').doc(userInfo.userID).update({
+//       'push_token': userInfo.pushToken,
+//     });
+//   }
 }

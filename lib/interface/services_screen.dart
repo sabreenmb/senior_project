@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/interface/Chat_Pages/current_chats.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
+import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
@@ -19,6 +20,27 @@ class ServisesScreen extends StatefulWidget {
 class _ServisesState extends State<ServisesScreen> {
   // ignore: unused_field
   int _selectedPageIndex = 1;
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+
+    //Move it to approprite place (home screen maybe)
+    // notificationServices.getFirebaseMessagingToken();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    // notificationServices.isTokenRefresh();
+
+    // notificationServices.getDeviceToken().then((value) {
+    //   if (kDebugMode) {
+    //     print('device token');
+    //     print(value);
+    //   }
+    // });
+  }
+
   void _selectPage(int index) {
     setState(() {
       if (index == 0) {
