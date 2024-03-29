@@ -32,7 +32,6 @@ class _VolunteerOpState extends State<VolunteerOp>
   List<VolunteerOpReport> _volunteerOpReport = [];
   //create button
 
-
   @override
   void initState() {
     super.initState();
@@ -73,10 +72,10 @@ class _VolunteerOpState extends State<VolunteerOp>
         loadedVolunteerOp.add(VolunteerOpReport(
           id: item.key,
           //model name : firebase name
-          opName: item.value['op_name'],
-          opDate: item.value['op_date'],
-          opTime: item.value['op_time'],
-          opLocation: item.value['op_location'],
+          name: item.value['op_name'],
+          date: item.value['op_date'],
+          time: item.value['op_time'],
+          location: item.value['op_location'],
           opNumber: item.value['op_number'],
           opLink: item.value['op_link'],
         ));
@@ -212,8 +211,7 @@ class _VolunteerOpState extends State<VolunteerOp>
                     children: [
                       Container(
                         height: 5,
-                        padding:
-                            const EdgeInsets.only( left: 15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         //   child: TextField(
                         //  autofocus: false,
                         //  controller: _userInputController,
@@ -296,7 +294,7 @@ class _VolunteerOpState extends State<VolunteerOp>
                       if (_volunteerOpReport.isNotEmpty)
                         Expanded(
                             child: Padding(
-  padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: MediaQuery.removePadding(
                               context: context,
                               removeTop: true,

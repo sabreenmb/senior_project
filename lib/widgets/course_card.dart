@@ -31,7 +31,7 @@ class CoursesCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                courseItem.Name!,
+                courseItem.name!,
                 textAlign: TextAlign.right,
                 style: TextStyles.heading3B,
               ),
@@ -70,7 +70,7 @@ class CoursesCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    "${courseItem.courseDate!} , ${courseItem.courseTime!}",
+                    "${courseItem.date!} , ${courseItem.time!}",
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
@@ -90,7 +90,7 @@ class CoursesCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    courseItem.coursePlace!,
+                    courseItem.location!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),

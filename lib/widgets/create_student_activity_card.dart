@@ -64,7 +64,7 @@ class CreateStudentActivityCard extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(
-                          Icons.timer_sharp,
+                          Icons.date_range_outlined,
                           color: CustomColors.lightGrey,
                           size: 14.0,
                         ),
