@@ -1,11 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/constant.dart';
 import 'package:senior_project/interface/ChatScreen.dart';
 import 'package:senior_project/interface/SaveListScreen.dart';
 import 'package:senior_project/interface/add_lost_item_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+import '../widgets/Home_offer_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,7 +27,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     _pages = [
       {
         'page': const HomeScreen(),
@@ -144,23 +148,18 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildCard() {
-    return Container(
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Color.fromRGBO(89, 177, 212, 1), width: 2),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-            spreadRadius: 2,
-          ),
-        ],
+    return CarouselSlider(
+      items: offers[1]['categoryList']
+          .map((offer) {
+            return HomeOfferCard(offer);
+          })
+          .toList()
+          .cast<Widget>(),
+      options: CarouselOptions(
+        height: 180,
+        autoPlay: offers[1]['categoryList'].length > 1 ? true : false,
+        autoPlayInterval: Duration(seconds: 3),
       ),
-      child: Center(child: Text('Card', style: TextStyle(fontSize: 18))),
-      height: 180,
     );
   }
 
