@@ -1,31 +1,31 @@
 class CoursesItemReport {
   //Variables
   String? id;
-  String? Name;
+  String? name;
   String? presentBy;
-  String? courseDate;
-  String? courseTime;
-  String? coursePlace;
+  String? date;
+  String? time;
+  String? location;
   String? courseLink;
 
   //Constructor
   CoursesItemReport({
     required this.id,
-    required this.Name,
+    required this.name,
     required this.presentBy,
-    required this.courseDate,
-    required this.courseTime,
-    required this.coursePlace,
+    required this.date,
+    required this.time,
+    required this.location,
     required this.courseLink,
   });
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['CourseName'] = Name;
+    map['CourseName'] = name;
     map['PresentBy'] = presentBy;
-    map['CourseDate'] = courseDate;
-    map['CourseTime'] = courseTime;
-    map['CoursePlace'] = coursePlace;
+    map['CourseDate'] = date;
+    map['CourseTime'] = time;
+    map['CoursePlace'] = location;
     map['CourseLink'] = courseLink;
     return map;
   }

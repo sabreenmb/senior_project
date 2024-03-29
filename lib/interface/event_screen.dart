@@ -52,6 +52,7 @@ class _EventState extends State<EventScreen> {
     super.initState();
     _loadData();
   }
+
   void _loadData() async {
     setState(() {
       isLoading = true;
@@ -87,11 +88,11 @@ class _EventState extends State<EventScreen> {
     final loadedCoursesItems = foundData.entries.map((item) {
       return CoursesItemReport(
         id: item.key,
-        Name: item.value['course_name'],
+        name: item.value['course_name'],
         presentBy: item.value['course_presenter'],
-        courseDate: item.value['course_date'],
-        courseTime: item.value['course_time'],
-        coursePlace: item.value['course_location'],
+        date: item.value['course_date'],
+        time: item.value['course_time'],
+        location: item.value['course_location'],
         courseLink: item.value['course_link'],
       );
     }).toList();
@@ -112,11 +113,11 @@ class _EventState extends State<EventScreen> {
     final loadedWorkshopsItems = foundData.entries.map((item) {
       return WorkshopsItemReport(
         id: item.key,
-        Name: item.value['workshop_name'],
+        name: item.value['workshop_name'],
         presentBy: item.value['workshop_presenter'],
-        workshopDate: item.value['workshop_date'],
-        workshopPlace: item.value['workshop_location'],
-        workshopTime: item.value['workshop_time'],
+        date: item.value['workshop_date'],
+        location: item.value['workshop_location'],
+        time: item.value['workshop_time'],
         workshopLink: item.value['workshop_link'],
       );
     }).toList();
@@ -137,10 +138,10 @@ class _EventState extends State<EventScreen> {
     final loadedConferencesItems = foundData.entries.map((item) {
       return ConferencesItemReport(
         id: item.key,
-        Name: item.value['conference_name'],
-        confDate: item.value['conference_date'],
-        confTime: item.value['conference_time'],
-        confPlace: item.value['conference_location'],
+        name: item.value['conference_name'],
+        date: item.value['conference_date'],
+        time: item.value['conference_time'],
+        location: item.value['conference_location'],
         confLink: item.value['conference_link'],
       );
     }).toList();
@@ -161,11 +162,11 @@ class _EventState extends State<EventScreen> {
     final loadedOtherEventsItems = eventData.entries.map((item) {
       return OtherEventsItemReport(
         id: item.key,
-        Name: item.value['OEvent_name'],
+        name: item.value['OEvent_name'],
         presentBy: item.value['OEvent_presenter'],
-        otherEventDate: item.value['OEvent_date'],
-        otherEventTime: item.value['OEvent_time'],
-        otherEventPlace: item.value['OEvent_location'],
+        date: item.value['OEvent_date'],
+        time: item.value['OEvent_time'],
+        location: item.value['OEvent_location'],
         otherEventLink: item.value['OEvent_link'],
       );
     }).toList();
@@ -174,6 +175,7 @@ class _EventState extends State<EventScreen> {
       _otherItem = loadedOtherEventsItems;
     });
   }
+
   void _selectPage(int index) {
     setState(() {
       if (index == 1) {
@@ -182,21 +184,22 @@ class _EventState extends State<EventScreen> {
         _selectedPageIndex = index;
       }
       // todo uncomment on next sprints
-     //  if (index == 0) {
-     //    Navigator.pushReplacement(
-     //        context, MaterialPageRoute(builder: (_) => HomeScreen()));
-     //  } else if (index == 1) {
-     //    Navigator.pushReplacement(
-     //        context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-     //  } else if (index == 2) {
-     //    Navigator.pushReplacement(
-     //        context, MaterialPageRoute(builder: (_) => ChatScreen()));
-     //  } else if (index == 3) {
-     //    Navigator.pushReplacement(
-     //        context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-     //  }
+      //  if (index == 0) {
+      //    Navigator.pushReplacement(
+      //        context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      //  } else if (index == 1) {
+      //    Navigator.pushReplacement(
+      //        context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+      //  } else if (index == 2) {
+      //    Navigator.pushReplacement(
+      //        context, MaterialPageRoute(builder: (_) => ChatScreen()));
+      //  } else if (index == 3) {
+      //    Navigator.pushReplacement(
+      //        context, MaterialPageRoute(builder: (_) => SaveListScreen()));
+      //  }
     });
   }
+
   void goToProfilePage() {
     Navigator.pop(context);
     Navigator.push(
@@ -599,5 +602,4 @@ class _EventState extends State<EventScreen> {
       }
     });
   }
-
 }

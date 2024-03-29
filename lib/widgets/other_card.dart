@@ -13,7 +13,7 @@ class OtherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print(otherEventsItem.Name);
+    print(otherEventsItem.name);
 
     return Card(
         elevation: 4,
@@ -31,7 +31,7 @@ class OtherCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    otherEventsItem.Name!,
+                    otherEventsItem.name!,
                     textAlign: TextAlign.right,
                     style: TextStyles.heading3B,
                   ),
@@ -71,7 +71,7 @@ class OtherCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "${otherEventsItem.otherEventDate!} , ${otherEventsItem.otherEventTime!}",
+                        "${otherEventsItem.date!} , ${otherEventsItem.time!}",
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -91,7 +91,7 @@ class OtherCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        otherEventsItem.otherEventPlace!,
+                        otherEventsItem.location!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
