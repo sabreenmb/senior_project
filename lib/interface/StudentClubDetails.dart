@@ -131,7 +131,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child:Padding(padding: EdgeInsets.all(8),
+                      child:Padding(padding: const EdgeInsets.all(8),
                       child: clubDetails.logo == "empty"
                           ? const Image(image: AssetImage('assets/images/mug.png'))
                           : Image.network(
@@ -156,6 +156,8 @@ class _ClubDetailsState extends State<ClubDetails> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
+                      print("led");
+                      print(clubDetails.membersLink);
                       if (!isClicked) {
                         setState(() {
                           isClicked = true;
