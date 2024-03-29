@@ -192,11 +192,10 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     return Container(
       height: 240,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount:combinedList.length ,
-        itemBuilder: (context, index) =>
-         HomeCard(combinedList[index].item,combinedList[index].serviceName,combinedList[index].icon)
-      ),
+          scrollDirection: Axis.horizontal,
+          itemCount: combinedList.length,
+          itemBuilder: (context, index) => HomeCard(combinedList[index].item,
+              combinedList[index].serviceName, combinedList[index].icon)),
     );
   }
 }
