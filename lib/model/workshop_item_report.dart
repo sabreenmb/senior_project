@@ -1,31 +1,31 @@
 class WorkshopsItemReport {
   //Variables
   String? id;
-  String? Name;
+  String? name;
   String? presentBy;
-  String? workshopDate;
-  String? workshopTime;
-  String? workshopPlace;
+  String? date;
+  String? time;
+  String? location;
   String? workshopLink;
 
   //Constructor
   WorkshopsItemReport({
     required this.id,
-    required this.Name,
+    required this.name,
     required this.presentBy,
-    required this.workshopDate,
-    required this.workshopTime,
-    required this.workshopPlace,
+    required this.date,
+    required this.time,
+    required this.location,
     required this.workshopLink,
   });
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['WorkshopName'] = Name;
+    map['WorkshopName'] = name;
     map['PresentBy'] = presentBy;
-    map['WorkshopDate'] = workshopDate;
-    map['WorkshopTime'] = workshopTime;
-    map['WorkshopPlace'] = workshopPlace;
+    map['WorkshopDate'] = date;
+    map['WorkshopTime'] = time;
+    map['WorkshopPlace'] = location;
     map['WorkshopLink'] = workshopLink;
     return map;
   }
