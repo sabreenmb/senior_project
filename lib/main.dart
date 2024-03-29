@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/login_screen.dart';
+import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/interface/study_group.dart';
 
 import 'firebase_options.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const HomeScreen(),
+      home: const ServisesScreen(),
     );
   }
 }

@@ -7,6 +7,9 @@ import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
+import '../constant.dart';
+import '../widgets/home_card.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -22,7 +25,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    loadCoursesItems();
     _pages = [
       {
         'page': const HomeScreen(),
@@ -182,52 +185,18 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildHorizontalScrollableCards() {
+    print('fiss');
+    print(courseItem.length);
     return Container(
       height: 240,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 5,
+        itemCount: courseItem.length,
         itemBuilder: (context, index) {
           return Container(
             width: MediaQuery.of(context).size.width * 0.6,
             padding: EdgeInsets.symmetric(horizontal: 4),
-            child: Card(
-              elevation: 4,
-              shadowColor: Colors.grey.shade500,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: Color.fromRGBO(89, 177, 212, 1), width: 2),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.star, size: 40, color: Colors.amber),
-                    SizedBox(height: 10),
-                    Text(
-                      'ورشة عمل التخزين السحابي',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      '2024-03-28',
-                      style: TextStyle(color: Colors.grey[500]),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      '04:00 - 03:00',
-                      style: TextStyle(color: Colors.grey[500]),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            child: HomeCard(courseItem[index]),
           );
         },
       ),

@@ -7,7 +7,9 @@ import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
 
+import 'model/courses_item_report.dart';
 import 'model/offer_info.dart';
+import 'model/volunteer_op_report.dart';
 
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
@@ -288,3 +290,62 @@ void LoadOffers() async {
     print(offers[0]);
   }
 }
+List<CoursesItemReport> courseItem = [];
+
+void loadCoursesItems() async {
+  final url = Uri.https(
+    'senior-project-72daf-default-rtdb.firebaseio.com',
+    'eventsCoursesDB.json',
+  );
+  final response = await http.get(url);
+
+  final Map<String, dynamic> data = json.decode(response.body);
+  for (final item in data.entries) {
+    print(item.value['course_name']);
+
+    courseItem.add( CoursesItemReport(
+      id: item.key,
+      name: item.value['course_name'],
+      presentBy: item.value['course_presenter'],
+      date: item.value['course_date'],
+      time: item.value['course_time'],
+      location: item.value['course_location'],
+      courseLink: item.value['course_link'],
+    ));
+  }
+
+}
+List<VolunteerOpReport> volunteerOpReport = [];
+
+void LoadCreatedSessions() async {
+  final List<VolunteerOpReport> loadedVolunteerOp = [];
+
+  try {
+
+    final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+        'opportunities.json');
+    final response = await http.get(url);
+
+    final Map<String, dynamic> volunteerdata = json.decode(response.body);
+    for (final item in volunteerdata.entries) {
+      print(item.value['op_name']);
+
+      loadedVolunteerOp.add(VolunteerOpReport(
+        id: item.key,
+        //model name : firebase name
+        name: item.value['op_name'],
+        date: item.value['op_date'],
+        time: item.value['op_time'],
+        location: item.value['op_location'],
+        opNumber: item.value['op_number'],
+        opLink: item.value['op_link'],
+      ));
+    }
+  } catch (error) {
+    print('Empty List');
+  }
+  volunteerOpReport = loadedVolunteerOp;
+
+}
+
+
