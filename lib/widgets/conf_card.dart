@@ -31,7 +31,7 @@ class ConfCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  confItem.Name!,
+                  confItem.name!,
                   textAlign: TextAlign.right,
                   style: TextStyles.heading3B,
                 ),
@@ -49,7 +49,7 @@ class ConfCard extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      "${confItem.confDate!} , ${confItem.confTime!}",
+                      "${confItem.date!} , ${confItem.time!}",
                       textAlign: TextAlign.right,
                       style: TextStyles.text,
                     ),
@@ -69,7 +69,7 @@ class ConfCard extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      confItem.confPlace!,
+                      confItem.location!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text,
                     ),

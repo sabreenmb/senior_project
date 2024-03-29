@@ -31,7 +31,7 @@ class OpCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  volunteerOpReport.opName!,
+                  volunteerOpReport.name!,
                   textAlign: TextAlign.right,
                   style: TextStyles.heading3B,
                 ),
@@ -50,7 +50,7 @@ class OpCard extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      "${volunteerOpReport.opDate!} , ${volunteerOpReport.opTime!}",
+                      "${volunteerOpReport.date!} , ${volunteerOpReport.time!}",
                       textAlign: TextAlign.right,
                       style: TextStyles.text,
                     ),
@@ -70,7 +70,7 @@ class OpCard extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      volunteerOpReport.opLocation!,
+                      volunteerOpReport.location!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text,
                     ),
@@ -102,20 +102,20 @@ class OpCard extends StatelessWidget {
               ],
             ),
           ),
-          if(volunteerOpReport.opLink!="")
+          if (volunteerOpReport.opLink != "")
             Positioned(
-            bottom: 8.0,
-            left: 15.0,
-            child: TextButton(
-              onPressed: () => _launchURL(volunteerOpReport.opLink!, context),
-              child: Text(
-                'سجل',
-                style: TextStyle(
-                  color: TextStyles.heading3B.color,
+              bottom: 8.0,
+              left: 15.0,
+              child: TextButton(
+                onPressed: () => _launchURL(volunteerOpReport.opLink!, context),
+                child: Text(
+                  'سجل',
+                  style: TextStyle(
+                    color: TextStyles.heading3B.color,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );

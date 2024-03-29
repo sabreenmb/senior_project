@@ -1,13 +1,9 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
-
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/create_group_report.dart';
-
 import '../theme.dart';
 
-class CreateCard extends StatelessWidget {
-  CreateGroupReport createGroupReport;
-  CreateCard(this.createGroupReport, {super.key});
+class HomeCard extends StatelessWidget {
+  final dynamic dynamicObject; // Change type to dynamic
+  HomeCard(this.dynamicObject, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +20,21 @@ class CreateCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
-          //start the colom
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 65,
+              child: Center(
+                child: Image.asset('assets/images/logo-icon.png'),
+              ),
+            ),
             Text(
-              createGroupReport.subjectCode!,
+              dynamicObject.name!,
               textAlign: TextAlign.right,
               style: TextStyles.heading3B,
+            ),
+            const SizedBox(
+              height: 10,
             ),
             const SizedBox(
               height: 10,
@@ -46,7 +50,7 @@ class CreateCard extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  createGroupReport.sessionPlace!,
+                  dynamicObject.location!,
                   textAlign: TextAlign.right,
                   style: TextStyles.text,
                 ),
@@ -67,24 +71,7 @@ class CreateCard extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  '${createGroupReport.sessionDate!}   ${createGroupReport.sessionTime!}',
-                  textAlign: TextAlign.right,
-                  style: TextStyles.text,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Icon(
-                  Icons.people,
-                  color: CustomColors.lightGrey,
-                  size: 14.0,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  createGroupReport.numPerson!,
+                  '${dynamicObject.date!}   ${dynamicObject.time!}',
                   textAlign: TextAlign.right,
                   style: TextStyles.text,
                 ),

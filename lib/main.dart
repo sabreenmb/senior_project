@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/login_screen.dart';
+import 'package:senior_project/interface/study_group.dart';
 
 import 'firebase_options.dart';
 //import 'interface/study_group.dart';
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }
