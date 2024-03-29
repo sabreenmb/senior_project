@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import '../constant.dart';
 import 'services_screen.dart';
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (!snapshot.exists) {
         userProfileDoc.set({
-          // 'image_url':,
+          'image_url': '',
           'userID': _enteredID.split("@")[0],
           'rule': 'user',
           'name': 'منار مجيد',
@@ -57,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'intrests': '',
           'hobbies': '',
           'skills': '',
+          'pushToken': ''
         });
       }
       snapshot = await userProfileDoc.get();
@@ -72,7 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
       userInfo.intrests = userProfileData?['intrests'];
       userInfo.hobbies = userProfileData?['hobbies'];
       userInfo.skills = userProfileData?['skills'];
+      userInfo.pushToken = userProfileData?['pushToken'];
 
+      notificationServices.getFirebaseMessagingToken();
+      notificationServices.updatePushToken();
+      // await PushNotification.getFirebaseMessagingToken();
+      // PushNotification.updatePushToken();
+      // PushNotification.forgroundMessage();
+      // PushNotification.firebaseInit(context);
+      // PushNotification.setupInteractMessage(context);
       LoadOffers();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));

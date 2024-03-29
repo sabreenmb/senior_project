@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,6 +26,8 @@ List<String> Categories = [
   'اخرى'
 ];
 
+PushNotification notificationServices = PushNotification();
+
 DocumentReference<Map<String, dynamic>> userProfileDoc = FirebaseFirestore
     .instance
     .collection("userProfile")
@@ -40,6 +43,7 @@ enteredUserInfo userInfo = enteredUserInfo(
   intrests: '',
   hobbies: '',
   skills: '',
+  pushToken: '',
 );
 
 List<String> SubjectsCode = [

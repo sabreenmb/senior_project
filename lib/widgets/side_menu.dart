@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,86 +18,114 @@ class SideDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: CustomColors.BackgroundColor,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            height: 300,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                //border: Unde
-                ),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 50, bottom: 20),
-                  alignment: Alignment.topCenter,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    //color: Color.fromARGB(255, 139, 139, 139),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: CustomColors.darkGrey,
-                      width: 3,
+          Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                height: 300,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                    //border: Unde
                     ),
-                  ),
-                  child: userInfo.image_url == ''
-                      ? Container(
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset(
-                            'assets/icons/UserProfile.svg',
-                            height: 100,
-                            width: 100,
-                            color: CustomColors.darkGrey,
-                          ))
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            width: 145,
-                            height: 150,
-                            fit: BoxFit.cover,
-                            imageUrl: userInfo.image_url,
-                            errorWidget: (context, url, error) => CircleAvatar(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 50, bottom: 20),
+                      alignment: Alignment.topCenter,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        //color: Color.fromARGB(255, 139, 139, 139),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: CustomColors.darkGrey,
+                          width: 3,
+                        ),
+                      ),
+                      child: userInfo.image_url == ''
+                          ? Container(
+                              alignment: Alignment.center,
                               child: SvgPicture.asset(
                                 'assets/icons/UserProfile.svg',
+                                height: 100,
+                                width: 100,
                                 color: CustomColors.darkGrey,
+                              ))
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                width: 145,
+                                height: 150,
+                                fit: BoxFit.cover,
+                                imageUrl: userInfo.image_url,
+                                errorWidget: (context, url, error) =>
+                                    CircleAvatar(
+                                  child: SvgPicture.asset(
+                                    'assets/icons/UserProfile.svg',
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                    ),
+                    Text(
+                      userInfo.name,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.darkGrey),
+                    ),
+                  ],
                 ),
-                Text(
-                  userInfo.name,
-                  style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: CustomColors.darkGrey),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: CustomColors.lightBlue.withOpacity(0.3),
+                  border: const Border(
+                    top: BorderSide(color: CustomColors.lightBlue, width: 1),
+                    bottom: BorderSide(color: CustomColors.lightBlue, width: 1),
+                    left: BorderSide(color: CustomColors.lightBlue, width: 8),
+                    right: BorderSide(color: CustomColors.lightBlue, width: 1),
+                  ),
                 ),
-              ],
-            ),
+                child: ListTile(
+                  leading: SvgPicture.asset(
+                    "assets/icons/profileIcon.svg",
+                    height: 30,
+                    width: 30,
+                    color: CustomColors.darkGrey.withOpacity(0.8),
+                  ),
+                  title: const Text("الملف الشخصي"),
+                  onTap: onProfileTap,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  color: CustomColors.lightBlue.withOpacity(0.3),
+                  border: const Border(
+                    top: BorderSide(color: CustomColors.lightBlue, width: 1),
+                    bottom: BorderSide(color: CustomColors.lightBlue, width: 1),
+                    left: BorderSide(color: CustomColors.lightBlue, width: 8),
+                    right: BorderSide(color: CustomColors.lightBlue, width: 1),
+                  ),
+                ),
+                child: ListTile(
+                  leading: SvgPicture.asset(
+                    "assets/icons/id_card.svg",
+                    height: 40,
+                    width: 40,
+                    color: CustomColors.darkGrey,
+                  ),
+                  title: const Text("البطاقة الجامعية"),
+                  onTap: () {},
+                ),
+              ),
+            ],
           ),
           Container(
-            decoration: BoxDecoration(
-              color: CustomColors.lightBlue.withOpacity(0.3),
-              border: const Border(
-                top: BorderSide(color: CustomColors.lightBlue, width: 1),
-                bottom: BorderSide(color: CustomColors.lightBlue, width: 1),
-                left: BorderSide(color: CustomColors.lightBlue, width: 8),
-                right: BorderSide(color: CustomColors.lightBlue, width: 1),
-              ),
-            ),
-            child: ListTile(
-              leading: SvgPicture.asset(
-                "assets/icons/profileIcon.svg",
-                height: 30,
-                width: 30,
-                color: CustomColors.darkGrey.withOpacity(0.8),
-              ),
-              title: const Text("الملف الشخصي"),
-              onTap: onProfileTap,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
+            margin: EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               color: CustomColors.lightBlue.withOpacity(0.3),
               border: const Border(
@@ -115,6 +144,12 @@ class SideDrawer extends StatelessWidget {
               ),
               title: const Text("تسجيل الخروج"),
               onTap: () {
+                FirebaseFirestore.instance
+                    .collection('userProfile')
+                    .doc(userInfo.userID)
+                    .update({
+                  'pushToken': '',
+                });
                 FirebaseAuth.instance.signOut();
                 // print('saaabreeeeeeeeeeeeeeeeeeena $userProfileDoc');
                 Navigator.pushReplacement(
@@ -124,6 +159,7 @@ class SideDrawer extends StatelessWidget {
               },
             ),
           ),
+          // const SizedBox(height: ),
         ],
       ),
     );
