@@ -76,6 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
       userInfo.skills = userProfileData?['skills'];
       userInfo.pushToken = userProfileData?['pushToken'];
 
+      notificationServices.getFirebaseMessagingToken();
+      notificationServices.updatePushToken();
       // await PushNotification.getFirebaseMessagingToken();
       // PushNotification.updatePushToken();
       // PushNotification.forgroundMessage();

@@ -37,6 +37,19 @@ class PushNotification {
   }
 
   Future<void> showNotification(RemoteMessage message) async {
+// final String chatPartnerId = message.data['userID'];
+//     if (chatPartnerId != null) {
+//       // Get the current chat partner ID from the app's state or wherever you store it
+//       final String currentChatPartnerId =
+//           context; // Replace with the appropriate implementation
+
+//       // Compare the current chat partner ID with the one from the notification
+//       if (currentChatPartnerId == chatPartnerId) {
+//         // User is already in the same chat, no need to show the notification
+//         return;
+//       }
+//     }
+
     AndroidNotificationChannel channel = AndroidNotificationChannel(
         Random.secure().nextInt(100000).toString(),
         'High Importance Notifications',
@@ -71,7 +84,7 @@ class PushNotification {
         print('Push Token: $t');
       }
     });
-
+    updatePushToken();
     // for handling foreground messages
     // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     //   log('Got a message whilst in the foreground!');

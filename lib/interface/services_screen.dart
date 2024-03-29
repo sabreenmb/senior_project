@@ -27,10 +27,10 @@ class _ServisesState extends State<ServisesScreen> {
     super.initState();
 
     //Move it to approprite place (home screen maybe)
-    notificationServices.getFirebaseMessagingToken();
+    // notificationServices.getFirebaseMessagingToken();
     notificationServices.forgroundMessage();
-    // notificationServices.firebaseInit(context);
-    // notificationServices.setupInteractMessage(context);
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
     // notificationServices.isTokenRefresh();
 
     // notificationServices.getDeviceToken().then((value) {
