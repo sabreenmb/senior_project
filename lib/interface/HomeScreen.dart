@@ -25,7 +25,9 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    loadCoursesItems();
+    //todo move it to the login screen
+
+    homeCards();
     _pages = [
       {
         'page': const HomeScreen(),
@@ -191,14 +193,9 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
       height: 240,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: courseItem.length,
-        itemBuilder: (context, index) {
-          return Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            child: HomeCard(courseItem[index]),
-          );
-        },
+        itemCount:combinedList.length ,
+        itemBuilder: (context, index) =>
+         HomeCard(combinedList[index].item,combinedList[index].serviceName,combinedList[index].icon)
       ),
     );
   }

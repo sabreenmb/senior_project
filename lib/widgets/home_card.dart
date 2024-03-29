@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../theme.dart';
 
 class HomeCard extends StatelessWidget {
-  final dynamic dynamicObject; // Change type to dynamic
-  HomeCard(this.dynamicObject, {Key? key}) : super(key: key);
-
+   dynamic dynamicObject;
+   String serviceName;
+   String icon;
+// Change type to dynamic
+  HomeCard(this.dynamicObject,this.serviceName ,this.icon,{Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -25,7 +28,12 @@ class HomeCard extends StatelessWidget {
             SizedBox(
               height: 65,
               child: Center(
-                child: Image.asset('assets/images/logo-icon.png'),
+                child: SvgPicture.asset(
+                  icon,
+                  width: 70,
+                  height: 70,
+                  //color: CustomColors.lightBlue.withOpacity(0.6),
+                ),
               ),
             ),
             Text(

@@ -83,7 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
       // PushNotification.forgroundMessage();
       // PushNotification.firebaseInit(context);
       // PushNotification.setupInteractMessage(context);
+      //todo
       LoadOffers();
+      loadCoursesItems();
+      LoadCreatedSessions();
+      loadWorkshopsItems();
+      loadConferencesItems();
+      loadOtherEventsItems();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
     } on FirebaseAuthException catch (error) {

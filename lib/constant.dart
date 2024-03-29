@@ -8,9 +8,12 @@ import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
 
+import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
 import 'model/offer_info.dart';
+import 'model/other_event_item_report.dart';
 import 'model/volunteer_op_report.dart';
+import 'model/workshop_item_report.dart';
 
 int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
@@ -294,6 +297,9 @@ void LoadOffers() async {
     print(offers[0]);
   }
 }
+List<WorkshopsItemReport> workshopItem = [];
+List<ConferencesItemReport> confItem = [];
+List<OtherEventsItemReport> otherItem = [];
 List<CoursesItemReport> courseItem = [];
 
 void loadCoursesItems() async {
@@ -315,6 +321,71 @@ void loadCoursesItems() async {
       time: item.value['course_time'],
       location: item.value['course_location'],
       courseLink: item.value['course_link'],
+    ));
+  }
+
+}
+void loadWorkshopsItems() async {
+  final url = Uri.https(
+    'senior-project-72daf-default-rtdb.firebaseio.com',
+    'eventsWorkshopsDB.json',
+  );
+  final response = await http.get(url);
+
+  final Map<String, dynamic> data = json.decode(response.body);
+  for (final item in data.entries) {
+    workshopItem.add(WorkshopsItemReport(
+      id: item.key,
+      name: item.value['workshop_name'],
+      presentBy: item.value['workshop_presenter'],
+      date: item.value['workshop_date'],
+      location: item.value['workshop_location'],
+      time: item.value['workshop_time'],
+      workshopLink: item.value['workshop_link'],
+    ));
+  }
+
+  
+}
+
+void loadConferencesItems() async {
+  final url = Uri.https(
+    'senior-project-72daf-default-rtdb.firebaseio.com',
+    'eventsConferencesDB.json',
+  );
+  final response = await http.get(url);
+
+  final Map<String, dynamic> data = json.decode(response.body);
+  for (final item in data.entries) {
+    confItem.add(ConferencesItemReport(
+      id: item.key,
+      name: item.value['conference_name'],
+      date: item.value['conference_date'],
+      time: item.value['conference_time'],
+      location: item.value['conference_location'],
+      confLink: item.value['conference_link'],
+    ));
+  }
+
+}
+
+void loadOtherEventsItems() async {
+  final url = Uri.https(
+    'senior-project-72daf-default-rtdb.firebaseio.com',
+    'eventsOthersDB.json',
+  );
+  final response = await http.get(url);
+
+  final Map<String, dynamic> eventData = json.decode(response.body);
+  for (final item in eventData.entries) {
+    otherItem.add( OtherEventsItemReport(
+      id: item.key,
+      name: item.value['OEvent_name'],
+      presentBy: item.value['OEvent_presenter'],
+      date: item.value['OEvent_date'],
+      time: item.value['OEvent_time'],
+      location: item.value['OEvent_location'],
+      otherEventLink: item.value['OEvent_link'],
     ));
   }
 
@@ -351,5 +422,38 @@ void LoadCreatedSessions() async {
   volunteerOpReport = loadedVolunteerOp;
 
 }
+List<EventItem> combinedList = [];
 
+void homeCards()async{
+   combinedList = [];
+
+  workshopItem.forEach((item) {
+    combinedList.add(EventItem(serviceName: 'Workshops', item: item, icon: services[4]['icon']));
+  });
+
+  confItem.forEach((item) {
+    combinedList.add(EventItem(serviceName: 'Conferences', item: item ,icon: services[4]['icon']));
+    print(combinedList.elementAt(0).serviceName);
+  });
+
+  otherItem.forEach((item) {
+    combinedList.add(EventItem(serviceName: 'Other Events', item: item, icon: services[4]['icon']));
+  });
+
+  courseItem.forEach((item) {
+    combinedList.add(EventItem(serviceName: 'Courses', item: item,icon: services[4]['icon']));
+  });
+  volunteerOpReport.forEach((item) {
+    combinedList.add(EventItem(serviceName: 'OP', item: item,icon: services[1]['icon']));
+  });
+  print(combinedList);
+
+}
+class EventItem {
+  final String serviceName;
+  final dynamic item;
+  final String icon;
+
+  EventItem({required this.serviceName, required this.item, required this.icon});
+}
 
