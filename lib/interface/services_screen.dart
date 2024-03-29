@@ -20,7 +20,6 @@ class _ServisesState extends State<ServisesScreen> {
   // ignore: unused_field
   int _selectedPageIndex = 1;
   void _selectPage(int index) {
-    index = 2;
     setState(() {
       if (index == 0) {
         Navigator.pushReplacement(
