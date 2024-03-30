@@ -327,6 +327,12 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                   color: CustomColors.lightGrey,
                                 ),
                                 labelText: 'مكان النشاط',
+                                hintText:
+                                    'مثال: مبنى كلية العلوم، بهو كلية الحاسبات...',
+                                hintStyle: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 175, 175, 175),
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: CustomColors.lightBlue,
@@ -348,6 +354,13 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                 createStudentActivityReport.activityPlace =
                                     value;
                               },
+                            ),
+                            Text(
+                              ' * الرجاء التأكد من ان المكان متاح في الوقت المطلوب',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 253, 1, 1),
+                                fontSize: 12.0,
+                              ),
                             ),
                             const SizedBox(height: 12.0),
                             TextFormField(

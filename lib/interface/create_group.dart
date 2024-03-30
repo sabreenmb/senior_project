@@ -362,12 +362,17 @@ class _CreateGroupState extends State<CreateGroup> {
                             TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 suffixIcon: Icon(
                                   Icons.location_on,
                                   color: CustomColors.lightGrey,
                                 ),
                                 labelText: 'مكان الجلسة',
+                                hintText: 'مثال: المقهى، المكتبة، البهو...',
+                                hintStyle: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 175, 175, 175),
+                                ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: CustomColors.lightBlue,
@@ -388,6 +393,13 @@ class _CreateGroupState extends State<CreateGroup> {
                               onSaved: (value) {
                                 createGroupReport.sessionPlace = value;
                               },
+                            ),
+                            Text(
+                              ' * الرجاء التأكد من ان المكان متاح في الوقت المطلوب',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 253, 1, 1),
+                                fontSize: 12.0,
+                              ),
                             ),
                             const SizedBox(height: 12.0),
                             TextFormField(
