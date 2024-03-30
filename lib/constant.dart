@@ -361,6 +361,7 @@ void loadConferencesItems() async {
       id: item.key,
       name: item.value['conference_name'],
       date: item.value['conference_date'],
+      timestamp:item.value['timestamp'],
       time: item.value['conference_time'],
       location: item.value['conference_location'],
       confLink: item.value['conference_link'],
@@ -426,26 +427,26 @@ List<EventItem> combinedList = [];
 
 void homeCards()async{
    combinedList = [];
-
-  workshopItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'Workshops', item: item, icon: services[4]['icon']));
-  });
+   sortItemsByTimestamp(confItem);
+  // workshopItem.forEach((item) {
+  //   combinedList.add(EventItem(serviceName: 'Workshops', item: item, icon: services[4]['icon']));
+  // });
 
   confItem.forEach((item) {
     combinedList.add(EventItem(serviceName: 'Conferences', item: item ,icon: services[4]['icon']));
     print(combinedList.elementAt(0).serviceName);
   });
 
-  otherItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'Other Events', item: item, icon: services[4]['icon']));
-  });
+  // otherItem.forEach((item) {
+  //   combinedList.add(EventItem(serviceName: 'Other Events', item: item, icon: services[4]['icon']));
+  // });
 
-  courseItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'Courses', item: item,icon: services[4]['icon']));
-  });
-  volunteerOpReport.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'OP', item: item,icon: services[1]['icon']));
-  });
+  // courseItem.forEach((item) {
+  //   combinedList.add(EventItem(serviceName: 'Courses', item: item,icon: services[4]['icon']));
+  // });
+  // volunteerOpReport.forEach((item) {
+  //   combinedList.add(EventItem(serviceName: 'OP', item: item,icon: services[1]['icon']));
+  // });
   print(combinedList);
 
 }
@@ -456,4 +457,36 @@ class EventItem {
 
   EventItem({required this.serviceName, required this.item, required this.icon});
 }
+List<EventItem> todayList = [];
 
+void getTodayList() {
+ todayList = [];
+//data list may changed to a copy list
+
+  for (int i = 0; i < combinedList.length; i++) {
+    if (getValidity(combinedList[i].item.date) == true) {
+      todayList.add(combinedList[i]);
+      print('new test');
+
+    }
+  }
+  print(todayList);
+
+}
+bool getValidity(String time) {
+  DateTime expiryDate = DateTime.parse(time);
+  DateTime now = DateTime.now();
+
+  if (expiryDate.difference(now).inDays == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+void sortItemsByTimestamp(List<dynamic> confItem) {
+  confItem.sort((a, b) {
+    DateTime timestampA = DateTime.parse(a.timestamp);
+    DateTime timestampB = DateTime.parse(b.timestamp);
+    return timestampB.compareTo(timestampA); // Sort in descending order
+  });
+}

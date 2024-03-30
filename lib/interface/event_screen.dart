@@ -140,6 +140,7 @@ class _EventState extends State<EventScreen> {
         id: item.key,
         name: item.value['conference_name'],
         date: item.value['conference_date'],
+        timestamp:item.value['timestamp'],
         time: item.value['conference_time'],
         location: item.value['conference_location'],
         confLink: item.value['conference_link'],
