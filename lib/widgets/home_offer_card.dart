@@ -1,10 +1,8 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
 import 'package:flutter/material.dart';
-
 import '../interface/OfferDetails.dart';
 import '../model/offer_info.dart';
-import '../theme.dart';
 
 class HomeOfferCard extends StatelessWidget {
   OfferInfo offerInfo;
