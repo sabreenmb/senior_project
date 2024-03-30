@@ -30,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
         'intrests': userInfo.intrests,
         'hobbies': userInfo.hobbies,
         'skills': userInfo.skills,
+        'offersPreferences': userInfo.offersPreferences,
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -177,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
           title: Text("الملف الشخصي", style: TextStyles.heading1),
           leading: IconButton(
             icon:
-                const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
+            const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
             onPressed: () {
               Navigator.pop(context, false);
             },
@@ -209,7 +210,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ListView(
                         children: [
                           Container(
-                            margin: const EdgeInsets.all(20),
+                            // color: Colors.cyan,
+                            // margin: const EdgeInsets.all(20),
                             child: SingleChildScrollView(
                               child: Padding(
                                 padding: const EdgeInsets.all(16),
@@ -226,64 +228,64 @@ class _ProfilePageState extends State<ProfilePage> {
                                           children: [
                                             userInfo.image_url == ''
                                                 ? Container(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20),
-                                                    alignment:
-                                                        Alignment.topCenter,
-                                                    height: 150,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
+                                              padding:
+                                              const EdgeInsets.all(
+                                                  20),
+                                              alignment:
+                                              Alignment.topCenter,
+                                              height: 140,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: CustomColors
+                                                      .darkGrey,
+                                                  width: 3,
+                                                ),
+                                              ),
+                                              child: SvgPicture.asset(
+                                                'assets/icons/UserProfile.svg',
+                                                height: 100,
+                                                width: 100,
+                                                color:
+                                                CustomColors.darkGrey,
+                                              ),
+                                            )
+                                                : ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  100),
+                                              child: CachedNetworkImage(
+                                                width: 140,
+                                                height: 140,
+                                                fit: BoxFit.cover,
+                                                imageUrl:
+                                                userInfo.image_url,
+                                                errorWidget: (context,
+                                                    url, error) =>
+                                                    CircleAvatar(
+                                                      child: SvgPicture.asset(
+                                                        'assets/icons/UserProfile.svg',
+                                                        height: 100,
+                                                        width: 100,
                                                         color: CustomColors
                                                             .darkGrey,
-                                                        width: 3,
                                                       ),
                                                     ),
-                                                    child: SvgPicture.asset(
-                                                      'assets/icons/UserProfile.svg',
-                                                      height: 100,
-                                                      width: 100,
-                                                      color:
-                                                          CustomColors.darkGrey,
-                                                    ),
-                                                  )
-                                                : ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                    child: CachedNetworkImage(
-                                                      width: 140,
-                                                      height: 140,
-                                                      fit: BoxFit.cover,
-                                                      imageUrl:
-                                                          userInfo.image_url,
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          CircleAvatar(
-                                                        child: SvgPicture.asset(
-                                                          'assets/icons/UserProfile.svg',
-                                                          height: 100,
-                                                          width: 100,
-                                                          color: CustomColors
-                                                              .darkGrey,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                              ),
+                                            ),
                                             Positioned(
                                               right: -9,
                                               bottom: 3,
                                               child: CircleAvatar(
                                                 radius: 25,
                                                 backgroundColor:
-                                                    CustomColors.white,
+                                                CustomColors.white,
                                                 child: IconButton(
                                                   icon: const Icon(
                                                     Icons.camera_alt_rounded,
                                                     //Icons.camera_rounded,
                                                     color:
-                                                        CustomColors.lightBlue,
+                                                    CustomColors.lightBlue,
                                                     size: 35,
                                                   ),
                                                   onPressed: () {
@@ -316,11 +318,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 16,
                                             color: CustomColors.darkGrey),
                                       ),
-                                      const SizedBox(height: 18),
+                                      const SizedBox(height: 10),
                                       TextFormField(
                                         keyboardType: TextInputType.text,
                                         autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
+                                        AutovalidateMode.onUserInteraction,
                                         decoration: const InputDecoration(
                                           labelText: "الاهتمامات",
                                           focusedBorder: UnderlineInputBorder(
@@ -343,7 +345,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       TextFormField(
                                         keyboardType: TextInputType.text,
                                         autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
+                                        AutovalidateMode.onUserInteraction,
                                         decoration: const InputDecoration(
                                           labelText: 'الهوايات',
                                           focusedBorder: UnderlineInputBorder(
@@ -366,10 +368,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                       TextFormField(
                                         keyboardType: TextInputType.text,
                                         autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
+                                        AutovalidateMode.onUserInteraction,
                                         decoration: const InputDecoration(
                                           labelText:
-                                              ' ما يمكنك اضافتة للمجتمع؟ ',
+                                          ' ما يمكنك اضافتة للمجتمع؟ ',
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
                                               color: CustomColors.lightBlue,
@@ -386,7 +388,51 @@ class _ProfilePageState extends State<ProfilePage> {
                                           userInfo.skills = value!;
                                         },
                                       ),
-                                      const SizedBox(height: 55.0),
+                                      const SizedBox(height: 20.0),
+                                      Column(
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 15.0),
+                                            alignment: Alignment.centerRight,
+                                            // color: Colors.amber,
+                                            child: const Text(
+                                              'اختر تفضيلات العروض:',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: CustomColors.darkGrey),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            // color: Color.fromARGB(
+                                            //     255, 253, 229, 226),
+                                            height: 105,
+                                            // width: 32,
+                                            child: ListView(
+                                              scrollDirection: Axis.horizontal,
+                                              children: [
+                                                ...List.generate(
+                                                  offers.length,
+                                                      (index) => OfferItem(
+                                                    index: index,
+                                                    onSelected: (bool value) {
+                                                      fun(value, index);
+                                                      print(
+                                                          "oooooooooooooooooooooooooooooooooooooooooooooooooo");
+                                                      print(userInfo
+                                                          .offersPreferences);
+                                                      setState(() {});
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 40.0),
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 90),
@@ -397,10 +443,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                               elevation: 0,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                BorderRadius.circular(20),
                                               ),
                                               backgroundColor:
-                                                  CustomColors.lightBlue),
+                                              CustomColors.lightBlue),
                                           child: Text("تحديث",
                                               style: TextStyles.text3),
                                         ),
@@ -419,6 +465,86 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  void fun(bool value, int index) {
+    bool found = false;
+    if (value) {
+      if (userInfo.offersPreferences[offers[index]['offerCategory']] == false) {
+        userInfo.offersPreferences[offers[index]['offerCategory']] = true;
+      }
+    } else {
+      if (userInfo.offersPreferences[offers[index]['offerCategory']] == true) {
+        userInfo.offersPreferences[offers[index]['offerCategory']] = false;
+      }
+    }
+  }
+}
+
+class OfferItem extends StatefulWidget {
+  final int index;
+  final ValueChanged<bool> onSelected;
+
+  const OfferItem({super.key, required this.index, required this.onSelected});
+
+  @override
+  State<OfferItem> createState() => _OfferItemState();
+}
+
+class _OfferItemState extends State<OfferItem> {
+  bool _isSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isSelected = !_isSelected;
+          widget.onSelected(_isSelected);
+        });
+      },
+      child: Container(
+        width: 60,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.all(5.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              padding: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: userInfo.offersPreferences[offers[widget.index]
+                ['offerCategory']] ==
+                    true
+                    ? Border.all(color: CustomColors.lightBlue, width: 2.0)
+                    : null,
+              ),
+              child: SvgPicture.asset(
+                offers[widget.index]['icon']!,
+                width: 28,
+                height: 28,
+                color: CustomColors.lightBlue,
+              ),
+            ),
+            // const SizedBox(
+            //   height: 8.0,
+            // ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                offers[widget.index]['offerCategory'],
+                style: TextStyles.text2,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -58,7 +58,19 @@ class _LoginScreenState extends State<LoginScreen> {
           'intrests': '',
           'hobbies': '',
           'skills': '',
-          'pushToken': ''
+          'pushToken': '',
+          'offersPreferences': {
+            'رياضة': false,
+            'تعليم وتدريب': false,
+            'مطاعم ومقاهي': false,
+            'ترفيه': false,
+            'مراكز صحية': false,
+            'عناية وجمال': false,
+            'سياحة وفنادق': false,
+            'خدمات السيارات': false,
+            'تسوق': false,
+            'عقارات وبناء': false,
+          },
         });
       }
       snapshot = await userProfileDoc.get();
@@ -76,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
       userInfo.skills = userProfileData?['skills'];
       userInfo.pushToken = userProfileData?['pushToken'];
 
+      userInfo.offersPreferences = userProfileData?['offersPreferences'];
       notificationServices.getFirebaseMessagingToken();
       notificationServices.updatePushToken();
       // await PushNotification.getFirebaseMessagingToken();

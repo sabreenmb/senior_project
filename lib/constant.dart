@@ -49,6 +49,19 @@ enteredUserInfo userInfo = enteredUserInfo(
   hobbies: '',
   skills: '',
   pushToken: '',
+  offersPreferences: {
+    'رياضة': false,
+    'تعليم وتدريب': false,
+    'مطاعم ومقاهي': false,
+    'ترفيه': false,
+    'مراكز صحية': false,
+    'عناية وجمال': false,
+    'سياحة وفنادق': false,
+    'خدمات السيارات': false,
+    'تسوق': false,
+    'عقارات وبناء': false,
+  },
+
 );
 
 List<String> SubjectsCode = [
