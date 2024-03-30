@@ -220,8 +220,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: [
                                       CircleAvatar(
                                         radius: 80,
-                                        backgroundColor:
-                                            const Color.fromARGB(0, 15, 66, 186),
+                                        backgroundColor: const Color.fromARGB(
+                                            0, 15, 66, 186),
                                         child: Stack(
                                           children: [
                                             userInfo.image_url == ''

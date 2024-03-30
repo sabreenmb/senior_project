@@ -31,7 +31,7 @@ class WorkshopCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    workshopItem.Name!,
+                    workshopItem.name!,
                     textAlign: TextAlign.right,
                     style: TextStyles.heading3B,
                   ),
@@ -70,7 +70,7 @@ class WorkshopCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "${workshopItem.workshopDate!} , ${workshopItem.workshopTime!}",
+                        "${workshopItem.date!} , ${workshopItem.time!}",
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -90,7 +90,7 @@ class WorkshopCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        workshopItem.workshopPlace!,
+                        workshopItem.location!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),

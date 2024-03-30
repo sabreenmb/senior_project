@@ -1,13 +1,11 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/create_group_report.dart';
 
 import '../theme.dart';
 
-class CreateCard extends StatelessWidget {
+class CreateMain extends StatelessWidget {
   CreateGroupReport createGroupReport;
-  CreateCard(this.createGroupReport, {super.key});
+  CreateMain(this.createGroupReport, {super.key});
 
   @override
   Widget build(BuildContext context) {

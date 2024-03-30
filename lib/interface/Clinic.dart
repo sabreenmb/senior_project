@@ -391,7 +391,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                               width: double.infinity,
                                               child: Text(
                                                 date,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: CustomColors.darkGrey,
                                                 ),
@@ -403,7 +403,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                           //    ),
                                           if (index <
                                               filteredClinicList.length - 1)
-                                            SizedBox(height: 3),
+                                            const SizedBox(height: 3),
                                           //),
                                         ],
                                       );

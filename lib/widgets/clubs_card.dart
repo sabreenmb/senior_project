@@ -16,11 +16,9 @@ class ClubsCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: (){
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>  ClubDetails(clubDetails)));
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ClubDetails(clubDetails)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -51,13 +49,13 @@ class ClubsCard extends StatelessWidget {
           children: [
             Container(
               margin:
-              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: clubDetails.logo == "empty"
                   ? const Image(image: AssetImage('assets/images/mug.png'))
                   : Image.network(
-                '${clubDetails.logo}',
-                fit: BoxFit.fill,
-              ),
+                      '${clubDetails.logo}',
+                      fit: BoxFit.fill,
+                    ),
               // child:Image.asset( clubDetails)
               // SvgPicture.asset(
               //   details['icon']!,
@@ -66,18 +64,14 @@ class ClubsCard extends StatelessWidget {
               //   //color: CustomColors.lightBlue.withOpacity(0.6),
               // ),
             ),
-            const SizedBox(height: 5,),
-            Text(
-               clubDetails.name! ,
-              textAlign: TextAlign.center,
-              style: TextStyles.heading1L
+            const SizedBox(
+              height: 5,
             ),
-
+            Text(clubDetails.name!,
+                textAlign: TextAlign.center, style: TextStyles.heading1L),
           ],
         ),
       ),
     );
   }
-
-
 }

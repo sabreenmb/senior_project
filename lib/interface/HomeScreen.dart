@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/ChatScreen.dart';
@@ -5,7 +6,11 @@ import 'package:senior_project/interface/SaveListScreen.dart';
 import 'package:senior_project/interface/add_lost_item_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
+import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+
+import '../constant.dart';
+import '../widgets/home_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,7 +27,9 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    //todo move it to the login screen
 
+    homeCards();
     _pages = [
       {
         'page': const HomeScreen(),
@@ -144,23 +151,21 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildCard() {
-    return Container(
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Color.fromRGBO(89, 177, 212, 1), width: 2),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-            spreadRadius: 2,
-          ),
-        ],
+    List<dynamic> categoryList = offers[1]['categoryList'];
+    bool autoplayEnabled = categoryList.length > 1;
+
+    return CarouselSlider(
+      items: categoryList
+          .map((offer) {
+            return HomeOfferCard(offer);
+          })
+          .toList()
+          .cast<Widget>(),
+      options: CarouselOptions(
+        height: 180,
+        autoPlay: autoplayEnabled,
+        autoPlayInterval: Duration(seconds: 3),
       ),
-      child: Center(child: Text('Card', style: TextStyle(fontSize: 18))),
-      height: 180,
     );
   }
 
@@ -182,55 +187,15 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildHorizontalScrollableCards() {
+    print('fiss');
+    print(courseItem.length);
     return Container(
       height: 240,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            child: Card(
-              elevation: 4,
-              shadowColor: Colors.grey.shade500,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: Color.fromRGBO(89, 177, 212, 1), width: 2),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.star, size: 40, color: Colors.amber),
-                    SizedBox(height: 10),
-                    Text(
-                      'ورشة عمل التخزين السحابي',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      '2024-03-28',
-                      style: TextStyle(color: Colors.grey[500]),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      '04:00 - 03:00',
-                      style: TextStyle(color: Colors.grey[500]),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+          scrollDirection: Axis.horizontal,
+          itemCount: combinedList.length,
+          itemBuilder: (context, index) => HomeCard(combinedList[index].item,
+              combinedList[index].serviceName, combinedList[index].icon)),
     );
   }
 }

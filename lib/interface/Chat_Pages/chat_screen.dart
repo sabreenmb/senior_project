@@ -29,12 +29,13 @@ class _RealChatPageState extends State<RealChatPage>
 
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
-      await _chatService.sendMessage(
-        widget.otherUserInfo.userID,
-        _messageController.text,
-      );
-
+      var tempMsg = _messageController.text;
       _messageController.clear();
+
+      await _chatService.sendMessage(
+        widget.otherUserInfo,
+        tempMsg,
+      );
     }
   }
 
