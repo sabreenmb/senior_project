@@ -46,7 +46,7 @@ class HomeOfferCard extends StatelessWidget {
                 ? const Image(image: AssetImage('assets/images/mug.png'))
                 : Image.network(
                     '${offerInfo.logo}',
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
           ),
         ),

@@ -29,6 +29,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     //todo move it to the login screen
 
     homeCards();
+    getTodayList();
     _pages = [
       {
         'page': const HomeScreen(),
@@ -138,9 +139,9 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                 const SizedBox(height: 15),
                 _buildCard(),
                 _buildSectionTitle('يحدث اليوم'),
-                _buildHorizontalScrollableCards(),
+                _buildHorizontalScrollableCards(todayList),
                 _buildSectionTitle('أضيف حديثا'),
-                _buildHorizontalScrollableCards(),
+                _buildHorizontalScrollableCards(combinedList),
               ],
             ),
           ),
@@ -185,16 +186,17 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildHorizontalScrollableCards() {
+  Widget _buildHorizontalScrollableCards(List<EventItem> details) {
     print('fiss');
     print(courseItem.length);
     return Container(
       height: 240,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: combinedList.length,
-          itemBuilder: (context, index) => HomeCard(combinedList[index].item,
-              combinedList[index].serviceName, combinedList[index].icon)),
+        scrollDirection: Axis.horizontal,
+        itemCount:details.length ,
+        itemBuilder: (context, index) =>
+         HomeCard(details[index].item,details[index].serviceName,details[index].icon)
+      ),
     );
   }
 }

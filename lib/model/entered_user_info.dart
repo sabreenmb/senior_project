@@ -10,6 +10,7 @@ class enteredUserInfo {
   late String hobbies;
   late String skills;
   late String pushToken;
+  late Map<String, dynamic> offersPreferences;
 
   //Constructor
   enteredUserInfo({
@@ -23,6 +24,7 @@ class enteredUserInfo {
     required this.hobbies,
     required this.skills,
     required this.pushToken,
+    required this.offersPreferences,
   });
 
   enteredUserInfo.fromJson(Map<String, dynamic> json) {
@@ -34,8 +36,14 @@ class enteredUserInfo {
     intrests = json['userID'] ?? '';
     hobbies = json['userID'] ?? '';
     skills = json['userID'] ?? '';
-
     pushToken = json['pushToken'] ?? '';
+    // offersPreferences = json['offersPreferences'] ?? '';
+    if (json['offersPreferences'] != null &&
+        json['offersPreferences'] is Map<String, dynamic>) {
+      offersPreferences = json['offersPreferences'] as Map<String, dynamic>;
+    } else {
+      offersPreferences = {};
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -44,8 +52,8 @@ class enteredUserInfo {
     map['intrests'] = intrests;
     map['hobbies'] = hobbies;
     map['skills'] = skills;
-
     map['pushToken'] = pushToken;
+    map['offersPreferences'] = offersPreferences;
     return map;
   }
 }
