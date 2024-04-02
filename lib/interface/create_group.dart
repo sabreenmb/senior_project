@@ -395,9 +395,9 @@ class _CreateGroupState extends State<CreateGroup> {
                               },
                             ),
                             Text(
-                              ' * الرجاء التأكد من ان المكان متاح في الوقت المطلوب',
+                              '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 253, 1, 1),
+                                color: CustomColors.darkGrey,
                                 fontSize: 12.0,
                               ),
                             ),
