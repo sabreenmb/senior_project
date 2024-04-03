@@ -61,7 +61,6 @@ enteredUserInfo userInfo = enteredUserInfo(
     'تسوق': false,
     'عقارات وبناء': false,
   },
-
 );
 
 List<String> SubjectsCode = [
@@ -310,6 +309,7 @@ void LoadOffers() async {
     print(offers[0]);
   }
 }
+
 List<WorkshopsItemReport> workshopItem = [];
 List<ConferencesItemReport> confItem = [];
 List<OtherEventsItemReport> otherItem = [];
@@ -326,7 +326,7 @@ void loadCoursesItems() async {
   for (final item in data.entries) {
     print(item.value['course_name']);
 
-    courseItem.add( CoursesItemReport(
+    courseItem.add(CoursesItemReport(
       id: item.key,
       name: item.value['course_name'],
       presentBy: item.value['course_presenter'],
@@ -336,8 +336,8 @@ void loadCoursesItems() async {
       courseLink: item.value['course_link'],
     ));
   }
-
 }
+
 void loadWorkshopsItems() async {
   final url = Uri.https(
     'senior-project-72daf-default-rtdb.firebaseio.com',
@@ -357,8 +357,6 @@ void loadWorkshopsItems() async {
       workshopLink: item.value['workshop_link'],
     ));
   }
-
-  
 }
 
 void loadConferencesItems() async {
@@ -374,13 +372,12 @@ void loadConferencesItems() async {
       id: item.key,
       name: item.value['conference_name'],
       date: item.value['conference_date'],
-      timestamp:item.value['timestamp'],
+      timestamp: item.value['timestamp'],
       time: item.value['conference_time'],
       location: item.value['conference_location'],
       confLink: item.value['conference_link'],
     ));
   }
-
 }
 
 void loadOtherEventsItems() async {
@@ -392,7 +389,7 @@ void loadOtherEventsItems() async {
 
   final Map<String, dynamic> eventData = json.decode(response.body);
   for (final item in eventData.entries) {
-    otherItem.add( OtherEventsItemReport(
+    otherItem.add(OtherEventsItemReport(
       id: item.key,
       name: item.value['OEvent_name'],
       presentBy: item.value['OEvent_presenter'],
@@ -402,15 +399,14 @@ void loadOtherEventsItems() async {
       otherEventLink: item.value['OEvent_link'],
     ));
   }
-
 }
+
 List<VolunteerOpReport> volunteerOpReport = [];
 
 void LoadCreatedSessions() async {
   final List<VolunteerOpReport> loadedVolunteerOp = [];
 
   try {
-
     final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
         'opportunities.json');
     final response = await http.get(url);
@@ -434,19 +430,20 @@ void LoadCreatedSessions() async {
     print('Empty List');
   }
   volunteerOpReport = loadedVolunteerOp;
-
 }
+
 List<EventItem> combinedList = [];
 
-void homeCards()async{
-   combinedList = [];
-   sortItemsByTimestamp(confItem);
+void homeCards() async {
+  combinedList = [];
+  sortItemsByTimestamp(confItem);
   // workshopItem.forEach((item) {
   //   combinedList.add(EventItem(serviceName: 'Workshops', item: item, icon: services[4]['icon']));
   // });
 
   confItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'Conferences', item: item ,icon: services[4]['icon']));
+    combinedList.add(EventItem(
+        serviceName: 'Conferences', item: item, icon: services[4]['icon']));
     print(combinedList.elementAt(0).serviceName);
   });
 
@@ -461,31 +458,32 @@ void homeCards()async{
   //   combinedList.add(EventItem(serviceName: 'OP', item: item,icon: services[1]['icon']));
   // });
   print(combinedList);
-
 }
+
 class EventItem {
   final String serviceName;
   final dynamic item;
   final String icon;
 
-  EventItem({required this.serviceName, required this.item, required this.icon});
+  EventItem(
+      {required this.serviceName, required this.item, required this.icon});
 }
+
 List<EventItem> todayList = [];
 
 void getTodayList() {
- todayList = [];
+  todayList = [];
 //data list may changed to a copy list
 
   for (int i = 0; i < combinedList.length; i++) {
     if (getValidity(combinedList[i].item.date) == true) {
       todayList.add(combinedList[i]);
       print('new test');
-
     }
   }
   print(todayList);
-
 }
+
 bool getValidity(String time) {
   DateTime expiryDate = DateTime.parse(time);
   DateTime now = DateTime.now();
@@ -496,6 +494,7 @@ bool getValidity(String time) {
     return false;
   }
 }
+
 void sortItemsByTimestamp(List<dynamic> confItem) {
   confItem.sort((a, b) {
     DateTime timestampA = DateTime.parse(a.timestamp);
