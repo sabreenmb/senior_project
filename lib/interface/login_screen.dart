@@ -8,6 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import '../constant.dart';
+import 'appSetup.dart';
 import 'services_screen.dart';
 
 final _firebase = FirebaseAuth.instance;
@@ -96,13 +97,16 @@ class _LoginScreenState extends State<LoginScreen> {
       // PushNotification.forgroundMessage();
       // PushNotification.firebaseInit(context);
       // PushNotification.setupInteractMessage(context);
-      //todo
-      LoadOffers();
-      loadCoursesItems();
-      LoadCreatedSessions();
-      loadWorkshopsItems();
-      loadConferencesItems();
-      loadOtherEventsItems();
+      //todo load data
+      new Setup() ;
+      // LoadOffers();
+      // loadCoursesItems();
+      // LoadCreatedSessions();
+      // loadWorkshopsItems();
+      // loadConferencesItems();
+      // loadOtherEventsItems();
+      // LoadSClubs();
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
     } on FirebaseAuthException catch (error) {

@@ -11,6 +11,8 @@ class OfferInfo {
   String? contact;
   String? name;
   String?targetUsers;
+  String? timestamp;
+
 
   //Constructor
   OfferInfo({
@@ -24,6 +26,8 @@ class OfferInfo {
     required this.expDate,
     required this.contact,
     required this.targetUsers,
+    required this.timestamp,
+
   });
 
 
@@ -32,7 +36,7 @@ class OfferInfo {
     map['of_category'] = category;
     map['of_code'] = code;
     map['of_contact'] = contact;
-
+    map['timestamp']=timestamp;
     map['of_details'] = details;
     map['of_discount'] = discount;
     map['of_expDate'] = expDate;

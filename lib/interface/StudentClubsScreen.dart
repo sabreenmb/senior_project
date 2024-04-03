@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/side_menu.dart';
@@ -14,23 +16,35 @@ import 'ChatScreen.dart';
 import 'HomeScreen.dart';
 import 'SaveListScreen.dart';
 
-class StudentClubsScreen extends StatefulWidget {
+class StudentClubsScreen extends StatefulWidget  {
   const StudentClubsScreen({super.key});
 
   @override
   State<StudentClubsScreen> createState() => _StudentClubsState();
 }
 
-class _StudentClubsState extends State<StudentClubsScreen> {
+class _StudentClubsState extends State<StudentClubsScreen>     with SingleTickerProviderStateMixin {
+
    List<SClubInfo> _SClubs = [];
+   late AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
     _LoadSClubs();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
   }
+   @override
+   void dispose() {
+     _animationController.dispose();
+     super.dispose();
+   }
 
-  void _LoadSClubs() async {
+
+   void _LoadSClubs() async {
      List<SClubInfo> loadedClubsInfo = [];
 
     try {
@@ -47,6 +61,8 @@ class _StudentClubsState extends State<StudentClubsScreen> {
         loadedClubsInfo.add(SClubInfo(
           id: item.key,
           //model name : firebase name
+          timestamp:item.value['timestamp'],
+
           name: item.value['club_name'],
           logo: item.value['club_logo'],
           details: item.value['club_details'],
@@ -105,6 +121,23 @@ class _StudentClubsState extends State<StudentClubsScreen> {
     );
   }
 
+
+   Widget _buildUsersList() {
+
+     return  GridView(
+       physics: const BouncingScrollPhysics(),
+         children: _SClubs.map<Widget>((doc) => ClubsCard(doc))
+         .toList(),
+
+         gridDelegate:
+         const SliverGridDelegateWithFixedCrossAxisCount(
+             crossAxisCount: 2,
+             mainAxisSpacing: 20.0,
+             crossAxisSpacing: 10.0,
+             childAspectRatio: 1.1),);
+
+
+   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,37 +190,35 @@ class _StudentClubsState extends State<StudentClubsScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            const SizedBox(height: 15),
-            Expanded(
-                child: Stack(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40))),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 15.0),
-                      child: GridView.builder(
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 20.0,
-                              crossAxisSpacing: 10.0,
-                              childAspectRatio: 1.1),
-                          itemCount: _SClubs.length,
-                          itemBuilder: (context, i) => ClubsCard(_SClubs[i], i)),
-                    ),
-                  ],
-                ))
-          ],
+      body: ModalProgressHUD(
+        color: Colors.black,
+        opacity: 0.5,
+        progressIndicator: loadingFunction(context, true),
+        inAsyncCall: isLoading,
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              Expanded(
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: CustomColors.BackgroundColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(40))),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 15.0),
+                        child:_buildUsersList(),
+                      ),
+                    ],
+                  ))
+            ],
+          ),
         ),
       ),
     );

@@ -78,6 +78,8 @@ class _VolunteerOpState extends State<VolunteerOp>
           location: item.value['op_location'],
           opNumber: item.value['op_number'],
           opLink: item.value['op_link'],
+          timestamp:item.value['timestamp'],
+
         ));
       }
     } catch (error) {

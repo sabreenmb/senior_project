@@ -12,20 +12,44 @@ class enteredUserInfo {
   late String pushToken;
   late Map<String, dynamic> offersPreferences;
 
-  //Constructor
   enteredUserInfo({
-    required this.image_url,
-    required this.userID,
-    required this.rule,
-    required this.name,
-    required this.collage,
-    required this.major,
-    required this.intrests,
-    required this.hobbies,
-    required this.skills,
-    required this.pushToken,
-    required this.offersPreferences,
+    this.image_url = '',
+    this.userID = '',
+    this.rule = '',
+    this.name = '',
+    this.collage = '',
+    this.major = '',
+    this.intrests = '',
+    this.hobbies = '',
+    this.skills = '',
+    this.pushToken = '',
+    this.offersPreferences = const {
+      'رياضة': false,
+      'تعليم وتدريب': false,
+      'مطاعم ومقاهي': false,
+      'ترفيه': false,
+      'مراكز صحية': false,
+      'عناية وجمال': false,
+      'سياحة وفنادق': false,
+      'خدمات السيارات': false,
+      'تسوق': false,
+      'عقارات وبناء': false,
+    },
   });
+  //Constructor
+  // enteredUserInfo({
+  //   required this.image_url,
+  //   required this.userID,
+  //   required this.rule,
+  //   required this.name,
+  //   required this.collage,
+  //   required this.major,
+  //   required this.intrests,
+  //   required this.hobbies,
+  //   required this.skills,
+  //   required this.pushToken,
+  //   required this.offersPreferences,
+  // });
 
   enteredUserInfo.fromJson(Map<String, dynamic> json) {
     userID = json['userID'] ?? '';
