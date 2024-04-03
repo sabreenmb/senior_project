@@ -15,20 +15,24 @@ class _LaunchScreenState extends State<LaunchScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: CustomColors.white,
-      body: Center(
-        child: Image(
-          width: 158,
-          height: 170,
-          image: AssetImage('assets/images/logo/Sabreen_Logo_NoEdge1.png'),
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: CustomColors.white,
+        body: Center(
+          child: Image(
+            width: 158,
+            height: 170,
+            image: AssetImage('assets/images/logo/Sabreen_Logo_NoEdge1.png'),
+          ),
         ),
       ),
     );

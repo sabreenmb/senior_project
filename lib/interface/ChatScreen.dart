@@ -5,7 +5,12 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return const Scaffold(body: Text("chat"),);
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Text("chat"),
+      ),
+    );
   }
 }
