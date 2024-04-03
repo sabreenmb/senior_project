@@ -52,50 +52,55 @@ class _AllUsersState extends State<AllUsersScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: CustomColors.pink,
-        elevation: 0,
-        title: Text("جميع الطلاب", style: TextStyles.heading1),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: CustomColors.pink,
+          elevation: 0,
+          title: Text("جميع الطلاب", style: TextStyles.heading1),
+          centerTitle: true,
+          leading: IconButton(
+            icon:
+                const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
-        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-      ),
-      body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: loadingFunction(context, true),
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Expanded(
-                  child: Stack(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: CustomColors.BackgroundColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40))),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: _buildUsersList(),
-                  ),
-                ],
-              ))
-            ],
+        body: ModalProgressHUD(
+          color: Colors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40))),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: _buildUsersList(),
+                    ),
+                  ],
+                ))
+              ],
+            ),
           ),
         ),
       ),

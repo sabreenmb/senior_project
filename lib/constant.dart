@@ -256,8 +256,7 @@ void homeCards() async {
   // });
   //
   confItem.forEach((item) {
-    combinedList.add(EventItem(
-        serviceName: 'Conferences', item: item, icon: services[4]['icon']));
+    combinedList.add(EventItem(serviceName: 'Conferences', item: item ,icon: services[4]['icon']));
     print(combinedList.elementAt(0).serviceName);
   });
 

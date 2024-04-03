@@ -51,8 +51,8 @@ class _StudentClubsState extends State<StudentClubsScreen>     with SingleTicker
       setState(() {
         isLoading = true;
       });
-      final url = Uri.https(
-          'senior-project-72daf-default-rtdb.firebaseio.com', 'studentClubsDB.json');
+      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+          'studentClubsDB.json');
       final response = await http.get(url);
 
       final Map<String, dynamic> clubdata = json.decode(response.body);
@@ -76,16 +76,11 @@ class _StudentClubsState extends State<StudentClubsScreen>     with SingleTicker
     } catch (error) {
       print('Empty List');
     } finally {
-      _SClubs = loadedClubsInfo;// fetched data from Firebase
-
-
+      _SClubs = loadedClubsInfo; // fetched data from Firebase
 
       setState(() {
         isLoading = false;
-
       });
-
-
     }
   }
 
@@ -223,6 +218,4 @@ class _StudentClubsState extends State<StudentClubsScreen>     with SingleTicker
       ),
     );
   }
-
-
 }

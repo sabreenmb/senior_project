@@ -67,97 +67,102 @@ class _RealChatPageState extends State<RealChatPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: CustomColors.pink,
-        elevation: 0,
-        title: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                _goToUserProfile();
-              },
-              child: widget.otherUserInfo.image_url == ''
-                  ? const Icon(
-                      Icons.account_circle_outlined,
-                      color: Color.fromARGB(163, 51, 51, 51),
-                      size: 40,
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: CachedNetworkImage(
-                        width: 38,
-                        height: 38,
-                        fit: BoxFit.cover,
-                        imageUrl: widget.otherUserInfo.image_url,
-                        errorWidget: (context, url, error) => CircleAvatar(
-                          child: SvgPicture.asset(
-                            'assets/icons/UserProfile.svg',
-                            color: CustomColors.darkGrey,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          backgroundColor: CustomColors.pink,
+          elevation: 0,
+          title: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  _goToUserProfile();
+                },
+                child: widget.otherUserInfo.image_url == ''
+                    ? const Icon(
+                        Icons.account_circle_outlined,
+                        color: Color.fromARGB(163, 51, 51, 51),
+                        size: 40,
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: CachedNetworkImage(
+                          width: 38,
+                          height: 38,
+                          fit: BoxFit.cover,
+                          imageUrl: widget.otherUserInfo.image_url,
+                          errorWidget: (context, url, error) => CircleAvatar(
+                            child: SvgPicture.asset(
+                              'assets/icons/UserProfile.svg',
+                              color: CustomColors.darkGrey,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-            ),
-            const SizedBox(width: 12),
-            // Add spacing between the image and title
-            Text(
-              widget.otherUserInfo.name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: CustomColors.darkGrey,
               ),
-            ),
-          ],
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-        ),
-        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-      ),
-      body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: loadingFunction(context, true),
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 5),
-              Expanded(
-                  child: Stack(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: CustomColors.BackgroundColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30))),
-                  ),
-                  Container(
-                    child: Column(
-                      //messages
-                      children: [
-                        Expanded(
-                          child: _buildMessageList(),
-                        ),
-
-                        //user input
-                        _buildMessageInput(),
-                      ],
-                    ),
-                  ),
-                ],
-              ))
+              const SizedBox(width: 12),
+              // Add spacing between the image and title
+              Text(
+                widget.otherUserInfo.name,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: CustomColors.darkGrey,
+                ),
+              ),
             ],
+          ),
+          leading: IconButton(
+            icon:
+                const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+        ),
+        body: ModalProgressHUD(
+          color: Colors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 5),
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30))),
+                    ),
+                    Container(
+                      child: Column(
+                        //messages
+                        children: [
+                          Expanded(
+                            child: _buildMessageList(),
+                          ),
+
+                          //user input
+                          _buildMessageInput(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ))
+              ],
+            ),
           ),
         ),
       ),

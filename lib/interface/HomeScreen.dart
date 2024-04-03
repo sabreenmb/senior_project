@@ -80,71 +80,75 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromARGB(255, 245, 242, 242),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: CustomColors.white,
-        elevation: 0,
-        title: Text("الرئيسية", style: TextStyles.heading1),
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-      ),
-      endDrawer: const SideDrawer(),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 0.1,
-        clipBehavior: Clip.none,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight * 1.2,
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: BottomNavigationBar(
-              onTap: _selectPage,
-              unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.darkGrey,
-              currentIndex: _selectedPageIndex,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  label: 'الرئيسية',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.apps),
-                  label: 'الخدمات',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.messenger_outline),
-                  label: 'الدردشة',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmark_border),
-                  label: 'المحفوظات',
-                ),
-              ],
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color.fromARGB(255, 245, 242, 242),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: CustomColors.white,
+          elevation: 0,
+          title: Text("الرئيسية", style: TextStyles.heading1),
+          centerTitle: false,
+          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+        ),
+        endDrawer: const SideDrawer(),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 0.1,
+          clipBehavior: Clip.none,
+          child: SizedBox(
+            height: kBottomNavigationBarHeight * 1.2,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: BottomNavigationBar(
+                onTap: _selectPage,
+                unselectedItemColor: CustomColors.darkGrey,
+                selectedItemColor: CustomColors.darkGrey,
+                currentIndex: _selectedPageIndex,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    label: 'الرئيسية',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.apps),
+                    label: 'الخدمات',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.messenger_outline),
+                    label: 'الدردشة',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.bookmark_border),
+                    label: 'المحفوظات',
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 15),
-                _buildCard(),
-                _buildSectionTitle('يحدث اليوم'),
-                _buildHorizontalScrollableCards(todayList),
-                _buildSectionTitle('أضيف حديثا'),
-                _buildHorizontalScrollableCards(combinedList),
-              ],
+        body: ModalProgressHUD(
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 15),
+                  _buildCard(),
+                  _buildSectionTitle('يحدث اليوم'),
+                  _buildHorizontalScrollableCards(todayList),
+                  _buildSectionTitle('أضيف حديثا'),
+                  _buildHorizontalScrollableCards(combinedList),
+                ],
+              ),
             ),
           ),
         ),
@@ -203,11 +207,10 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     return Container(
       height: 240,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount:details.length ,
-        itemBuilder: (context, index) =>
-         HomeCard(details[index].item,details[index].serviceName,details[index].icon)
-      ),
+          scrollDirection: Axis.horizontal,
+          itemCount: details.length,
+          itemBuilder: (context, index) => HomeCard(details[index].item,
+              details[index].serviceName, details[index].icon)),
     );
   }
 }

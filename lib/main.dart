@@ -8,6 +8,7 @@ import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/interface/study_group.dart';
 
 import 'firebase_options.dart';
+import 'interface/psychGuidance.dart';
 //import 'interface/study_group.dart';
 
 void main() async {
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const LoginScreen(),
+      home: const PsychGuidance(),
     );
   }
 }
