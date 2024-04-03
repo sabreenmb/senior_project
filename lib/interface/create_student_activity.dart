@@ -141,286 +141,293 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
         backgroundColor: CustomColors.pink,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
+        appBar: AppBar(
+          backgroundColor: CustomColors.pink,
+          elevation: 0,
+          leading: IconButton(
+            icon:
+                const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          title: Text("انشاء نشاط", style: TextStyles.heading1),
+          centerTitle: true,
         ),
-        title: Text("انشاء نشاط", style: TextStyles.heading1),
-        centerTitle: true,
-      ),
-      body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: loadingFunction(context, true),
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Expanded(
-                  child: Stack(children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: CustomColors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                  ),
-                ),
-                ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                labelText: 'اسم النشاط',
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                createStudentActivityReport.activityName =
-                                    value;
-                              },
-                            ),
-                            const SizedBox(height: 12.0),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: TextFormField(
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      controller: dateInput,
-                                      decoration: const InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.date_range_outlined,
-                                          color: CustomColors.lightGrey,
-                                        ),
-                                        labelText: "تاريخ النشاط",
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                      ),
-                                      readOnly: true,
-                                      onTap: () async {
-                                        await _selectDate(context);
-                                      },
-                                      validator: (value) {
-                                        print(value);
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return 'الرجاء تعبئة الحقل';
-                                        }
-                                        DateTime selected =
-                                            DateTime.parse(value);
-                                        DateTime now = DateTime.now();
-                                        if (selected.difference(now).inDays <
-                                            0) {
-                                          return 'اختر تاريخ صحيح';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        createStudentActivityReport
-                                            .activityDate = value;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12.0),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: TextFormField(
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      controller:
-                                          timeInput, // Use the new controller for the time picker
-                                      decoration: const InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.timer_sharp,
-                                          color: CustomColors.lightGrey,
-                                        ),
-                                        labelText: "وقت النشاط",
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                      ),
-                                      readOnly: true,
-                                      onTap: () async {
-                                        await _selectTime(
-                                            context); // Use _selectTime instead of _selectDate
-                                      },
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return 'الرجاء تعبئة الحقل';
-                                        }
-                                        // Add additional validation if needed
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        createStudentActivityReport
-                                            .activityTime = value;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              decoration: const InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.location_on,
-                                  color: CustomColors.lightGrey,
-                                ),
-                                labelText: 'مكان النشاط',
-                                hintText:
-                                    'مثال: مبنى كلية العلوم، بهو كلية الحاسبات...',
-                                hintStyle: TextStyle(
-                                  color:
-                                      const Color.fromARGB(255, 175, 175, 175),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                createStudentActivityReport.activityPlace =
-                                    value;
-                              },
-                            ),
-                            Text(
-                              '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
-                              style: TextStyle(
-                                color: CustomColors.darkGrey,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                suffixIcon: Icon(
-                                  //تغيير الايقونه هنا
-                                  Icons.people,
-                                  color: CustomColors.lightGrey,
-                                ),
-                                labelText: '  عدد الاشخاص',
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                } else if (!RegExp(r'^\d+$').hasMatch(value)) {
-                                  return 'الرجاء إدخال أرقام فقط';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                createStudentActivityReport.numOfPerson = value;
-                              },
-                            ),
-                            const SizedBox(height: 32.0),
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 90),
-                              child: ElevatedButton(
-                                onPressed: _checkInputValue,
-                                style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(175, 50),
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    backgroundColor: CustomColors.lightBlue),
-                                child: Text("انشاء", style: TextStyles.text3),
-                              ),
-                            ),
-                          ],
-                        ),
+        body: ModalProgressHUD(
+          color: Colors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                Expanded(
+                    child: Stack(children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: CustomColors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
                       ),
                     ),
-                  ],
-                ),
-              ]))
-            ],
+                  ),
+                  ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(height: 12.0),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  labelText: 'اسم النشاط',
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'الرجاء تعبئة الحقل';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  createStudentActivityReport.activityName =
+                                      value;
+                                },
+                              ),
+                              const SizedBox(height: 12.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        controller: dateInput,
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.date_range_outlined,
+                                            color: CustomColors.lightGrey,
+                                          ),
+                                          labelText: "تاريخ النشاط",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          await _selectDate(context);
+                                        },
+                                        validator: (value) {
+                                          print(value);
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return 'الرجاء تعبئة الحقل';
+                                          }
+                                          DateTime selected =
+                                              DateTime.parse(value);
+                                          DateTime now = DateTime.now();
+                                          if (selected.difference(now).inDays <
+                                              0) {
+                                            return 'اختر تاريخ صحيح';
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          createStudentActivityReport
+                                              .activityDate = value;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        controller:
+                                            timeInput, // Use the new controller for the time picker
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.timer_sharp,
+                                            color: CustomColors.lightGrey,
+                                          ),
+                                          labelText: "وقت النشاط",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          await _selectTime(
+                                              context); // Use _selectTime instead of _selectDate
+                                        },
+                                        validator: (value) {
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return 'الرجاء تعبئة الحقل';
+                                          }
+                                          // Add additional validation if needed
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          createStudentActivityReport
+                                              .activityTime = value;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12.0),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                decoration: const InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.location_on,
+                                    color: CustomColors.lightGrey,
+                                  ),
+                                  labelText: 'مكان النشاط',
+                                  hintText:
+                                      'مثال: مبنى كلية العلوم، بهو كلية الحاسبات...',
+                                  hintStyle: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 175, 175, 175),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'الرجاء تعبئة الحقل';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  createStudentActivityReport.activityPlace =
+                                      value;
+                                },
+                              ),
+                              Text(
+                                '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
+                                style: TextStyle(
+                                  color: CustomColors.darkGrey,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                              const SizedBox(height: 12.0),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  suffixIcon: Icon(
+                                    //تغيير الايقونه هنا
+                                    Icons.people,
+                                    color: CustomColors.lightGrey,
+                                  ),
+                                  labelText: '  عدد الاشخاص',
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'الرجاء تعبئة الحقل';
+                                  } else if (!RegExp(r'^\d+$')
+                                      .hasMatch(value)) {
+                                    return 'الرجاء إدخال أرقام فقط';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  createStudentActivityReport.numOfPerson =
+                                      value;
+                                },
+                              ),
+                              const SizedBox(height: 32.0),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 90),
+                                child: ElevatedButton(
+                                  onPressed: _checkInputValue,
+                                  style: ElevatedButton.styleFrom(
+                                      fixedSize: const Size(175, 50),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      backgroundColor: CustomColors.lightBlue),
+                                  child: Text("انشاء", style: TextStyles.text3),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]))
+              ],
+            ),
           ),
         ),
       ),

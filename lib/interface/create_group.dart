@@ -142,61 +142,242 @@ class _CreateGroupState extends State<CreateGroup> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
         backgroundColor: CustomColors.pink,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
+        appBar: AppBar(
+          backgroundColor: CustomColors.pink,
+          elevation: 0,
+          leading: IconButton(
+            icon:
+                const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          title: Text("انشاء جلسة مذاكرة", style: TextStyles.heading1),
+          centerTitle: true,
         ),
-        title: Text("انشاء جلسة مذاكرة", style: TextStyles.heading1),
-        centerTitle: true,
-      ),
-      body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: loadingFunction(context, true),
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Expanded(
-                  child: Stack(children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: CustomColors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
+        body: ModalProgressHUD(
+          color: Colors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                Expanded(
+                    child: Stack(children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: CustomColors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
+                      ),
                     ),
                   ),
-                ),
-                ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: 12.0),
-                            SizedBox(
-                              width: 100,
-                              child: DropdownButtonFormField2<String>(
-                                isExpanded: true,
-                                decoration: const InputDecoration(
+                  ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(height: 12.0),
+                              SizedBox(
+                                width: 100,
+                                child: DropdownButtonFormField2<String>(
+                                  isExpanded: true,
+                                  decoration: const InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.book_outlined,
+                                      color: CustomColors.lightGrey,
+                                    ),
+                                    labelText: 'اسم و رمز المادة',
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: CustomColors.lightBlue,
+                                      ),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: CustomColors.lightBlue,
+                                      ),
+                                    ),
+                                  ),
+                                  value: _selectedSubject,
+                                  items: SubjectsCode.map((subjectCode) {
+                                    return DropdownMenuItem(
+                                      value: subjectCode,
+                                      child: Text(
+                                        subjectCode,
+                                        style: TextStyles.heading2,
+                                        overflow: TextOverflow
+                                            .ellipsis, // Add this line
+                                        maxLines: 2,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'الرجاء تعبئة الحقل';
+                                    }
+                                    return null;
+                                  },
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedSubject = value!;
+                                    });
+                                  },
+                                  onSaved: (value) {
+                                    createGroupReport.subjectCode =
+                                        _selectedSubject;
+                                  },
+                                  //هذا اللاين حق الكود مو راضي ينحذف ولازم احذفه
+                                  iconStyleData: const IconStyleData(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: CustomColors.darkGrey,
+                                    ),
+                                    iconSize: 24,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    maxHeight: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 12.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        controller: dateInput,
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.date_range_outlined,
+                                            color: CustomColors.lightGrey,
+                                          ),
+                                          labelText: "تاريخ الجلسة",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          await _selectDate(context);
+                                        },
+                                        validator: (value) {
+                                          print(value);
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return 'الرجاء تعبئة الحقل';
+                                          }
+                                          DateTime selected =
+                                              DateTime.parse(value);
+                                          DateTime now = DateTime.now();
+                                          if (selected.difference(now).inDays <
+                                              0) {
+                                            return 'اختر تاريخ صحيح';
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          createGroupReport.sessionDate = value;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        controller:
+                                            timeInput, // Use the new controller for the time picker
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.timer_sharp,
+                                            color: CustomColors.lightGrey,
+                                          ),
+                                          labelText: "وقت الجلسة",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          await _selectTime(
+                                              context); // Use _selectTime instead of _selectDate
+                                        },
+                                        validator: (value) {
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return 'الرجاء تعبئة الحقل';
+                                          }
+                                          // Add additional validation if needed
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          createGroupReport.sessionTime = value;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12.0),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                decoration: InputDecoration(
                                   suffixIcon: Icon(
-                                    Icons.book_outlined,
+                                    Icons.location_on,
                                     color: CustomColors.lightGrey,
                                   ),
-                                  labelText: 'اسم و رمز المادة',
+                                  labelText: 'مكان الجلسة',
+                                  hintText: 'مثال: المقهى، المكتبة، البهو...',
+                                  hintStyle: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 175, 175, 175),
+                                  ),
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: CustomColors.lightBlue,
@@ -208,258 +389,84 @@ class _CreateGroupState extends State<CreateGroup> {
                                     ),
                                   ),
                                 ),
-                                value: _selectedSubject,
-                                items: SubjectsCode.map((subjectCode) {
-                                  return DropdownMenuItem(
-                                    value: subjectCode,
-                                    child: Text(
-                                      subjectCode,
-                                      style: TextStyles.heading2,
-                                      overflow: TextOverflow
-                                          .ellipsis, // Add this line
-                                      maxLines: 2,
-                                    ),
-                                  );
-                                }).toList(),
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
                                     return 'الرجاء تعبئة الحقل';
                                   }
                                   return null;
                                 },
+                                onSaved: (value) {
+                                  createGroupReport.sessionPlace = value;
+                                },
+                              ),
+                              Text(
+                                '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
+                                style: TextStyle(
+                                  color: CustomColors.darkGrey,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                              const SizedBox(height: 12.0),
+                              TextFormField(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedSubject = value!;
-                                  });
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  suffixIcon: Icon(
+                                    //تغيير الايقونه هنا
+                                    Icons.people,
+                                    color: CustomColors.lightGrey,
+                                  ),
+                                  labelText: '  عدد الاشخاص',
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'الرجاء تعبئة الحقل';
+                                  } else if (!RegExp(r'^\d+$')
+                                      .hasMatch(value)) {
+                                    return 'الرجاء إدخال أرقام فقط';
+                                  }
+                                  return null;
                                 },
                                 onSaved: (value) {
-                                  createGroupReport.subjectCode =
-                                      _selectedSubject;
+                                  createGroupReport.numPerson = value;
                                 },
-                                //هذا اللاين حق الكود مو راضي ينحذف ولازم احذفه
-                                iconStyleData: const IconStyleData(
-                                  icon: Icon(
-                                    Icons.arrow_drop_down,
-                                    color: CustomColors.darkGrey,
-                                  ),
-                                  iconSize: 24,
-                                ),
-                                dropdownStyleData: DropdownStyleData(
-                                  maxHeight: 300,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                ),
-                                menuItemStyleData: const MenuItemStyleData(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                ),
                               ),
-                            ),
-                            const SizedBox(height: 12.0),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: TextFormField(
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      controller: dateInput,
-                                      decoration: const InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.date_range_outlined,
-                                          color: CustomColors.lightGrey,
-                                        ),
-                                        labelText: "تاريخ الجلسة",
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
+                              const SizedBox(height: 32.0),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 90),
+                                child: ElevatedButton(
+                                  onPressed: _checkInputValue,
+                                  style: ElevatedButton.styleFrom(
+                                      fixedSize: const Size(175, 50),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
-                                      readOnly: true,
-                                      onTap: () async {
-                                        await _selectDate(context);
-                                      },
-                                      validator: (value) {
-                                        print(value);
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return 'الرجاء تعبئة الحقل';
-                                        }
-                                        DateTime selected =
-                                            DateTime.parse(value);
-                                        DateTime now = DateTime.now();
-                                        if (selected.difference(now).inDays <
-                                            0) {
-                                          return 'اختر تاريخ صحيح';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        createGroupReport.sessionDate = value;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12.0),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: TextFormField(
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      controller:
-                                          timeInput, // Use the new controller for the time picker
-                                      decoration: const InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.timer_sharp,
-                                          color: CustomColors.lightGrey,
-                                        ),
-                                        labelText: "وقت الجلسة",
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                      ),
-                                      readOnly: true,
-                                      onTap: () async {
-                                        await _selectTime(
-                                            context); // Use _selectTime instead of _selectDate
-                                      },
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return 'الرجاء تعبئة الحقل';
-                                        }
-                                        // Add additional validation if needed
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        createGroupReport.sessionTime = value;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.location_on,
-                                  color: CustomColors.lightGrey,
-                                ),
-                                labelText: 'مكان الجلسة',
-                                hintText: 'مثال: المقهى، المكتبة، البهو...',
-                                hintStyle: TextStyle(
-                                  color:
-                                      const Color.fromARGB(255, 175, 175, 175),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
+                                      backgroundColor: CustomColors.lightBlue),
+                                  child: Text("انشاء", style: TextStyles.text3),
                                 ),
                               ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                createGroupReport.sessionPlace = value;
-                              },
-                            ),
-                            Text(
-                              '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
-                              style: TextStyle(
-                                color: CustomColors.darkGrey,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                suffixIcon: Icon(
-                                  //تغيير الايقونه هنا
-                                  Icons.people,
-                                  color: CustomColors.lightGrey,
-                                ),
-                                labelText: '  عدد الاشخاص',
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                } else if (!RegExp(r'^\d+$').hasMatch(value)) {
-                                  return 'الرجاء إدخال أرقام فقط';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                createGroupReport.numPerson = value;
-                              },
-                            ),
-                            const SizedBox(height: 32.0),
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 90),
-                              child: ElevatedButton(
-                                onPressed: _checkInputValue,
-                                style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(175, 50),
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    backgroundColor: CustomColors.lightBlue),
-                                child: Text("انشاء", style: TextStyles.text3),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ]))
-            ],
+                    ],
+                  ),
+                ]))
+              ],
+            ),
           ),
         ),
       ),
