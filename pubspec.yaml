@@ -44,6 +44,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.23.0
   firebase_auth: ^4.14.1
+  firebase_database: ^10.5.0
+  shimmer: ^3.0.0
+
   google_fonts: ^6.1.0
   http: ^1.1.0
   image_picker: ^1.0.4

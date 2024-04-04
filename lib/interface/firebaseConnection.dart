@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Connection{
   static const String projectDatabase= 'senior-project-72daf-default-rtdb.firebaseio.com';
@@ -14,6 +15,10 @@ class Connection{
   static Uri url(String path){
     return Uri.https(
         projectDatabase ,path+'.json');
+  }
+  static  Stream<DatabaseEvent> databaseReference(String path){
+    return  FirebaseDatabase.instance.reference().child(path).onValue;
+
   }
 
 

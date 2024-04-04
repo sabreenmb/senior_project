@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:senior_project/interface/firebaseConnection.dart';
 
 import '../constant.dart';
+import '../model/EventItem.dart';
 import '../model/SClubInfo.dart';
 import '../model/conference_item_report.dart';
 import '../model/courses_item_report.dart';
+import '../model/create_student_activity_report.dart';
 import '../model/offer_info.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,8 +28,36 @@ class Setup{
     loadOtherEventsItems();
     LoadCreatedSessions();
     LoadSClubs();
+    LoadCreatedActivities();
+
+    // last one
+    loadSaveItems();
+
   }
 
+  static Future<void> loadUserData(String enteredID) async {
+    final userProfileData = await FirebaseFirestore.instance
+        .collection("userProfile")
+        .doc(enteredID.split("@")[0])
+        .get()
+        .then((snapshot) => snapshot.data() as Map<String, dynamic>?);
+
+    userInfo.image_url = userProfileData?['image_url'];
+    userInfo.userID = userProfileData?['userID'];
+    userInfo.rule = userProfileData?['rule'];
+    userInfo.name = userProfileData?['name'];
+    userInfo.collage = userProfileData?['collage'];
+    userInfo.major = userProfileData?['major'];
+    userInfo.intrests = userProfileData?['intrests'];
+    userInfo.hobbies = userProfileData?['hobbies'];
+    userInfo.skills = userProfileData?['skills'];
+    userInfo.pushToken = userProfileData?['pushToken'];
+
+    userInfo.offersPreferences = userProfileData?['offersPreferences'];
+    notificationServices.getFirebaseMessagingToken();
+    notificationServices.updatePushToken();
+    // new Setup();
+  }
 
   void LoadOffers() async {
     final List<OfferInfo> loadedOfferInfo = [];
@@ -74,7 +106,7 @@ class Setup{
 
 
   void loadCoursesItems() async {
-
+    courseItem=[];
     final response = await http.get(Connection.url('eventsCoursesDB'));
 
     final Map<String, dynamic> data = json.decode(response.body);
@@ -96,7 +128,7 @@ class Setup{
   }
 
   void loadWorkshopsItems() async {
-
+    workshopItem=[];
     final response = await http.get(Connection.url('eventsWorkshopsDB'));
 
     final Map<String, dynamic> data = json.decode(response.body);
@@ -117,7 +149,7 @@ class Setup{
   }
 
   void loadConferencesItems() async {
-
+    confItem=[];
     final response = await http.get(Connection.url('eventsConferencesDB'));
 
     final Map<String, dynamic> data = json.decode(response.body);
@@ -137,7 +169,7 @@ class Setup{
   }
 
   void loadOtherEventsItems() async {
-
+    otherItem=[];
     final response = await http.get(Connection.url('eventsOthersDB'));
 
     final Map<String, dynamic> eventData = json.decode(response.body);
@@ -184,6 +216,7 @@ class Setup{
     } catch (error) {
       print('Empty List');
     }
+    volunteerOpReport=[];
     volunteerOpReport = loadedVolunteerOp;
   }
 
@@ -217,12 +250,80 @@ class Setup{
     } catch (error) {
       print('Empty List');
     } finally {
+      SClubs=[];
       SClubs = loadedClubsInfo; // fetched data from Firebase
     }
   }
 
+  void loadSaveItems() async {
+    saveList = [];
+    try {
+      // Retrieve the document
+      DocumentSnapshot documentSnapshot =
+      await userProfileDoc.collection("saveItems").doc('Conferences').get();
+
+      if (documentSnapshot.exists) {
+        // Check if the item already exists in the 'items' array
+        Map<String, dynamic> data =
+        documentSnapshot.data() as Map<String, dynamic>;
+        var items = data['items'] as List<dynamic>;
+        // print(items);
+
+        //for (var id in items) {
+        for (int i = 0; i < items.length; i++) {
+          print(i);
+          var id = items[i];
+          // final String? itemIdTemp = id;
+          print(id);
+          if (confItem[i].id == id) {
+            print("did i came hereeeeeee?");
+            saveList.add(EventItem(
+                serviceName: 'Conferences',
+                item: confItem[i],
+                icon: services[4]['icon']));
+          } else if (workshopItem.contains(id)) {
+          } else if (courseItem.contains(id)) {
+          } else if (otherItem.contains(id)) {}
+          // print(id);
+          // if (items.contains(itemId)) {
+          //   print('Item already exists.');
+          //   return;
+          // }
+          // print("paaaaasss");
+        }
+      }
+      print('Items added successfully.');
+    } catch (e) {
+      print('Error adding item: $e');
+    }
+  }
+
+  void LoadCreatedActivities() async {
+    final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
+
+    try {
 
 
+      final response = await http.get(Connection.url('create-activity'));
+
+      final Map<String, dynamic> founddata = json.decode(response.body);
+      for (final item in founddata.entries) {
+        loadedCreatedStudentActivity.add(CreateStudentActivityReport(
+          id: item.key,
+          //model name : firebase name
+          activityName: item.value['ActivityName'],
+          activityDate: item.value['ActivityDate'],
+          activityTime: item.value['ActivityTime'],
+          activityPlace: item.value['ActivityPlace'],
+          numOfPerson: item.value['NumOfPerson'],
+        ));
+      }
+    } catch (error) {
+      print('Empty List');
+    } finally {
+        createStudentActivityReport = loadedCreatedStudentActivity;
+    }
+  }
 
 
 

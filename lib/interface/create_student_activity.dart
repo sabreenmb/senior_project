@@ -120,6 +120,7 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
   }
 
   void _createStudentActivityState() async {
+
     try {
       final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
           'create-activity.json');
@@ -140,6 +141,7 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
 
   @override
   Widget build(BuildContext context) {
+    
     double screenWidth = MediaQuery.of(context).size.width;
     // ignore: deprecated_member_use
     return WillPopScope(

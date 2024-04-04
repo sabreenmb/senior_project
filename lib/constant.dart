@@ -13,6 +13,7 @@ import 'model/EventItem.dart';
 import 'model/SClubInfo.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
+import 'model/create_student_activity_report.dart';
 import 'model/offer_info.dart';
 import 'model/other_event_item_report.dart';
 import 'model/volunteer_op_report.dart';
@@ -243,6 +244,9 @@ List<VolunteerOpReport> volunteerOpReport = [];
 List<EventItem> combinedList = [];
 List<EventItem> todayList = [];
 List<SClubInfo> SClubs = [];
+List<EventItem> saveList = [];
+List<CreateStudentActivityReport> createStudentActivityReport = [];
+
 void homeCards() async {
   combinedList = [];
 

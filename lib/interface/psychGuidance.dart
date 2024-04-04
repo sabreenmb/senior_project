@@ -13,6 +13,7 @@ import 'HomeScreen.dart';
 import 'ProfilePage.dart';
 import 'SaveListScreen.dart';
 import 'add_lost_item_screen.dart';
+import 'firebaseConnection.dart';
 import 'services_screen.dart';
 
 class PsychGuidance extends StatefulWidget {
@@ -70,12 +71,13 @@ class _PsychGuidanceState extends State<PsychGuidance>
       setState(() {
         isLoading = true;
       });
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'Psych-Guidance.json');
-      final response = await http.get(url);
+
+      final response = await http.get(Connection.url('Psych-Guidance'));
 
       final Map<String, dynamic> foundData = json.decode(response.body);
       for (final item in foundData.entries) {
+        print('sabreen test');
+        print(item.value['pg_name']);
         loadedPsychGuidance.add(PsychGuidanceReport(
           id: item.key,
           //model name : firebase name
@@ -91,8 +93,9 @@ class _PsychGuidanceState extends State<PsychGuidance>
     } finally {
       setState(() {
         isLoading = false;
-        print("sabreeeen: $loadedPsychGuidance");
         _PsychGuidanceReport = loadedPsychGuidance;
+        print(_PsychGuidanceReport.toList());
+
       });
     }
   }
@@ -124,6 +127,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
   @override
   Widget build(BuildContext context) {
     print('build enter');
+    print(_PsychGuidanceReport);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

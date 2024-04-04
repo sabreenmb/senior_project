@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -14,6 +14,9 @@ import 'package:senior_project/model/create_student_activity_report.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/create_student_activity_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+import 'package:shimmer/shimmer.dart';
+
+import 'firebaseConnection.dart';
 
 class StudentActivity extends StatefulWidget {
   const StudentActivity({super.key});
@@ -33,7 +36,6 @@ class _StudentActivityState extends State<StudentActivity>
   //filter
   bool isSearch = false;
   bool isNew = false;
-  List<CreateStudentActivityReport> _createStudentActivityReport = [];
   //create button
   late AnimationController _animationController;
 
@@ -67,42 +69,9 @@ class _StudentActivityState extends State<StudentActivity>
         'page': const SaveListScreen(),
       },
     ];
-    _LoadCreatedActivities();
   }
 
-  void _LoadCreatedActivities() async {
-    final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
 
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'create-activity.json');
-      final response = await http.get(url);
-
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        loadedCreatedStudentActivity.add(CreateStudentActivityReport(
-          id: item.key,
-          //model name : firebase name
-          activityName: item.value['ActivityName'],
-          activityDate: item.value['ActivityDate'],
-          activityTime: item.value['ActivityTime'],
-          activityPlace: item.value['ActivityPlace'],
-          numOfPerson: item.value['NumOfPerson'],
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-        print("sabreeeen: $loadedCreatedStudentActivity");
-        _createStudentActivityReport = loadedCreatedStudentActivity;
-      });
-    }
-  }
 
   void _selectPage(int index) {
     setState(() {
@@ -130,6 +99,7 @@ class _StudentActivityState extends State<StudentActivity>
 
   @override
   Widget build(BuildContext context) {
+
     print('build enter');
 // ignore: deprecated_member_use
     return WillPopScope(
@@ -198,152 +168,210 @@ class _StudentActivityState extends State<StudentActivity>
           onPressed: () async {
             await Navigator.of(context).push(MaterialPageRoute(
                 builder: (ctx) => const CreateStudentActivity()));
-            _LoadCreatedActivities();
+            //_LoadCreatedActivities();
           },
           child: const Icon(Icons.add),
         ),
-        body: ModalProgressHUD(
-          color: Colors.black,
-          opacity: 0.5,
-          progressIndicator: loadingFunction(context, true),
-          inAsyncCall: isLoading,
-          child: SafeArea(
-            bottom: false,
-            child: Column(
-              children: [
-                const SizedBox(height: 15),
-                Expanded(
-                    child: Stack(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40))),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: TextField(
-                            autofocus: false,
-                            controller: _userInputController,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.search,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
+        body: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              Expanded(
+                  child: Stack(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: CustomColors.BackgroundColor,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40))),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 60,
+                        padding: const EdgeInsets.only(
+                            top: 15, left: 15, right: 15),
+                        child: TextField(
+                          autofocus: false,
+                          controller: _userInputController,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.search,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            color: CustomColors.darkGrey,
+                          ),
+                          decoration: InputDecoration(
+                            hintStyle: const TextStyle(
                               color: CustomColors.darkGrey,
                             ),
-                            decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                color: CustomColors.darkGrey,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
-                              ),
-                              prefixIcon: IconButton(
-                                  icon: const Icon(
-                                    Icons.search,
-                                    color: CustomColors.darkGrey,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide: const BorderSide(
+                                  color: CustomColors.darkGrey, width: 1),
+                            ),
+                            prefixIcon: IconButton(
+                                icon: const Icon(
+                                  Icons.search,
+                                  color: CustomColors.darkGrey,
+                                ),
+                                onPressed: () {
+                                  searchActivityList.clear();
+                                  filterSearchResults(
+                                      _userInputController.text,
+                                      createStudentActivityReport);
+                                  FocusScope.of(context).unfocus();
+                                }),
+                            hintText: 'ابحث',
+                            suffixIcon: _userInputController.text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () {
+                                      _userInputController.clear();
+
+                                              setState(() {
+                                                isSearch = false;
+                                              });
+                                            },
+                                            icon: const Icon(Icons.clear,
+                                                color: CustomColors.darkGrey))
+                                        : null,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          color: CustomColors.darkGrey,
+                                          width: 1),
+                                    ),
                                   ),
-                                  onPressed: () {
+                                  onChanged: (text) {
+                                    setState(() {});
+                                  },
+                                  onSubmitted: (text) {
+                                    //todo the same value of on icon presed
                                     searchActivityList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
-                                        _createStudentActivityReport);
+                                        createStudentActivityReport);
                                     FocusScope.of(context).unfocus();
-                                  }),
-                              hintText: 'ابحث',
-                              suffixIcon: _userInputController.text.isNotEmpty
-                                  ? IconButton(
-                                      onPressed: () {
-                                        _userInputController.clear();
+                                  },
+                                  onTap: () {
+                                    isSearch = true;
+                                    searchActivityList.clear();
+                                   // searchActivityList.clear();
+                                  },
+                                ),
+                              ),
+                              if ((isSearch
+                                  ? searchActivityList.isEmpty
+                                  : createStudentActivityReport.isEmpty))
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      // padding: EdgeInsets.only(bottom: 20),
+                                      // alignment: Alignment.topCenter,
+                                      height: 200,
+                                      child: Image.asset(
+                                          'assets/images/notFound.png'),
+                                    ),
+                                  ),
+                                ),
+                              if (createStudentActivityReport.isNotEmpty)
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MediaQuery.removePadding(
+                                    context: context,
+                                    removeTop: true,
+                                    child: isSearch
+                                        ? ListView.builder(
+                                            itemCount:
+                                                searchActivityList.length,
+                                            itemBuilder: (context, index) =>
+                                                CreateStudentActivityCard(
+                                                    searchActivityList[
+                                                        index]))
+                                        :_buildcardList()
+                                    // ListView.builder(
+                                    //     itemCount: createStudentActivityReport.length,
+                                    //
+                                    //     itemBuilder: (context, index) =>
+                                    //             CreateStudentActivityCard(
+                                    //                 _createStudentActivityReport[
+                                    //                     index])),
+                                  ),
+                                )),
+                            ],
+                          ),
+                        ],
+                      ))
+                    ],
+                  ),
+                )
 
-                                        setState(() {
-                                          isSearch = false;
-                                        });
-                                      },
-                                      icon: const Icon(Icons.clear,
-                                          color: CustomColors.darkGrey))
-                                  : null,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
-                              ),
-                            ),
-                            onChanged: (text) {
-                              setState(() {});
-                            },
-                            onSubmitted: (text) {
-                              //todo the same value of on icon presed
-                              searchActivityList.clear();
-                              filterSearchResults(_userInputController.text,
-                                  _createStudentActivityReport);
-                              FocusScope.of(context).unfocus();
-                            },
-                            onTap: () {
-                              isSearch = true;
-                              searchActivityList.clear();
-                              searchActivityList.clear();
-                            },
-                          ),
-                        ),
-                        if ((isSearch
-                            ? searchActivityList.isEmpty
-                            : _createStudentActivityReport.isEmpty))
-                          Expanded(
-                            child: Center(
-                              child: SizedBox(
-                                // padding: EdgeInsets.only(bottom: 20),
-                                // alignment: Alignment.topCenter,
-                                height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
-                              ),
-                            ),
-                          ),
-                        if (_createStudentActivityReport.isNotEmpty)
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MediaQuery.removePadding(
-                              context: context,
-                              removeTop: true,
-                              child: isSearch
-                                  ? ListView.builder(
-                                      itemCount: searchActivityList.length,
-                                      itemBuilder: (context, index) =>
-                                          CreateStudentActivityCard(
-                                              searchActivityList[index]))
-                                  : ListView.builder(
-                                      itemCount:
-                                          _createStudentActivityReport.length,
-                                      itemBuilder: (context, index) =>
-                                          CreateStudentActivityCard(
-                                              _createStudentActivityReport[
-                                                  index])),
-                            ),
-                          )),
-                      ],
-                    ),
-                  ],
-                ))
-              ],
-            ),
+
           ),
-        ),
-      ),
     );
   }
+  Widget _buildcardList() {
+    return StreamBuilder(
+      stream: Connection.databaseReference('create-activity'),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
 
-  void filterSearchResults(String query, List ls) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // return loadingFunction(context, true);
+          return Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            enabled: true,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 10),
+              itemCount: 4,
+              itemBuilder: (context, index) {
+
+                return CreateStudentActivityCard(createStudentActivityReport[0]);
+              },
+            ),
+          );
+        }
+
+        final Map<dynamic, dynamic> data = snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+        if (data == null) {
+          return Text('No data available');
+        }
+
+// todo make sure it works
+        final List<CreateStudentActivityReport> reports = data.entries.map((entry) {
+          final key = entry.key;
+          final value = entry.value;
+          return CreateStudentActivityReport(
+            numOfPerson: value['NumOfPerson'],
+            activityDate: value['ActivityDate'],
+            activityName: value['ActivityName'],
+            activityTime: value['ActivityTime'],
+            activityPlace: value['ActivityPlace'],
+            id: key,
+          );
+        }).toList();
+        createStudentActivityReport.clear();
+        createStudentActivityReport =reports;
+        // to do store the values
+        return ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 10),
+          itemCount: reports.length,
+          itemBuilder: (context, index) {
+            final report = reports[index];
+            return CreateStudentActivityCard(report);
+          },
+        );
+      },
+    );
+  }  void filterSearchResults(String query, List ls) {
     setState(() {
       for (int item = 0; item < ls.length; item++) {
         if (ls[item]

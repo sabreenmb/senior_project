@@ -219,7 +219,6 @@ class _EventState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -298,8 +297,8 @@ class _EventState extends State<EventScreen> {
                       Column(children: [
                         Container(
                           height: 60,
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
+                          padding:
+                              const EdgeInsets.only(top: 15, left: 15, right: 15),
                           child: TextField(
                             autofocus: false,
                             controller: _userInputController,
@@ -328,13 +327,13 @@ class _EventState extends State<EventScreen> {
                                     filterSearchResults(
                                       _userInputController.text,
                                       isSelectedCourse
-                                          ? _courseItem
+                                          ? courseItem
                                           : isSelectedConfre
-                                              ? _confItem
+                                              ? confItem
                                               : isSelectedWorkshop
-                                                  ? _workshopItem
+                                                  ? workshopItem
                                                   : isSelectedOther
-                                                      ? _otherItem
+                                                      ? otherItem
                                                       : [],
                                     );
                                     FocusScope.of(context).unfocus();
@@ -344,128 +343,6 @@ class _EventState extends State<EventScreen> {
                                   ? IconButton(
                                       onPressed: () {
                                         _userInputController.clear();
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: CustomColors.pink,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: CustomColors.pink,
-          elevation: 0,
-          title: Text("الفعاليات", style: TextStyles.heading1),
-          centerTitle: false,
-          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-        ),
-        endDrawer: SideDrawer(
-          onProfileTap: goToProfilePage,
-        ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 0.1,
-          clipBehavior: Clip.none,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: BottomNavigationBar(
-                onTap: _selectPage,
-                unselectedItemColor: CustomColors.darkGrey,
-                selectedItemColor: CustomColors.darkGrey,
-                currentIndex: _selectedPageIndex,
-                items: const [
-                  BottomNavigationBarItem(
-                    label: 'الرئيسية',
-                    icon: Icon(Icons.home_outlined),
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.apps), label: 'الخدمات'),
-                  // BottomNavigationBarItem(
-                  //   label: "",
-                  //   activeIcon: null,
-                  //   icon: Icon(null),
-                  // ),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.messenger_outline,
-                      ),
-                      label: 'الدردشة'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-                ],
-              ),
-            ),
-          ),
-        ),
-        body: ModalProgressHUD(
-            color: Colors.black,
-            opacity: 0.5,
-            progressIndicator: loadingFunction(context, true),
-            inAsyncCall: isLoading,
-            child: SafeArea(
-                bottom: false,
-                child: Column(children: [
-                  const SizedBox(height: 15),
-                  Expanded(
-                      child: Stack(children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40))),
-                    ),
-                    Column(children: [
-                      Container(
-                        height: 60,
-                        padding:
-                            const EdgeInsets.only(top: 15, left: 15, right: 15),
-                        child: TextField(
-                          autofocus: false,
-                          controller: _userInputController,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.search,
-                          textAlignVertical: TextAlignVertical.bottom,
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(
-                            color: CustomColors.darkGrey,
-                          ),
-                          decoration: InputDecoration(
-                            hintStyle: const TextStyle(
-                              color: CustomColors.darkGrey,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              borderSide: const BorderSide(
-                                  color: CustomColors.darkGrey, width: 1),
-                            ),
-                            prefixIcon: IconButton(
-                                icon: const Icon(
-                                  Icons.search,
-                                  color: CustomColors.darkGrey,
-                                ),
-                                onPressed: () {
-                                  filterSearchResults(
-                                    _userInputController.text,
-                                    isSelectedCourse
-                                        ? courseItem
-                                        : isSelectedConfre
-                                            ? confItem
-                                            : isSelectedWorkshop
-                                                ? workshopItem
-                                                : isSelectedOther
-                                                    ? otherItem
-                                                    : [],
-                                  );
-                                  FocusScope.of(context).unfocus();
-                                }),
-                            hintText: 'ابحث',
-                            suffixIcon: _userInputController.text.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () {
-                                      _userInputController.clear();
 
                                         setState(() {
                                           isSearch = false;
@@ -501,40 +378,6 @@ class _EventState extends State<EventScreen> {
                                                 ? otherItem
                                                 : [],
                               );
-                                      setState(() {
-                                        isSearch = false;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.clear,
-                                        color: CustomColors.darkGrey))
-                                : null,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
-                                  color: CustomColors.darkGrey, width: 1),
-                            ),
-                          ),
-                          onChanged: (text) {
-                            setState(() {});
-                          },
-                          onSubmitted: (text) {
-                            // isSelected
-                            //     ? searchCourseList.clear()
-                            //     : searchWorkshopList.clear();
-                            // searchConfList.clear();
-                            // searchOtherList.clear();
-                            filterSearchResults(
-                              _userInputController.text,
-                              isSelectedCourse
-                                  ? courseItem
-                                  : isSelectedConfre
-                                      ? confItem
-                                      : isSelectedWorkshop
-                                          ? workshopItem
-                                          : isSelectedOther
-                                              ? otherItem
-                                              : [],
-                            );
 
                               FocusScope.of(context).unfocus();
                             },
@@ -602,104 +445,105 @@ class _EventState extends State<EventScreen> {
                               getFilterButton(() {
                                 FocusScope.of(context).unfocus();
 
-                              if (!isSelectedConfre) {
-                                isSelectedConfre = !isSelectedConfre;
-                                setState(() {
-                                  // searchList = getValidCertificates();
-                                  if (isSelectedConfre == true) {
-                                    isSelectedCourse = false;
-                                    isSelectedWorkshop = false;
-                                    isSelectedOther = false;
-                                  }
-                                  if (isSearch) {
-                                    _userInputController.clear();
-                                    isSearch = false;
-                                  }
-                                });
-                              }
-                            },
-                                isSelectedConfre
-                                    ? CustomColors.pink
-                                    : Colors.transparent,
-                                "المؤتمرات"),
-                            getFilterButton(() {
-                              FocusScope.of(context).unfocus();
-                              if (!isSelectedOther) {
-                                isSelectedOther = !isSelectedOther;
-                                setState(() {
-                                  // searchList = getValidCertificates();
-                                  if (isSelectedOther == true) {
-                                    isSelectedConfre = false;
-                                    isSelectedWorkshop = false;
-                                    isSelectedCourse = false;
-                                  }
-                                  if (isSearch) {
-                                    _userInputController.clear();
-                                    isSearch = false;
-                                  }
-                                });
-                              }
-                            },
-                                isSelectedOther
-                                    ? CustomColors.pink
-                                    : Colors.transparent,
-                                "اخرى"),
-                          ],
-                        ),
-                      ),
-                      if ((isSelectedCourse && courseItem.isEmpty) ||
-                          (isSelectedWorkshop && workshopItem.isEmpty) ||
-                          (isSelectedConfre && confItem.isEmpty) ||
-                          (isSelectedOther && otherItem.isEmpty) ||
-                          (isSearch &&
-                              ((searchCourseList.isEmpty && isSelectedCourse) ||
-                                  (isSelectedWorkshop &&
-                                      searchWorkshopList.isEmpty) ||
-                                  (isSelectedConfre &&
-                                      searchConfList.isEmpty) ||
-                                  (isSelectedOther &&
-                                      searchOtherList.isEmpty))))
-                        Expanded(
-                          child: Center(
-                            child: SizedBox(
-                              height: 200,
-                              child: Image.asset('assets/images/notFound.png'),
-                            ),
+                                if (!isSelectedConfre) {
+                                  isSelectedConfre = !isSelectedConfre;
+                                  setState(() {
+                                    // searchList = getValidCertificates();
+                                    if (isSelectedConfre == true) {
+                                      isSelectedCourse = false;
+                                      isSelectedWorkshop = false;
+                                      isSelectedOther = false;
+                                    }
+                                    if (isSearch) {
+                                      _userInputController.clear();
+                                      isSearch = false;
+                                    }
+                                  });
+                                }
+                              },
+                                  isSelectedConfre
+                                      ? CustomColors.pink
+                                      : Colors.transparent,
+                                  "المؤتمرات"),
+                              getFilterButton(() {
+                                FocusScope.of(context).unfocus();
+                                if (!isSelectedOther) {
+                                  isSelectedOther = !isSelectedOther;
+                                  setState(() {
+                                    // searchList = getValidCertificates();
+                                    if (isSelectedOther == true) {
+                                      isSelectedConfre = false;
+                                      isSelectedWorkshop = false;
+                                      isSelectedCourse = false;
+                                    }
+                                    if (isSearch) {
+                                      _userInputController.clear();
+                                      isSearch = false;
+                                    }
+                                  });
+                                }
+                              },
+                                  isSelectedOther
+                                      ? CustomColors.pink
+                                      : Colors.transparent,
+                                  "اخرى"),
+                            ],
                           ),
                         ),
-                      // if (isSelectedCourse
-                      //     ? (isSearch
-                      //         ? searchCourseList.isEmpty
-                      //         : _courseItem.isEmpty)
-                      //     : false)
-                      //   Expanded(
-                      //     child: Center(
-                      //       child: Container(
-                      //         // padding: EdgeInsets.only(bottom: 20),
-                      //         // alignment: Alignment.topCenter,
-                      //         height: 200,
-                      //         child: Image.asset('assets/images/notFound.png'),
-                      //       ),
-                      //     ),
-                      //   ),
-                      if (isSelectedCourse && courseItem.isNotEmpty)
-                        buildExpandedWidget(courseItem, searchCourseList,
-                            (item) => CoursesCard(item)),
+                        if ((isSelectedCourse && courseItem.isEmpty) ||
+                            (isSelectedWorkshop && workshopItem.isEmpty) ||
+                            (isSelectedConfre && confItem.isEmpty) ||
+                            (isSelectedOther && otherItem.isEmpty) ||
+                            (isSearch &&
+                                ((searchCourseList.isEmpty && isSelectedCourse) ||
+                                    (isSelectedWorkshop &&
+                                        searchWorkshopList.isEmpty) ||
+                                    (isSelectedConfre &&
+                                        searchConfList.isEmpty) ||
+                                    (isSelectedOther &&
+                                        searchOtherList.isEmpty))))
+                          Expanded(
+                            child: Center(
+                              child: SizedBox(
+                                height: 200,
+                                child: Image.asset('assets/images/notFound.png'),
+                              ),
+                            ),
+                          ),
+                        // if (isSelectedCourse
+                        //     ? (isSearch
+                        //         ? searchCourseList.isEmpty
+                        //         : _courseItem.isEmpty)
+                        //     : false)
+                        //   Expanded(
+                        //     child: Center(
+                        //       child: Container(
+                        //         // padding: EdgeInsets.only(bottom: 20),
+                        //         // alignment: Alignment.topCenter,
+                        //         height: 200,
+                        //         child: Image.asset('assets/images/notFound.png'),
+                        //       ),
+                        //     ),
+                        //   ),
+                        if (isSelectedCourse && courseItem.isNotEmpty)
+                          buildExpandedWidget(courseItem, searchCourseList,
+                              (item) => CoursesCard(item)),
 
-                      if (isSelectedWorkshop && workshopItem.isNotEmpty)
-                        buildExpandedWidget(workshopItem, searchWorkshopList,
-                            (item) => WorkshopCard(item)),
+                        if (isSelectedWorkshop && workshopItem.isNotEmpty)
+                          buildExpandedWidget(workshopItem, searchWorkshopList,
+                              (item) => WorkshopCard(item)),
 
-                      if (isSelectedConfre && confItem.isNotEmpty)
-                        buildExpandedWidget(confItem, searchConfList,
-                            (item) => ConfCard(item)),
+                        if (isSelectedConfre && confItem.isNotEmpty)
+                          buildExpandedWidget(confItem, searchConfList,
+                              (item) => ConfCard(item)),
 
-                      if (isSelectedOther && otherItem.isNotEmpty)
-                        buildExpandedWidget(otherItem, searchOtherList,
-                            (item) => OtherCard(item)),
-                    ])
-                  ]))
-                ]))));
+                        if (isSelectedOther && otherItem.isNotEmpty)
+                          buildExpandedWidget(otherItem, searchOtherList,
+                              (item) => OtherCard(item)),
+                      ])
+                    ]))
+                  ])))),
+    );
   }
 
   Widget buildExpandedWidget(
