@@ -19,13 +19,13 @@ class SavedList {
   //to do
   Map<String, String> convertServiceName = {
     'volunteerOp': 'فرصة تطوعية',
-    // 'volunteerOp': 'فرصة تطوعية',
-    // 'volunteerOp': 'فرصة تطوعية',
+    'conferences': 'مؤتمر',
+    'studentActivities': 'نشاط طلابي',
     // 'volunteerOp': 'فرصة تطوعية',
     // 'volunteerOp': 'فرصة تطوعية',
     // 'volunteerOp': 'فرصة تطوعية',
   };
-  bool findId(String id) {
+  static bool findId(String id) {
     bool isSaved = false;
     saveList.any((item) => item.item.id == id)
         ? isSaved = true
@@ -38,15 +38,19 @@ class SavedList {
 // convertServiceName[eventItem.serviceName].toString()
     if (isSaved) {
       print('savvvveeeeddd');
+
       saveList.add(
-        EventItem(serviceName: serviceName, item: dynamicObject, icon: icon),
+        EventItem(
+            serviceName: convertServiceName[serviceName].toString(),
+            item: dynamicObject,
+            icon: icon),
       );
 
       addItem(dynamicObject.id.toString());
     } else {
       print('reemooooove');
       saveList.removeWhere((item) =>
-          item.serviceName == serviceName &&
+          item.serviceName == convertServiceName[serviceName].toString() &&
           item.item == dynamicObject &&
           item.icon == icon);
       removeItem(dynamicObject.id.toString());

@@ -18,16 +18,15 @@ class OpCard extends StatefulWidget {
 }
 
 class _OpCardState extends State<OpCard> {
-  bool isSaved = false;
-
   @override
   Widget build(BuildContext context) {
+    bool isSaved;
     Size size = MediaQuery.of(context).size;
     SavedList savedItem = SavedList(
         serviceName: 'volunteerOp',
         dynamicObject: widget.volunteerOpReport,
         icon: services[1]['icon']);
-    isSaved = savedItem.findId(widget.volunteerOpReport.id.toString());
+    isSaved = SavedList.findId(widget.volunteerOpReport.id.toString());
 
     return Card(
       elevation: 4,
@@ -123,7 +122,11 @@ class _OpCardState extends State<OpCard> {
             child: IconButton(
               onPressed: () {
                 setState(() {
+                  print('oooooooooooooooo');
+                  print(isSaved);
                   isSaved = savedItem.addToSave(isSaved);
+
+                  print(isSaved);
                 });
               },
               icon: Icon(

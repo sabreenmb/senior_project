@@ -32,7 +32,7 @@ class _HomeCardState extends State<HomeCard> {
         dynamicObject: widget.dynamicObject,
         icon: widget.icon);
     //manar
-    isSaved = savedItem.findId(widget.dynamicObject.id);
+    isSaved = SavedList.findId(widget.dynamicObject.id);
 
     return InkWell(
       onTap: () {

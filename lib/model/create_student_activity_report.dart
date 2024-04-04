@@ -1,28 +1,28 @@
 class CreateStudentActivityReport {
   //Variables
   String? id;
-  String? activityName;
-  String? activityDate;
-  String? activityTime;
-  String? activityPlace;
+  String? name;
+  String? date;
+  String? time;
+  String? location;
   String? numOfPerson;
 
   //Constructor
   CreateStudentActivityReport({
     required this.id,
-    required this.activityName,
-    required this.activityDate,
-    required this.activityTime,
-    required this.activityPlace,
+    required this.name,
+    required this.date,
+    required this.time,
+    required this.location,
     required this.numOfPerson,
   });
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['ActivityName'] = activityName;
-    map['ActivityDate'] = activityDate;
-    map['ActivityTime'] = activityTime;
-    map['ActivityPlace'] = activityPlace;
+    map['name'] = name;
+    map['date'] = date;
+    map['time'] = time;
+    map['location'] = location;
     map['NumOfPerson'] = numOfPerson;
     return map;
   }

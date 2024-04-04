@@ -240,7 +240,7 @@ class Setup {
         if (zq) {
           print("did i came hereeeeeee? 0");
           saveList.add(EventItem(
-              serviceName: 'conferences',
+              serviceName: 'مؤتمر',
               item: confItem[matchingIndex],
               icon: services[4]['icon']));
         }
@@ -318,7 +318,7 @@ class Setup {
         if (zq) {
           print("did i came hereeeeeee? 1");
           saveList.add(EventItem(
-              serviceName: 'volunteerOp',
+              serviceName: 'فرصة تطوعية',
               item: volunteerOpReport[matchingIndex],
               icon: services[1]['icon']));
         }
@@ -375,10 +375,10 @@ class Setup {
         loadedCreatedStudentActivity.add(CreateStudentActivityReport(
           id: item.key,
           //model name : firebase name
-          activityName: item.value['ActivityName'],
-          activityDate: item.value['ActivityDate'],
-          activityTime: item.value['ActivityTime'],
-          activityPlace: item.value['ActivityPlace'],
+          name: item.value['name'],
+          date: item.value['date'],
+          time: item.value['time'],
+          location: item.value['location'],
           numOfPerson: item.value['NumOfPerson'],
         ));
       }
@@ -386,6 +386,36 @@ class Setup {
       print('Empty List');
     } finally {
       createStudentActivityReport = loadedCreatedStudentActivity;
+    }
+
+    try {
+      // Retrieve the +document
+      DocumentSnapshot documentSnapshot = await userProfileDoc
+          .collection("saveItems")
+          .doc('studentActivities')
+          .get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      var items = data['items'] as List<dynamic>;
+
+      for (int i = 0; i < items.length; i++) {
+        var id = items[i];
+        bool zq =
+            createStudentActivityReport.any((item) => item.id.toString() == id);
+        int matchingIndex = createStudentActivityReport
+            .indexWhere((item) => item.id.toString() == id);
+        if (zq) {
+          print("did i came hereeeeeee? 6");
+          saveList.add(EventItem(
+              serviceName: 'نشاط طلابي',
+              item: createStudentActivityReport[matchingIndex],
+              icon: services[1]['icon']));
+        }
+      }
+
+      print('Items added successfully act.');
+    } catch (e) {
+      print('Error adding itemmmmm: $e');
     }
   }
 
