@@ -56,25 +56,20 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   void _selectPage(int index) {
     setState(() {
-      if (index == 1) {
+      // todo uncomment on next sprints
+      if (index == 0) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      } else if (index == 1) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+      } else if (index == 2) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ChatScreen()));
+      } else if (index == 3) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => SaveListScreen()));
       }
-      //todo uncomment on next sprints
-      // if (index == 0) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      // } else if (index == 1) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      // } else if (index == 2) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      // } else if (index == 3) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      // }
     });
   }
 
@@ -111,7 +106,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                 onTap: _selectPage,
                 unselectedItemColor: CustomColors.darkGrey,
                 selectedItemColor: CustomColors.darkGrey,
-                currentIndex: _selectedPageIndex,
+                currentIndex: 0,
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined),

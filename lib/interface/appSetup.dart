@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:senior_project/interface/firebaseConnection.dart';
+import 'package:senior_project/model/SavedList.dart';
 
 import '../constant.dart';
 import '../model/EventItem.dart';
@@ -17,10 +18,9 @@ import '../model/other_event_item_report.dart';
 import '../model/volunteer_op_report.dart';
 import '../model/workshop_item_report.dart';
 
-class Setup{
-
-
+class Setup {
   Setup() {
+    saveList = [];
     LoadOffers();
     loadCoursesItems();
     loadWorkshopsItems();
@@ -31,14 +31,72 @@ class Setup{
     LoadCreatedActivities();
 
     // last one
-    loadSaveItems();
-
+    // loadSaveItems();
   }
 
   static Future<void> loadUserData(String enteredID) async {
-    final userProfileData = await FirebaseFirestore.instance
-        .collection("userProfile")
-        .doc(enteredID.split("@")[0])
+    userProfileDoc = Connection.Users();
+    DocumentSnapshot snapshot = await userProfileDoc.get();
+
+    if (!snapshot.exists) {
+      print("meeeeeeeeeeeeeeeemooooooooooo");
+      userProfileDoc.set({
+        'image_url': '',
+        'userID': enteredID.split("@")[0],
+        'rule': 'user',
+        'name': 'منار مجيد',
+        'collage': 'الحاسبات',
+        'major': 'هندسة برمجيات',
+        'intrests': '',
+        'hobbies': '',
+        'skills': '',
+        'pushToken': '',
+        'offersPreferences': {
+          'رياضة': false,
+          'تعليم وتدريب': false,
+          'مطاعم ومقاهي': false,
+          'ترفيه': false,
+          'مراكز صحية': false,
+          'عناية وجمال': false,
+          'سياحة وفنادق': false,
+          'خدمات السيارات': false,
+          'تسوق': false,
+          'عقارات وبناء': false,
+        },
+      });
+
+      print("weeeeeeennnn");
+      List<dynamic> items = ['INIT'];
+
+      CollectionReference saveItemsCollection =
+          userProfileDoc.collection('saveItems');
+
+      await saveItemsCollection.doc('offers').set({
+        'items': items,
+      });
+      await saveItemsCollection.doc('conferences').set({
+        'items': items,
+      });
+      await saveItemsCollection.doc('workshops').set({
+        'items': items,
+      });
+      await saveItemsCollection.doc('cources').set({
+        'items': items,
+      });
+      await saveItemsCollection.doc('otherEvents').set({
+        'items': items,
+      });
+      await saveItemsCollection.doc('studyGroubs').set({
+        'items': items,
+      });
+      await saveItemsCollection.doc('studentActivities').set({
+        'items': items,
+      });
+      await saveItemsCollection.doc('volunteerOp').set({
+        'items': items,
+      });
+    }
+    final userProfileData = await userProfileDoc
         .get()
         .then((snapshot) => snapshot.data() as Map<String, dynamic>?);
 
@@ -56,6 +114,7 @@ class Setup{
     userInfo.offersPreferences = userProfileData?['offersPreferences'];
     notificationServices.getFirebaseMessagingToken();
     notificationServices.updatePushToken();
+
     // new Setup();
   }
 
@@ -104,9 +163,8 @@ class Setup{
     }
   }
 
-
   void loadCoursesItems() async {
-    courseItem=[];
+    courseItem = [];
     final response = await http.get(Connection.url('eventsCoursesDB'));
 
     final Map<String, dynamic> data = json.decode(response.body);
@@ -128,7 +186,7 @@ class Setup{
   }
 
   void loadWorkshopsItems() async {
-    workshopItem=[];
+    workshopItem = [];
     final response = await http.get(Connection.url('eventsWorkshopsDB'));
 
     final Map<String, dynamic> data = json.decode(response.body);
@@ -149,7 +207,7 @@ class Setup{
   }
 
   void loadConferencesItems() async {
-    confItem=[];
+    confItem = [];
     final response = await http.get(Connection.url('eventsConferencesDB'));
 
     final Map<String, dynamic> data = json.decode(response.body);
@@ -166,10 +224,36 @@ class Setup{
         ));
       }
     }
+    try {
+      // Retrieve the +document
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc('conferences').get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      var items = data['items'] as List<dynamic>;
+
+      for (int i = 0; i < items.length; i++) {
+        var id = items[i];
+        bool zq = confItem.any((item) => item.id.toString() == id);
+        int matchingIndex =
+            confItem.indexWhere((item) => item.id.toString() == id);
+        if (zq) {
+          print("did i came hereeeeeee? 0");
+          saveList.add(EventItem(
+              serviceName: 'conferences',
+              item: confItem[matchingIndex],
+              icon: services[4]['icon']));
+        }
+      }
+
+      print('Items added successfully conf.');
+    } catch (e) {
+      print('Error adding itemmmmm: $e');
+    }
   }
 
   void loadOtherEventsItems() async {
-    otherItem=[];
+    otherItem = [];
     final response = await http.get(Connection.url('eventsOthersDB'));
 
     final Map<String, dynamic> eventData = json.decode(response.body);
@@ -193,7 +277,6 @@ class Setup{
     final List<VolunteerOpReport> loadedVolunteerOp = [];
 
     try {
-
       final response = await http.get(Connection.url('opportunities'));
 
       final Map<String, dynamic> volunteerdata = json.decode(response.body);
@@ -216,10 +299,36 @@ class Setup{
     } catch (error) {
       print('Empty List');
     }
-    volunteerOpReport=[];
+    volunteerOpReport = [];
     volunteerOpReport = loadedVolunteerOp;
-  }
 
+    try {
+      // Retrieve the +document
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc('volunteerOp').get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      var items = data['items'] as List<dynamic>;
+
+      for (int i = 0; i < items.length; i++) {
+        var id = items[i];
+        bool zq = volunteerOpReport.any((item) => item.id.toString() == id);
+        int matchingIndex =
+            volunteerOpReport.indexWhere((item) => item.id.toString() == id);
+        if (zq) {
+          print("did i came hereeeeeee? 1");
+          saveList.add(EventItem(
+              serviceName: 'volunteerOp',
+              item: volunteerOpReport[matchingIndex],
+              icon: services[1]['icon']));
+        }
+      }
+
+      print('Items added successfully vol.');
+    } catch (e) {
+      print('Error adding itemmmmm: $e');
+    }
+  }
 
   void LoadSClubs() async {
     List<SClubInfo> loadedClubsInfo = [];
@@ -250,51 +359,8 @@ class Setup{
     } catch (error) {
       print('Empty List');
     } finally {
-      SClubs=[];
+      SClubs = [];
       SClubs = loadedClubsInfo; // fetched data from Firebase
-    }
-  }
-
-  void loadSaveItems() async {
-    saveList = [];
-    try {
-      // Retrieve the document
-      DocumentSnapshot documentSnapshot =
-      await userProfileDoc.collection("saveItems").doc('Conferences').get();
-
-      if (documentSnapshot.exists) {
-        // Check if the item already exists in the 'items' array
-        Map<String, dynamic> data =
-        documentSnapshot.data() as Map<String, dynamic>;
-        var items = data['items'] as List<dynamic>;
-        // print(items);
-
-        //for (var id in items) {
-        for (int i = 0; i < items.length; i++) {
-          print(i);
-          var id = items[i];
-          // final String? itemIdTemp = id;
-          print(id);
-          if (confItem[i].id == id) {
-            print("did i came hereeeeeee?");
-            saveList.add(EventItem(
-                serviceName: 'Conferences',
-                item: confItem[i],
-                icon: services[4]['icon']));
-          } else if (workshopItem.contains(id)) {
-          } else if (courseItem.contains(id)) {
-          } else if (otherItem.contains(id)) {}
-          // print(id);
-          // if (items.contains(itemId)) {
-          //   print('Item already exists.');
-          //   return;
-          // }
-          // print("paaaaasss");
-        }
-      }
-      print('Items added successfully.');
-    } catch (e) {
-      print('Error adding item: $e');
     }
   }
 
@@ -302,8 +368,6 @@ class Setup{
     final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
 
     try {
-
-
       final response = await http.get(Connection.url('create-activity'));
 
       final Map<String, dynamic> founddata = json.decode(response.body);
@@ -321,10 +385,104 @@ class Setup{
     } catch (error) {
       print('Empty List');
     } finally {
-        createStudentActivityReport = loadedCreatedStudentActivity;
+      createStudentActivityReport = loadedCreatedStudentActivity;
     }
   }
 
+  void loadSaveItems() async {
+    try {
+      // Retrieve the document
+      List<String> tempServicesName = [
+        'conferences',
+        'workshops',
+        'cources',
+        'otherEvents',
+        'offers',
+        'studentActivities',
+        'studyGroubs',
+        'volunteerOp'
+      ];
+      for (int s = 0; s < tempServicesName.length; s++) {
+        print(tempServicesName[s]);
+        DocumentSnapshot documentSnapshot = await userProfileDoc
+            .collection("saveItems")
+            .doc(tempServicesName[s])
+            .get();
+        Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        var items = data['items'] as List<dynamic>;
 
+        if (items.length > 0) {
+          for (int i = 1; i < items.length; i++) {
+            var id = items[i];
+            print(id);
 
+            print(confItem);
+            bool zq;
+            confItem.any((item) => item.id.toString() == id)
+                ? zq = true
+                : zq = false;
+            int matchingIndex =
+                confItem.indexWhere((item) => item.id.toString() == id);
+            print("mmmmmmmmmmmmmm");
+
+            print(confItem);
+            if (zq) {
+              print("did i came hereeeeeee? 0");
+              saveList.add(EventItem(
+                  serviceName: 'conferences',
+                  item: confItem[matchingIndex],
+                  icon: services[4]['icon']));
+            }
+            //  else if (workshopItem[i].id == id) {
+            //   print("did i came hereeeeeee? 1");
+            //   saveList.add(EventItem(
+            //       serviceName: 'workshops',
+            //       item: workshopItem[i],
+            //       icon: services[4]['icon']));
+            // } else if (courseItem[i].id == id) {
+            //   print("did i came hereeeeeee?");
+            //   saveList.add(EventItem(
+            //       serviceName: 'cources',
+            //       item: courseItem[i],
+            //       icon: services[4]['icon']));
+            // } else if (otherItem[i].id == id) {
+            //   saveList.add(EventItem(
+            //       serviceName: 'otherEvents',
+            //       item: otherItem[i],
+            //       icon: services[4]['icon']));
+            // }
+            // // else if (workshopItem[i].id == id) {
+            // //   saveList.add(EventItem(
+            // //       serviceName: 'offers',
+            // //       item: confItem[i],
+            // //       icon: services[2]['icon']));
+            // // }
+            // else if (createStudentActivityReport[i].id == id) {
+            //   saveList.add(EventItem(
+            //       serviceName: 'studentActivities',
+            //       item: createStudentActivityReport[i],
+            //       icon: services[6]['icon']));
+            // }
+            // // else if (workshopItem[i].id == id) {
+            // //   saveList.add(EventItem(
+            // //       serviceName: 'studyGroubs',
+            // //       item: confItem[i],
+            // //       icon: services[5]['icon']));
+            // // }
+            // else if (volunteerOpReport[i].id == id) {
+            //   print("did i came hereeeeeee? 7");
+            //   saveList.add(EventItem(
+            //       serviceName: 'volunteerOp',
+            //       item: volunteerOpReport[i],
+            //       icon: services[1]['icon']));
+            // }
+          }
+        }
+      }
+      print('Items added successfully.');
+    } catch (e) {
+      print('Error adding itemmmmm: $e');
+    }
+  }
 }
