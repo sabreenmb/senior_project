@@ -44,8 +44,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.23.0
   firebase_auth: ^4.14.1
-  google_fonts: ^6.1.0
-  http: ^1.1.0
+  google_fonts: 4.0.4
+  http: ^0.13.4
   image_picker: ^1.0.4
   firebase_storage: ^11.5.3
   mask_text_input_formatter: ^2.7.0

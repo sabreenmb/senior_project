@@ -79,11 +79,11 @@ class _PsychGuidanceState extends State<PsychGuidance>
         loadedPsychGuidance.add(PsychGuidanceReport(
           id: item.key,
           //model name : firebase name
-          name: item.value['pg_name'],
-          location: item.value['pg_location'],
+          ProName: item.value['pg_name'],
+          ProLocation: item.value['pg_location'],
           collage: item.value['pg_collage'],
-          number: item.value['pg_number'],
-          email: item.value['pg_email'],
+          ProOfficeNumber: item.value['pg_number'],
+          ProEmail: item.value['pg_email'],
         ));
       }
     } catch (error) {
@@ -91,8 +91,8 @@ class _PsychGuidanceState extends State<PsychGuidance>
     } finally {
       setState(() {
         isLoading = false;
-        print("sabreeeen: $loadedPsychGuidance");
         _PsychGuidanceReport = loadedPsychGuidance;
+        print(_PsychGuidanceReport.toList());
       });
     }
   }
@@ -124,6 +124,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
   @override
   Widget build(BuildContext context) {
     print('build enter');
+    print(_PsychGuidanceReport);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -240,7 +241,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 70.0, left: 8.0, right: 8.0, bottom: 8.0),
+                            top: 110.0, left: 8.0, right: 8.0, bottom: 8.0),
                         child: MediaQuery.removePadding(
                             context: context,
                             removeTop: true,
