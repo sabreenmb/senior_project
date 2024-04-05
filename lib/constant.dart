@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
-import 'package:http/http.dart' as http;
 
 import 'interface/firebaseConnection.dart';
 import 'model/EventItem.dart';
@@ -14,7 +10,6 @@ import 'model/SClubInfo.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
 import 'model/create_student_activity_report.dart';
-import 'model/offer_info.dart';
 import 'model/other_event_item_report.dart';
 import 'model/volunteer_op_report.dart';
 import 'model/workshop_item_report.dart';
@@ -259,7 +254,7 @@ void homeCards() async {
   //       serviceName: 'Conferences', item: item, icon: services[4]['icon']));
   //   print(combinedList.elementAt(0).serviceName);
   // });
-  //
+
   confItem.forEach((item) {
     combinedList.add(EventItem(
         serviceName: 'conferences', item: item, icon: services[4]['icon']));

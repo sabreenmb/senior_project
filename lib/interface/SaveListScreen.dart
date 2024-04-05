@@ -14,7 +14,10 @@ class SaveListScreen extends StatefulWidget {
   State<SaveListScreen> createState() => _SaveListScreenState();
 }
 
-class _SaveListScreenState extends State<SaveListScreen> {
+class _SaveListScreenState extends State<SaveListScreen>
+    with SingleTickerProviderStateMixin {
+  bool isLoading = false;
+  late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 3;
 
   @override
@@ -152,11 +155,14 @@ class _SaveListScreenState extends State<SaveListScreen> {
           // scrollDirection: Axis.,
           itemCount: saveList.length,
           itemBuilder: (context, index) => _buildTextCard(
-              saveList[index].serviceName, saveList[index].item)),
+                saveList[index].serviceName,
+                saveList[index].item,
+                saveList[index].icon,
+              )),
     );
   }
 
-  Widget _buildTextCard(String title, dynamic item) {
+  Widget _buildTextCard(String title, dynamic item, String icon) {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -168,23 +174,52 @@ class _SaveListScreenState extends State<SaveListScreen> {
         onTap: () {
           print('Card tapped');
         },
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
             children: [
-              Text(title,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: CustomColors.pink)),
-              SizedBox(height: 10),
-              Text(item.name!,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: CustomColors.darkGrey,
-                  )),
+              Image.asset(icon, width: 50,
+                  errorBuilder: (context, error, stackTrace) {
+                print('Failed to load image: $icon');
+                return Icon(Icons.broken_image);
+              }),
+              Container(
+                width: 30.0,
+                child: VerticalDivider(
+                  thickness: 3.0,
+                  color: CustomColors.darkGrey,
+                  indent: 20.0,
+                  endIndent: 20.0,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: CustomColors.lightBlue)),
+                    SizedBox(height: 10),
+                    Text(item.name,
+                        style: TextStyle(
+                            fontSize: 14, color: CustomColors.darkGrey)),
+                    SizedBox(height: 5),
+                    Text(item.location,
+                        style: TextStyle(
+                            fontSize: 14, color: CustomColors.darkGrey)),
+                    SizedBox(height: 5),
+                    Text(item.date,
+                        style: TextStyle(
+                            fontSize: 14, color: CustomColors.darkGrey)),
+                    SizedBox(height: 5),
+                    Text(item.time,
+                        style: TextStyle(
+                            fontSize: 14, color: CustomColors.darkGrey)),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
