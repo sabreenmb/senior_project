@@ -122,11 +122,7 @@ class _OpCardState extends State<OpCard> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  print('oooooooooooooooo');
-                  print(isSaved);
                   isSaved = savedItem.addToSave(isSaved);
-
-                  print(isSaved);
                 });
               },
               icon: Icon(

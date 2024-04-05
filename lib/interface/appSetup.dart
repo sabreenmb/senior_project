@@ -183,6 +183,32 @@ class Setup {
         ));
       }
     }
+    try {
+      // Retrieve the +document
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc('cources').get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      var items = data['items'] as List<dynamic>;
+
+      for (int i = 0; i < items.length; i++) {
+        var id = items[i];
+        bool zq = courseItem.any((item) => item.id.toString() == id);
+        int matchingIndex =
+            courseItem.indexWhere((item) => item.id.toString() == id);
+        if (zq) {
+          print("did i came hereeeeeee? 4");
+          saveList.add(EventItem(
+              serviceName: 'دورة',
+              item: courseItem[matchingIndex],
+              icon: services[4]['icon']));
+        }
+      }
+
+      print('Items added successfully cources.');
+    } catch (e) {
+      print('Error adding itemmmmm: $e');
+    }
   }
 
   void loadWorkshopsItems() async {
@@ -203,6 +229,33 @@ class Setup {
           timestamp: item.value['timestamp'],
         ));
       }
+    }
+
+    try {
+      // Retrieve the +document
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc('workshops').get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      var items = data['items'] as List<dynamic>;
+
+      for (int i = 0; i < items.length; i++) {
+        var id = items[i];
+        bool zq = workshopItem.any((item) => item.id.toString() == id);
+        int matchingIndex =
+            workshopItem.indexWhere((item) => item.id.toString() == id);
+        if (zq) {
+          print("did i came hereeeeeee? 7");
+          saveList.add(EventItem(
+              serviceName: 'ورشة عمل',
+              item: workshopItem[matchingIndex],
+              icon: services[4]['icon']));
+        }
+      }
+
+      print('Items added successfully work.');
+    } catch (e) {
+      print('Error adding itemmmmm: $e');
     }
   }
 

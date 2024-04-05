@@ -1,19 +1,32 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:senior_project/constant.dart';
+import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/model/courses_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 
 // ignore: must_be_immutable
-class CoursesCard extends StatelessWidget {
+class CoursesCard extends StatefulWidget {
   CoursesItemReport courseItem;
   CoursesCard(this.courseItem, {super.key});
-//
+
+  @override
+  State<CoursesCard> createState() => _CoursesCardState();
+}
+
+class _CoursesCardState extends State<CoursesCard> {
   @override
   Widget build(BuildContext context) {
+    bool isSaved;
     Size size = MediaQuery.of(context).size;
+    SavedList savedItem = SavedList(
+        serviceName: 'cources',
+        dynamicObject: widget.courseItem,
+        icon: services[4]['icon']);
+    isSaved = SavedList.findId(widget.courseItem.id.toString());
 
     return Card(
       elevation: 4,
@@ -31,7 +44,7 @@ class CoursesCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                courseItem.name!,
+                widget.courseItem.name!,
                 textAlign: TextAlign.right,
                 style: TextStyles.heading3B,
               ),
@@ -50,7 +63,7 @@ class CoursesCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    courseItem.presentBy!,
+                    widget.courseItem.presentBy!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
@@ -70,7 +83,7 @@ class CoursesCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    "${courseItem.date!} , ${courseItem.time!}",
+                    "${widget.courseItem.date!} , ${widget.courseItem.time!}",
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
@@ -90,7 +103,7 @@ class CoursesCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    courseItem.location!,
+                    widget.courseItem.location!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
@@ -100,10 +113,25 @@ class CoursesCard extends StatelessWidget {
           ),
         ),
         Positioned(
+          top: 5,
+          left: 15.0,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                isSaved = savedItem.addToSave(isSaved);
+              });
+            },
+            icon: Icon(
+              isSaved ? Icons.bookmark : Icons.bookmark_border,
+              color: CustomColors.lightBlue,
+            ),
+          ),
+        ),
+        Positioned(
           bottom: 8.0,
           left: 15.0,
           child: TextButton(
-            onPressed: () => _launchURL(courseItem.courseLink!, context),
+            onPressed: () => _launchURL(widget.courseItem.courseLink!, context),
             child: Text(
               'سجل',
               style: TextStyle(
