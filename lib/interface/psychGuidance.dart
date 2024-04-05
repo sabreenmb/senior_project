@@ -13,6 +13,7 @@ import 'HomeScreen.dart';
 import 'ProfilePage.dart';
 import 'SaveListScreen.dart';
 import 'add_lost_item_screen.dart';
+import 'firebaseConnection.dart';
 import 'services_screen.dart';
 
 class PsychGuidance extends StatefulWidget {
@@ -70,20 +71,21 @@ class _PsychGuidanceState extends State<PsychGuidance>
       setState(() {
         isLoading = true;
       });
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'Psych-Guidance.json');
-      final response = await http.get(url);
+
+      final response = await http.get(Connection.url('Psych-Guidance'));
 
       final Map<String, dynamic> foundData = json.decode(response.body);
       for (final item in foundData.entries) {
+        print('sabreen test');
+        print(item.value['pg_name']);
         loadedPsychGuidance.add(PsychGuidanceReport(
           id: item.key,
           //model name : firebase name
-          ProName: item.value['pg_name'],
-          ProLocation: item.value['pg_location'],
+          name: item.value['pg_name'],
+          location: item.value['pg_location'],
           collage: item.value['pg_collage'],
-          ProOfficeNumber: item.value['pg_number'],
-          ProEmail: item.value['pg_email'],
+          number: item.value['pg_number'],
+          email: item.value['pg_email'],
         ));
       }
     } catch (error) {
@@ -93,6 +95,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
         isLoading = false;
         _PsychGuidanceReport = loadedPsychGuidance;
         print(_PsychGuidanceReport.toList());
+
       });
     }
   }
@@ -241,7 +244,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 110.0, left: 8.0, right: 8.0, bottom: 8.0),
+                            top: 70.0, left: 8.0, right: 8.0, bottom: 8.0),
                         child: MediaQuery.removePadding(
                             context: context,
                             removeTop: true,

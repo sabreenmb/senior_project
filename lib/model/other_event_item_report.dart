@@ -7,6 +7,8 @@ class OtherEventsItemReport {
   String? time;
   String? location;
   String? otherEventLink;
+  String? timestamp;
+
 
   //Constructor
   OtherEventsItemReport({
@@ -17,6 +19,8 @@ class OtherEventsItemReport {
     required this.time,
     required this.location,
     required this.otherEventLink,
+    required this.timestamp,
+
   });
 
   Map<String, dynamic> toJson() {
@@ -27,6 +31,7 @@ class OtherEventsItemReport {
     map['OtherEventTime'] = time;
     map['OtherEventPlace'] = location;
     map['OtherEventLink'] = otherEventLink;
+    map['timestamp']=timestamp;
 
     return map;
   }

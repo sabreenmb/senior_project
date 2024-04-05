@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/ChatScreen.dart';
@@ -9,6 +10,7 @@ import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../constant.dart';
+import '../model/EventItem.dart';
 import '../widgets/home_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -54,25 +56,20 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   void _selectPage(int index) {
     setState(() {
-      if (index == 1) {
+      // todo uncomment on next sprints
+      if (index == 0) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      } else if (index == 1) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+      } else if (index == 2) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ChatScreen()));
+      } else if (index == 3) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => SaveListScreen()));
       }
-      //todo uncomment on next sprints
-      // if (index == 0) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      // } else if (index == 1) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      // } else if (index == 2) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      // } else if (index == 3) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      // }
     });
   }
 
@@ -109,7 +106,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                 onTap: _selectPage,
                 unselectedItemColor: CustomColors.darkGrey,
                 selectedItemColor: CustomColors.darkGrey,
-                currentIndex: _selectedPageIndex,
+                currentIndex: 0,
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined),
@@ -156,20 +153,29 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   Widget _buildCard() {
     List<dynamic> categoryList = offers[1]['categoryList'];
-    bool autoplayEnabled = categoryList.length > 1;
+    // bool autoplayEnabled = categoryList.length > 1;
 
-    return CarouselSlider(
-      items: categoryList
-          .map((offer) {
-            return HomeOfferCard(offer);
-          })
-          .toList()
-          .cast<Widget>(),
-      options: CarouselOptions(
-        height: 180,
-        autoPlay: autoplayEnabled,
-        autoPlayInterval: Duration(seconds: 3),
+    return FutureBuilder(
+      future: Future.wait(
+        categoryList.map((offer) =>
+            precacheImage(CachedNetworkImageProvider(offer.logo!), context)),
       ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+        return CarouselSlider(
+          items: categoryList
+              .map((offer) => HomeOfferCard(offer))
+              .toList()
+              .cast<Widget>(),
+          options: CarouselOptions(
+            height: 180,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 3),
+          ),
+        );
+      },
     );
   }
 

@@ -8,18 +8,28 @@ import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
 
+import 'interface/firebaseConnection.dart';
+import 'model/EventItem.dart';
+import 'model/SClubInfo.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
+import 'model/create_student_activity_report.dart';
 import 'model/offer_info.dart';
 import 'model/other_event_item_report.dart';
 import 'model/volunteer_op_report.dart';
 import 'model/workshop_item_report.dart';
+//todo move to coommen var
 
 int currentPageIndex = 0;
+
+// where it is used
+
 NavigationDestinationLabelBehavior labelBehavior =
     NavigationDestinationLabelBehavior.alwaysHide;
-bool isLoading = false;
+//todo move to coommen var
 
+bool isLoading = false;
+//todo move to coommen var
 List<String> Categories = [
   'بطاقات',
   'نقود ',
@@ -30,39 +40,13 @@ List<String> Categories = [
   'أغراض شخصية',
   'اخرى'
 ];
-
 PushNotification notificationServices = PushNotification();
+//todo sabreen changes
+DocumentReference<Map<String, dynamic>> userProfileDoc = Connection.Users();
+//todo move to coommen var
+enteredUserInfo userInfo = enteredUserInfo();
 
-DocumentReference<Map<String, dynamic>> userProfileDoc = FirebaseFirestore
-    .instance
-    .collection("userProfile")
-    .doc(FirebaseAuth.instance.currentUser!.email!.split("@")[0]);
-
-enteredUserInfo userInfo = enteredUserInfo(
-  image_url: '',
-  userID: '',
-  rule: '',
-  name: '',
-  collage: '',
-  major: '',
-  intrests: '',
-  hobbies: '',
-  skills: '',
-  pushToken: '',
-  offersPreferences: {
-    'رياضة': false,
-    'تعليم وتدريب': false,
-    'مطاعم ومقاهي': false,
-    'ترفيه': false,
-    'مراكز صحية': false,
-    'عناية وجمال': false,
-    'سياحة وفنادق': false,
-    'خدمات السيارات': false,
-    'تسوق': false,
-    'عقارات وبناء': false,
-  },
-);
-
+//todo change the list info
 List<String> SubjectsCode = [
   'ESPE-201',
   'CCCY-225',
@@ -107,6 +91,7 @@ Widget loadingFunction(BuildContext context, bool load) {
     ),
   );
 }
+//todo move to coommen var
 
 final List offers = [
   {
@@ -191,24 +176,8 @@ final List offers = [
     //"whenClick": LostAndFoundScreen(),
   },
 ];
-final List clubs = [
-  {
-    "ClubName": "نادي الذكاء الاصطناعي",
-    "icon": "assets/icons/Ailogo_2.png",
-  },
-  {
-    "ClubName": "نادي الذكاء الاصطناعي",
-    "icon": "assets/icons/Ailogo_2.png",
-  },
-  {
-    "ClubName": "نادي الذكاء الاصطناعي",
-    "icon": "assets/icons/Ailogo_2.png",
-  },
-  {
-    "ClubName": "نادي الذكاء الاصطناعي",
-    "icon": "assets/icons/Ailogo_2.png",
-  }
-];
+//todo move to coommen var
+
 final List services = [
   {
     "serviceName": "المفقودات",
@@ -266,210 +235,53 @@ final List services = [
     //"whenClick": LostAndFoundScreen(),
   },
 ];
-
-void LoadOffers() async {
-  final List<OfferInfo> loadedOfferInfo = [];
-
-  try {
-    final url = Uri.https(
-        'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
-    final response = await http.get(url);
-
-    final Map<String, dynamic> founddata = json.decode(response.body);
-    for (final item in founddata.entries) {
-      print(item.value['of_name']);
-      loadedOfferInfo.add(OfferInfo(
-        id: item.key,
-        //model name : firebase name
-        name: item.value['of_name'],
-        logo: item.value['of_logo'],
-        category: item.value['of_category'],
-        code: item.value['of_code'],
-        details: item.value['of_details'],
-        discount: item.value['of_discount'],
-        expDate: item.value['of_expDate'],
-        contact: item.value['of_contact'],
-        targetUsers: item.value['of_target'],
-      ));
-    }
-  } catch (error) {
-    print('Empty List');
-  } finally {
-    List<OfferInfo> fetchedOffers =
-        loadedOfferInfo; // fetched data from Firebase
-
-    for (OfferInfo offer in fetchedOffers) {
-      for (Map<String, dynamic> item in offers) {
-        if (offer.category == item['offerCategory']) {
-          item['categoryList'].add(offer);
-          break;
-        }
-      }
-    }
-    print(offers[0]);
-  }
-}
-
+//todo move to coommen var
 List<WorkshopsItemReport> workshopItem = [];
 List<ConferencesItemReport> confItem = [];
 List<OtherEventsItemReport> otherItem = [];
 List<CoursesItemReport> courseItem = [];
-
-void loadCoursesItems() async {
-  final url = Uri.https(
-    'senior-project-72daf-default-rtdb.firebaseio.com',
-    'eventsCoursesDB.json',
-  );
-  final response = await http.get(url);
-
-  final Map<String, dynamic> data = json.decode(response.body);
-  for (final item in data.entries) {
-    print(item.value['course_name']);
-
-    courseItem.add(CoursesItemReport(
-      id: item.key,
-      name: item.value['course_name'],
-      presentBy: item.value['course_presenter'],
-      date: item.value['course_date'],
-      time: item.value['course_time'],
-      location: item.value['course_location'],
-      courseLink: item.value['course_link'],
-    ));
-  }
-}
-
-void loadWorkshopsItems() async {
-  final url = Uri.https(
-    'senior-project-72daf-default-rtdb.firebaseio.com',
-    'eventsWorkshopsDB.json',
-  );
-  final response = await http.get(url);
-
-  final Map<String, dynamic> data = json.decode(response.body);
-  for (final item in data.entries) {
-    workshopItem.add(WorkshopsItemReport(
-      id: item.key,
-      name: item.value['workshop_name'],
-      presentBy: item.value['workshop_presenter'],
-      date: item.value['workshop_date'],
-      location: item.value['workshop_location'],
-      time: item.value['workshop_time'],
-      workshopLink: item.value['workshop_link'],
-    ));
-  }
-}
-
-void loadConferencesItems() async {
-  final url = Uri.https(
-    'senior-project-72daf-default-rtdb.firebaseio.com',
-    'eventsConferencesDB.json',
-  );
-  final response = await http.get(url);
-
-  final Map<String, dynamic> data = json.decode(response.body);
-  for (final item in data.entries) {
-    confItem.add(ConferencesItemReport(
-      id: item.key,
-      name: item.value['conference_name'],
-      date: item.value['conference_date'],
-      timestamp: item.value['timestamp'],
-      time: item.value['conference_time'],
-      location: item.value['conference_location'],
-      confLink: item.value['conference_link'],
-    ));
-  }
-}
-
-void loadOtherEventsItems() async {
-  final url = Uri.https(
-    'senior-project-72daf-default-rtdb.firebaseio.com',
-    'eventsOthersDB.json',
-  );
-  final response = await http.get(url);
-
-  final Map<String, dynamic> eventData = json.decode(response.body);
-  for (final item in eventData.entries) {
-    otherItem.add(OtherEventsItemReport(
-      id: item.key,
-      name: item.value['OEvent_name'],
-      presentBy: item.value['OEvent_presenter'],
-      date: item.value['OEvent_date'],
-      time: item.value['OEvent_time'],
-      location: item.value['OEvent_location'],
-      otherEventLink: item.value['OEvent_link'],
-    ));
-  }
-}
-
 List<VolunteerOpReport> volunteerOpReport = [];
-
-void LoadCreatedSessions() async {
-  final List<VolunteerOpReport> loadedVolunteerOp = [];
-
-  try {
-    final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-        'opportunities.json');
-    final response = await http.get(url);
-
-    final Map<String, dynamic> volunteerdata = json.decode(response.body);
-    for (final item in volunteerdata.entries) {
-      print(item.value['op_name']);
-
-      loadedVolunteerOp.add(VolunteerOpReport(
-        id: item.key,
-        //model name : firebase name
-        name: item.value['op_name'],
-        date: item.value['op_date'],
-        time: item.value['op_time'],
-        location: item.value['op_location'],
-        opNumber: item.value['op_number'],
-        opLink: item.value['op_link'],
-      ));
-    }
-  } catch (error) {
-    print('Empty List');
-  }
-  volunteerOpReport = loadedVolunteerOp;
-}
-
 List<EventItem> combinedList = [];
+List<EventItem> todayList = [];
+List<SClubInfo> SClubs = [];
+List<EventItem> saveList = [];
+List<CreateStudentActivityReport> createStudentActivityReport = [];
 
 void homeCards() async {
   combinedList = [];
-  sortItemsByTimestamp(confItem);
-  // workshopItem.forEach((item) {
-  //   combinedList.add(EventItem(serviceName: 'Workshops', item: item, icon: services[4]['icon']));
-  // });
 
+  workshopItem.forEach((item) {
+    combinedList.add(EventItem(
+        serviceName: 'workshops', item: item, icon: services[4]['icon']));
+  });
+  // eleminateOldData(confItem).forEach((item) {
+  //   combinedList.add(EventItem(
+  //       serviceName: 'Conferences', item: item, icon: services[4]['icon']));
+  //   print(combinedList.elementAt(0).serviceName);
+  // });
+  //
   confItem.forEach((item) {
     combinedList.add(EventItem(
-        serviceName: 'Conferences', item: item, icon: services[4]['icon']));
+        serviceName: 'conferences', item: item, icon: services[4]['icon']));
     print(combinedList.elementAt(0).serviceName);
   });
 
-  // otherItem.forEach((item) {
-  //   combinedList.add(EventItem(serviceName: 'Other Events', item: item, icon: services[4]['icon']));
-  // });
+  otherItem.forEach((item) {
+    combinedList.add(EventItem(
+        serviceName: 'otherEvents', item: item, icon: services[4]['icon']));
+  });
 
-  // courseItem.forEach((item) {
-  //   combinedList.add(EventItem(serviceName: 'Courses', item: item,icon: services[4]['icon']));
-  // });
-  // volunteerOpReport.forEach((item) {
-  //   combinedList.add(EventItem(serviceName: 'OP', item: item,icon: services[1]['icon']));
-  // });
+  courseItem.forEach((item) {
+    combinedList.add(EventItem(
+        serviceName: 'courses', item: item, icon: services[4]['icon']));
+  });
+  volunteerOpReport.forEach((item) {
+    combinedList.add(EventItem(
+        serviceName: 'volunteerOp', item: item, icon: services[1]['icon']));
+  });
   print(combinedList);
+  sortItemsByTimestamp(combinedList);
 }
-
-class EventItem {
-  final String serviceName;
-  final dynamic item;
-  final String icon;
-
-  EventItem(
-      {required this.serviceName, required this.item, required this.icon});
-}
-
-List<EventItem> todayList = [];
 
 void getTodayList() {
   todayList = [];
@@ -484,6 +296,20 @@ void getTodayList() {
   print(todayList);
 }
 
+//todo remove if not used
+// List<dynamic> eleminateOldData(List<dynamic> item) {
+//   filteredList = item;
+// //data list may changed to a copy list
+//
+//   for (int i = 0; i < filteredList.length; i++) {
+//     // if (getValidityF(filteredList) == true) {
+//     //   filteredList.remove(i);
+//     //   print('new test');
+//     //   i--;
+//     // }
+//   }
+//   return filteredList;
+// }
 bool getValidity(String time) {
   DateTime expiryDate = DateTime.parse(time);
   DateTime now = DateTime.now();
@@ -495,10 +321,21 @@ bool getValidity(String time) {
   }
 }
 
-void sortItemsByTimestamp(List<dynamic> confItem) {
-  confItem.sort((a, b) {
-    DateTime timestampA = DateTime.parse(a.timestamp);
-    DateTime timestampB = DateTime.parse(b.timestamp);
+bool getValidityF(String time) {
+  DateTime expiryDate = DateTime.parse(time);
+  DateTime now = DateTime.now();
+
+  if (expiryDate.difference(now).inDays >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void sortItemsByTimestamp(List<dynamic> combined) {
+  combined.sort((a, b) {
+    DateTime timestampA = DateTime.parse(a.item.timestamp);
+    DateTime timestampB = DateTime.parse(b.item.timestamp);
     return timestampB.compareTo(timestampA); // Sort in descending order
   });
 }

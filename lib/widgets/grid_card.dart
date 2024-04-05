@@ -5,12 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/interface/Clinic.dart';
 import 'package:senior_project/interface/OfferCategoryScreen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
-import 'package:senior_project/interface/psychGuidance.dart';
 
 import '../interface/OffersListScreen.dart';
 import '../interface/StudentClubsScreen.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
+import '../interface/psychGuidance.dart';
 import '../interface/student_activity.dart';
 import '../interface/study_group.dart';
 import '../theme.dart';
@@ -139,21 +139,22 @@ class GridCard extends StatelessWidget {
         );
         break;
       case 7:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Clinic(),
-          ),
-        );
-        break;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Clinic(),
+        ),
+      );
+      break;
+
       case 8:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PsychGuidance(),
-          ),
-        );
-        break;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PsychGuidance(),
+        ),
+      );
+      break;
       // Add cases for other services as needed
     }
   }

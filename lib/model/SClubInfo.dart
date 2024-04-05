@@ -10,6 +10,8 @@ class SClubInfo {
   String? name;
   String?membersLink;
   String? MngLink;
+  String? timestamp;
+
 
   //Constructor
   SClubInfo({
@@ -22,6 +24,8 @@ class SClubInfo {
     required this.membersLink,
     required this.MngLink,
     required this.contact,
+    required this.timestamp,
+
   });
 
 

@@ -6,8 +6,10 @@ import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/login_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/interface/study_group.dart';
+import 'package:senior_project/interface/appSetup.dart';
 
 import 'firebase_options.dart';
+import 'interface/LaunchScreen.dart';
 import 'interface/psychGuidance.dart';
 //import 'interface/study_group.dart';
 
@@ -21,10 +23,10 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: const LoginScreen(),
+      home: LaunchScreen(),
     );
   }
 }

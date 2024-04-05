@@ -32,10 +32,10 @@ class _EventState extends State<EventScreen> {
   List<ConferencesItemReport> searchConfList = [];
   List<OtherEventsItemReport> searchOtherList = [];
 
-  List<CoursesItemReport> _courseItem = [];
-  List<WorkshopsItemReport> _workshopItem = [];
-  List<ConferencesItemReport> _confItem = [];
-  List<OtherEventsItemReport> _otherItem = [];
+  // List<CoursesItemReport> _courseItem = [];
+  // List<WorkshopsItemReport> _workshopItem = [];
+  // List<ConferencesItemReport> _confItem = [];
+  // List<OtherEventsItemReport> _otherItem = [];
 
   int _selectedPageIndex = 1;
   bool isSelected = true;
@@ -50,132 +50,138 @@ class _EventState extends State<EventScreen> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    //_loadData();
   }
 
-  void _loadData() async {
-    setState(() {
-      isLoading = true;
-      errorMessage = '';
-    });
+  // void _loadData() async {
+  //   setState(() {
+  //     isLoading = true;
+  //     errorMessage = '';
+  //   });
+  //
+  //   try {
+  //     await Future.wait([
+  //       _loadCoursesItems(),
+  //       _loadWorkshopsItems(),
+  //       _loadConferencesItems(),
+  //       _loadOtherEventsItems(),
+  //     ]);
+  //   } catch (error) {
+  //     setState(() {
+  //       errorMessage = 'Failed to load data. Please check your connection.';
+  //     });
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
 
-    try {
-      await Future.wait([
-        _loadCoursesItems(),
-        _loadWorkshopsItems(),
-        _loadConferencesItems(),
-        _loadOtherEventsItems(),
-      ]);
-    } catch (error) {
-      setState(() {
-        errorMessage = 'Failed to load data. Please check your connection.';
-      });
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<void> _loadCoursesItems() async {
-    final url = Uri.https(
-      'senior-project-72daf-default-rtdb.firebaseio.com',
-      'eventsCoursesDB.json',
-    );
-    final response = await http.get(url);
-
-    final Map<String, dynamic> foundData = json.decode(response.body);
-    final loadedCoursesItems = foundData.entries.map((item) {
-      return CoursesItemReport(
-        id: item.key,
-        name: item.value['course_name'],
-        presentBy: item.value['course_presenter'],
-        date: item.value['course_date'],
-        time: item.value['course_time'],
-        location: item.value['course_location'],
-        courseLink: item.value['course_link'],
-      );
-    }).toList();
-
-    setState(() {
-      _courseItem = loadedCoursesItems;
-    });
-  }
-
-  Future<void> _loadWorkshopsItems() async {
-    final url = Uri.https(
-      'senior-project-72daf-default-rtdb.firebaseio.com',
-      'eventsWorkshopsDB.json',
-    );
-    final response = await http.get(url);
-
-    final Map<String, dynamic> foundData = json.decode(response.body);
-    final loadedWorkshopsItems = foundData.entries.map((item) {
-      return WorkshopsItemReport(
-        id: item.key,
-        name: item.value['workshop_name'],
-        presentBy: item.value['workshop_presenter'],
-        date: item.value['workshop_date'],
-        location: item.value['workshop_location'],
-        time: item.value['workshop_time'],
-        workshopLink: item.value['workshop_link'],
-      );
-    }).toList();
-
-    setState(() {
-      _workshopItem = loadedWorkshopsItems;
-    });
-  }
-
-  Future<void> _loadConferencesItems() async {
-    final url = Uri.https(
-      'senior-project-72daf-default-rtdb.firebaseio.com',
-      'eventsConferencesDB.json',
-    );
-    final response = await http.get(url);
-
-    final Map<String, dynamic> foundData = json.decode(response.body);
-    final loadedConferencesItems = foundData.entries.map((item) {
-      return ConferencesItemReport(
-        id: item.key,
-        name: item.value['conference_name'],
-        date: item.value['conference_date'],
-        timestamp: item.value['timestamp'],
-        time: item.value['conference_time'],
-        location: item.value['conference_location'],
-        confLink: item.value['conference_link'],
-      );
-    }).toList();
-
-    setState(() {
-      _confItem = loadedConferencesItems;
-    });
-  }
-
-  Future<void> _loadOtherEventsItems() async {
-    final url = Uri.https(
-      'senior-project-72daf-default-rtdb.firebaseio.com',
-      'eventsOthersDB.json',
-    );
-    final response = await http.get(url);
-
-    final Map<String, dynamic> eventData = json.decode(response.body);
-    final loadedOtherEventsItems = eventData.entries.map((item) {
-      return OtherEventsItemReport(
-        id: item.key,
-        name: item.value['OEvent_name'],
-        presentBy: item.value['OEvent_presenter'],
-        date: item.value['OEvent_date'],
-        time: item.value['OEvent_time'],
-        location: item.value['OEvent_location'],
-        otherEventLink: item.value['OEvent_link'],
-      );
-    }).toList();
-
-    setState(() {
-      _otherItem = loadedOtherEventsItems;
-    });
-  }
+  // Future<void> _loadCoursesItems() async {
+  //   final url = Uri.https(
+  //     'senior-project-72daf-default-rtdb.firebaseio.com',
+  //     'eventsCoursesDB.json',
+  //   );
+  //   final response = await http.get(url);
+  //
+  //   final Map<String, dynamic> foundData = json.decode(response.body);
+  //   final loadedCoursesItems = foundData.entries.map((item) {
+  //     return CoursesItemReport(
+  //       id: item.key,
+  //       name: item.value['course_name'],
+  //       presentBy: item.value['course_presenter'],
+  //       date: item.value['course_date'],
+  //       time: item.value['course_time'],
+  //       location: item.value['course_location'],
+  //       courseLink: item.value['course_link'],
+  //       timestamp:item.value['timestamp'],
+  //
+  //     );
+  //   }).toList();
+  //
+  //   setState(() {
+  //     _courseItem = loadedCoursesItems;
+  //   });
+  // }
+  //
+  // Future<void> _loadWorkshopsItems() async {
+  //   final url = Uri.https(
+  //     'senior-project-72daf-default-rtdb.firebaseio.com',
+  //     'eventsWorkshopsDB.json',
+  //   );
+  //   final response = await http.get(url);
+  //
+  //   final Map<String, dynamic> foundData = json.decode(response.body);
+  //   final loadedWorkshopsItems = foundData.entries.map((item) {
+  //     return WorkshopsItemReport(
+  //       id: item.key,
+  //       name: item.value['workshop_name'],
+  //       presentBy: item.value['workshop_presenter'],
+  //       date: item.value['workshop_date'],
+  //       location: item.value['workshop_location'],
+  //       time: item.value['workshop_time'],
+  //       workshopLink: item.value['workshop_link'],
+  //       timestamp:item.value['timestamp'],
+  //
+  //     );
+  //   }).toList();
+  //
+  //   setState(() {
+  //     _workshopItem = loadedWorkshopsItems;
+  //   });
+  // }
+  //
+  // Future<void> _loadConferencesItems() async {
+  //   final url = Uri.https(
+  //     'senior-project-72daf-default-rtdb.firebaseio.com',
+  //     'eventsConferencesDB.json',
+  //   );
+  //   final response = await http.get(url);
+  //
+  //   final Map<String, dynamic> foundData = json.decode(response.body);
+  //   final loadedConferencesItems = foundData.entries.map((item) {
+  //     return ConferencesItemReport(
+  //       id: item.key,
+  //       name: item.value['conference_name'],
+  //       date: item.value['conference_date'],
+  //       timestamp:item.value['timestamp'],
+  //       time: item.value['conference_time'],
+  //       location: item.value['conference_location'],
+  //       confLink: item.value['conference_link'],
+  //     );
+  //   }).toList();
+  //
+  //   setState(() {
+  //     _confItem = loadedConferencesItems;
+  //   });
+  // }
+  //
+  // Future<void> _loadOtherEventsItems() async {
+  //   final url = Uri.https(
+  //     'senior-project-72daf-default-rtdb.firebaseio.com',
+  //     'eventsOthersDB.json',
+  //   );
+  //   final response = await http.get(url);
+  //
+  //   final Map<String, dynamic> eventData = json.decode(response.body);
+  //   final loadedOtherEventsItems = eventData.entries.map((item) {
+  //     return OtherEventsItemReport(
+  //       id: item.key,
+  //       name: item.value['OEvent_name'],
+  //       presentBy: item.value['OEvent_presenter'],
+  //       date: item.value['OEvent_date'],
+  //       time: item.value['OEvent_time'],
+  //       location: item.value['OEvent_location'],
+  //       otherEventLink: item.value['OEvent_link'],
+  //       timestamp:item.value['timestamp'],
+  //
+  //     );
+  //   }).toList();
+  //
+  //   setState(() {
+  //     _otherItem = loadedOtherEventsItems;
+  //   });
+  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -213,7 +219,6 @@ class _EventState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -292,8 +297,8 @@ class _EventState extends State<EventScreen> {
                       Column(children: [
                         Container(
                           height: 60,
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
+                          padding:
+                              const EdgeInsets.only(top: 15, left: 15, right: 15),
                           child: TextField(
                             autofocus: false,
                             controller: _userInputController,
@@ -322,13 +327,13 @@ class _EventState extends State<EventScreen> {
                                     filterSearchResults(
                                       _userInputController.text,
                                       isSelectedCourse
-                                          ? _courseItem
+                                          ? courseItem
                                           : isSelectedConfre
-                                              ? _confItem
+                                              ? confItem
                                               : isSelectedWorkshop
-                                                  ? _workshopItem
+                                                  ? workshopItem
                                                   : isSelectedOther
-                                                      ? _otherItem
+                                                      ? otherItem
                                                       : [],
                                     );
                                     FocusScope.of(context).unfocus();
@@ -364,13 +369,13 @@ class _EventState extends State<EventScreen> {
                               filterSearchResults(
                                 _userInputController.text,
                                 isSelectedCourse
-                                    ? _courseItem
+                                    ? courseItem
                                     : isSelectedConfre
-                                        ? _confItem
+                                        ? confItem
                                         : isSelectedWorkshop
-                                            ? _workshopItem
+                                            ? workshopItem
                                             : isSelectedOther
-                                                ? _otherItem
+                                                ? otherItem
                                                 : [],
                               );
 
@@ -485,13 +490,12 @@ class _EventState extends State<EventScreen> {
                             ],
                           ),
                         ),
-                        if ((isSelectedCourse && _courseItem.isEmpty) ||
-                            (isSelectedWorkshop && _workshopItem.isEmpty) ||
-                            (isSelectedConfre && _confItem.isEmpty) ||
-                            (isSelectedOther && _otherItem.isEmpty) ||
+                        if ((isSelectedCourse && courseItem.isEmpty) ||
+                            (isSelectedWorkshop && workshopItem.isEmpty) ||
+                            (isSelectedConfre && confItem.isEmpty) ||
+                            (isSelectedOther && otherItem.isEmpty) ||
                             (isSearch &&
-                                ((searchCourseList.isEmpty &&
-                                        isSelectedCourse) ||
+                                ((searchCourseList.isEmpty && isSelectedCourse) ||
                                     (isSelectedWorkshop &&
                                         searchWorkshopList.isEmpty) ||
                                     (isSelectedConfre &&
@@ -502,8 +506,7 @@ class _EventState extends State<EventScreen> {
                             child: Center(
                               child: SizedBox(
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
+                                child: Image.asset('assets/images/notFound.png'),
                               ),
                             ),
                           ),
@@ -522,20 +525,20 @@ class _EventState extends State<EventScreen> {
                         //       ),
                         //     ),
                         //   ),
-                        if (isSelectedCourse && _courseItem.isNotEmpty)
-                          buildExpandedWidget(_courseItem, searchCourseList,
+                        if (isSelectedCourse && courseItem.isNotEmpty)
+                          buildExpandedWidget(courseItem, searchCourseList,
                               (item) => CoursesCard(item)),
 
-                        if (isSelectedWorkshop && _workshopItem.isNotEmpty)
-                          buildExpandedWidget(_workshopItem, searchWorkshopList,
+                        if (isSelectedWorkshop && workshopItem.isNotEmpty)
+                          buildExpandedWidget(workshopItem, searchWorkshopList,
                               (item) => WorkshopCard(item)),
 
-                        if (isSelectedConfre && _confItem.isNotEmpty)
-                          buildExpandedWidget(_confItem, searchConfList,
+                        if (isSelectedConfre && confItem.isNotEmpty)
+                          buildExpandedWidget(confItem, searchConfList,
                               (item) => ConfCard(item)),
 
-                        if (isSelectedOther && _otherItem.isNotEmpty)
-                          buildExpandedWidget(_otherItem, searchOtherList,
+                        if (isSelectedOther && otherItem.isNotEmpty)
+                          buildExpandedWidget(otherItem, searchOtherList,
                               (item) => OtherCard(item)),
                       ])
                     ]))
