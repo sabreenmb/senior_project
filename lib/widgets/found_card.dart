@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
-
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shimmer/shimmer.dart';
+import 'dart:io';
 import '../model/found_item_report.dart';
 import '../theme.dart';
 
@@ -23,16 +26,42 @@ class FoundCard extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         child: Row(
           children: [
-            SizedBox(
-              width: 95,
-              height: 130,
-              child: foundItemReport.photo == "empty"
-                  ? const Image(image: AssetImage('assets/images/mug.png'))
-                  : Image.network(
-                      '${foundItemReport.photo}',
-                      fit: BoxFit.fill,
-                    ),
+
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                width: 95,
+                height: 130,
+                child: foundItemReport.photo == "empty"
+                    ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                    : FutureBuilder<void>(
+                  future: precacheImage(
+                    CachedNetworkImageProvider(foundItemReport.photo!),
+                    context,
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        enabled: true,
+                        child: Container(
+                          color: Colors.white,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error loading image'); // Handle error loading image
+                    } else {
+                      return CachedNetworkImage(
+                        imageUrl: foundItemReport.photo!,
+                        fit: BoxFit.fill,
+                      );
+                    }
+                  },
+                ),
+              ),
             ),
+
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),

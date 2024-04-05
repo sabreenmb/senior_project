@@ -16,7 +16,7 @@ import 'package:senior_project/widgets/create_student_activity_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'firebaseConnection.dart';
+import '../firebaseConnection.dart';
 
 class StudentActivity extends StatefulWidget {
   const StudentActivity({super.key});
@@ -52,23 +52,23 @@ class _StudentActivityState extends State<StudentActivity>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const ChatScreen(),
-      },
-      {
-        'page': const AddLostItemScreen(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
+    // _pages = [
+    //   {
+    //     'page': const HomeScreen(),
+    //   },
+    //   {
+    //     'page': const ChatScreen(),
+    //   },
+    //   {
+    //     'page': const AddLostItemScreen(),
+    //   },
+    //   {
+    //     'page': const ServisesScreen(),
+    //   },
+    //   {
+    //     'page': const SaveListScreen(),
+    //   },
+    // ];
   }
 
   void _selectPage(int index) {

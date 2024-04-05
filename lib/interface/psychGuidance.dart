@@ -13,7 +13,7 @@ import 'HomeScreen.dart';
 import 'ProfilePage.dart';
 import 'SaveListScreen.dart';
 import 'add_lost_item_screen.dart';
-import 'firebaseConnection.dart';
+import '../firebaseConnection.dart';
 import 'services_screen.dart';
 
 class PsychGuidance extends StatefulWidget {

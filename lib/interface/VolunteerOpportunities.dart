@@ -31,31 +31,6 @@ class _VolunteerOpState extends State<VolunteerOp>
 
   List<VolunteerOpReport> _volunteerOpReport = [];
   //create button
-
-  @override
-  void initState() {
-    super.initState();
-
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const ChatScreen(),
-      },
-      {
-        'page': const AddLostItemScreen(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
-    _LoadCreatedSessions();
-  }
-
   void _LoadCreatedSessions() async {
     final List<VolunteerOpReport> loadedVolunteerOp = [];
 
@@ -92,6 +67,31 @@ class _VolunteerOpState extends State<VolunteerOp>
       });
     }
   }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pages = [
+      {
+        'page': const HomeScreen(),
+      },
+      {
+        'page': const ChatScreen(),
+      },
+      {
+        'page': const AddLostItemScreen(),
+      },
+      {
+        'page': const ServisesScreen(),
+      },
+      {
+        'page': const SaveListScreen(),
+      },
+    ];
+    _LoadCreatedSessions();
+  }
+
 
   void _selectPage(int index) {
     setState(() {

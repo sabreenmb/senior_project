@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../constant.dart';
+import '../firebaseConnection.dart';
 import '../model/found_item_report.dart';
 import '../theme.dart'; //.
 
@@ -94,10 +95,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       return;
     }
     _formKey.currentState!.save();
-    final storageRef = FirebaseStorage.instance
-        .ref()
-        .child('found_images')
-        .child('$uniqueFileName.jpg');
+    final storageRef = Connection.firestorageRef('found_images',uniqueFileName);
 
     try {
       setState(() {
@@ -119,10 +117,9 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
 
   void _createFoundItem() async {
     try {
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'Found-Items.json');
+
       final response = await http.post(
-        url,
+        Connection.url('Found-Items'),
         headers: {
           'Content-Type': 'application/json',
         },

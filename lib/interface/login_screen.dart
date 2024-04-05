@@ -8,7 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import '../constant.dart';
-import 'appSetup.dart';
+import '../appSetup.dart';
 import 'services_screen.dart';
 import 'package:http/http.dart' as http;
 

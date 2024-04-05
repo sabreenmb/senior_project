@@ -2,21 +2,23 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:senior_project/interface/firebaseConnection.dart';
+import 'package:senior_project/firebaseConnection.dart';
 import 'package:senior_project/model/SavedList.dart';
 
-import '../constant.dart';
-import '../model/EventItem.dart';
-import '../model/SClubInfo.dart';
-import '../model/conference_item_report.dart';
-import '../model/courses_item_report.dart';
-import '../model/create_student_activity_report.dart';
-import '../model/offer_info.dart';
+import 'constant.dart';
+import 'model/EventItem.dart';
+import 'model/SClubInfo.dart';
+import 'model/conference_item_report.dart';
+import 'model/courses_item_report.dart';
+import 'model/create_student_activity_report.dart';
+import 'model/found_item_report.dart';
+import 'model/lost_item_report.dart';
+import 'model/offer_info.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/other_event_item_report.dart';
-import '../model/volunteer_op_report.dart';
-import '../model/workshop_item_report.dart';
+import 'model/other_event_item_report.dart';
+import 'model/volunteer_op_report.dart';
+import 'model/workshop_item_report.dart';
 
 class Setup {
   Setup() {
@@ -29,7 +31,8 @@ class Setup {
     LoadCreatedSessions();
     LoadSClubs();
     LoadCreatedActivities();
-
+    LoadLostItems();
+    LoadFoundItems();
     // last one
     // loadSaveItems();
   }
@@ -566,6 +569,60 @@ class Setup {
       print('Items added successfully.');
     } catch (e) {
       print('Error adding itemmmmm: $e');
+    }
+  }
+
+
+  void LoadFoundItems() async {
+    foundItemReport=[];
+    final List<FoundItemReport> loadedFoundItems = [];
+
+    try {
+      final response = await http.get(Connection.url('Found-Items'));
+
+      final Map<String, dynamic> founddata = json.decode(response.body);
+      for (final item in founddata.entries) {
+        loadedFoundItems.add(FoundItemReport(
+          id: item.key,
+          category: item.value['Category'],
+          foundDate: item.value['FoundDate'],
+          foundPlace: item.value['FoundPlace'],
+          receivePlace: item.value['ReceivePlace'],
+          desription: item.value['Description'],
+          photo: item.value['Photo'],
+        ));
+      }
+    } catch (error) {
+      print('Empty List');
+    } finally {
+
+        foundItemReport = loadedFoundItems;
+    }
+  }
+
+  void LoadLostItems() async {
+    lostItemReport=[];
+    final List<LostItemReport> loadedLostItems = [];
+    try {
+
+      final response = await http.get(Connection.url('Lost-Items'));
+      final Map<String, dynamic> lostdata = json.decode(response.body);
+      for (final item in lostdata.entries) {
+        loadedLostItems.add(LostItemReport(
+          id: item.key,
+          photo: item.value['Photo'],
+          category: item.value['Category'],
+          lostDate: item.value['LostDate'],
+          expectedPlace: item.value['ExpectedPlace'],
+          phoneNumber: item.value['PhoneNumber'],
+          desription: item.value['Description'],
+        ));
+      }
+    } catch (error) {
+      print('empty list');
+    } finally {
+
+        lostItemReport = loadedLostItems;
     }
   }
 }

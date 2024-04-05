@@ -7,13 +7,22 @@ import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 
-import 'interface/firebaseConnection.dart';
+import 'interface/ChatScreen.dart';
+import 'interface/HomeScreen.dart';
+import 'interface/ProfilePage.dart';
+import 'interface/SaveListScreen.dart';
+import 'interface/add_lost_item_screen.dart';
+import 'firebaseConnection.dart';
+import 'interface/services_screen.dart';
 import 'model/EventItem.dart';
 import 'model/SClubInfo.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
 import 'model/create_student_activity_report.dart';
+import 'model/found_item_report.dart';
+import 'model/lost_item_report.dart';
 import 'model/offer_info.dart';
 import 'model/other_event_item_report.dart';
 import 'model/volunteer_op_report.dart';
@@ -40,6 +49,8 @@ List<String> Categories = [
   'أغراض شخصية',
   'اخرى'
 ];
+
+
 PushNotification notificationServices = PushNotification();
 //todo sabreen changes
 DocumentReference<Map<String, dynamic>> userProfileDoc = Connection.Users();
@@ -57,7 +68,21 @@ List<String> SubjectsCode = [
   'CCCN-212',
   'اخرى'
 ];
-
+Widget loadingCards(BuildContext context){
+  return Shimmer.fromColors(
+    baseColor: Colors.grey.shade300,
+    highlightColor: Colors.grey.shade100,
+    enabled: true,
+    child: ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(bottom: 10),
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Container(height: 100,width: 400,);
+      },
+    ),
+  );
+}
 Widget loadingFunction(BuildContext context, bool load) {
   return Center(
     child: Container(
@@ -236,6 +261,8 @@ final List services = [
   },
 ];
 //todo move to coommen var
+List<LostItemReport> lostItemReport = [];
+List<FoundItemReport> foundItemReport = [];
 List<WorkshopsItemReport> workshopItem = [];
 List<ConferencesItemReport> confItem = [];
 List<OtherEventsItemReport> otherItem = [];
@@ -246,6 +273,7 @@ List<EventItem> todayList = [];
 List<SClubInfo> SClubs = [];
 List<EventItem> saveList = [];
 List<CreateStudentActivityReport> createStudentActivityReport = [];
+
 
 void homeCards() async {
   combinedList = [];

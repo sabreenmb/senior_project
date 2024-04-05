@@ -6,7 +6,7 @@ import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/login_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/interface/study_group.dart';
-import 'package:senior_project/interface/appSetup.dart';
+import 'package:senior_project/appSetup.dart';
 
 import 'firebase_options.dart';
 import 'interface/LaunchScreen.dart';
