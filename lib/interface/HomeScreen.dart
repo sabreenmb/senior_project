@@ -80,10 +80,11 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromARGB(255, 245, 242, 242),
+      //backgroundColor: Colors.white,
+      backgroundColor: CustomColors.pink,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: CustomColors.white,
+        backgroundColor: CustomColors.pink,
         elevation: 0,
         title: Text("الرئيسية", style: TextStyles.heading1),
         centerTitle: false,
@@ -137,11 +138,24 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
             child: Column(
               children: [
                 const SizedBox(height: 15),
-                _buildCard(),
-                _buildSectionTitle('يحدث اليوم'),
-                _buildHorizontalScrollableCards(),
-                _buildSectionTitle('أضيف حديثا'),
-                _buildHorizontalScrollableCards(),
+                Container(
+                  decoration: BoxDecoration(
+                    color: CustomColors.BackgroundColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildCard(),
+                      _buildSectionTitle('يحدث اليوم'),
+                      _buildHorizontalScrollableCards(),
+                      _buildSectionTitle('أضيف حديثا'),
+                      _buildHorizontalScrollableCards(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -179,7 +193,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: CustomColors.darkGrey,
           ),
         ),
       ),

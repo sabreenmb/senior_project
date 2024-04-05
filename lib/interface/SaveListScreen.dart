@@ -20,11 +20,6 @@ class _SaveState extends State<SaveListScreen>
     with SingleTickerProviderStateMixin {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 3;
-  //search
-  ////List<VolunteerOpReport> searchSessionList = [];
-
-  // List<VolunteerOpReport> _volunteerOpReport = [];
-  //create button
 
   @override
   void initState() {
@@ -82,7 +77,7 @@ class _SaveState extends State<SaveListScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 239, 237, 237),
+      backgroundColor: CustomColors.pink,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
@@ -134,25 +129,25 @@ class _SaveState extends State<SaveListScreen>
         ),
       ),
       body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: CircularProgressIndicator(),
         inAsyncCall: isLoading,
         child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Expanded(
-                child: ListView(
-                  children: [
-                    _buildTextCard("كرة سلة", "2024-3-06"),
-                    _buildTextCard("مناقشة كتاب", "2024-3-08"),
-                    _buildTextCard("احصاء عام", "2024-3-26"),
-                  ],
-                ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: CustomColors.BackgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
               ),
-            ],
+            ),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                SizedBox(height: 15),
+                _buildTextCard("كرة سلة", "2024-3-06"),
+                _buildTextCard("مناقشة كتاب", "2024-3-08"),
+                _buildTextCard("احصاء عام", "2024-3-26"),
+              ],
+            ),
           ),
         ),
       ),
