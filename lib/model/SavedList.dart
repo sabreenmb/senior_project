@@ -1,57 +1,74 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:senior_project/model/volunteer_op_report.dart';
 
 import '../constant.dart';
 import 'EventItem.dart';
 
 class SavedList {
-  // final String serviceName;
-  // final dynamic dynamicObject;
-  // final String icon;
-  // SavedList({
-  //   required this.serviceName,
-  //   required this.dynamicObject,
-  //   required this.icon,
-  // });
-  static bool findId(String id){
-    bool isSaved;
+  final String serviceName;
+  final dynamic dynamicObject;
+  final String icon;
+  SavedList({
+    required this.serviceName,
+    required this.dynamicObject,
+    required this.icon,
+  });
+  //to do
+  Map<String, String> convertServiceName = {
+    'volunteerOp': 'فرصة تطوعية',
+    'conferences': 'مؤتمر',
+    'studentActivities': 'نشاط طلابي',
+    'cources': 'دورة',
+    'workshops': 'ورشة عمل',
+    'otherEvents': 'أخرى',
+    'studyGroubs': 'جلسة مذاكرة',
+  };
+  static bool findId(String id) {
+    bool isSaved = false;
     saveList.any((item) => item.item.id == id)
         ? isSaved = true
         : isSaved = false;
     return isSaved;
   }
-  static bool addToSave(bool _isSaved ,EventItem eventItem) {
-    _isSaved = !_isSaved;
 
-    if (_isSaved) {
+  bool addToSave(bool isSaved) {
+    isSaved = !isSaved;
+// convertServiceName[eventItem.serviceName].toString()
+    if (isSaved) {
       print('savvvveeeeddd');
-      saveList.add(eventItem);
 
-      addItem(eventItem.item.id,eventItem.serviceName);
+      saveList.add(
+        EventItem(
+            serviceName: convertServiceName[serviceName].toString(),
+            item: dynamicObject,
+            icon: icon),
+      );
+
+      addItem(dynamicObject.id.toString());
     } else {
       print('reemooooove');
       saveList.removeWhere((item) =>
-      item.serviceName == eventItem.serviceName &&
-          item.item == eventItem.item &&
-          item.icon == eventItem.icon);
-      removeItem(eventItem.item.id,eventItem.serviceName);
+          item.serviceName == convertServiceName[serviceName].toString() &&
+          item.item == dynamicObject &&
+          item.icon == icon);
+      removeItem(dynamicObject.id.toString());
     }
-    return _isSaved;
-    print(saveList);
+    return isSaved;
   }
 
-  static Future<void> addItem(String itemId,String serviceName) async {
+  Future<void> addItem(String itemId) async {
     try {
       // Retrieve the document
-      DocumentSnapshot documentSnapshot = await userProfileDoc
-          .collection("saveItems")
-          .doc(serviceName)
-          .get();
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc(serviceName).get();
 
       if (documentSnapshot.exists) {
         // Check if the item already exists in the 'items' array
         Map<String, dynamic> data =
-        documentSnapshot.data() as Map<String, dynamic>;
+            documentSnapshot.data() as Map<String, dynamic>;
         var items = data['items'] as List<dynamic>;
         // print(items);
         if (items.contains(itemId)) {
@@ -61,10 +78,7 @@ class SavedList {
       }
 
       // Add the item to the 'items' array
-      await userProfileDoc
-          .collection('saveItems')
-          .doc(serviceName)
-          .update({
+      await userProfileDoc.collection('saveItems').doc(serviceName).update({
         'items': FieldValue.arrayUnion([itemId])
       });
 
@@ -74,18 +88,16 @@ class SavedList {
     }
   }
 
-   static Future<void> removeItem(String itemId,String serviceName) async {
+  Future<void> removeItem(String itemId) async {
     try {
       // Retrieve the document
-      DocumentSnapshot documentSnapshot = await userProfileDoc
-          .collection("saveItems")
-          .doc(serviceName)
-          .get();
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc(serviceName).get();
 
       if (documentSnapshot.exists) {
         // Check if the item already exists in the 'items' array
         Map<String, dynamic> data =
-        documentSnapshot.data() as Map<String, dynamic>;
+            documentSnapshot.data() as Map<String, dynamic>;
         var items = data['items'] as List<dynamic>;
         // print(items);
         if (!items.contains(itemId)) {
@@ -95,10 +107,7 @@ class SavedList {
       }
 
       // Remove the item from the 'items' array
-      await userProfileDoc
-          .collection('saveItems')
-          .doc(serviceName)
-          .update({
+      await userProfileDoc.collection('saveItems').doc(serviceName).update({
         'items': FieldValue.arrayRemove([itemId])
       });
 

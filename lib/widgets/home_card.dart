@@ -22,105 +22,17 @@ class HomeCard extends StatefulWidget {
 
 class _HomeCardState extends State<HomeCard> {
   //manar
-  bool _isSaved = false;
-  //
-  // addToSave() {
-  //   setState(() {
-  //     _isSaved = !_isSaved;
-  //   });
-  //   if (_isSaved) {
-  //     print('savvvveeeeddd');
-  //     saveList.add(EventItem(
-  //         serviceName: widget.serviceName,
-  //         item: widget.dynamicObject,
-  //         icon: widget.icon));
-  //
-  //     addItem(widget.dynamicObject.id);
-  //   } else {
-  //     print('reemooooove');
-  //     saveList.removeWhere((item) =>
-  //     item.serviceName == widget.serviceName &&
-  //         item.item == widget.dynamicObject &&
-  //         item.icon == widget.icon);
-  //     removeItem(widget.dynamicObject.id);
-  //   }
-  //
-  //   print(saveList);
-  // }
-  //
-  // Future<void> addItem(String itemId) async {
-  //   try {
-  //     // Retrieve the document
-  //     DocumentSnapshot documentSnapshot = await userProfileDoc
-  //         .collection("saveItems")
-  //         .doc(widget.serviceName)
-  //         .get();
-  //
-  //     if (documentSnapshot.exists) {
-  //       // Check if the item already exists in the 'items' array
-  //       Map<String, dynamic> data =
-  //       documentSnapshot.data() as Map<String, dynamic>;
-  //       var items = data['items'] as List<dynamic>;
-  //       // print(items);
-  //       if (items.contains(itemId)) {
-  //         print('Item already exists.');
-  //         return;
-  //       }
-  //     }
-  //
-  //     // Add the item to the 'items' array
-  //     await userProfileDoc
-  //         .collection('saveItems')
-  //         .doc(widget.serviceName)
-  //         .update({
-  //       'items': FieldValue.arrayUnion([itemId])
-  //     });
-  //
-  //     print('Item added successfully.');
-  //   } catch (e) {
-  //     print('Error adding item: $e');
-  //   }
-  // }
-  //
-  // Future<void> removeItem(String itemId) async {
-  //   try {
-  //     // Retrieve the document
-  //     DocumentSnapshot documentSnapshot = await userProfileDoc
-  //         .collection("saveItems")
-  //         .doc(widget.serviceName)
-  //         .get();
-  //
-  //     if (documentSnapshot.exists) {
-  //       // Check if the item already exists in the 'items' array
-  //       Map<String, dynamic> data =
-  //       documentSnapshot.data() as Map<String, dynamic>;
-  //       var items = data['items'] as List<dynamic>;
-  //       // print(items);
-  //       if (!items.contains(itemId)) {
-  //         print('Item does not exist.');
-  //         return;
-  //       }
-  //     }
-  //
-  //     // Remove the item from the 'items' array
-  //     await userProfileDoc
-  //         .collection('saveItems')
-  //         .doc(widget.serviceName)
-  //         .update({
-  //       'items': FieldValue.arrayRemove([itemId])
-  //     });
-  //
-  //     print('Item removed successfully.');
-  //   } catch (e) {
-  //     print('Error removing item: $e');
-  //   }
-  // }
+  bool isSaved = false;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    SavedList savedItem = SavedList(
+        serviceName: widget.serviceName,
+        dynamicObject: widget.dynamicObject,
+        icon: widget.icon);
     //manar
-    _isSaved = SavedList.findId(widget.dynamicObject.id);
+    isSaved = SavedList.findId(widget.dynamicObject.id);
 
     return InkWell(
       onTap: () {
@@ -154,18 +66,12 @@ class _HomeCardState extends State<HomeCard> {
               children: [
                 IconButton(
                   onPressed: () {
-                  setState(() {
-                    _isSaved = SavedList.addToSave(
-                        _isSaved,
-                        EventItem(
-                            serviceName: widget.serviceName,
-                            item: widget.dynamicObject,
-                            icon: widget.icon));
-                  });
-
+                    setState(() {
+                      isSaved = savedItem.addToSave(isSaved);
+                    });
                   },
                   icon: Icon(
-                    _isSaved ? Icons.bookmark : Icons.bookmark_border,
+                    isSaved ? Icons.bookmark : Icons.bookmark_border,
                     color: CustomColors.lightBlue,
                   ),
                 ),

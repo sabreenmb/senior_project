@@ -1,14 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:senior_project/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/current_chats.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
-import 'package:senior_project/interface/lost_and_found_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
-import 'package:senior_project/widgets/home_card.dart';
+import 'package:senior_project/widgets/save_list_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 class SaveListScreen extends StatefulWidget {
@@ -18,7 +15,10 @@ class SaveListScreen extends StatefulWidget {
   State<SaveListScreen> createState() => _SaveListScreenState();
 }
 
-class _SaveListScreenState extends State<SaveListScreen> {
+class _SaveListScreenState extends State<SaveListScreen>
+    with SingleTickerProviderStateMixin {
+  bool isLoading = false;
+  late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 3;
 
   @override
@@ -98,7 +98,7 @@ class _SaveListScreenState extends State<SaveListScreen> {
                     ),
                     label: 'الدردشة'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
+                    icon: Icon(Icons.bookmark), label: 'المحفوظات'),
               ],
             ),
           ),
@@ -111,36 +111,27 @@ class _SaveListScreenState extends State<SaveListScreen> {
             const SizedBox(height: 15),
             Expanded(
                 child: Stack(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40))),
-                    ),
-                    const SizedBox(height: 15),
-                    Container(
-                      height: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        // color: const Color.fromARGB(255, 187, 55, 55),
-                      ),
-                      // margin: const EdgeInsets.only(bottom: 10),
-
-                      // child: ElevatedButton(
-                      //   onPressed: addTofire(),
-                      //   child: Text("test"),
-                      // )
-                      child: InkWell(
-                        child: _buildItems(),
-                      ),
-                    )
-
-                    // _buildHorizontalScrollableCards(combinedList),
-                  ],
-                ))
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                      color: CustomColors.BackgroundColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40))),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  height: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: InkWell(
+                    child: _buildItems(),
+                  ),
+                )
+              ],
+            ))
           ],
         ),
       ),
@@ -153,46 +144,13 @@ class _SaveListScreenState extends State<SaveListScreen> {
     return Container(
       height: 240,
       child: ListView.builder(
-        // scrollDirection: Axis.,
+          // scrollDirection: Axis.,
           itemCount: saveList.length,
-          itemBuilder: (context, index) => _buildTextCard(
-              saveList[index].serviceName, saveList[index].item)),
-    );
-  }
-
-  Widget _buildTextCard(String title, dynamic item) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: CustomColors.lightBlue, width: 2),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: InkWell(
-        onTap: () {
-          print('Card tapped');
-        },
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(title,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: CustomColors.pink)),
-              SizedBox(height: 10),
-              Text(item.name!,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: CustomColors.darkGrey,
-                  )),
-            ],
-          ),
-        ),
-      ),
+          itemBuilder: (context, index) => SaveCard(
+                saveList[index].item,
+                saveList[index].serviceName,
+                saveList[index].icon,
+              )),
     );
   }
 }

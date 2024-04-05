@@ -42,11 +42,11 @@ List<String> Categories = [
 ];
 PushNotification notificationServices = PushNotification();
 //todo sabreen changes
-DocumentReference<Map<String, dynamic>> userProfileDoc =Connection.Users();
+DocumentReference<Map<String, dynamic>> userProfileDoc = Connection.Users();
 //todo move to coommen var
-    enteredUserInfo userInfo=enteredUserInfo();
+enteredUserInfo userInfo = enteredUserInfo();
 
-    //todo change the list info
+//todo change the list info
 List<String> SubjectsCode = [
   'ESPE-201',
   'CCCY-225',
@@ -251,28 +251,33 @@ void homeCards() async {
   combinedList = [];
 
   workshopItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'Workshops', item: item, icon: services[4]['icon']));
+    combinedList.add(EventItem(
+        serviceName: 'workshops', item: item, icon: services[4]['icon']));
   });
 
   confItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'Conferences', item: item ,icon: services[4]['icon']));
+    combinedList.add(EventItem(
+        serviceName: 'conferences', item: item, icon: services[4]['icon']));
     print(combinedList.elementAt(0).serviceName);
   });
 
   otherItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'OtherEvents', item: item, icon: services[4]['icon']));
+    combinedList.add(EventItem(
+        serviceName: 'otherEvents', item: item, icon: services[4]['icon']));
   });
 
   courseItem.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'Courses', item: item,icon: services[4]['icon']));
+    combinedList.add(EventItem(
+        serviceName: 'courses', item: item, icon: services[4]['icon']));
   });
   volunteerOpReport.forEach((item) {
-    combinedList.add(EventItem(serviceName: 'OP', item: item,icon: services[1]['icon']));
+    combinedList.add(EventItem(
+        serviceName: 'volunteerOp', item: item, icon: services[1]['icon']));
   });
   print(combinedList);
   sortItemsByTimestamp(combinedList);
-
 }
+
 void getTodayList() {
   todayList = [];
 //data list may changed to a copy list
@@ -285,6 +290,7 @@ void getTodayList() {
   }
   print(todayList);
 }
+
 //todo remove if not used
 // List<dynamic> eleminateOldData(List<dynamic> item) {
 //   filteredList = item;
@@ -328,5 +334,3 @@ void sortItemsByTimestamp(List<dynamic> combined) {
     return timestampB.compareTo(timestampA); // Sort in descending order
   });
 }
-
-

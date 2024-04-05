@@ -23,12 +23,7 @@ class CreateStudentActivity extends StatefulWidget {
 class _CreateStudentActivityState extends State<CreateStudentActivity> {
   CreateStudentActivityReport createStudentActivityReport =
       CreateStudentActivityReport(
-          id: '',
-          activityName: '',
-          activityDate: '',
-          activityTime: '',
-          activityPlace: '',
-          numOfPerson: '');
+          id: '', name: '', date: '', time: '', location: '', numOfPerson: '');
   // bool imageEmpty = false;
   DateTime _selectedDate = DateTime.now();
   TextEditingController dateInput = TextEditingController();
@@ -120,7 +115,6 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
   }
 
   void _createStudentActivityState() async {
-
     try {
       final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
           'create-activity.json');
@@ -141,7 +135,6 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
 
   @override
   Widget build(BuildContext context) {
-    
     double screenWidth = MediaQuery.of(context).size.width;
     // ignore: deprecated_member_use
     return WillPopScope(
@@ -216,8 +209,7 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  createStudentActivityReport.activityName =
-                                      value;
+                                  createStudentActivityReport.name = value;
                                 },
                               ),
                               const SizedBox(height: 12.0),
@@ -266,8 +258,8 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          createStudentActivityReport
-                                              .activityDate = value;
+                                          createStudentActivityReport.date =
+                                              value;
                                         },
                                       ),
                                     ),
@@ -315,8 +307,8 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          createStudentActivityReport
-                                              .activityTime = value;
+                                          createStudentActivityReport.time =
+                                              value;
                                         },
                                       ),
                                     ),
@@ -357,8 +349,7 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  createStudentActivityReport.activityPlace =
-                                      value;
+                                  createStudentActivityReport.location = value;
                                 },
                               ),
                               Text(

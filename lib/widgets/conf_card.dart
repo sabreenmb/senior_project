@@ -1,19 +1,32 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:senior_project/constant.dart';
+import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/model/conference_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 
 // ignore: must_be_immutable
-class ConfCard extends StatelessWidget {
+class ConfCard extends StatefulWidget {
   ConferencesItemReport confItem;
   ConfCard(this.confItem, {super.key});
 
   @override
+  State<ConfCard> createState() => _ConfCardState();
+}
+
+class _ConfCardState extends State<ConfCard> {
+  @override
   Widget build(BuildContext context) {
+    bool isSaved;
     Size size = MediaQuery.of(context).size;
+    SavedList savedItem = SavedList(
+        serviceName: 'conferences',
+        dynamicObject: widget.confItem,
+        icon: services[4]['icon']);
+    isSaved = SavedList.findId(widget.confItem.id.toString());
 
     return Card(
       elevation: 4,
@@ -31,7 +44,7 @@ class ConfCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  confItem.name!,
+                  widget.confItem.name!,
                   textAlign: TextAlign.right,
                   style: TextStyles.heading3B,
                 ),
@@ -49,7 +62,7 @@ class ConfCard extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      "${confItem.date!} , ${confItem.time!}",
+                      "${widget.confItem.date!} , ${widget.confItem.time!}",
                       textAlign: TextAlign.right,
                       style: TextStyles.text,
                     ),
@@ -69,7 +82,7 @@ class ConfCard extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      confItem.location!,
+                      widget.confItem.location!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text,
                     ),
@@ -78,10 +91,25 @@ class ConfCard extends StatelessWidget {
               ]),
         ),
         Positioned(
+          top: 5,
+          left: 15.0,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                isSaved = savedItem.addToSave(isSaved);
+              });
+            },
+            icon: Icon(
+              isSaved ? Icons.bookmark : Icons.bookmark_border,
+              color: CustomColors.lightBlue,
+            ),
+          ),
+        ),
+        Positioned(
           bottom: 8.0,
           left: 15.0,
           child: TextButton(
-            onPressed: () => _launchURL(confItem.confLink!, context),
+            onPressed: () => _launchURL(widget.confItem.confLink!, context),
             child: Text(
               'سجل',
               style: TextStyle(

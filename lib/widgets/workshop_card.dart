@@ -1,19 +1,32 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:senior_project/constant.dart';
+import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/model/workshop_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 
 // ignore: must_be_immutable
-class WorkshopCard extends StatelessWidget {
+class WorkshopCard extends StatefulWidget {
   WorkshopsItemReport workshopItem;
   WorkshopCard(this.workshopItem, {super.key});
 
   @override
+  State<WorkshopCard> createState() => _WorkshopCardState();
+}
+
+class _WorkshopCardState extends State<WorkshopCard> {
+  @override
   Widget build(BuildContext context) {
+    bool isSaved;
     Size size = MediaQuery.of(context).size;
+    SavedList savedItem = SavedList(
+        serviceName: 'volunteerOp',
+        dynamicObject: widget.workshopItem,
+        icon: services[4]['icon']);
+    isSaved = SavedList.findId(widget.workshopItem.id.toString());
 
     return Card(
         elevation: 4,
@@ -31,7 +44,7 @@ class WorkshopCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    workshopItem.name!,
+                    widget.workshopItem.name!,
                     textAlign: TextAlign.right,
                     style: TextStyles.heading3B,
                   ),
@@ -50,7 +63,7 @@ class WorkshopCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        workshopItem.presentBy!,
+                        widget.workshopItem.presentBy!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -70,7 +83,7 @@ class WorkshopCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "${workshopItem.date!} , ${workshopItem.time!}",
+                        "${widget.workshopItem.date!} , ${widget.workshopItem.time!}",
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -90,7 +103,7 @@ class WorkshopCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        workshopItem.location!,
+                        widget.workshopItem.location!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -99,10 +112,26 @@ class WorkshopCard extends StatelessWidget {
                 ]),
           ),
           Positioned(
+            top: 5,
+            left: 15.0,
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  isSaved = savedItem.addToSave(isSaved);
+                });
+              },
+              icon: Icon(
+                isSaved ? Icons.bookmark : Icons.bookmark_border,
+                color: CustomColors.lightBlue,
+              ),
+            ),
+          ),
+          Positioned(
             bottom: 8.0,
             left: 15.0,
             child: TextButton(
-              onPressed: () => _launchURL(workshopItem.workshopLink!, context),
+              onPressed: () =>
+                  _launchURL(widget.workshopItem.workshopLink!, context),
               child: Text(
                 'سجل',
                 style: TextStyle(
