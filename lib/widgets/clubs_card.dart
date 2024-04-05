@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../interface/StudentClubDetails.dart';
@@ -8,8 +9,8 @@ import '../theme.dart';
 
 class ClubsCard extends StatelessWidget {
   SClubInfo clubDetails;
-  int i;
-  ClubsCard(this.clubDetails, this.i, {super.key});
+
+  ClubsCard(this.clubDetails, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +53,22 @@ class ClubsCard extends StatelessWidget {
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: clubDetails.logo == "empty"
                   ? const Image(image: AssetImage('assets/images/mug.png'))
-                  : Image.network(
-                      '${clubDetails.logo}',
+                  : FutureBuilder(
+                future: precacheImage(
+                  CachedNetworkImageProvider(clubDetails.logo!),
+                  context,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return CachedNetworkImage(
+                      imageUrl: clubDetails.logo!,
                       fit: BoxFit.fill,
+                    );
+                  }
+                },
                     ),
               // child:Image.asset( clubDetails)
               // SvgPicture.asset(

@@ -10,6 +10,7 @@ import '../interface/OffersListScreen.dart';
 import '../interface/StudentClubsScreen.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
+import '../interface/psychGuidance.dart';
 import '../interface/student_activity.dart';
 import '../interface/study_group.dart';
 import '../theme.dart';
@@ -137,22 +138,23 @@ class GridCard extends StatelessWidget {
           ),
         );
         break;
-      // case 7:
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => LostAndFoundScreen(),
-      //   ),
-      // );
-      // break;
-      // case 0:
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => LostAndFoundScreen(),
-      //   ),
-      // );
-      // break;
+      case 7:
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Clinic(),
+        ),
+      );
+      break;
+
+      case 8:
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PsychGuidance(),
+        ),
+      );
+      break;
       // Add cases for other services as needed
     }
   }

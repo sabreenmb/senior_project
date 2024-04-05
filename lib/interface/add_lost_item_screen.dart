@@ -132,343 +132,350 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: CustomColors.pink,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
+        appBar: AppBar(
+          backgroundColor: CustomColors.pink,
+          elevation: 0,
+          leading: IconButton(
+            icon:
+                const Icon(Icons.arrow_back_ios, color: CustomColors.darkGrey),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          title: Text("انشاء اعلان مفقود", style: TextStyles.heading1),
+          centerTitle: true,
         ),
-        title: Text("انشاء اعلان مفقود", style: TextStyles.heading1),
-        centerTitle: true,
-      ),
-      body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: loadingFunction(context, true),
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Expanded(
-                  child: Stack(children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      color: CustomColors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40))),
-                ),
-                ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            //Camera
-                            InkWell(
-                              onTap: _takePhoto,
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: screenWidth * 0.57 + 2.0,
-                                    width: double.infinity,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: CustomColors.lightBlue,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(40.0),
-                                      ),
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(14.0),
-                                            child: _selectedImage != null
-                                                ? Image.file(
-                                                    _selectedImage!,
-                                                    height: screenWidth * 0.57,
-                                                    width: double.infinity,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Image.asset(
-                                                    'assets/images/logo-icon.png',
-                                                    height: screenWidth * 0.57,
-                                                    width: 170,
-                                                    fit: BoxFit.contain,
-                                                  ),
+        body: ModalProgressHUD(
+          color: Colors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                Expanded(
+                    child: Stack(children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: CustomColors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40))),
+                  ),
+                  ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              //Camera
+                              InkWell(
+                                onTap: _takePhoto,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: screenWidth * 0.57 + 2.0,
+                                      width: double.infinity,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: CustomColors.lightBlue,
+                                            width: 1.0,
                                           ),
-                                          Positioned(
-                                            bottom: 8,
-                                            child: Text(
-                                              'اضف صورة',
-                                              style: TextStyles.heading3B,
+                                          borderRadius:
+                                              BorderRadius.circular(40.0),
+                                        ),
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(14.0),
+                                              child: _selectedImage != null
+                                                  ? Image.file(
+                                                      _selectedImage!,
+                                                      height:
+                                                          screenWidth * 0.57,
+                                                      width: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/logo-icon.png',
+                                                      height:
+                                                          screenWidth * 0.57,
+                                                      width: 170,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                            ),
+                                            Positioned(
+                                              bottom: 8,
+                                              child: Text(
+                                                'اضف صورة',
+                                                style: TextStyles.heading3B,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12.0),
+                                  ],
+                                ),
+                              ),
+                              //Categories
+                              const SizedBox(height: 12.0),
+                              DropdownButtonFormField2<String>(
+                                decoration: const InputDecoration(
+                                  labelText: 'اختر تصنيف',
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                ),
+                                value: _selectedCategory,
+                                items: Categories.map((category) {
+                                  return DropdownMenuItem(
+                                    value: category,
+                                    child: Text(
+                                      category,
+                                      style: TextStyles.heading2,
+                                    ),
+                                  );
+                                }).toList(),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'الرجاء تعبئة الحقل';
+                                  }
+                                  return null;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedCategory = value!;
+                                  });
+                                },
+                                onSaved: (value) {
+                                  lostItemReport.category = _selectedCategory;
+                                },
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                  iconSize: 24,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                ),
+                              ),
+                              //Lost Date
+                              const SizedBox(height: 12.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: TextFormField(
+                                        controller: dateInput,
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.date_range_outlined,
+                                            color: CustomColors.lightGrey,
+                                          ),
+                                          labelText: "تاريخ الفقدان",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
                                             ),
                                           ),
-                                        ],
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          await _selectDate(context);
+                                        },
+                                        validator: (value) {
+                                          print(value);
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return 'الرجاء تعبئة الحقل';
+                                          }
+                                          DateTime selected =
+                                              DateTime.parse(value);
+                                          DateTime now = DateTime.now();
+                                          if (selected.difference(now).inDays >
+                                              0) {
+                                            return 'اختر تاريخ صحيح';
+                                          }
+                                          return null;
+                                        },
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        onSaved: (value) {
+                                          lostItemReport.lostDate = value;
+                                        },
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 12.0),
                                 ],
                               ),
-                            ),
-                            //Categories
-                            const SizedBox(height: 12.0),
-                            DropdownButtonFormField2<String>(
-                              decoration: const InputDecoration(
-                                labelText: 'اختر تصنيف',
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
+                              //Expected Place
+                              const SizedBox(height: 12.0),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.location_on,
+                                    color: CustomColors.lightGrey,
+                                  ),
+                                  labelText: 'المكان المتوقع',
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
                                   ),
                                 ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'الرجاء تعبئة الحقل';
+                                  }
+                                  return null;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                onSaved: (value) {
+                                  lostItemReport.expectedPlace = value;
+                                },
+                              ),
+                              //Phone
+                              const SizedBox(height: 12.0),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'رقم الجوال',
+                                  suffixIcon: Icon(
+                                    Icons.phone,
+                                    color: CustomColors.lightGrey,
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
                                   ),
                                 ),
+                                onChanged: (phone) {
+                                  // print(phone.completeNumber);
+                                },
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                textAlign: TextAlign.right,
+                                validator: (phone) {
+                                  if (phone == null || phone.trim().isEmpty) {
+                                    return "الرجاء تعبئة الحقل";
+                                  } else if (phone.length != 10) {
+                                    return 'رقم الجوال يجب أن يتكون من 10 أرقام';
+                                  } else if (phone.substring(0, 2) != '05') {
+                                    return " قم الجوال يجب أن يبدأ بـ05 ";
+                                  }
+                                  return null;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                onSaved: (phone) {
+                                  lostItemReport.phoneNumber = phone;
+                                },
                               ),
-                              value: _selectedCategory,
-                              items: Categories.map((category) {
-                                return DropdownMenuItem(
-                                  value: category,
-                                  child: Text(
-                                    category,
-                                    style: TextStyles.heading2,
+                              //Description
+                              const SizedBox(height: 12.0),
+                              TextFormField(
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  labelText: 'وصف العنصر',
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
                                   ),
-                                );
-                              }).toList(),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                }
-                                return null;
-                              },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedCategory = value!;
-                                });
-                              },
-                              onSaved: (value) {
-                                lostItemReport.category = _selectedCategory;
-                              },
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: CustomColors.darkGrey,
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CustomColors.lightBlue,
+                                    ),
+                                  ),
                                 ),
-                                iconSize: 24,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'الرجاء تعبئة الحقل';
+                                  }
+                                  return null;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                onSaved: (value) {
+                                  lostItemReport.desription = value;
+                                },
                               ),
-                              dropdownStyleData: DropdownStyleData(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                              ),
-                            ),
-                            //Lost Date
-                            const SizedBox(height: 12.0),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: TextFormField(
-                                      controller: dateInput,
-                                      decoration: const InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.date_range_outlined,
-                                          color: CustomColors.lightGrey,
-                                        ),
-                                        labelText: "تاريخ الفقدان",
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: CustomColors.lightBlue,
-                                          ),
-                                        ),
+                              //Submit Button
+                              const SizedBox(height: 32.0),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 90),
+                                child: ElevatedButton(
+                                  onPressed: _checkInputValue,
+                                  style: ElevatedButton.styleFrom(
+                                      fixedSize: const Size(175, 50),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
-                                      readOnly: true,
-                                      onTap: () async {
-                                        await _selectDate(context);
-                                      },
-                                      validator: (value) {
-                                        print(value);
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return 'الرجاء تعبئة الحقل';
-                                        }
-                                        DateTime selected =
-                                            DateTime.parse(value);
-                                        DateTime now = DateTime.now();
-                                        if (selected.difference(now).inDays >
-                                            0) {
-                                          return 'اختر تاريخ صحيح';
-                                        }
-                                        return null;
-                                      },
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      onSaved: (value) {
-                                        lostItemReport.lostDate = value;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            //Expected Place
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.location_on,
-                                  color: CustomColors.lightGrey,
-                                ),
-                                labelText: 'المكان المتوقع',
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
+                                      backgroundColor: CustomColors.lightBlue),
+                                  child: Text("انشاء", style: TextStyles.text3),
                                 ),
                               ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                }
-                                return null;
-                              },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              onSaved: (value) {
-                                lostItemReport.expectedPlace = value;
-                              },
-                            ),
-                            //Phone
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: 'رقم الجوال',
-                                suffixIcon: Icon(
-                                  Icons.phone,
-                                  color: CustomColors.lightGrey,
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                              ),
-                              onChanged: (phone) {
-                                // print(phone.completeNumber);
-                              },
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              textAlign: TextAlign.right,
-                              validator: (phone) {
-                                if (phone == null || phone.trim().isEmpty) {
-                                  return "الرجاء تعبئة الحقل";
-                                } else if (phone.length != 10) {
-                                  return 'رقم الجوال يجب أن يتكون من 10 أرقام';
-                                } else if (phone.substring(0, 2) != '05') {
-                                  return " قم الجوال يجب أن يبدأ بـ05 ";
-                                }
-                                return null;
-                              },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              onSaved: (phone) {
-                                lostItemReport.phoneNumber = phone;
-                              },
-                            ),
-                            //Description
-                            const SizedBox(height: 12.0),
-                            TextFormField(
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                labelText: 'وصف العنصر',
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: CustomColors.lightBlue,
-                                  ),
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'الرجاء تعبئة الحقل';
-                                }
-                                return null;
-                              },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              onSaved: (value) {
-                                lostItemReport.desription = value;
-                              },
-                            ),
-                            //Submit Button
-                            const SizedBox(height: 32.0),
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 90),
-                              child: ElevatedButton(
-                                onPressed: _checkInputValue,
-                                style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(175, 50),
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    backgroundColor: CustomColors.lightBlue),
-                                child: Text("انشاء", style: TextStyles.text3),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ]))
-            ],
+                    ],
+                  ),
+                ]))
+              ],
+            ),
           ),
         ),
       ),

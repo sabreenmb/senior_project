@@ -3,6 +3,7 @@ class ConferencesItemReport {
   String? id;
   String? name;
   String? date;
+  String? timestamp;
   String? time;
   String? location;
   String? confLink;
@@ -12,6 +13,7 @@ class ConferencesItemReport {
     required this.id,
     required this.name,
     required this.date,
+    required this.timestamp,
     required this.time,
     required this.location,
     required this.confLink,
@@ -21,6 +23,7 @@ class ConferencesItemReport {
     final map = <String, dynamic>{};
     map['ConfName'] = name;
     map['ConfDate'] = date;
+    map['timestamp']=timestamp;
     map['ConfTime'] = time;
     map['ConfPlace'] = location;
     map['ConfLink'] = confLink;

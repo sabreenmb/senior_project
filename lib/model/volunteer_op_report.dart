@@ -7,6 +7,7 @@ class VolunteerOpReport {
   String? location;
   String? opNumber;
   String? opLink;
+  String? timestamp;
 
   //Constructor
   VolunteerOpReport({
@@ -17,6 +18,8 @@ class VolunteerOpReport {
     required this.location,
     required this.opNumber,
     required this.opLink,
+    required this.timestamp,
+
   });
 
   Map<String, dynamic> toJson() {
@@ -27,6 +30,8 @@ class VolunteerOpReport {
     map['op_location'] = location;
     map['op_number'] = opNumber;
     map['op_link'] = opLink;
+    map['timestamp']=timestamp;
+
     return map;
   }
 }

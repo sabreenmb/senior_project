@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/create_group_report.dart';
 
+import '../model/psych_guidance_report.dart';
 import '../theme.dart';
 
-class CreateMain extends StatelessWidget {
-  CreateGroupReport createGroupReport;
-  CreateMain(this.createGroupReport, {super.key});
+class PGCard extends StatelessWidget {
+  PsychGuidanceReport psychGuidanceItem;
+  PGCard(this.psychGuidanceItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-// ignore: deprecated_member_use
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Card(
+    return Card(
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(22),
@@ -28,7 +25,7 @@ class CreateMain extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                createGroupReport.subjectCode!,
+                psychGuidanceItem.collage!,
                 textAlign: TextAlign.right,
                 style: TextStyles.heading3B,
               ),
@@ -46,7 +43,7 @@ class CreateMain extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    createGroupReport.sessionPlace!,
+                    psychGuidanceItem.ProLocation!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
@@ -56,10 +53,9 @@ class CreateMain extends StatelessWidget {
                 height: 5,
               ),
               Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(
-                    Icons.date_range_outlined,
+                    Icons.person_outlined,
                     color: CustomColors.lightGrey,
                     size: 14.0,
                   ),
@@ -67,16 +63,19 @@ class CreateMain extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    '${createGroupReport.sessionDate!}   ${createGroupReport.sessionTime!}',
+                    psychGuidanceItem.ProName!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 5,
               ),
               Row(
                 children: [
                   const Icon(
-                    Icons.people,
+                    Icons.work_outline,
                     color: CustomColors.lightGrey,
                     size: 14.0,
                   ),
@@ -84,16 +83,37 @@ class CreateMain extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    createGroupReport.numPerson!,
+                    psychGuidanceItem.ProOfficeNumber!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.email_outlined,
+                    color: CustomColors.lightGrey,
+                    size: 14.0,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    psychGuidanceItem.ProEmail!,
+                    textAlign: TextAlign.right,
+                    style: TextStyles.text,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

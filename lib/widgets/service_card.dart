@@ -7,6 +7,7 @@ import 'package:senior_project/interface/VolunteerOpportunities.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 
 import '../interface/event_screen.dart';
+import '../interface/psychGuidance.dart';
 import '../theme.dart';
 
 class ServiceCard extends StatelessWidget {
@@ -35,6 +36,9 @@ class ServiceCard extends StatelessWidget {
         } else if (i == 4) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const EventScreen()));
+        } else if (i == 8) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const PsychGuidance()));
         }
       },
       child: Container(

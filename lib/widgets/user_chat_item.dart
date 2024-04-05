@@ -72,88 +72,89 @@ class UserChatItem extends StatelessWidget {
               skills: data.get('skills'),
               image_url: data.get("image_url"),
               pushToken: data.get("pushToken"),
+              offersPreferences: data.get('offersPreferences'),
             );
 
             return InkWell(
                 child: ListTile(
-              title: Text(
-                otherUserInfo.name,
-                style: TextStyles.heading2,
-              ),
-              subtitle: Text(
-                chatInfo != null
-                    ? (chatInfo?.lastMsgSender == userInfo.userID
+                  title: Text(
+                    otherUserInfo.name,
+                    style: TextStyles.heading2,
+                  ),
+                  subtitle: Text(
+                    chatInfo != null
+                        ? (chatInfo?.lastMsgSender == userInfo.userID
                         ? "أنت: ${chatInfo?.lastMsg}"
                         : chatInfo?.lastMsg)!
-                    : otherUserInfo.major,
-                maxLines: 1,
-                style: const TextStyle(
-                    color: CustomColors.lightGrey, fontSize: 14),
-              ),
-              trailing: chatInfo == null
-                  ? null //show nothing when no message is sent
-                  : chatInfo!.lastMsgSender != userInfo.userID
+                        : otherUserInfo.major,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        color: CustomColors.lightGrey, fontSize: 14),
+                  ),
+                  trailing: chatInfo == null
+                      ? null //show nothing when no message is sent
+                      : chatInfo!.lastMsgSender != userInfo.userID
                       ? chatInfo!.readF.isEmpty
-                          ?
-                          //show for unread message
-                          Container(
-                              width: 15,
-                              height: 15,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius: BorderRadius.circular(10)),
-                            )
-                          // message sent time
-                          : Text(
-                              MyDateUtil.getLastMessageTime(
-                                  context: context,
-                                  time: chatInfo!.lastMsgTime),
-                              style: const TextStyle(color: Colors.black54),
-                            )
+                      ?
+                  //show for unread message
+                  Container(
+                    width: 15,
+                    height: 15,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10)),
+                  )
+                  // message sent time
                       : Text(
-                          MyDateUtil.getLastMessageTime(
-                              context: context, time: chatInfo!.lastMsgTime),
-                          style: const TextStyle(color: Colors.black54),
-                        ),
-              leading: GestureDetector(
-                onTap: () {
-                  _goToUserProfile(otherUserInfo);
-                },
+                    MyDateUtil.getLastMessageTime(
+                        context: context,
+                        time: chatInfo!.lastMsgTime),
+                    style: const TextStyle(color: Colors.black54),
+                  )
+                      : Text(
+                    MyDateUtil.getLastMessageTime(
+                        context: context, time: chatInfo!.lastMsgTime),
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                  leading: GestureDetector(
+                    onTap: () {
+                      _goToUserProfile(otherUserInfo);
+                    },
 
-                // backgroundColor: Color.fromARGB(207, 96, 125, 139),
-                child: otherUserInfo.image_url == ''
-                    ? const Icon(
-                        Icons.account_circle_outlined,
-                        color: Color.fromARGB(163, 51, 51, 51),
-                        size: 40,
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: CachedNetworkImage(
-                          width: 38,
-                          height: 38,
-                          fit: BoxFit.cover,
-                          imageUrl: otherUserInfo.image_url,
-                          errorWidget: (context, url, error) => CircleAvatar(
-                            child: SvgPicture.asset(
-                              'assets/icons/UserProfile.svg',
-                              color: CustomColors.darkGrey,
-                            ),
+                    // backgroundColor: Color.fromARGB(207, 96, 125, 139),
+                    child: otherUserInfo.image_url == ''
+                        ? const Icon(
+                      Icons.account_circle_outlined,
+                      color: Color.fromARGB(163, 51, 51, 51),
+                      size: 40,
+                    )
+                        : ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        width: 38,
+                        height: 38,
+                        fit: BoxFit.cover,
+                        imageUrl: otherUserInfo.image_url,
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          child: SvgPicture.asset(
+                            'assets/icons/UserProfile.svg',
+                            color: CustomColors.darkGrey,
                           ),
                         ),
                       ),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RealChatPage(
-                      otherUserInfo: otherUserInfo,
                     ),
                   ),
-                );
-              },
-            ));
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RealChatPage(
+                          otherUserInfo: otherUserInfo,
+                        ),
+                      ),
+                    );
+                  },
+                ));
           }
           return Container();
         },

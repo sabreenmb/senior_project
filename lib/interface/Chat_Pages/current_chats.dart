@@ -121,95 +121,99 @@ class _CurrentChatsState extends State<CurrentChats>
   @override
   Widget build(BuildContext context) {
     print('heeeeeeeeeereeeeeeeeeee');
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: CustomColors.pink,
-        elevation: 0,
-        title: Text("الرسائل الخاصة", style: TextStyles.heading1),
-        centerTitle: true,
-        // actions: <Widget>[
-        leading: IconButton(
-          icon: const Icon(Icons.add_circle_outline_rounded,
-              color: CustomColors.darkGrey),
-          iconSize: 35,
-          hoverColor: CustomColors.white,
-          padding: const EdgeInsets.only(right: 4, top: 4),
-          onPressed: () {
-            _goToAllUsers();
-          },
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: CustomColors.pink,
+          elevation: 0,
+          title: Text("الرسائل الخاصة", style: TextStyles.heading1),
+          centerTitle: true,
+          // actions: <Widget>[
+          leading: IconButton(
+            icon: const Icon(Icons.add_circle_outline_rounded,
+                color: CustomColors.darkGrey),
+            iconSize: 35,
+            hoverColor: CustomColors.white,
+            padding: const EdgeInsets.only(right: 4, top: 4),
+            onPressed: () {
+              _goToAllUsers();
+            },
+          ),
+          // ],
+          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
-        // ],
-        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-      ),
-      endDrawer: SideDrawer(
-        onProfileTap: goToProfilePage,
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 0.1,
-        clipBehavior: Clip.none,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight * 1.2,
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: BottomNavigationBar(
-              onTap: _selectPage,
-              unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.lightBlue,
-              currentIndex: 2,
-              items: const [
-                BottomNavigationBarItem(
-                  label: 'الرئيسية',
-                  icon: Icon(Icons.home_outlined),
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.apps), label: 'الخدمات'),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.messenger_outline,
-                    ),
-                    label: 'الدردشة'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-              ],
+        endDrawer: SideDrawer(
+          onProfileTap: goToProfilePage,
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 0.1,
+          clipBehavior: Clip.none,
+          child: SizedBox(
+            height: kBottomNavigationBarHeight * 1.2,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: BottomNavigationBar(
+                onTap: _selectPage,
+                unselectedItemColor: CustomColors.darkGrey,
+                selectedItemColor: CustomColors.lightBlue,
+                currentIndex: 2,
+                items: const [
+                  BottomNavigationBarItem(
+                    label: 'الرئيسية',
+                    icon: Icon(Icons.home_outlined),
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.apps), label: 'الخدمات'),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.messenger_outline,
+                      ),
+                      label: 'الدردشة'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: loadingFunction(context, true),
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Expanded(
-                  child: Stack(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: CustomColors.BackgroundColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40))),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: _buildUsersList(),
-                  ),
-                ],
-              ))
-            ],
+        body: ModalProgressHUD(
+          color: Colors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40))),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: _buildUsersList(),
+                    ),
+                  ],
+                ))
+              ],
+            ),
           ),
         ),
       ),

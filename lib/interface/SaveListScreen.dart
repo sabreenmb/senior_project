@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
-import 'package:senior_project/interface/ChatScreen.dart';
+import 'package:senior_project/interface/Chat_Pages/current_chats.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
-import 'package:senior_project/interface/add_lost_item_screen.dart';
-//import 'package:senior_project/interface/create_group.dart';
+import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/side_menu.dart';
@@ -13,80 +11,59 @@ class SaveListScreen extends StatefulWidget {
   const SaveListScreen({super.key});
 
   @override
-  State<SaveListScreen> createState() => _SaveState();
+  State<SaveListScreen> createState() => _SaveListScreenState();
 }
 
-class _SaveState extends State<SaveListScreen>
-    with SingleTickerProviderStateMixin {
-  late List<Map<String, Object>> _pages;
+class _SaveListScreenState extends State<SaveListScreen> {
   int _selectedPageIndex = 3;
 
   @override
-  void initState() {
-    super.initState();
-
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const ChatScreen(),
-      },
-      {
-        'page': const AddLostItemScreen(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
-    _LoadCreatedSessions();
-  }
-
-  void _LoadCreatedSessions() async {}
-
   void _selectPage(int index) {
     setState(() {
-      if (index == 1) {
+      if (index == 0) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      } else if (index == 1) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
+      } else if (index == 2) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const CurrentChats()));
+      } else if (index == 3) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
         _selectedPageIndex = index;
       }
-      //todo uncomment on next sprints
-      // if (index == 0) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      // } else if (index == 1) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      // } else if (index == 2) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      // } else if (index == 3) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      // }
+      _selectedPageIndex = index;
     });
+  }
+
+  void goToProfilePage() {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ProfilePage(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build enter');
-
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors.pink,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
-        title: Text(" المحفوظات", style: TextStyles.heading1),
+        title: Text("قائمة المحفوظات", style: TextStyles.heading1),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+        // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
       ),
-      endDrawer: const SideDrawer(),
+      endDrawer: SideDrawer(
+        onProfileTap: goToProfilePage,
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: const CircularNotchedRectangle(),
@@ -102,8 +79,8 @@ class _SaveState extends State<SaveListScreen>
             child: BottomNavigationBar(
               onTap: _selectPage,
               unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.darkGrey,
-              currentIndex: _selectedPageIndex,
+              selectedItemColor: CustomColors.lightBlue,
+              currentIndex: 3,
               items: const [
                 BottomNavigationBarItem(
                   label: 'الرئيسية',
@@ -111,11 +88,6 @@ class _SaveState extends State<SaveListScreen>
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.apps), label: 'الخدمات'),
-                // BottomNavigationBarItem(
-                //   label: "",
-                //   activeIcon: null,
-                //   icon: Icon(null),
-                // ),
                 BottomNavigationBarItem(
                     icon: Icon(
                       Icons.messenger_outline,
@@ -128,33 +100,63 @@ class _SaveState extends State<SaveListScreen>
           ),
         ),
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-              color: CustomColors.BackgroundColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-              ),
-            ),
-            child: ListView(
-              padding: EdgeInsets.zero,
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            const SizedBox(height: 15),
+            Expanded(
+                child: Stack(
               children: [
-                SizedBox(height: 15),
-                _buildTextCard("كرة سلة", "2024-3-06"),
-                _buildTextCard("مناقشة كتاب", "2024-3-08"),
-                _buildTextCard("احصاء عام", "2024-3-26"),
+                Container(
+                  decoration: const BoxDecoration(
+                      color: CustomColors.BackgroundColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40))),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  height: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    // color: const Color.fromARGB(255, 187, 55, 55),
+                  ),
+                  // margin: const EdgeInsets.only(bottom: 10),
+
+                  // child: ElevatedButton(
+                  //   onPressed: addTofire(),
+                  //   child: Text("test"),
+                  // )
+                  child: InkWell(
+                    child: _buildItems(),
+                  ),
+                )
+
+                // _buildHorizontalScrollableCards(combinedList),
               ],
-            ),
-          ),
+            ))
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildTextCard(String title, String date) {
+  Widget _buildItems() {
+    print('kiss');
+    print(courseItem.length);
+    return Container(
+      height: 240,
+      child: ListView.builder(
+          // scrollDirection: Axis.,
+          itemCount: saveList.length,
+          itemBuilder: (context, index) => _buildTextCard(
+              saveList[index].serviceName, saveList[index].item)),
+    );
+  }
+
+  Widget _buildTextCard(String title, dynamic item) {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -167,7 +169,6 @@ class _SaveState extends State<SaveListScreen>
           print('Card tapped');
         },
         child: Container(
-          height: 100,
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +180,7 @@ class _SaveState extends State<SaveListScreen>
                       fontWeight: FontWeight.bold,
                       color: CustomColors.pink)),
               SizedBox(height: 10),
-              Text(date,
+              Text(item.name!,
                   style: TextStyle(
                     fontSize: 18,
                     color: CustomColors.darkGrey,

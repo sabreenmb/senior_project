@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/ChatScreen.dart';
@@ -10,6 +10,7 @@ import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
+import '../model/EventItem.dart';
 import '../widgets/home_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     //todo move it to the login screen
 
     homeCards();
+    getTodayList();
     _pages = [
       {
         'page': const HomeScreen(),
@@ -54,109 +56,94 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   void _selectPage(int index) {
     setState(() {
-      if (index == 1) {
+      // todo uncomment on next sprints
+      if (index == 0) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      } else if (index == 1) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+      } else if (index == 2) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => ChatScreen()));
+      } else if (index == 3) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => SaveListScreen()));
       }
-      //todo uncomment on next sprints
-      // if (index == 0) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      // } else if (index == 1) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      // } else if (index == 2) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      // } else if (index == 3) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      // }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      //backgroundColor: Colors.white,
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: CustomColors.pink,
-        elevation: 0,
-        title: Text("الرئيسية", style: TextStyles.heading1),
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-      ),
-      endDrawer: const SideDrawer(),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 0.1,
-        clipBehavior: Clip.none,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight * 1.2,
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: BottomNavigationBar(
-              onTap: _selectPage,
-              unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.darkGrey,
-              currentIndex: _selectedPageIndex,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  label: 'الرئيسية',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.apps),
-                  label: 'الخدمات',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.messenger_outline),
-                  label: 'الدردشة',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmark_border),
-                  label: 'المحفوظات',
-                ),
-              ],
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color.fromARGB(255, 245, 242, 242),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: CustomColors.white,
+          elevation: 0,
+          title: Text("الرئيسية", style: TextStyles.heading1),
+          centerTitle: false,
+          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+        ),
+        endDrawer: const SideDrawer(),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 0.1,
+          clipBehavior: Clip.none,
+          child: SizedBox(
+            height: kBottomNavigationBarHeight * 1.2,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: BottomNavigationBar(
+                onTap: _selectPage,
+                unselectedItemColor: CustomColors.darkGrey,
+                selectedItemColor: CustomColors.darkGrey,
+                currentIndex: 0,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    label: 'الرئيسية',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.apps),
+                    label: 'الخدمات',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.messenger_outline),
+                    label: 'الدردشة',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.bookmark_border),
+                    label: 'المحفوظات',
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 15),
-                Container(
-                  decoration: BoxDecoration(
-                    color: CustomColors.BackgroundColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildCard(),
-                      _buildSectionTitle('يحدث اليوم'),
-                      _buildHorizontalScrollableCards(),
-                      _buildSectionTitle('أضيف حديثا'),
-                      _buildHorizontalScrollableCards(),
-                    ],
-                  ),
-                ),
-              ],
+        body: ModalProgressHUD(
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 15),
+                  _buildCard(),
+                  _buildSectionTitle('يحدث اليوم'),
+                  _buildHorizontalScrollableCards(todayList),
+                  _buildSectionTitle('أضيف حديثا'),
+                  _buildHorizontalScrollableCards(combinedList),
+                ],
+              ),
             ),
           ),
         ),
@@ -166,20 +153,29 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   Widget _buildCard() {
     List<dynamic> categoryList = offers[1]['categoryList'];
-    bool autoplayEnabled = categoryList.length > 1;
+    // bool autoplayEnabled = categoryList.length > 1;
 
-    return CarouselSlider(
-      items: categoryList
-          .map((offer) {
-            return HomeOfferCard(offer);
-          })
-          .toList()
-          .cast<Widget>(),
-      options: CarouselOptions(
-        height: 180,
-        autoPlay: autoplayEnabled,
-        autoPlayInterval: Duration(seconds: 3),
+    return FutureBuilder(
+      future: Future.wait(
+        categoryList.map((offer) =>
+            precacheImage(CachedNetworkImageProvider(offer.logo!), context)),
       ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+        return CarouselSlider(
+          items: categoryList
+              .map((offer) => HomeOfferCard(offer))
+              .toList()
+              .cast<Widget>(),
+          options: CarouselOptions(
+            height: 180,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 3),
+          ),
+        );
+      },
     );
   }
 
@@ -200,16 +196,16 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildHorizontalScrollableCards() {
+  Widget _buildHorizontalScrollableCards(List<EventItem> details) {
     print('fiss');
     print(courseItem.length);
     return Container(
       height: 240,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: combinedList.length,
-          itemBuilder: (context, index) => HomeCard(combinedList[index].item,
-              combinedList[index].serviceName, combinedList[index].icon)),
+          itemCount: details.length,
+          itemBuilder: (context, index) => HomeCard(details[index].item,
+              details[index].serviceName, details[index].icon)),
     );
   }
 }

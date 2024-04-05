@@ -78,6 +78,8 @@ class _VolunteerOpState extends State<VolunteerOp>
           location: item.value['op_location'],
           opNumber: item.value['op_number'],
           opLink: item.value['op_link'],
+          timestamp:item.value['timestamp'],
+
         ));
       }
     } catch (error) {
@@ -118,197 +120,200 @@ class _VolunteerOpState extends State<VolunteerOp>
   @override
   Widget build(BuildContext context) {
     print('build enter');
-
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: CustomColors.pink,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
+// ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: CustomColors.pink,
-        elevation: 0,
-        title: Text("الفرص التطوعية", style: TextStyles.heading1),
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-      ),
-      endDrawer: const SideDrawer(),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 0.1,
-        clipBehavior: Clip.none,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight * 1.2,
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: BottomNavigationBar(
-              onTap: _selectPage,
-              unselectedItemColor: CustomColors.darkGrey,
-              selectedItemColor: CustomColors.darkGrey,
-              currentIndex: _selectedPageIndex,
-              items: const [
-                BottomNavigationBarItem(
-                  label: 'الرئيسية',
-                  icon: Icon(Icons.home_outlined),
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.apps), label: 'الخدمات'),
-                // BottomNavigationBarItem(
-                //   label: "",
-                //   activeIcon: null,
-                //   icon: Icon(null),
-                // ),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.messenger_outline,
-                    ),
-                    label: 'الدردشة'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-              ],
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: CustomColors.pink,
+          elevation: 0,
+          title: Text("الفرص التطوعية", style: TextStyles.heading1),
+          centerTitle: false,
+          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+        ),
+        endDrawer: const SideDrawer(),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 0.1,
+          clipBehavior: Clip.none,
+          child: SizedBox(
+            height: kBottomNavigationBarHeight * 1.2,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: BottomNavigationBar(
+                onTap: _selectPage,
+                unselectedItemColor: CustomColors.darkGrey,
+                selectedItemColor: CustomColors.darkGrey,
+                currentIndex: _selectedPageIndex,
+                items: const [
+                  BottomNavigationBarItem(
+                    label: 'الرئيسية',
+                    icon: Icon(Icons.home_outlined),
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.apps), label: 'الخدمات'),
+                  // BottomNavigationBarItem(
+                  //   label: "",
+                  //   activeIcon: null,
+                  //   icon: Icon(null),
+                  // ),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.messenger_outline,
+                      ),
+                      label: 'الدردشة'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      //// floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      ////  floatingActionButton: FloatingActionButton(
-      //   heroTag: "btn1",
-      //   backgroundColor: CustomColors.lightBlue,
-      //   hoverElevation: 10,
-      //   splashColor: Colors.grey,
-      //   tooltip: '',
-      //   elevation: 4,
-      //   onPressed: () async {
-      //     await Navigator.of(context);
-      //     // .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
-      //     _LoadCreatedSessions();
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
-      body: ModalProgressHUD(
-        color: Colors.black,
-        opacity: 0.5,
-        progressIndicator: loadingFunction(context, true),
-        inAsyncCall: isLoading,
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Expanded(
-                  child: Stack(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: CustomColors.BackgroundColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40))),
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        height: 5,
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: TextField(
-                        //  autofocus: false,
-                        //  controller: _userInputController,
-                        // keyboardType: TextInputType.text,
-                        ////     textInputAction: TextInputAction.search,
-                        //textAlignVertical: TextAlignVertical.bottom,
-                        // textAlign: TextAlign.start,
-                        // style: const TextStyle(
-                        //   color: CustomColors.darkGrey,
-                        // ),
-                        // decoration: InputDecoration(
-                        //   hintStyle: const TextStyle(
-                        //     color: CustomColors.darkGrey,
-                        //   ),
-                        // focusedBorder: OutlineInputBorder(
-                        // borderRadius: BorderRadius.circular(40),
-                        //  borderSide: const BorderSide(
-                        // color: CustomColors.darkGrey, width: 1),
-                        //   ),
-                        // prefixIcon: IconButton(
-                        //     icon: const Icon(
-                        //       Icons.search,
-                        //       color: CustomColors.darkGrey,
-                        //     ),
-                        //     onPressed: () {
-                        //     ////  searchSessionList.clear();
-                        //    ////   filterSearchResults(_userInputController.text,
-                        //     //      _volunteerOpReport);
-                        //       FocusScope.of(context).unfocus();
-                        //     }),
-                        // hintText: 'ابحث',
-                        // suffixIcon: _userInputController.text.isNotEmpty
-                        //     ? IconButton(
-                        //         onPressed: () {
-                        //           _userInputController.clear();
+        //// floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        ////  floatingActionButton: FloatingActionButton(
+        //   heroTag: "btn1",
+        //   backgroundColor: CustomColors.lightBlue,
+        //   hoverElevation: 10,
+        //   splashColor: Colors.grey,
+        //   tooltip: '',
+        //   elevation: 4,
+        //   onPressed: () async {
+        //     await Navigator.of(context);
+        //     // .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
+        //     _LoadCreatedSessions();
+        //   },
+        //   child: const Icon(Icons.add),
+        // ),
+        body: ModalProgressHUD(
+          color: Colors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40))),
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          height: 5,
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          //   child: TextField(
+                          //  autofocus: false,
+                          //  controller: _userInputController,
+                          // keyboardType: TextInputType.text,
+                          ////     textInputAction: TextInputAction.search,
+                          //textAlignVertical: TextAlignVertical.bottom,
+                          // textAlign: TextAlign.start,
+                          // style: const TextStyle(
+                          //   color: CustomColors.darkGrey,
+                          // ),
+                          // decoration: InputDecoration(
+                          //   hintStyle: const TextStyle(
+                          //     color: CustomColors.darkGrey,
+                          //   ),
+                          // focusedBorder: OutlineInputBorder(
+                          // borderRadius: BorderRadius.circular(40),
+                          //  borderSide: const BorderSide(
+                          // color: CustomColors.darkGrey, width: 1),
+                          //   ),
+                          // prefixIcon: IconButton(
+                          //     icon: const Icon(
+                          //       Icons.search,
+                          //       color: CustomColors.darkGrey,
+                          //     ),
+                          //     onPressed: () {
+                          //     ////  searchSessionList.clear();
+                          //    ////   filterSearchResults(_userInputController.text,
+                          //     //      _volunteerOpReport);
+                          //       FocusScope.of(context).unfocus();
+                          //     }),
+                          // hintText: 'ابحث',
+                          // suffixIcon: _userInputController.text.isNotEmpty
+                          //     ? IconButton(
+                          //         onPressed: () {
+                          //           _userInputController.clear();
 
-                        //           setState(() {
-                        //        ////     isSearch = false;
-                        //           });
-                        //         },
-                        //         icon: const Icon(Icons.clear,
-                        //             color: CustomColors.darkGrey))
-                        //     : null,
-                        //////// enabledBorder: OutlineInputBorder(
-                        //   borderRadius: BorderRadius.circular(20),
-                        //   borderSide: const BorderSide(
-                        //       color: CustomColors.darkGrey, width: 1),
+                          //           setState(() {
+                          //        ////     isSearch = false;
+                          //           });
+                          //         },
+                          //         icon: const Icon(Icons.clear,
+                          //             color: CustomColors.darkGrey))
+                          //     : null,
+                          //////// enabledBorder: OutlineInputBorder(
+                          //   borderRadius: BorderRadius.circular(20),
+                          //   borderSide: const BorderSide(
+                          //       color: CustomColors.darkGrey, width: 1),
+                          // ),
+                        ),
+                        // onChanged: (text) {
+                        //   setState(() {});
+                        // },
+                        // onSubmitted: (text) {
+                        //   //todo the same value of on icon presed
+                        //   ////   searchSessionList.clear();
+                        //   ///// filterSearchResults(
+                        //   ////    _userInputController.text, _volunteerOpReport);
+                        //   FocusScope.of(context).unfocus();
+                        // },
+                        // onTap: () {
+                        //   ////       isSearch = true;
+                        //   ///     searchSessionList.clear();
+                        //   ////     searchSessionList.clear();
+                        // },
+                        //),
+                        //   ),
+                        //// if ((isSearch
+                        ////   ? searchSessionList.isEmpty
+                        ////   : _volunteerOpReport.isEmpty))
+                        // Expanded(
+                        // child: Center(
+                        //   child: SizedBox(
+                        //     // padding: EdgeInsets.only(bottom: 20),
+                        //     // alignment: Alignment.topCenter,
+                        //     height: 200,
+                        //  /////   child: Image.asset('assets/images/notFound.png'),
+                        //   ),
                         // ),
-                      ),
-                      // onChanged: (text) {
-                      //   setState(() {});
-                      // },
-                      // onSubmitted: (text) {
-                      //   //todo the same value of on icon presed
-                      //   ////   searchSessionList.clear();
-                      //   ///// filterSearchResults(
-                      //   ////    _userInputController.text, _volunteerOpReport);
-                      //   FocusScope.of(context).unfocus();
-                      // },
-                      // onTap: () {
-                      //   ////       isSearch = true;
-                      //   ///     searchSessionList.clear();
-                      //   ////     searchSessionList.clear();
-                      // },
-                      //),
-                      //   ),
-                      //// if ((isSearch
-                      ////   ? searchSessionList.isEmpty
-                      ////   : _volunteerOpReport.isEmpty))
-                      // Expanded(
-                      // child: Center(
-                      //   child: SizedBox(
-                      //     // padding: EdgeInsets.only(bottom: 20),
-                      //     // alignment: Alignment.topCenter,
-                      //     height: 200,
-                      //  /////   child: Image.asset('assets/images/notFound.png'),
-                      //   ),
-                      // ),
-                      //  ),
-                      if (_volunteerOpReport.isNotEmpty)
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MediaQuery.removePadding(
-                              context: context,
-                              removeTop: true,
-                              child: ListView.builder(
-                                  itemCount: _volunteerOpReport.length,
-                                  /////   itemCount: searchSessionList.length,
-                                  itemBuilder: (context, index) =>
-                                      OpCard(_volunteerOpReport[index]))),
-                        )),
-                    ],
-                  ),
-                ],
-              ))
-            ],
+                        //  ),
+                        if (_volunteerOpReport.isNotEmpty)
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: MediaQuery.removePadding(
+                                context: context,
+                                removeTop: true,
+                                child: ListView.builder(
+                                    itemCount: _volunteerOpReport.length,
+                                    /////   itemCount: searchSessionList.length,
+                                    itemBuilder: (context, index) =>
+                                        OpCard(_volunteerOpReport[index]))),
+                          )),
+                      ],
+                    ),
+                  ],
+                ))
+              ],
+            ),
           ),
         ),
       ),

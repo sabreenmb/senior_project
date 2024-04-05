@@ -1,10 +1,9 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import '../interface/OfferDetails.dart';
 import '../model/offer_info.dart';
-import '../theme.dart';
 
 class HomeOfferCard extends StatelessWidget {
   OfferInfo offerInfo;
@@ -46,10 +45,11 @@ class HomeOfferCard extends StatelessWidget {
             height: 80,
             child: offerInfo.logo == "empty"
                 ? const Image(image: AssetImage('assets/images/mug.png'))
-                : Image.network(
-                    '${offerInfo.logo}',
-                    fit: BoxFit.fill,
-                  ),
+                :CachedNetworkImage(
+              imageUrl: offerInfo.logo!,
+              fit: BoxFit.fill,
+            ),
+
           ),
         ),
       ),
