@@ -100,7 +100,7 @@ class _VolunteerOpState extends State<VolunteerOp>
                             child: MediaQuery.removePadding(
                               context: context,
                               removeTop: true,
-                              child: _buildcardList()
+                              child: _buildCardsList()
                             ),
                           )),
                       ],
@@ -115,7 +115,7 @@ class _VolunteerOpState extends State<VolunteerOp>
     );
   }
 
-  Widget _buildcardList() {
+  Widget _buildCardsList() {
     return StreamBuilder(
       stream: Connection.databaseReference('opportunities'),
       builder: (context, snapshot) {

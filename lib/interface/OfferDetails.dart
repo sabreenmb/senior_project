@@ -1,5 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../model/offer_info.dart';
 import '../theme.dart';
@@ -13,10 +17,7 @@ class OfferDetails extends StatefulWidget {
 }
 
 class _OfferDetailsState extends State<OfferDetails> {
-  String imageURL =
-      "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2Ftile_background.png?alt=media&token=db53f43f-268e-4877-a5b2-be156851f822";
-  // "https://firebasestorage.googleapis.com/v0/b/senior-project-72daf.appspot.com/o/app_use%2FFITNESS-ZONE.png?alt=media&token=3e01d171-fd56-4ae5-a65e-5a4298b7ab53";
-  bool isClicked = false;
+   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
     OfferInfo offerInfo = widget.offerInfo;
@@ -34,7 +35,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                 children: <Widget>[
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 300,
+                    height: 250,
                     decoration: const BoxDecoration(
                       color: CustomColors.darkGrey,
                     ),
@@ -53,25 +54,21 @@ class _OfferDetailsState extends State<OfferDetails> {
                             color: CustomColors.white),
                         onPressed: () {
                           Navigator.pop(context);
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => SearchScreen()));
                         },
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 700,
+                    height: 670,
                     width: MediaQuery.of(context).size.width - 50,
                     child: Card(
                       elevation: 4,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
-                      margin: const EdgeInsets.only(top: 250),
+                      margin: const EdgeInsets.only(top: 200),
                       child: Padding(
-                        padding: const EdgeInsets.all(50.0),
+                        padding: const EdgeInsets.all(30.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
@@ -82,67 +79,76 @@ class _OfferDetailsState extends State<OfferDetails> {
                             ),
                             Text(
                               offerInfo.name!,
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.center,
                               style: TextStyles.heading1D,
                             ),
                             const SizedBox(
-                              height: 25,
+                              height: 15,
                             ),
                             _buildInfoColumn(
-                                "خصم يصل الى : ", offerInfo.discount!),
+                                "خصم يصل الى :", '  '+offerInfo.discount!+'%'),
                             _buildInfoColumn(
-                                "صلاحية الخصم إلى: ", offerInfo.expDate!),
+                                "صلاحية الخصم إلى  :", '  '+offerInfo.expDate!),
                             _buildInfoColumn(
-                                "الفئة المستهدفة : ", offerInfo.targetUsers!),
+                                "الفئة المستهدفة  :", ' '+offerInfo.targetUsers!),
                             _buildInfoColumn(
-                                "وسيلة التواصل : ", offerInfo.contact!),
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 25, bottom: 25),
-                              width: 250,
-                              height: 1,
-                              color: CustomColors.lightGreyLowTrans,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (!isClicked) {
-                                  setState(() {
-                                    // searchList = getValidCertificates();
-                                    isClicked = true;
-                                  });
-                                }
+                                "وسيلة التواصل  :", ' '+offerInfo.contact!),
 
-                                // Clipboard.setData(
-                                //         new ClipboardData(text: offerInfo.code!))
-                                //     .then((_) {
-                                //   ScaffoldMessenger.of(context).showSnackBar(
-                                //       SnackBar(
-                                //           content: Text('${offerInfo.code} !')));
-                                // });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(170, 40),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(27),
-                                  ),
-                                  backgroundColor: CustomColors.lightBlue),
-                              child: Text("احصل على الخصم",
-                                  style: TextStyles.text3),
-                            ),
-                            if (isClicked)
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(offerInfo.code!,
-                                    style: TextStyles.heading3B),
-                              )
+                            Expanded(
+                              child: Column(
+
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [Container(
+                                  margin:
+                                  const EdgeInsets.only(top: 10, bottom: 10),
+                                  width: 200,
+                                  height: 1,
+                                  color: CustomColors.lightGreyLowTrans,
+
+                                ),ElevatedButton(
+                                  onPressed: () {
+                                    if (!isClicked) {
+                                      setState(() {
+                                        // searchList = getValidCertificates();
+                                        isClicked = true;
+                                      });
+                                    }
+
+                                    // Clipboard.setData(
+                                    //         new ClipboardData(text: offerInfo.code!))
+                                    //     .then((_) {
+                                    //   ScaffoldMessenger.of(context).showSnackBar(
+                                    //       SnackBar(
+                                    //           content: Text('${offerInfo.code} !')));
+                                    // });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      fixedSize: const Size(170, 40),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(27),
+                                      ),
+                                      backgroundColor: CustomColors.lightBlue),
+                                  child: Text("احصل على الخصم",
+                                      style: TextStyles.text3),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(isClicked?offerInfo.code!:' ',
+                                      style: TextStyles.heading3B),
+                                )
+                                  ]),
+                            )
                           ],
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                    top: 180,
+                    top: 130,
                     child: Container(
                       width: 130,
                       height: 130,
@@ -161,13 +167,39 @@ class _OfferDetailsState extends State<OfferDetails> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: offerInfo.logo == "empty"
-                            ? const Image(
-                                image: AssetImage('assets/images/mug.png'))
-                            : Image.network(
-                                '${offerInfo.logo}',
-                                fit: BoxFit.cover,
-                              ),
+                        child: SizedBox(
+                          width: 95,
+                          height: 130,
+                          child: offerInfo.logo == "empty"
+                              ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                              : FutureBuilder<void>(
+                            future: precacheImage(
+                              CachedNetworkImageProvider(offerInfo.logo!),
+                              context,
+                            ),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Colors.grey[300]!,
+                                  enabled: true,
+                                  child: Container(
+                                    color: Colors.white,
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text(
+                                    'Error loading image'); // Handle error loading image
+                              } else {
+                                return CachedNetworkImage(
+                                  imageUrl: offerInfo.logo!,
+                                  fit: BoxFit.cover,
+                                );
+                              }
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   )
@@ -176,7 +208,7 @@ class _OfferDetailsState extends State<OfferDetails> {
               Container(
                   height: 170,
                   padding: const EdgeInsets.all(25),
-                  margin: const EdgeInsets.only(top: 50),
+                  margin: const EdgeInsets.only(top: 40),
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                     border: Border(
@@ -210,27 +242,29 @@ class _OfferDetailsState extends State<OfferDetails> {
   }
 
   Widget _buildInfoColumn(String label, String value) {
-    double width = MediaQuery.of(context).size.width / 10;
+    double width = MediaQuery.of(context).size.width / 20;
     print(width);
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyles.text2,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 5),
-            Text(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width,vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyles.text2,
+            textAlign: TextAlign.left,
+          ),
+          const SizedBox(height: 5),
+          Expanded(
+            child: Text(
               value,
               style: TextStyles.text,
-              textAlign: TextAlign.center,
+              maxLines: 7,
+              textAlign: TextAlign.right,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

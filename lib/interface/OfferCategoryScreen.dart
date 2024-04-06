@@ -19,26 +19,8 @@ class OfferCategoryScreen extends StatefulWidget {
 }
 
 class _OfferCategoryState extends State<OfferCategoryScreen> {
-  // ignore: unused_field
-  late List<Map<String, Object>> _pages;
-  final int _selectedPageIndex = 2;
-  //search
-  List<CreateGroupReport> searchSessionList = [];
-
-  final _userInputController = TextEditingController();
-  //filter
-
   List<dynamic> _offerInfo = [];
 
-  void goToProfilePage() {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,48 +53,8 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
             },
           ),
 
-          // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
         ),
 
-        // endDrawer: SideDrawer(
-        //   onProfileTap: goToProfilePage,
-        // ),
-        // bottomNavigationBar: BottomAppBar(
-        //   color: Colors.white,
-        //   shape: const CircularNotchedRectangle(),
-        //   notchMargin: 0.1,
-        //   clipBehavior: Clip.none,
-        //   child: SizedBox(
-        //     height: kBottomNavigationBarHeight * 1.2,
-        //     width: MediaQuery.of(context).size.width,
-        //     child: Container(
-        //       decoration: const BoxDecoration(
-        //         color: Colors.white,
-        //       ),
-        //       child: BottomNavigationBar(
-        //         onTap: _selectPage,
-        //         unselectedItemColor: CustomColors.darkGrey,
-        //         selectedItemColor: CustomColors.lightBlue,
-        //         currentIndex: 1,
-        //         items: const [
-        //           BottomNavigationBarItem(
-        //             label: 'الرئيسية',
-        //             icon: Icon(Icons.home_outlined),
-        //           ),
-        //           BottomNavigationBarItem(
-        //               icon: Icon(Icons.apps), label: 'الخدمات'),
-        //           BottomNavigationBarItem(
-        //               icon: Icon(
-        //                 Icons.messenger_outline,
-        //               ),
-        //               label: 'الدردشة'),
-        //           BottomNavigationBarItem(
-        //               icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
         body: ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,

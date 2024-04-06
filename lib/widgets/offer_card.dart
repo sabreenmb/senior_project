@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 
 import '../interface/OfferDetails.dart';
@@ -36,16 +38,43 @@ class OfferCard extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: Row(
               children: [
-                SizedBox(
-                  width: 65,
-                  height: 80,
-                  child: offerInfo.logo == "empty"
-                      ? const Image(image: AssetImage('assets/images/mug.png'))
-                      : Image.network(
-                    '${offerInfo.logo}',
-                    fit: BoxFit.fill,
-                  ),
+            ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: SizedBox(
+              width: 65,
+              height: 80,
+              child: offerInfo.logo == "empty"
+                  ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                  : FutureBuilder<void>(
+                future: precacheImage(
+                  CachedNetworkImageProvider(offerInfo.logo!),
+                  context,
                 ),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Shimmer.fromColors(
+                      baseColor: Colors.white,
+                      highlightColor: Colors.grey[300]!,
+                      enabled: true,
+                      child: Container(
+                        color: Colors.white,
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text(
+                        'Error loading image'); // Handle error loading image
+                  } else {
+                    return CachedNetworkImage(
+                      imageUrl: offerInfo.logo!,
+                      fit: BoxFit.fill,
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+
                 Container(
                   width: 1,
                   height: 80,
