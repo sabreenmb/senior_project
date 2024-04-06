@@ -41,8 +41,8 @@ class LostCard extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
+                        baseColor: Colors.white,
+                        highlightColor: Colors.grey[300]!,
                         enabled: true,
                         child: Container(
                           color: Colors.white,

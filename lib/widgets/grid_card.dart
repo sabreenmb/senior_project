@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/interface/Clinic.dart';
 import 'package:senior_project/interface/OfferCategoryScreen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../interface/OffersListScreen.dart';
 import '../interface/StudentClubsScreen.dart';
@@ -55,13 +56,24 @@ class GridCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: SvgPicture.asset(
-                details['icon']!,
-                width: 70,
-                height: 70,
-                //color: CustomColors.lightBlue.withOpacity(0.6),
+              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: SvgPicture.asset(
+                  details['icon']!,
+                  width: 70,
+                  height: 70,
+                  fit: BoxFit.cover,
+                  placeholderBuilder: (BuildContext context) => Shimmer.fromColors(
+                    baseColor: Colors.white,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ),
             Text(

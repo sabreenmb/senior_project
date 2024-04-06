@@ -28,54 +28,10 @@ class VolunteerOp extends StatefulWidget {
 
 class _VolunteerOpState extends State<VolunteerOp>
     with SingleTickerProviderStateMixin {
-  late List<Map<String, Object>> _pages;
-  //search
-  ////List<VolunteerOpReport> searchSessionList = [];
-
-  // List<VolunteerOpReport> _volunteerOpReport = [];
-  //create button
-  // void _LoadCreatedSessions() async {
-  //   final List<VolunteerOpReport> loadedVolunteerOp = [];
-  //
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-  //     final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-  //         'opportunities.json');
-  //     final response = await http.get(url);
-  //
-  //     final Map<String, dynamic> volunteerdata = json.decode(response.body);
-  //     for (final item in volunteerdata.entries) {
-  //       loadedVolunteerOp.add(VolunteerOpReport(
-  //         id: item.key,
-  //         //model name : firebase name
-  //         name: item.value['op_name'],
-  //         date: item.value['op_date'],
-  //         time: item.value['op_time'],
-  //         location: item.value['op_location'],
-  //         opNumber: item.value['op_number'],
-  //         opLink: item.value['op_link'],
-  //         timestamp:item.value['timestamp'],
-  //
-  //       ));
-  //     }
-  //   } catch (error) {
-  //     print('Empty List');
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //       print("sabreeeen: $loadedVolunteerOp");
-  //       _volunteerOpReport = loadedVolunteerOp;
-  //     });
-  //   }
-  // }
 
   @override
   void initState() {
     super.initState();
-
-    //  _LoadCreatedSessions();
   }
 
   @override
@@ -170,8 +126,8 @@ class _VolunteerOpState extends State<VolunteerOp>
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return loadingFunction(context, true);
           return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
+            baseColor: Colors.white,
+            highlightColor: Colors.grey[300]!,
             enabled: true,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),

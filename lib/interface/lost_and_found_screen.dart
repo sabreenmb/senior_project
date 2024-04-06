@@ -514,8 +514,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
         if (snapshot.connectionState == ConnectionState.waiting &&
             isButtonClicked == false) {
           return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
+            baseColor: Colors.white,
+            highlightColor: Colors.grey[300]!,
             enabled: true,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),

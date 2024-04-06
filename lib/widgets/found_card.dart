@@ -26,7 +26,6 @@ class FoundCard extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         child: Row(
           children: [
-
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
@@ -35,33 +34,34 @@ class FoundCard extends StatelessWidget {
                 child: foundItemReport.photo == "empty"
                     ? Image(image: AssetImage('assets/images/logo-icon.png'))
                     : FutureBuilder<void>(
-                  future: precacheImage(
-                    CachedNetworkImageProvider(foundItemReport.photo!),
-                    context,
-                  ),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        enabled: true,
-                        child: Container(
-                          color: Colors.white,
+                        future: precacheImage(
+                          CachedNetworkImageProvider(foundItemReport.photo!),
+                          context,
                         ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('Error loading image'); // Handle error loading image
-                    } else {
-                      return CachedNetworkImage(
-                        imageUrl: foundItemReport.photo!,
-                        fit: BoxFit.fill,
-                      );
-                    }
-                  },
-                ),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.white,
+                              highlightColor: Colors.grey[300]!,
+                              enabled: true,
+                              child: Container(
+                                color: Colors.white,
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                                'Error loading image'); // Handle error loading image
+                          } else {
+                            return CachedNetworkImage(
+                              imageUrl: foundItemReport.photo!,
+                              fit: BoxFit.fill,
+                            );
+                          }
+                        },
+                      ),
               ),
             ),
-
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
