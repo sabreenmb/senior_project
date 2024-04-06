@@ -17,7 +17,7 @@ class OfferDetails extends StatefulWidget {
 }
 
 class _OfferDetailsState extends State<OfferDetails> {
-   bool isClicked = false;
+  bool isClicked = false;
   @override
   Widget build(BuildContext context) {
     OfferInfo offerInfo = widget.offerInfo;
@@ -85,61 +85,62 @@ class _OfferDetailsState extends State<OfferDetails> {
                             const SizedBox(
                               height: 15,
                             ),
+                            _buildInfoColumn("خصم يصل الى :",
+                                '  ' + offerInfo.discount! + '%'),
+                            _buildInfoColumn("صلاحية الخصم إلى  :",
+                                '  ' + offerInfo.expDate!),
+                            _buildInfoColumn("الفئة المستهدفة  :",
+                                ' ' + offerInfo.targetUsers!),
                             _buildInfoColumn(
-                                "خصم يصل الى :", '  '+offerInfo.discount!+'%'),
-                            _buildInfoColumn(
-                                "صلاحية الخصم إلى  :", '  '+offerInfo.expDate!),
-                            _buildInfoColumn(
-                                "الفئة المستهدفة  :", ' '+offerInfo.targetUsers!),
-                            _buildInfoColumn(
-                                "وسيلة التواصل  :", ' '+offerInfo.contact!),
-
+                                "وسيلة التواصل  :", ' ' + offerInfo.contact!),
                             Expanded(
                               child: Column(
-
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [Container(
-                                  margin:
-                                  const EdgeInsets.only(top: 10, bottom: 10),
-                                  width: 200,
-                                  height: 1,
-                                  color: CustomColors.lightGreyLowTrans,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 10, bottom: 10),
+                                      width: 200,
+                                      height: 1,
+                                      color: CustomColors.lightGreyLowTrans,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        if (!isClicked) {
+                                          setState(() {
+                                            // searchList = getValidCertificates();
+                                            isClicked = true;
+                                          });
+                                        }
 
-                                ),ElevatedButton(
-                                  onPressed: () {
-                                    if (!isClicked) {
-                                      setState(() {
-                                        // searchList = getValidCertificates();
-                                        isClicked = true;
-                                      });
-                                    }
-
-                                    // Clipboard.setData(
-                                    //         new ClipboardData(text: offerInfo.code!))
-                                    //     .then((_) {
-                                    //   ScaffoldMessenger.of(context).showSnackBar(
-                                    //       SnackBar(
-                                    //           content: Text('${offerInfo.code} !')));
-                                    // });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      fixedSize: const Size(170, 40),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(27),
-                                      ),
-                                      backgroundColor: CustomColors.lightBlue),
-                                  child: Text("احصل على الخصم",
-                                      style: TextStyles.text3),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text(isClicked?offerInfo.code!:' ',
-                                      style: TextStyles.heading3B),
-                                )
+                                        // Clipboard.setData(
+                                        //         new ClipboardData(text: offerInfo.code!))
+                                        //     .then((_) {
+                                        //   ScaffoldMessenger.of(context).showSnackBar(
+                                        //       SnackBar(
+                                        //           content: Text('${offerInfo.code} !')));
+                                        // });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          fixedSize: const Size(170, 40),
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(27),
+                                          ),
+                                          backgroundColor:
+                                              CustomColors.lightBlue),
+                                      child: Text("احصل على الخصم",
+                                          style: TextStyles.text3),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Text(
+                                          isClicked ? offerInfo.code! : ' ',
+                                          style: TextStyles.heading3B),
+                                    )
                                   ]),
                             )
                           ],
@@ -171,34 +172,36 @@ class _OfferDetailsState extends State<OfferDetails> {
                           width: 95,
                           height: 130,
                           child: offerInfo.logo == "empty"
-                              ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                              ? Image(
+                                  image:
+                                      AssetImage('assets/images/logo-icon.png'))
                               : FutureBuilder<void>(
-                            future: precacheImage(
-                              CachedNetworkImageProvider(offerInfo.logo!),
-                              context,
-                            ),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Shimmer.fromColors(
-                                  baseColor: Colors.white,
-                                  highlightColor: Colors.grey[300]!,
-                                  enabled: true,
-                                  child: Container(
-                                    color: Colors.white,
+                                  future: precacheImage(
+                                    CachedNetworkImageProvider(offerInfo.logo!),
+                                    context,
                                   ),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text(
-                                    'Error loading image'); // Handle error loading image
-                              } else {
-                                return CachedNetworkImage(
-                                  imageUrl: offerInfo.logo!,
-                                  fit: BoxFit.cover,
-                                );
-                              }
-                            },
-                          ),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.white,
+                                        highlightColor: Colors.grey[300]!,
+                                        enabled: true,
+                                        child: Container(
+                                          color: Colors.white,
+                                        ),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text(
+                                          'Error loading image'); // Handle error loading image
+                                    } else {
+                                      return CachedNetworkImage(
+                                        imageUrl: offerInfo.logo!,
+                                        fit: BoxFit.cover,
+                                      );
+                                    }
+                                  },
+                                ),
                         ),
                       ),
                     ),
@@ -245,7 +248,7 @@ class _OfferDetailsState extends State<OfferDetails> {
     double width = MediaQuery.of(context).size.width / 20;
     print(width);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width,vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: width, vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -260,7 +263,7 @@ class _OfferDetailsState extends State<OfferDetails> {
             child: Text(
               value,
               style: TextStyles.text,
-              maxLines: 7,
+              maxLines: 5,
               textAlign: TextAlign.right,
             ),
           ),

@@ -102,7 +102,7 @@ class GridCard extends StatelessWidget {
       // Add cases for other services as needed
 
       case 1:
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const VolunteerOp(),
@@ -115,7 +115,7 @@ class GridCard extends StatelessWidget {
 
         break;
       case 3:
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const StudentClubsScreen(),
@@ -123,7 +123,7 @@ class GridCard extends StatelessWidget {
         );
         break;
       case 4:
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const EventScreen(),
@@ -135,7 +135,7 @@ class GridCard extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const StudyGroup()));
         break;
       case 6:
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const StudentActivity(),
@@ -143,15 +143,7 @@ class GridCard extends StatelessWidget {
         );
         break;
       case 7:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Clinic(),
-          ),
-        );
-        break;
-      case 7:
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => Clinic(),
@@ -160,7 +152,7 @@ class GridCard extends StatelessWidget {
       break;
 
       case 8:
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => PsychGuidance(),

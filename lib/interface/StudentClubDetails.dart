@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../model/SClubInfo.dart';
@@ -33,7 +36,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                 children: <Widget>[
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 300,
+                    height: 250,
                     decoration: const BoxDecoration(
                       color: CustomColors.darkGrey,
                     ),
@@ -60,16 +63,15 @@ class _ClubDetailsState extends State<ClubDetails> {
                       ),
                     ),
                   ),
-
                   SizedBox(
-                    height: 700,
+                    height: 670,
                     width: MediaQuery.of(context).size.width - 50,
                     child: Card(
                       elevation: 4,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
-                      margin: const EdgeInsets.only(top: 250),
+                      margin: const EdgeInsets.only(top: 200),
                       child: Padding(
                         padding: const EdgeInsets.all(50.0),
                         child: Column(
@@ -82,11 +84,21 @@ class _ClubDetailsState extends State<ClubDetails> {
                             ),
                             Text(
                               clubDetails.name!,
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.center,
                               style: TextStyles.heading1D,
+                              maxLines: 2,
                             ),
                             const SizedBox(
-                              height: 25,
+                              height: 15,
+                            ),
+                            Text(
+                              clubDetails.details!,
+                              textAlign: TextAlign.center,
+                              maxLines: 5,
+                              style: TextStyles.heading1B,
+                            ),
+                            const SizedBox(
+                              height: 15,
                             ),
                             _buildInfoColumn(
                                 "قائد/ة النادي:  ", clubDetails.leader!),
@@ -94,26 +106,13 @@ class _ClubDetailsState extends State<ClubDetails> {
                                 "موعد فتح التسجيل:  ", clubDetails.regTime!),
                             _buildInfoColumn(
                                 "وسيلة التواصل : ", clubDetails.contact!),
-
-                            // if (isClicked)
-                            //   Padding(
-                            //     padding: const EdgeInsets.all(5.0),
-                            //     child: Text(offerInfo.code!,
-                            //         style: TextStyles.heading3B),
-                            //   )
                           ],
                         ),
                       ),
                     ),
                   ),
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //
-                  //   ],
-                  // ),
                   Positioned(
-                    top: 180,
+                    top: 130,
                     child: Container(
                       width: 130,
                       height: 130,
@@ -131,30 +130,51 @@ class _ClubDetailsState extends State<ClubDetails> {
                         color: Colors.white,
                       ),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: clubDetails.logo == "empty"
-                                ? const Image(
-                                    image: AssetImage('assets/images/mug.png'))
-                                : Image.network(
-                                    '${clubDetails.logo}',
-                                    fit: BoxFit.contain,
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          height: 80,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          child: clubDetails.logo == "empty"
+                              ? Image(
+                                  image:
+                                      AssetImage('assets/images/logo-icon.png'))
+                              : FutureBuilder<void>(
+                                  future: precacheImage(
+                                    CachedNetworkImageProvider(
+                                        clubDetails.logo!),
+                                    context,
                                   ),
-                          )
-                          // child: details['icon'] == "empty"
-                          //     ? const Image(
-                          //         image: AssetImage('assets/images/mug.png'))
-                          //     : Image(
-                          //         image: AssetImage('${details['icon']}'),
-                          //       ),
-                          ),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.white,
+                                        highlightColor: Colors.grey[300]!,
+                                        enabled: true,
+                                        child: Container(
+                                          color: Colors.white,
+                                        ),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text(
+                                          'Error loading image'); // Handle error loading image
+                                    } else {
+                                      return CachedNetworkImage(
+                                        imageUrl: clubDetails.logo!,
+                                        fit: BoxFit.contain,
+                                      );
+                                    }
+                                  },
+                                ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -177,7 +197,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(170, 50),
+                        fixedSize: const Size(160, 40),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(27),
@@ -205,7 +225,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(170, 50),
+                        fixedSize: const Size(160, 40),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(27),
@@ -241,23 +261,28 @@ class _ClubDetailsState extends State<ClubDetails> {
   }
 
   Widget _buildInfoColumn(String label, String value) {
-    double width = MediaQuery.of(context).size.width / 10;
+    double width = MediaQuery.of(context).size.width / 20;
     print(width);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width, vertical: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             label,
             style: TextStyles.text2,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
           ),
           const SizedBox(height: 5),
-          Text(
-            value,
-            style: TextStyles.text,
-            textAlign: TextAlign.center,
+          Expanded(
+            child: Text(
+              value,
+              maxLines: 5,
+              style: TextStyles.text,
+              textAlign: TextAlign.right,
+            ),
           ),
         ],
       ),

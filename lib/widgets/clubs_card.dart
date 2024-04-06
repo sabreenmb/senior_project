@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../interface/StudentClubDetails.dart';
 import '../model/SClubInfo.dart';
@@ -48,38 +49,42 @@ class ClubsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: clubDetails.logo == "empty"
-                  ? const Image(image: AssetImage('assets/images/mug.png'))
-                  : FutureBuilder(
-                future: precacheImage(
-                  CachedNetworkImageProvider(clubDetails.logo!),
-                  context,
-                ),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return CachedNetworkImage(
-                      imageUrl: clubDetails.logo!,
-                      fit: BoxFit.fill,
-                    );
-                  }
-                },
-                    ),
-              // child:Image.asset( clubDetails)
-              // SvgPicture.asset(
-              //   details['icon']!,
-              //   width: 70,
-              //   height: 70,
-              //   //color: CustomColors.lightBlue.withOpacity(0.6),
-              // ),
-            ),
-            const SizedBox(
-              height: 5,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                height: 80,
+                margin: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 20.0),
+                child: clubDetails.logo == "empty"
+                    ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                    : FutureBuilder<void>(
+                        future: precacheImage(
+                          CachedNetworkImageProvider(clubDetails.logo!),
+                          context,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.white,
+                              highlightColor: Colors.grey[300]!,
+                              enabled: true,
+                              child: Container(
+                                color: Colors.white,
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                                'Error loading image'); // Handle error loading image
+                          } else {
+                            return CachedNetworkImage(
+                              imageUrl: clubDetails.logo!,
+                              fit: BoxFit.cover,
+                            );
+                          }
+                        },
+                      ),
+              ),
             ),
             Text(clubDetails.name!,
                 textAlign: TextAlign.center, style: TextStyles.heading1L),

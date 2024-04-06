@@ -286,75 +286,84 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  FocusScope.of(context).unfocus();
+                          child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      FocusScope.of(context).unfocus();
 
-                                  if (isLost != true) {
-                                    setState(() {
-                                      isButtonClicked = false;
-                                      isLost = true;
-                                      if (isSearch) {
-                                        _userInputController.clear();
-                                        isSearch = false;
+                                      if (isLost != true) {
+                                        setState(() {
+                                          isButtonClicked = false;
+                                          isLost = true;
+                                          if (isSearch) {
+                                            _userInputController.clear();
+                                            isSearch = false;
+                                          }
+                                        });
                                       }
-                                    });
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(150, 40),
-                                    side: BorderSide(
-                                        color: isLost
-                                            ? Colors.transparent
-                                            : CustomColors.darkGrey,
-                                        width: 1),
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    backgroundColor: isLost
-                                        ? CustomColors.pink
-                                        : Colors.transparent),
-                                child: Text("المفقودة",
-                                    style: TextStyles.heading2),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (isLost == true) {
-                                    setState(() {
-                                      isButtonClicked = false;
-                                      isLost = false;
-                                      if (isSearch) {
-                                        _userInputController.clear();
-                                        isSearch = false;
-                                      }
-                                    });
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(150, 40),
-                                    side: BorderSide(
-                                        color: !isLost
-                                            ? Colors.transparent
-                                            : CustomColors.darkGrey,
-                                        width: 1),
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    backgroundColor: !isLost
-                                        ? CustomColors.pink
-                                        : Colors.transparent),
-                                child: Text(
-                                  "الموجودة",
-                                  style: TextStyles.heading2,
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: const Size(150, 40),
+                                        side: BorderSide(
+                                            color: isLost
+                                                ? Colors.transparent
+                                                : CustomColors.darkGrey,
+                                            width: 1),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        backgroundColor: isLost
+                                            ? CustomColors.pink
+                                            : Colors.transparent),
+                                    child: Text("المفقودة",
+                                        style: TextStyles.heading2),
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (isLost == true) {
+                                        setState(() {
+                                          isButtonClicked = false;
+                                          isLost = false;
+                                          if (isSearch) {
+                                            _userInputController.clear();
+                                            isSearch = false;
+                                          }
+                                        });
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: const Size(150, 40),
+                                        side: BorderSide(
+                                            color: !isLost
+                                                ? Colors.transparent
+                                                : CustomColors.darkGrey,
+                                            width: 1),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        backgroundColor: !isLost
+                                            ? CustomColors.pink
+                                            : Colors.transparent),
+                                    child: Text(
+                                      "الموجودة",
+                                      style: TextStyles.heading2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         if (isLost
