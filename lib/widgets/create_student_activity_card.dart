@@ -50,10 +50,14 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                       //start the colom
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.createStudentActivityReport.name!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.heading3B,
+                        SizedBox(
+                          width: 270,
+                          child: Text(
+                            widget.createStudentActivityReport.name!,
+                            textAlign: TextAlign.right,
+                            style: TextStyles.heading3B,
+                            // maxLines: 2,
+                          ),
                         ),
                         const SizedBox(
                           height: 10,

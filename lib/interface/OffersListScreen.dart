@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/grid_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
@@ -7,9 +6,6 @@ import 'package:senior_project/widgets/side_menu.dart';
 import '../constant.dart';
 import '../theme.dart';
 import '../widgets/commonWidgets.dart';
-import 'ChatScreen.dart';
-import 'HomeScreen.dart';
-import 'SaveListScreen.dart';
 
 class OffersListScreen extends StatefulWidget {
   const OffersListScreen({super.key});
@@ -36,9 +32,8 @@ class _OffersListState extends State<OffersListScreen> {
           backgroundColor: CustomColors.pink,
           elevation: 0,
           title: Text("العروض", style: TextStyles.heading1),
-          centerTitle:true,
+          centerTitle: true,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(

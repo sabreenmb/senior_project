@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/constant.dart';
-import 'package:senior_project/model/EventItem.dart';
 import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/model/volunteer_op_report.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,10 +43,13 @@ class _OpCardState extends State<OpCard> {
               //start the colom
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  widget.volunteerOpReport.name!,
-                  textAlign: TextAlign.right,
-                  style: TextStyles.heading3B,
+                SizedBox(
+                  width: 270,
+                  child: Text(
+                    widget.volunteerOpReport.name!,
+                    textAlign: TextAlign.right,
+                    style: TextStyles.heading3B,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,

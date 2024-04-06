@@ -7,11 +7,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/all_users_screen.dart';
 import 'package:senior_project/model/chat_info.dart';
+import 'package:senior_project/widgets/commonWidgets.dart';
 import 'package:senior_project/widgets/user_chat_item.dart';
-import 'package:senior_project/interface/HomeScreen.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
-import 'package:senior_project/interface/SaveListScreen.dart';
-import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
@@ -49,20 +46,6 @@ class _CurrentChatsState extends State<CurrentChats>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const CurrentChats(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
   }
 
   void _goToAllUsers() {
@@ -74,48 +57,11 @@ class _CurrentChatsState extends State<CurrentChats>
     );
   }
 
-  void goToProfilePage() {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
-    );
-  }
-
   Stream<QuerySnapshot> getUsers() {
     return FirebaseFirestore.instance
         .collection("chat_rooms")
         .orderBy('lastMsgTime', descending: true)
         .snapshots();
-  }
-
-  void _selectPage(int index) {
-    setState(() {
-      if (index == 1) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
-      }
-      //todo uncomment on next sprints
-      if (index == 0) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-        _selectedPageIndex = index;
-      } else if (index == 1) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
-      } else if (index == 2) {
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (_) => const ChatScreen()));
-        // _selectedPageIndex = index;
-      } else if (index == 3) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
-      }
-    });
   }
 
   @override
@@ -148,44 +94,9 @@ class _CurrentChatsState extends State<CurrentChats>
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
         endDrawer: SideDrawer(
-          onProfileTap: goToProfilePage,
+          onProfileTap: () => goToProfilePage(context),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 0.1,
-          clipBehavior: Clip.none,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: BottomNavigationBar(
-                onTap: _selectPage,
-                unselectedItemColor: CustomColors.darkGrey,
-                selectedItemColor: CustomColors.lightBlue,
-                currentIndex: 2,
-                items: const [
-                  BottomNavigationBarItem(
-                    label: 'الرئيسية',
-                    icon: Icon(Icons.home_outlined),
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.apps), label: 'الخدمات'),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.messenger_outline,
-                      ),
-                      label: 'الدردشة'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-                ],
-              ),
-            ),
-          ),
-        ),
+        bottomNavigationBar: buildBottomBar(context, 2, false),
         body: ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,

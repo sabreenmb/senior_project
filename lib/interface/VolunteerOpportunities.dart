@@ -1,13 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
-import 'package:senior_project/interface/ChatScreen.dart';
-import 'package:senior_project/interface/HomeScreen.dart';
-import 'package:senior_project/interface/SaveListScreen.dart';
-import 'package:senior_project/interface/add_lost_item_screen.dart';
 //import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/volunteer_op_report.dart';
@@ -28,7 +21,6 @@ class VolunteerOp extends StatefulWidget {
 
 class _VolunteerOpState extends State<VolunteerOp>
     with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
@@ -98,10 +90,9 @@ class _VolunteerOpState extends State<VolunteerOp>
                               child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: MediaQuery.removePadding(
-                              context: context,
-                              removeTop: true,
-                              child: _buildCardsList()
-                            ),
+                                context: context,
+                                removeTop: true,
+                                child: _buildCardsList()),
                           )),
                       ],
                     ),

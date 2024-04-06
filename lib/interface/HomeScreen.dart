@@ -2,11 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/ChatScreen.dart';
-import 'package:senior_project/interface/SaveListScreen.dart';
-import 'package:senior_project/interface/add_lost_item_screen.dart';
-import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
+import 'package:senior_project/widgets/commonWidgets.dart';
 import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
@@ -23,8 +20,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   bool isLoading = false;
-  late List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 0;
 
   @override
   void initState() {
@@ -33,46 +28,11 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
     homeCards();
     getTodayList();
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const ChatScreen(),
-      },
-      {
-        'page': const AddLostItemScreen(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
+
     _LoadCreatedSessions();
   }
 
   void _LoadCreatedSessions() async {}
-
-  void _selectPage(int index) {
-    setState(() {
-      // todo uncomment on next sprints
-      if (index == 0) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      } else if (index == 1) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      } else if (index == 2) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      } else if (index == 3) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,46 +50,10 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           centerTitle: false,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
-        endDrawer: const SideDrawer(),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 0.1,
-          clipBehavior: Clip.none,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: BottomNavigationBar(
-                onTap: _selectPage,
-                unselectedItemColor: CustomColors.darkGrey,
-                selectedItemColor: CustomColors.darkGrey,
-                currentIndex: 0,
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home_outlined),
-                    label: 'الرئيسية',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.apps),
-                    label: 'الخدمات',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.messenger_outline),
-                    label: 'الدردشة',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.bookmark_border),
-                    label: 'المحفوظات',
-                  ),
-                ],
-              ),
-            ),
-          ),
+        endDrawer: SideDrawer(
+          onProfileTap: () => goToProfilePage(context),
         ),
+        bottomNavigationBar: buildBottomBar(context, 0, false),
         body: ModalProgressHUD(
           inAsyncCall: isLoading,
           child: SafeArea(
@@ -139,7 +63,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                 children: [
                   const SizedBox(height: 15),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: CustomColors.BackgroundColor,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -176,7 +100,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
       ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         return CarouselSlider(
           items: categoryList
@@ -186,7 +110,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           options: CarouselOptions(
             height: 180,
             autoPlay: true,
-            autoPlayInterval: Duration(seconds: 3),
+            autoPlayInterval: const Duration(seconds: 3),
           ),
         );
       },
@@ -195,12 +119,12 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Align(
         alignment: Alignment.centerRight,
         child: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: CustomColors.darkGrey,

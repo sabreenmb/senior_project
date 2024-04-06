@@ -1,28 +1,28 @@
 class CreateGroupReport {
   //Variables
   String? id;
-  String? subjectCode;
-  String? sessionDate;
-  String? sessionTime;
-  String? sessionPlace;
+  String? name;
+  String? date;
+  String? time;
+  String? location;
   String? numPerson;
 
   //Constructor
   CreateGroupReport({
     required this.id,
-    required this.subjectCode,
-    required this.sessionDate,
-    required this.sessionTime,
-    required this.sessionPlace,
+    required this.name,
+    required this.date,
+    required this.time,
+    required this.location,
     required this.numPerson,
   });
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['SubjectCode'] = subjectCode;
-    map['SessionDate'] = sessionDate;
-    map['SessionTime'] = sessionTime;
-    map['SessionPlace'] = sessionPlace;
+    map['name'] = name;
+    map['date'] = date;
+    map['time'] = time;
+    map['location'] = location;
     map['NumPerson'] = numPerson;
     return map;
   }

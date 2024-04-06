@@ -1,24 +1,17 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/interface/add_found_item_screen.dart';
 import 'package:senior_project/interface/add_lost_item_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/found_card.dart';
 import 'package:senior_project/widgets/lost_card.dart';
 import 'package:senior_project/theme.dart';
-import 'package:http/http.dart' as http;
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 import '../constant.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
 import '../widgets/commonWidgets.dart';
-import 'ChatScreen.dart';
-import 'Chat_Pages/current_chats.dart';
-import 'HomeScreen.dart';
-import 'SaveListScreen.dart';
 import '../firebaseConnection.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
@@ -30,7 +23,6 @@ class LostAndFoundScreen extends StatefulWidget {
 
 class _LostAndFoundState extends State<LostAndFoundScreen>
     with SingleTickerProviderStateMixin {
-  late List<Map<String, Object>> _pages;
   //search
   List<LostItemReport> searchLostList = [];
   List<FoundItemReport> searchFoundList = [];
@@ -222,13 +214,14 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
+                            scrollDirection: Axis.horizontal,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4.0),
                                   child: ElevatedButton(
                                     onPressed: () {
                                       FocusScope.of(context).unfocus();
@@ -253,7 +246,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                             width: 1),
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         backgroundColor: isLost
                                             ? CustomColors.pink
@@ -263,7 +257,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4.0),
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (isLost == true) {
@@ -286,7 +281,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                             width: 1),
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         backgroundColor: !isLost
                                             ? CustomColors.pink
@@ -464,7 +460,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 10),
-              itemCount: isLost?lostItemReport.length:foundItemReport.length,
+              itemCount:
+                  isLost ? lostItemReport.length : foundItemReport.length,
               itemBuilder: (context, index) {
                 if (isLost) {
                   return LostCard(lostItemReport[0]);

@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -86,7 +85,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       return;
     }
     _formKey.currentState!.save();
-    final storageRef =Connection.firestorageRef('lost_images',uniqueFileName);
+    final storageRef = Connection.firestorageRef('lost_images', uniqueFileName);
 
     if (_selectedImage == null) {
       _imageUrl = "empty";

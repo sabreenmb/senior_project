@@ -34,116 +34,137 @@ class LostCard extends StatelessWidget {
                 child: lostItemReport.photo == "empty"
                     ? Image(image: AssetImage('assets/images/logo-icon.png'))
                     : FutureBuilder<void>(
-                  future: precacheImage(
-                    CachedNetworkImageProvider(lostItemReport.photo!),
-                    context,
-                  ),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.white,
-                        highlightColor: Colors.grey[300]!,
-                        enabled: true,
-                        child: Container(
-                          color: Colors.white,
+                        future: precacheImage(
+                          CachedNetworkImageProvider(lostItemReport.photo!),
+                          context,
                         ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('Error loading image'); // Handle error loading image
-                    } else {
-                      return CachedNetworkImage(
-                        imageUrl: lostItemReport.photo!,
-                        fit: BoxFit.fill,
-                      );
-                    }
-                  },
-                ),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.white,
+                              highlightColor: Colors.grey[300]!,
+                              enabled: true,
+                              child: Container(
+                                color: Colors.white,
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                                'Error loading image'); // Handle error loading image
+                          } else {
+                            return CachedNetworkImage(
+                              imageUrl: lostItemReport.photo!,
+                              fit: BoxFit.fill,
+                            );
+                          }
+                        },
+                      ),
               ),
             ),
-
             Expanded(
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  //start the colom
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Stack(
                   children: [
-                    Text(
-                      lostItemReport.category!,
-                      textAlign: TextAlign.right,
-                      style: TextStyles.heading3B,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      lostItemReport.desription!,
-                      textAlign: TextAlign.right,
-                      style: TextStyles.text2,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      //start the colom
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Icon(
-                          Icons.date_range_outlined,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
+                        Text(
+                          lostItemReport.category!,
+                          textAlign: TextAlign.right,
+                          style: TextStyles.heading3B,
                         ),
                         const SizedBox(
-                          width: 5,
+                          height: 10,
                         ),
                         Text(
-                          lostItemReport.lostDate!,
+                          lostItemReport.desription!,
                           textAlign: TextAlign.right,
-                          style: TextStyles.text,
+                          style: TextStyles.text2,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.date_range_outlined,
+                              color: CustomColors.lightGrey,
+                              size: 14.0,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              lostItemReport.lostDate!,
+                              textAlign: TextAlign.right,
+                              style: TextStyles.text,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              color: CustomColors.lightGrey,
+                              size: 14.0,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              lostItemReport.expectedPlace!,
+                              textAlign: TextAlign.right,
+                              style: TextStyles.text,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.call,
+                              color: CustomColors.lightGrey,
+                              size: 14.0,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              lostItemReport.phoneNumber!,
+                              textAlign: TextAlign.right,
+                              style: TextStyles.text,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on_outlined,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
+                    //todo manar
+                    Positioned(
+                      top: 5,
+                      left: 15.0,
+                      child: IconButton(
+                        onPressed: () {
+                          // setState(() {
+                          //   isSaved = savedItem.addToSave(isSaved);
+                          // });
+                        },
+                        icon: Icon(
+                          Icons.chat_bubble_rounded,
+                          color: CustomColors.lightBlue,
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          lostItemReport.expectedPlace!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.call,
-                          color: CustomColors.lightGrey,
-                          size: 14.0,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          lostItemReport.phoneNumber!,
-                          textAlign: TextAlign.right,
-                          style: TextStyles.text,
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),

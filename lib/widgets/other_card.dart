@@ -1,19 +1,34 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:senior_project/constant.dart';
+import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/model/other_event_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 
 // ignore: must_be_immutable
-class OtherCard extends StatelessWidget {
+class OtherCard extends StatefulWidget {
   OtherEventsItemReport otherEventsItem;
   OtherCard(this.otherEventsItem, {super.key});
+
+  @override
+  State<OtherCard> createState() => _OtherCardState();
+}
+
+class _OtherCardState extends State<OtherCard> {
+  bool isSaved = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print(otherEventsItem.name);
+    print(widget.otherEventsItem.name);
+
+    SavedList savedItem = SavedList(
+        serviceName: 'otherEvents',
+        dynamicObject: widget.otherEventsItem,
+        icon: services[6]['icon']);
+    isSaved = SavedList.findId(widget.otherEventsItem.id.toString());
 
     return Card(
         elevation: 4,
@@ -30,15 +45,18 @@ class OtherCard extends StatelessWidget {
                 //start the colom
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    otherEventsItem.name!,
-                    textAlign: TextAlign.right,
-                    style: TextStyles.heading3B,
+                  SizedBox(
+                    width: 270,
+                    child: Text(
+                      widget.otherEventsItem.name!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.heading3B,
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  if (otherEventsItem.presentBy != "")
+                  if (widget.otherEventsItem.presentBy != "")
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -51,7 +69,7 @@ class OtherCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          otherEventsItem.presentBy!,
+                          widget.otherEventsItem.presentBy!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text,
                         ),
@@ -71,7 +89,7 @@ class OtherCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "${otherEventsItem.date!} , ${otherEventsItem.time!}",
+                        "${widget.otherEventsItem.date!} , ${widget.otherEventsItem.time!}",
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -91,7 +109,7 @@ class OtherCard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        otherEventsItem.location!,
+                        widget.otherEventsItem.location!,
                         textAlign: TextAlign.right,
                         style: TextStyles.text,
                       ),
@@ -102,13 +120,28 @@ class OtherCard extends StatelessWidget {
                   ),
                 ]),
           ),
-          if (otherEventsItem.otherEventLink != "")
+          Positioned(
+            top: 5,
+            left: 15.0,
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  isSaved = savedItem.addToSave(isSaved);
+                });
+              },
+              icon: Icon(
+                isSaved ? Icons.bookmark : Icons.bookmark_border,
+                color: CustomColors.lightBlue,
+              ),
+            ),
+          ),
+          if (widget.otherEventsItem.otherEventLink != "")
             Positioned(
               bottom: 8.0,
               left: 15.0,
               child: TextButton(
                 onPressed: () =>
-                    _launchURL(otherEventsItem.otherEventLink!, context),
+                    _launchURL(widget.otherEventsItem.otherEventLink!, context),
                 child: Text(
                   'سجل',
                   style: TextStyle(
