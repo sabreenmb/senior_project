@@ -520,7 +520,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 10),
-              itemCount: 4,
+              itemCount: isLost?lostItemReport.length:foundItemReport.length,
               itemBuilder: (context, index) {
                 if (isLost) {
                   return LostCard(lostItemReport[0]);
@@ -540,6 +540,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
 
         List<dynamic> reports;
         if (isLost) {
+          lostItemReport.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
@@ -555,6 +556,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           }).toList();
           lostItemReport = reports.cast<LostItemReport>();
         } else {
+          foundItemReport.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;

@@ -51,7 +51,7 @@ Widget buildBottomBarWF(BuildContext context, int index) {
   );
 }
 
-Widget buildBottomAppBar(BuildContext context, int index) {
+Widget buildBottomBar(BuildContext context, int index,bool isService) {
   return BottomAppBar(
     color: Colors.white,
     shape: const CircularNotchedRectangle(),
@@ -65,18 +65,20 @@ Widget buildBottomAppBar(BuildContext context, int index) {
           color: Colors.white,
         ),
         child: BottomNavigationBar(
+          showSelectedLabels:isService?false:true,
+          landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
           onTap: (int newIndex) => _selectPage(newIndex, context),
           unselectedItemColor: CustomColors.darkGrey,
-          selectedItemColor: CustomColors.lightBlue,
+          selectedItemColor: isService?CustomColors.darkGrey:CustomColors.lightBlue,
           currentIndex: index,
-          items: const [
+          items:  [
             BottomNavigationBarItem(
               label: 'الرئيسية',
               icon: Icon(Icons.home_outlined),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.apps),
-              label: 'الخدمات',
+              label:'الخدمات',
             ),
             BottomNavigationBarItem(
               icon: Icon(
