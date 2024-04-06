@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
 import '../../constant.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class OtherUserProfileScreen extends StatefulWidget {
   final enteredUserInfo otherUserInfo;
@@ -47,14 +47,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
           child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [CustomColors.pink, Colors.white],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.5, 0.5],
-              ),
-            ),
+            color: CustomColors.pink, // Set background color here
             child: SafeArea(
               bottom: false,
               child: SingleChildScrollView(

@@ -267,7 +267,6 @@ class _ClubDetailsState extends State<ClubDetails> {
       padding: EdgeInsets.symmetric(horizontal: width, vertical: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
