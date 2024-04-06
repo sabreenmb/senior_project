@@ -31,7 +31,6 @@ class LostAndFoundScreen extends StatefulWidget {
 class _LostAndFoundState extends State<LostAndFoundScreen>
     with SingleTickerProviderStateMixin {
   late List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 2;
   //search
   List<LostItemReport> searchLostList = [];
   List<FoundItemReport> searchFoundList = [];
@@ -63,70 +62,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     );
   }
 
-  // void _LoadFoundItems() async {
-  //   final List<FoundItemReport> loadedFoundItems = [];
-  //
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-  //     final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-  //         'Found-Items.json');
-  //     final response = await http.get(url);
-  //
-  //     final Map<String, dynamic> founddata = json.decode(response.body);
-  //     for (final item in founddata.entries) {
-  //       loadedFoundItems.add(FoundItemReport(
-  //         id: item.key,
-  //         category: item.value['Category'],
-  //         foundDate: item.value['FoundDate'],
-  //         foundPlace: item.value['FoundPlace'],
-  //         receivePlace: item.value['ReceivePlace'],
-  //         desription: item.value['Description'],
-  //         photo: item.value['Photo'],
-  //       ));
-  //     }
-  //   } catch (error) {
-  //     print('Empty List');
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //       _foundItemReport = loadedFoundItems;
-  //     });
-  //   }
-  // }
-  //
-  // void _LoadLostItems() async {
-  //   final List<LostItemReport> loadedLostItems = [];
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-  //     final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-  //         'Lost-Items.json');
-  //     final response = await http.get(url);
-  //     final Map<String, dynamic> lostdata = json.decode(response.body);
-  //     for (final item in lostdata.entries) {
-  //       loadedLostItems.add(LostItemReport(
-  //         id: item.key,
-  //         photo: item.value['Photo'],
-  //         category: item.value['Category'],
-  //         lostDate: item.value['LostDate'],
-  //         expectedPlace: item.value['ExpectedPlace'],
-  //         phoneNumber: item.value['PhoneNumber'],
-  //         desription: item.value['Description'],
-  //       ));
-  //     }
-  //   } catch (error) {
-  //     print('empty list');
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //       _lostItemReport = loadedLostItems;
-  //     });
-  //   }
-  // }
-
   void _toggleExpanded() {
     setState(() {
       isButtonClicked = true;
@@ -141,7 +76,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
 
   @override
   Widget build(BuildContext context) {
-    print('build enter');
 // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
@@ -250,6 +184,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                   ? IconButton(
                                       onPressed: () {
                                         _userInputController.clear();
+                                        FocusScope.of(context).unfocus();
 
                                         setState(() {
                                           isButtonClicked = false;

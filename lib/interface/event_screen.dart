@@ -14,6 +14,9 @@ import 'package:senior_project/widgets/conf_card.dart';
 import 'package:senior_project/widgets/other_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:senior_project/widgets/workshop_card.dart';
+import 'package:shimmer/shimmer.dart';
+import '../firebaseConnection.dart';
+import '../widgets/commonWidgets.dart';
 import '../widgets/course_card.dart';
 import 'services_screen.dart';
 import 'package:http/http.dart' as http;
@@ -32,12 +35,6 @@ class _EventState extends State<EventScreen> {
   List<ConferencesItemReport> searchConfList = [];
   List<OtherEventsItemReport> searchOtherList = [];
 
-  // List<CoursesItemReport> _courseItem = [];
-  // List<WorkshopsItemReport> _workshopItem = [];
-  // List<ConferencesItemReport> _confItem = [];
-  // List<OtherEventsItemReport> _otherItem = [];
-
-  int _selectedPageIndex = 1;
   bool isSelected = true;
   bool isSearch = false;
 
@@ -50,171 +47,6 @@ class _EventState extends State<EventScreen> {
   @override
   void initState() {
     super.initState();
-    //_loadData();
-  }
-
-  // void _loadData() async {
-  //   setState(() {
-  //     isLoading = true;
-  //     errorMessage = '';
-  //   });
-  //
-  //   try {
-  //     await Future.wait([
-  //       _loadCoursesItems(),
-  //       _loadWorkshopsItems(),
-  //       _loadConferencesItems(),
-  //       _loadOtherEventsItems(),
-  //     ]);
-  //   } catch (error) {
-  //     setState(() {
-  //       errorMessage = 'Failed to load data. Please check your connection.';
-  //     });
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
-
-  // Future<void> _loadCoursesItems() async {
-  //   final url = Uri.https(
-  //     'senior-project-72daf-default-rtdb.firebaseio.com',
-  //     'eventsCoursesDB.json',
-  //   );
-  //   final response = await http.get(url);
-  //
-  //   final Map<String, dynamic> foundData = json.decode(response.body);
-  //   final loadedCoursesItems = foundData.entries.map((item) {
-  //     return CoursesItemReport(
-  //       id: item.key,
-  //       name: item.value['course_name'],
-  //       presentBy: item.value['course_presenter'],
-  //       date: item.value['course_date'],
-  //       time: item.value['course_time'],
-  //       location: item.value['course_location'],
-  //       courseLink: item.value['course_link'],
-  //       timestamp:item.value['timestamp'],
-  //
-  //     );
-  //   }).toList();
-  //
-  //   setState(() {
-  //     _courseItem = loadedCoursesItems;
-  //   });
-  // }
-  //
-  // Future<void> _loadWorkshopsItems() async {
-  //   final url = Uri.https(
-  //     'senior-project-72daf-default-rtdb.firebaseio.com',
-  //     'eventsWorkshopsDB.json',
-  //   );
-  //   final response = await http.get(url);
-  //
-  //   final Map<String, dynamic> foundData = json.decode(response.body);
-  //   final loadedWorkshopsItems = foundData.entries.map((item) {
-  //     return WorkshopsItemReport(
-  //       id: item.key,
-  //       name: item.value['workshop_name'],
-  //       presentBy: item.value['workshop_presenter'],
-  //       date: item.value['workshop_date'],
-  //       location: item.value['workshop_location'],
-  //       time: item.value['workshop_time'],
-  //       workshopLink: item.value['workshop_link'],
-  //       timestamp:item.value['timestamp'],
-  //
-  //     );
-  //   }).toList();
-  //
-  //   setState(() {
-  //     _workshopItem = loadedWorkshopsItems;
-  //   });
-  // }
-  //
-  // Future<void> _loadConferencesItems() async {
-  //   final url = Uri.https(
-  //     'senior-project-72daf-default-rtdb.firebaseio.com',
-  //     'eventsConferencesDB.json',
-  //   );
-  //   final response = await http.get(url);
-  //
-  //   final Map<String, dynamic> foundData = json.decode(response.body);
-  //   final loadedConferencesItems = foundData.entries.map((item) {
-  //     return ConferencesItemReport(
-  //       id: item.key,
-  //       name: item.value['conference_name'],
-  //       date: item.value['conference_date'],
-  //       timestamp:item.value['timestamp'],
-  //       time: item.value['conference_time'],
-  //       location: item.value['conference_location'],
-  //       confLink: item.value['conference_link'],
-  //     );
-  //   }).toList();
-  //
-  //   setState(() {
-  //     _confItem = loadedConferencesItems;
-  //   });
-  // }
-  //
-  // Future<void> _loadOtherEventsItems() async {
-  //   final url = Uri.https(
-  //     'senior-project-72daf-default-rtdb.firebaseio.com',
-  //     'eventsOthersDB.json',
-  //   );
-  //   final response = await http.get(url);
-  //
-  //   final Map<String, dynamic> eventData = json.decode(response.body);
-  //   final loadedOtherEventsItems = eventData.entries.map((item) {
-  //     return OtherEventsItemReport(
-  //       id: item.key,
-  //       name: item.value['OEvent_name'],
-  //       presentBy: item.value['OEvent_presenter'],
-  //       date: item.value['OEvent_date'],
-  //       time: item.value['OEvent_time'],
-  //       location: item.value['OEvent_location'],
-  //       otherEventLink: item.value['OEvent_link'],
-  //       timestamp:item.value['timestamp'],
-  //
-  //     );
-  //   }).toList();
-  //
-  //   setState(() {
-  //     _otherItem = loadedOtherEventsItems;
-  //   });
-  // }
-
-  void _selectPage(int index) {
-    setState(() {
-      if (index == 1) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
-      }
-      // todo uncomment on next sprints
-      //  if (index == 0) {
-      //    Navigator.pushReplacement(
-      //        context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      //  } else if (index == 1) {
-      //    Navigator.pushReplacement(
-      //        context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      //  } else if (index == 2) {
-      //    Navigator.pushReplacement(
-      //        context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      //  } else if (index == 3) {
-      //    Navigator.pushReplacement(
-      //        context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      //  }
-    });
-  }
-
-  void goToProfilePage() {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
-    );
   }
 
   @override
@@ -231,51 +63,24 @@ class _EventState extends State<EventScreen> {
             title: Text("الفعاليات", style: TextStyles.heading1),
             centerTitle: false,
             iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-          ),
-          endDrawer: SideDrawer(
-            onProfileTap: goToProfilePage,
-          ),
-          bottomNavigationBar: BottomAppBar(
-            color: Colors.white,
-            shape: const CircularNotchedRectangle(),
-            notchMargin: 0.1,
-            clipBehavior: Clip.none,
-            child: SizedBox(
-              height: kBottomNavigationBarHeight * 1.2,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: BottomNavigationBar(
-                  onTap: _selectPage,
-                  unselectedItemColor: CustomColors.darkGrey,
-                  selectedItemColor: CustomColors.darkGrey,
-                  currentIndex: _selectedPageIndex,
-                  items: const [
-                    BottomNavigationBarItem(
-                      label: 'الرئيسية',
-                      icon: Icon(Icons.home_outlined),
-                    ),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.apps), label: 'الخدمات'),
-                    // BottomNavigationBarItem(
-                    //   label: "",
-                    //   activeIcon: null,
-                    //   icon: Icon(null),
-                    // ),
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.messenger_outline,
-                        ),
-                        label: 'الدردشة'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-                  ],
-                ),
-              ),
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ServisesScreen()));
+                  },
+                );
+              },
             ),
           ),
+          endDrawer: SideDrawer(
+            onProfileTap: () => goToProfilePage(context),
+          ),
+          bottomNavigationBar: buildBottomBar(context, 1, true),
           body: ModalProgressHUD(
               color: Colors.black,
               opacity: 0.5,
@@ -297,8 +102,8 @@ class _EventState extends State<EventScreen> {
                       Column(children: [
                         Container(
                           height: 60,
-                          padding:
-                              const EdgeInsets.only(top: 15, left: 15, right: 15),
+                          padding: const EdgeInsets.only(
+                              top: 15, left: 15, right: 15),
                           child: TextField(
                             autofocus: false,
                             controller: _userInputController,
@@ -392,102 +197,105 @@ class _EventState extends State<EventScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              getFilterButton(() {
-                                FocusScope.of(context).unfocus();
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                getFilterButton(() {
+                                  FocusScope.of(context).unfocus();
 
-                                if (!isSelectedCourse) {
-                                  isSelectedCourse = !isSelectedCourse;
-                                  setState(() {
-                                    // searchList = getValidCertificates();
-                                    if (isSelectedCourse == true) {
-                                      isSelectedConfre = false;
-                                      isSelectedWorkshop = false;
-                                      isSelectedOther = false;
-                                    }
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                                  isSelectedCourse
-                                      ? CustomColors.pink
-                                      : Colors.transparent,
-                                  "الدورات"),
-                              getFilterButton(() {
-                                FocusScope.of(context).unfocus();
+                                  if (!isSelectedCourse) {
+                                    isSelectedCourse = !isSelectedCourse;
+                                    setState(() {
+                                      // searchList = getValidCertificates();
+                                      if (isSelectedCourse == true) {
+                                        isSelectedConfre = false;
+                                        isSelectedWorkshop = false;
+                                        isSelectedOther = false;
+                                      }
+                                      if (isSearch) {
+                                        _userInputController.clear();
+                                        isSearch = false;
+                                      }
+                                    });
+                                  }
+                                },
+                                    isSelectedCourse
+                                        ? CustomColors.pink
+                                        : Colors.transparent,
+                                    "الدورات"),
+                                getFilterButton(() {
+                                  FocusScope.of(context).unfocus();
 
-                                if (!isSelectedWorkshop) {
-                                  isSelectedWorkshop = !isSelectedWorkshop;
-                                  setState(() {
-                                    // searchList = getValidCertificates();
-                                    if (isSelectedWorkshop == true) {
-                                      isSelectedConfre = false;
-                                      isSelectedCourse = false;
-                                      isSelectedOther = false;
-                                    }
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                                  isSelectedWorkshop
-                                      ? CustomColors.pink
-                                      : Colors.transparent,
-                                  "ورش عمل"),
-                              getFilterButton(() {
-                                FocusScope.of(context).unfocus();
+                                  if (!isSelectedWorkshop) {
+                                    isSelectedWorkshop = !isSelectedWorkshop;
+                                    setState(() {
+                                      // searchList = getValidCertificates();
+                                      if (isSelectedWorkshop == true) {
+                                        isSelectedConfre = false;
+                                        isSelectedCourse = false;
+                                        isSelectedOther = false;
+                                      }
+                                      if (isSearch) {
+                                        _userInputController.clear();
+                                        isSearch = false;
+                                      }
+                                    });
+                                  }
+                                },
+                                    isSelectedWorkshop
+                                        ? CustomColors.pink
+                                        : Colors.transparent,
+                                    "ورش عمل"),
+                                getFilterButton(() {
+                                  FocusScope.of(context).unfocus();
 
-                                if (!isSelectedConfre) {
-                                  isSelectedConfre = !isSelectedConfre;
-                                  setState(() {
-                                    // searchList = getValidCertificates();
-                                    if (isSelectedConfre == true) {
-                                      isSelectedCourse = false;
-                                      isSelectedWorkshop = false;
-                                      isSelectedOther = false;
-                                    }
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                                  isSelectedConfre
-                                      ? CustomColors.pink
-                                      : Colors.transparent,
-                                  "المؤتمرات"),
-                              getFilterButton(() {
-                                FocusScope.of(context).unfocus();
-                                if (!isSelectedOther) {
-                                  isSelectedOther = !isSelectedOther;
-                                  setState(() {
-                                    // searchList = getValidCertificates();
-                                    if (isSelectedOther == true) {
-                                      isSelectedConfre = false;
-                                      isSelectedWorkshop = false;
-                                      isSelectedCourse = false;
-                                    }
-                                    if (isSearch) {
-                                      _userInputController.clear();
-                                      isSearch = false;
-                                    }
-                                  });
-                                }
-                              },
-                                  isSelectedOther
-                                      ? CustomColors.pink
-                                      : Colors.transparent,
-                                  "اخرى"),
-                            ],
+                                  if (!isSelectedConfre) {
+                                    isSelectedConfre = !isSelectedConfre;
+                                    setState(() {
+                                      // searchList = getValidCertificates();
+                                      if (isSelectedConfre == true) {
+                                        isSelectedCourse = false;
+                                        isSelectedWorkshop = false;
+                                        isSelectedOther = false;
+                                      }
+                                      if (isSearch) {
+                                        _userInputController.clear();
+                                        isSearch = false;
+                                      }
+                                    });
+                                  }
+                                },
+                                    isSelectedConfre
+                                        ? CustomColors.pink
+                                        : Colors.transparent,
+                                    "المؤتمرات"),
+                                getFilterButton(() {
+                                  FocusScope.of(context).unfocus();
+                                  if (!isSelectedOther) {
+                                    isSelectedOther = !isSelectedOther;
+                                    setState(() {
+                                      // searchList = getValidCertificates();
+                                      if (isSelectedOther == true) {
+                                        isSelectedConfre = false;
+                                        isSelectedWorkshop = false;
+                                        isSelectedCourse = false;
+                                      }
+                                      if (isSearch) {
+                                        _userInputController.clear();
+                                        isSearch = false;
+                                      }
+                                    });
+                                  }
+                                },
+                                    isSelectedOther
+                                        ? CustomColors.pink
+                                        : Colors.transparent,
+                                    "اخرى"),
+                              ],
+                            ),
                           ),
                         ),
                         if ((isSelectedCourse && courseItem.isEmpty) ||
@@ -495,7 +303,8 @@ class _EventState extends State<EventScreen> {
                             (isSelectedConfre && confItem.isEmpty) ||
                             (isSelectedOther && otherItem.isEmpty) ||
                             (isSearch &&
-                                ((searchCourseList.isEmpty && isSelectedCourse) ||
+                                ((searchCourseList.isEmpty &&
+                                        isSelectedCourse) ||
                                     (isSelectedWorkshop &&
                                         searchWorkshopList.isEmpty) ||
                                     (isSelectedConfre &&
@@ -506,7 +315,8 @@ class _EventState extends State<EventScreen> {
                             child: Center(
                               child: SizedBox(
                                 height: 200,
-                                child: Image.asset('assets/images/notFound.png'),
+                                child:
+                                    Image.asset('assets/images/notFound.png'),
                               ),
                             ),
                           ),
@@ -527,19 +337,19 @@ class _EventState extends State<EventScreen> {
                         //   ),
                         if (isSelectedCourse && courseItem.isNotEmpty)
                           buildExpandedWidget(courseItem, searchCourseList,
-                              (item) => CoursesCard(item)),
+                              (item) => CoursesCard(item),'eventsCoursesDB'),
 
                         if (isSelectedWorkshop && workshopItem.isNotEmpty)
                           buildExpandedWidget(workshopItem, searchWorkshopList,
-                              (item) => WorkshopCard(item)),
+                              (item) => WorkshopCard(item),'eventsWorkshopsDB'),
 
                         if (isSelectedConfre && confItem.isNotEmpty)
                           buildExpandedWidget(confItem, searchConfList,
-                              (item) => ConfCard(item)),
+                              (item) => ConfCard(item),'eventsConferencesDB'),
 
                         if (isSelectedOther && otherItem.isNotEmpty)
                           buildExpandedWidget(otherItem, searchOtherList,
-                              (item) => OtherCard(item)),
+                              (item) => OtherCard(item),'eventsOthersDB'),
                       ])
                     ]))
                   ])))),
@@ -547,7 +357,7 @@ class _EventState extends State<EventScreen> {
   }
 
   Widget buildExpandedWidget(
-      List itemList, List searchList, Widget Function(dynamic) itemBuilder) {
+      List itemList, List searchList, Widget Function(dynamic) itemBuilder,String path) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -560,27 +370,140 @@ class _EventState extends State<EventScreen> {
                   itemBuilder: (context, index) =>
                       itemBuilder(searchList[index]),
                 )
-              : ListView.builder(
-                  itemCount: itemList.length,
-                  itemBuilder: (context, index) => itemBuilder(itemList[index]),
-                ),
+              : _buildCardsList(path,itemList,itemBuilder)
         ),
       ),
+    );
+  }
+  Widget _buildCardsList(String name,  List itemList, Widget Function(dynamic) itemBuilder) {
+    return StreamBuilder(
+      stream: Connection.databaseReference(name),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // return loadingFunction(context, true);
+          return Shimmer.fromColors(
+            baseColor: Colors.white,
+            highlightColor: Colors.grey[300]!,
+            enabled: true,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 10),
+              itemCount: itemList.length,
+              itemBuilder: (context, index) {
+                return itemBuilder(itemList[0]);
+              },
+            ),
+          );
+        }
+
+        final Map<dynamic, dynamic> data =
+        snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+        if (data == null) {
+          return Text('No data available');
+        }
+
+        List<dynamic> reports;
+        if (name=='eventsCoursesDB') {
+          courseItem.clear();
+          reports = data.entries.map((entry) {
+            final key = entry.key;
+            final value = entry.value;
+            return CoursesItemReport(
+              id: key,
+              name: value['course_name'],
+              presentBy: value['course_presenter'],
+              date: value['course_date'],
+              time: value['course_time'],
+              location: value['course_location'],
+              courseLink: value['course_link'],
+              timestamp:value['timestamp'],
+            );
+          }).toList();
+          courseItem = reports.cast<CoursesItemReport>();
+        } else if(name=='eventsWorkshopsDB') {
+          workshopItem.clear();
+          reports = data.entries.map((entry) {
+            final key = entry.key;
+            final value = entry.value;
+            return WorkshopsItemReport(
+              id: key,
+              name: value['workshop_name'],
+              presentBy: value['workshop_presenter'],
+              date: value['workshop_date'],
+              location: value['workshop_location'],
+              time: value['workshop_time'],
+              workshopLink: value['workshop_link'],
+              timestamp: value['timestamp'],
+            );
+          }).toList();
+          workshopItem = reports.cast<WorkshopsItemReport>();
+        }else if(name=='eventsConferencesDB'){
+          confItem.clear();
+          reports = data.entries.map((entry) {
+            final key = entry.key;
+            final value = entry.value;
+            return ConferencesItemReport(
+              id: key,
+              name: value['conference_name'],
+              date: value['conference_date'],
+              timestamp: value['timestamp'],
+              time: value['conference_time'],
+              location: value['conference_location'],
+              confLink: value['conference_link'],
+            );
+          }).toList();
+          confItem = reports.cast<ConferencesItemReport>();
+        }else {
+          otherItem.clear();
+          reports = data.entries.map((entry) {
+            final key = entry.key;
+            final value = entry.value;
+            return OtherEventsItemReport(
+              id: key,
+              name: value['OEvent_name'],
+              presentBy: value['OEvent_presenter'],
+              date: value['OEvent_date'],
+              time: value['OEvent_time'],
+              location: value['OEvent_location'],
+              otherEventLink: value['OEvent_link'],
+              timestamp: value['timestamp'],
+            );
+          }).toList();
+          otherItem = reports.cast<OtherEventsItemReport>();
+        }
+        // to do store the values
+        return ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 10),
+          itemCount: reports.length,
+          itemBuilder: (context, index) {
+            final report = reports[index];
+            return itemBuilder(report);
+          },
+        );
+      },
     );
   }
 
   Widget getFilterButton(
       void Function() onButtonPress, Color buttonColor, String title) {
-    return ElevatedButton(
-      onPressed: onButtonPress,
-      style: ElevatedButton.styleFrom(
-          side: const BorderSide(color: CustomColors.darkGrey, width: 1),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          backgroundColor: buttonColor),
-      child: Text(title, style: TextStyles.heading2),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: ElevatedButton(
+        onPressed: onButtonPress,
+        style: ElevatedButton.styleFrom(
+            side: BorderSide(color: (buttonColor==CustomColors.pink?buttonColor:CustomColors.darkGrey), width: 1),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: buttonColor),
+        child: Text(title, style: TextStyles.heading2),
+      ),
     );
   }
 

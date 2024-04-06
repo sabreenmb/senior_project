@@ -10,6 +10,7 @@ import 'model/EventItem.dart';
 import 'model/SClubInfo.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
+import 'model/create_group_report.dart';
 import 'model/create_student_activity_report.dart';
 import 'model/found_item_report.dart';
 import 'model/lost_item_report.dart';
@@ -31,6 +32,7 @@ class Setup {
     LoadCreatedSessions();
     LoadSClubs();
     LoadCreatedActivities();
+    loadStudyGroups();
     LoadLostItems();
     LoadFoundItems();
     // last one
@@ -213,6 +215,7 @@ class Setup {
       print('Error adding itemmmmm: $e');
     }
   }
+
 
   void loadWorkshopsItems() async {
     workshopItem = [];
@@ -472,6 +475,28 @@ class Setup {
       print('Items added successfully act.');
     } catch (e) {
       print('Error adding itemmmmm: $e');
+    }
+  }
+
+  void loadStudyGroups() async {
+    createGroupReport = [];
+    try {
+      final response = await http.get(Connection.url('create-group'));
+
+      final Map<String, dynamic> founddata = json.decode(response.body);
+      for (final item in founddata.entries) {
+        createGroupReport.add(CreateGroupReport(
+          id: item.key,
+          //model name : firebase name
+          subjectCode: item.value['SubjectCode'],
+          sessionDate: item.value['SessionDate'],
+          sessionTime: item.value['SessionTime'],
+          sessionPlace: item.value['SessionPlace'],
+          numPerson: item.value['NumPerson'],
+        ));
+      }
+    } catch (error) {
+      print('Empty List');
     }
   }
 

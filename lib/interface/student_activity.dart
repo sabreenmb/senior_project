@@ -227,6 +227,7 @@ class _StudentActivityState extends State<StudentActivity>
                                   ? IconButton(
                                       onPressed: () {
                                         _userInputController.clear();
+                                        FocusScope.of(context).unfocus();
 
                                         setState(() {
                                           isSearch = false;
@@ -285,7 +286,7 @@ class _StudentActivityState extends State<StudentActivity>
                                         itemBuilder: (context, index) =>
                                             CreateStudentActivityCard(
                                                 searchActivityList[index]))
-                                    : _buildcardList()
+                                    : _buildCardList()
                                 // ListView.builder(
                                 //     itemCount: createStudentActivityReport.length,
                                 //
@@ -305,7 +306,7 @@ class _StudentActivityState extends State<StudentActivity>
     );
   }
 
-  Widget _buildcardList() {
+  Widget _buildCardList() {
     return StreamBuilder(
       stream: Connection.databaseReference('create-activity'),
       builder: (context, snapshot) {

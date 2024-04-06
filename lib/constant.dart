@@ -10,6 +10,7 @@ import 'model/EventItem.dart';
 import 'model/SClubInfo.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
+import 'model/create_group_report.dart';
 import 'model/create_student_activity_report.dart';
 import 'model/found_item_report.dart';
 import 'model/lost_item_report.dart';
@@ -265,6 +266,7 @@ List<EventItem> todayList = [];
 List<SClubInfo> SClubs = [];
 List<EventItem> saveList = [];
 List<CreateStudentActivityReport> createStudentActivityReport = [];
+List<CreateGroupReport> createGroupReport = [];
 
 void homeCards() async {
   combinedList = [];

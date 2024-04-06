@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
-import 'package:senior_project/interface/ChatScreen.dart';
-import 'package:senior_project/interface/HomeScreen.dart';
-import 'package:senior_project/interface/SaveListScreen.dart';
-import 'package:senior_project/interface/add_lost_item_screen.dart';
+
 import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/create_group_report.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/create_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../firebaseConnection.dart';
+import '../widgets/commonWidgets.dart';
 
 class StudyGroup extends StatefulWidget {
   const StudyGroup({super.key});
@@ -25,21 +25,10 @@ class StudyGroup extends StatefulWidget {
 
 class _StudyGroupState extends State<StudyGroup>
     with SingleTickerProviderStateMixin {
-  void goToProfilePage() {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
-    );
-  }
 
-  late List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 2;
+
   //search
   List<CreateGroupReport> searchSessionList = [];
-  List<CreateGroupReport> _createGroupReport = [];
   final _userInputController = TextEditingController();
   //filter
   bool isSearch = false;
@@ -61,87 +50,12 @@ class _StudyGroupState extends State<StudyGroup>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const ChatScreen(),
-      },
-      {
-        'page': const AddLostItemScreen(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
-    _LoadCreatedSessions();
   }
 
-  void _LoadCreatedSessions() async {
-    final List<CreateGroupReport> loadedCreatedGroups = [];
 
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'create-group.json');
-      final response = await http.get(url);
-
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        loadedCreatedGroups.add(CreateGroupReport(
-          id: item.key,
-          //model name : firebase name
-          subjectCode: item.value['SubjectCode'],
-          sessionDate: item.value['SessionDate'],
-          sessionTime: item.value['SessionTime'],
-          sessionPlace: item.value['SessionPlace'],
-          numPerson: item.value['NumPerson'],
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-        print("sabreeeen: $loadedCreatedGroups");
-        _createGroupReport = loadedCreatedGroups;
-      });
-    }
-  }
-
-  void _selectPage(int index) {
-    setState(() {
-      if (index == 1) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
-      }
-      //todo uncomment on next sprints
-      // if (index == 0) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      // } else if (index == 1) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      // } else if (index == 2) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      // } else if (index == 3) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      // }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    print('build enter');
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
@@ -153,53 +67,26 @@ class _StudyGroupState extends State<StudyGroup>
           backgroundColor: CustomColors.pink,
           elevation: 0,
           title: Text("جلسة مذاكرة", style: TextStyles.heading1),
-          centerTitle: false,
+          centerTitle: true,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-        ),
-        endDrawer: SideDrawer(
-          onProfileTap: goToProfilePage,
-        ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 0.1,
-          clipBehavior: Clip.none,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: BottomNavigationBar(
-                onTap: _selectPage,
-                unselectedItemColor: CustomColors.darkGrey,
-                selectedItemColor: CustomColors.darkGrey,
-                currentIndex: _selectedPageIndex,
-                items: const [
-                  BottomNavigationBarItem(
-                    label: 'الرئيسية',
-                    icon: Icon(Icons.home_outlined),
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.apps), label: 'الخدمات'),
-                  BottomNavigationBarItem(
-                    label: "",
-                    activeIcon: null,
-                    icon: Icon(null),
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.messenger_outline,
-                      ),
-                      label: 'الدردشة'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-                ],
-              ),
-            ),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ServisesScreen()));
+                },
+              );
+            },
           ),
         ),
+        endDrawer: SideDrawer(
+          onProfileTap: () => goToProfilePage(context),
+        ),
+        bottomNavigationBar: buildBottomBarWF(context, 2),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           heroTag: "btn1",
@@ -211,7 +98,6 @@ class _StudyGroupState extends State<StudyGroup>
           onPressed: () async {
             await Navigator.of(context)
                 .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
-            _LoadCreatedSessions();
           },
           child: const Icon(Icons.add),
         ),
@@ -269,7 +155,7 @@ class _StudyGroupState extends State<StudyGroup>
                                     searchSessionList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
-                                        _createGroupReport);
+                                        createGroupReport);
                                     FocusScope.of(context).unfocus();
                                   }),
                               hintText: 'ابحث',
@@ -277,6 +163,8 @@ class _StudyGroupState extends State<StudyGroup>
                                   ? IconButton(
                                       onPressed: () {
                                         _userInputController.clear();
+                                        FocusScope.of(context).unfocus();
+
 
                                         setState(() {
                                           isSearch = false;
@@ -298,19 +186,18 @@ class _StudyGroupState extends State<StudyGroup>
                               //todo the same value of on icon presed
                               searchSessionList.clear();
                               filterSearchResults(_userInputController.text,
-                                  _createGroupReport);
+                                  createGroupReport);
                               FocusScope.of(context).unfocus();
                             },
                             onTap: () {
                               isSearch = true;
-                              searchSessionList.clear();
                               searchSessionList.clear();
                             },
                           ),
                         ),
                         if ((isSearch
                             ? searchSessionList.isEmpty
-                            : _createGroupReport.isEmpty))
+                            : createGroupReport.isEmpty))
                           Expanded(
                             child: Center(
                               child: SizedBox(
@@ -322,7 +209,7 @@ class _StudyGroupState extends State<StudyGroup>
                               ),
                             ),
                           ),
-                        if (_createGroupReport.isNotEmpty)
+                        if (createGroupReport.isNotEmpty)
                           Expanded(
                               child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -334,11 +221,7 @@ class _StudyGroupState extends State<StudyGroup>
                                       itemCount: searchSessionList.length,
                                       itemBuilder: (context, index) =>
                                           CreateCard(searchSessionList[index]))
-                                  : ListView.builder(
-                                      itemCount: _createGroupReport.length,
-                                      itemBuilder: (context, index) =>
-                                          CreateCard(
-                                              _createGroupReport[index])),
+                                  : _buildCardList()
                             ),
                           )),
                       ],
@@ -373,4 +256,65 @@ class _StudyGroupState extends State<StudyGroup>
       }
     });
   }
+}
+Widget _buildCardList() {
+  return StreamBuilder(
+    stream: Connection.databaseReference('create-group'),
+    builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      }
+
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // return loadingFunction(context, true);
+        return Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Colors.grey[300]!,
+          enabled: true,
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 10),
+            itemCount: createGroupReport.length,
+            itemBuilder: (context, index) {
+              return CreateCard(createGroupReport[0]);
+            },
+          ),
+        );
+      }
+
+      final Map<dynamic, dynamic> data =
+      snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+      if (data == null) {
+        return Text('No data available');
+      }
+
+// todo make sure it works
+      final List<CreateGroupReport> reports =
+      data.entries.map((entry) {
+        final key = entry.key;
+        final value = entry.value;
+        return CreateGroupReport(
+          id: key,
+          //model name : firebase name
+          subjectCode: value['SubjectCode'],
+          sessionDate: value['SessionDate'],
+          sessionTime: value['SessionTime'],
+          sessionPlace:value['SessionPlace'],
+          numPerson: value['NumPerson'],
+        );
+      }).toList();
+      createGroupReport.clear();
+      createGroupReport = reports;
+      // to do store the values
+      return ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 10),
+        itemCount: reports.length,
+        itemBuilder: (context, index) {
+          final report = reports[index];
+          return CreateCard(report);
+        },
+      );
+    },
+  );
 }
