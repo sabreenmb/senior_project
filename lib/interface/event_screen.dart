@@ -61,7 +61,7 @@ class _EventState extends State<EventScreen> {
             backgroundColor: CustomColors.pink,
             elevation: 0,
             title: Text("الفعاليات", style: TextStyles.heading1),
-            centerTitle: false,
+            centerTitle: true,
             iconTheme: const IconThemeData(color: CustomColors.darkGrey),
             leading: Builder(
               builder: (BuildContext context) {
