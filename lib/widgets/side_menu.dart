@@ -1,12 +1,14 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/constant.dart';
 import 'package:senior_project/interface/login_screen.dart';
+
 import '../theme.dart';
 
 class SideDrawer extends StatelessWidget {
@@ -36,7 +38,6 @@ class SideDrawer extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       height: 150,
                       decoration: BoxDecoration(
-                        //color: Color.fromARGB(255, 139, 139, 139),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: CustomColors.darkGrey,
@@ -119,7 +120,165 @@ class SideDrawer extends StatelessWidget {
                     color: CustomColors.darkGrey,
                   ),
                   title: const Text("البطاقة الجامعية"),
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/logo/Logo.png'),
+                                fit: BoxFit.scaleDown,
+                                colorFilter: ColorFilter.mode(
+                                  Colors.white.withOpacity(0.1),
+                                  BlendMode.dstATop,
+                                ),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 10.0,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: CustomColors.pink,
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20),
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "البطاقة الجامعية",
+                                    style: TextStyle(
+                                      color: CustomColors.darkGrey,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                CircleAvatar(
+                                  radius: 80,
+                                  backgroundColor:
+                                      Color.fromARGB(0, 15, 66, 186),
+                                  child: Stack(
+                                    children: [
+                                      userInfo.image_url == ''
+                                          ? Container(
+                                              padding: EdgeInsets.all(20),
+                                              alignment: Alignment.topCenter,
+                                              height: 140,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: CustomColors.darkGrey,
+                                                  width: 3,
+                                                ),
+                                              ),
+                                              child: SvgPicture.asset(
+                                                'assets/icons/UserProfile.svg',
+                                                height: 100,
+                                                width: 100,
+                                                color: CustomColors.darkGrey,
+                                              ),
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: CachedNetworkImage(
+                                                width: 120,
+                                                height: 120,
+                                                fit: BoxFit.cover,
+                                                imageUrl: userInfo.image_url,
+                                                placeholder: (context, url) =>
+                                                    CircularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        SvgPicture.asset(
+                                                  'assets/icons/UserProfile.svg',
+                                                  height: 100,
+                                                  width: 100,
+                                                  color: CustomColors.darkGrey,
+                                                ),
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  userInfo.name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  userInfo.userID,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  userInfo.collage,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  userInfo.major,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                ),
+                                SizedBox(height: 24),
+                                Container(
+                                  padding: EdgeInsets.all(16),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: CustomColors.pink,
+                                    borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: BarcodeWidget(
+                                    barcode: Barcode.qrCode(),
+                                    data: userInfo.userID,
+                                    width: 80,
+                                    height: 80,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/ChatScreen.dart';
@@ -8,7 +9,7 @@ import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import '../constant.dart';
 import '../model/EventItem.dart';
 import '../widgets/home_card.dart';
@@ -80,10 +81,10 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
       onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color.fromARGB(255, 245, 242, 242),
+        backgroundColor: CustomColors.pink,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: CustomColors.white,
+          backgroundColor: CustomColors.pink,
           elevation: 0,
           title: Text("الرئيسية", style: TextStyles.heading1),
           centerTitle: false,
@@ -137,11 +138,24 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
               child: Column(
                 children: [
                   const SizedBox(height: 15),
-                  _buildCard(),
-                  _buildSectionTitle('يحدث اليوم'),
-                  _buildHorizontalScrollableCards(todayList),
-                  _buildSectionTitle('أضيف حديثا'),
-                  _buildHorizontalScrollableCards(combinedList),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: CustomColors.BackgroundColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        _buildCard(),
+                        _buildSectionTitle('يحدث اليوم'),
+                        _buildHorizontalScrollableCards(todayList),
+                        _buildSectionTitle('أضيف حديثا'),
+                        _buildHorizontalScrollableCards(combinedList),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -189,7 +203,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: CustomColors.darkGrey,
           ),
         ),
       ),
