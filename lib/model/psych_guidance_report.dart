@@ -6,7 +6,6 @@ class PsychGuidanceReport {
   String? ProLocation;
   String? ProOfficeNumber;
   String? ProEmail;
-
   //Constructor
   PsychGuidanceReport({
     required this.id,

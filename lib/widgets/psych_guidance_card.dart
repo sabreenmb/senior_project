@@ -10,10 +10,15 @@ class PGCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Card(
         elevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
+          side: const BorderSide(
+            color: Color.fromRGBO(89, 177, 212, 1),
+            width: 2.0,
+          ),
+          borderRadius: BorderRadius.circular(22.0),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: Padding(
@@ -24,10 +29,16 @@ class PGCard extends StatelessWidget {
             //start the colom
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 5,
+              ),
               Text(
                 psychGuidanceItem.collage!,
                 textAlign: TextAlign.right,
-                style: TextStyles.heading1B,
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: CustomColors.lightBlue,
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -37,7 +48,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.location_on_outlined,
                     color: CustomColors.lightGrey,
-                    size: 24.0,
+                    size: 18.0,
                   ),
                   const SizedBox(
                     width: 5,
@@ -45,7 +56,10 @@ class PGCard extends StatelessWidget {
                   Text(
                     psychGuidanceItem.ProLocation!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: CustomColors.lightGrey,
+                    ),
                   ),
                 ],
               ),
@@ -57,7 +71,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.person_outlined,
                     color: CustomColors.lightGrey,
-                    size: 24.0,
+                    size: 18.0,
                   ),
                   const SizedBox(
                     width: 5,
@@ -65,7 +79,10 @@ class PGCard extends StatelessWidget {
                   Text(
                     psychGuidanceItem.ProName!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: CustomColors.lightGrey,
+                    ),
                   ),
                 ],
               ),
@@ -77,7 +94,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.work_outline,
                     color: CustomColors.lightGrey,
-                    size: 24.0,
+                    size: 18.0,
                   ),
                   const SizedBox(
                     width: 5,
@@ -85,7 +102,10 @@ class PGCard extends StatelessWidget {
                   Text(
                     psychGuidanceItem.ProOfficeNumber!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: CustomColors.lightGrey,
+                    ),
                   ),
                 ],
               ),
@@ -97,7 +117,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.email_outlined,
                     color: CustomColors.lightGrey,
-                    size: 24.0,
+                    size: 18.0,
                   ),
                   const SizedBox(
                     width: 5,
@@ -105,7 +125,10 @@ class PGCard extends StatelessWidget {
                   Text(
                     psychGuidanceItem.ProEmail!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: CustomColors.lightGrey,
+                    ),
                   ),
                 ],
               ),
