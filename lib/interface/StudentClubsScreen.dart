@@ -117,7 +117,7 @@ class _StudentClubsState extends State<StudentClubsScreen>     with SingleTicker
   }
 
 
-   Widget _buildUsersList() {
+   Widget _buildSClubsList() {
 
      return  GridView(
        physics: const BouncingScrollPhysics(),
@@ -208,7 +208,7 @@ class _StudentClubsState extends State<StudentClubsScreen>     with SingleTicker
                       Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 15.0),
-                        child:_buildUsersList(),
+                        child:_buildSClubsList(),
                       ),
                     ],
                   ))

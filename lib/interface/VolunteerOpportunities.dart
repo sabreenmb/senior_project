@@ -14,6 +14,10 @@ import 'package:senior_project/model/volunteer_op_report.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/op_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../firebaseConnection.dart';
+import '../widgets/commonWidgets.dart';
 
 class VolunteerOp extends StatefulWidget {
   const VolunteerOp({super.key});
@@ -24,102 +28,14 @@ class VolunteerOp extends StatefulWidget {
 
 class _VolunteerOpState extends State<VolunteerOp>
     with SingleTickerProviderStateMixin {
-  late List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 2;
-  //search
-  ////List<VolunteerOpReport> searchSessionList = [];
-
-  List<VolunteerOpReport> _volunteerOpReport = [];
-  //create button
 
   @override
   void initState() {
     super.initState();
-
-    _pages = [
-      {
-        'page': const HomeScreen(),
-      },
-      {
-        'page': const ChatScreen(),
-      },
-      {
-        'page': const AddLostItemScreen(),
-      },
-      {
-        'page': const ServisesScreen(),
-      },
-      {
-        'page': const SaveListScreen(),
-      },
-    ];
-    _LoadCreatedSessions();
-  }
-
-  void _LoadCreatedSessions() async {
-    final List<VolunteerOpReport> loadedVolunteerOp = [];
-
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'opportunities.json');
-      final response = await http.get(url);
-
-      final Map<String, dynamic> volunteerdata = json.decode(response.body);
-      for (final item in volunteerdata.entries) {
-        loadedVolunteerOp.add(VolunteerOpReport(
-          id: item.key,
-          //model name : firebase name
-          name: item.value['op_name'],
-          date: item.value['op_date'],
-          time: item.value['op_time'],
-          location: item.value['op_location'],
-          opNumber: item.value['op_number'],
-          opLink: item.value['op_link'],
-          timestamp:item.value['timestamp'],
-
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-        print("sabreeeen: $loadedVolunteerOp");
-        _volunteerOpReport = loadedVolunteerOp;
-      });
-    }
-  }
-
-  void _selectPage(int index) {
-    setState(() {
-      if (index == 1) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-        _selectedPageIndex = index;
-      }
-      //todo uncomment on next sprints
-      // if (index == 0) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      // } else if (index == 1) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      // } else if (index == 2) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => ChatScreen()));
-      // } else if (index == 3) {
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (_) => SaveListScreen()));
-      // }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build enter');
 // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
@@ -131,66 +47,26 @@ class _VolunteerOpState extends State<VolunteerOp>
           backgroundColor: CustomColors.pink,
           elevation: 0,
           title: Text("الفرص التطوعية", style: TextStyles.heading1),
-          centerTitle: false,
+          centerTitle: true,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-        ),
-        endDrawer: const SideDrawer(),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 0.1,
-          clipBehavior: Clip.none,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: BottomNavigationBar(
-                onTap: _selectPage,
-                unselectedItemColor: CustomColors.darkGrey,
-                selectedItemColor: CustomColors.darkGrey,
-                currentIndex: _selectedPageIndex,
-                items: const [
-                  BottomNavigationBarItem(
-                    label: 'الرئيسية',
-                    icon: Icon(Icons.home_outlined),
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.apps), label: 'الخدمات'),
-                  // BottomNavigationBarItem(
-                  //   label: "",
-                  //   activeIcon: null,
-                  //   icon: Icon(null),
-                  // ),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.messenger_outline,
-                      ),
-                      label: 'الدردشة'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-                ],
-              ),
-            ),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ServisesScreen()));
+                },
+              );
+            },
           ),
         ),
-        //// floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        ////  floatingActionButton: FloatingActionButton(
-        //   heroTag: "btn1",
-        //   backgroundColor: CustomColors.lightBlue,
-        //   hoverElevation: 10,
-        //   splashColor: Colors.grey,
-        //   tooltip: '',
-        //   elevation: 4,
-        //   onPressed: () async {
-        //     await Navigator.of(context);
-        //     // .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
-        //     _LoadCreatedSessions();
-        //   },
-        //   child: const Icon(Icons.add),
-        // ),
+        endDrawer: SideDrawer(
+          onProfileTap: () => goToProfilePage(context),
+        ),
+        bottomNavigationBar: buildBottomBar(context, 1, true),
         body: ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,
@@ -216,97 +92,16 @@ class _VolunteerOpState extends State<VolunteerOp>
                         Container(
                           height: 5,
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          //   child: TextField(
-                          //  autofocus: false,
-                          //  controller: _userInputController,
-                          // keyboardType: TextInputType.text,
-                          ////     textInputAction: TextInputAction.search,
-                          //textAlignVertical: TextAlignVertical.bottom,
-                          // textAlign: TextAlign.start,
-                          // style: const TextStyle(
-                          //   color: CustomColors.darkGrey,
-                          // ),
-                          // decoration: InputDecoration(
-                          //   hintStyle: const TextStyle(
-                          //     color: CustomColors.darkGrey,
-                          //   ),
-                          // focusedBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(40),
-                          //  borderSide: const BorderSide(
-                          // color: CustomColors.darkGrey, width: 1),
-                          //   ),
-                          // prefixIcon: IconButton(
-                          //     icon: const Icon(
-                          //       Icons.search,
-                          //       color: CustomColors.darkGrey,
-                          //     ),
-                          //     onPressed: () {
-                          //     ////  searchSessionList.clear();
-                          //    ////   filterSearchResults(_userInputController.text,
-                          //     //      _volunteerOpReport);
-                          //       FocusScope.of(context).unfocus();
-                          //     }),
-                          // hintText: 'ابحث',
-                          // suffixIcon: _userInputController.text.isNotEmpty
-                          //     ? IconButton(
-                          //         onPressed: () {
-                          //           _userInputController.clear();
-
-                          //           setState(() {
-                          //        ////     isSearch = false;
-                          //           });
-                          //         },
-                          //         icon: const Icon(Icons.clear,
-                          //             color: CustomColors.darkGrey))
-                          //     : null,
-                          //////// enabledBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.circular(20),
-                          //   borderSide: const BorderSide(
-                          //       color: CustomColors.darkGrey, width: 1),
-                          // ),
                         ),
-                        // onChanged: (text) {
-                        //   setState(() {});
-                        // },
-                        // onSubmitted: (text) {
-                        //   //todo the same value of on icon presed
-                        //   ////   searchSessionList.clear();
-                        //   ///// filterSearchResults(
-                        //   ////    _userInputController.text, _volunteerOpReport);
-                        //   FocusScope.of(context).unfocus();
-                        // },
-                        // onTap: () {
-                        //   ////       isSearch = true;
-                        //   ///     searchSessionList.clear();
-                        //   ////     searchSessionList.clear();
-                        // },
-                        //),
-                        //   ),
-                        //// if ((isSearch
-                        ////   ? searchSessionList.isEmpty
-                        ////   : _volunteerOpReport.isEmpty))
-                        // Expanded(
-                        // child: Center(
-                        //   child: SizedBox(
-                        //     // padding: EdgeInsets.only(bottom: 20),
-                        //     // alignment: Alignment.topCenter,
-                        //     height: 200,
-                        //  /////   child: Image.asset('assets/images/notFound.png'),
-                        //   ),
-                        // ),
-                        //  ),
-                        if (_volunteerOpReport.isNotEmpty)
+                        if (volunteerOpReport.isNotEmpty)
                           Expanded(
                               child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: MediaQuery.removePadding(
-                                context: context,
-                                removeTop: true,
-                                child: ListView.builder(
-                                    itemCount: _volunteerOpReport.length,
-                                    /////   itemCount: searchSessionList.length,
-                                    itemBuilder: (context, index) =>
-                                        OpCard(_volunteerOpReport[index]))),
+                              context: context,
+                              removeTop: true,
+                              child: _buildcardList()
+                            ),
                           )),
                       ],
                     ),
@@ -320,21 +115,66 @@ class _VolunteerOpState extends State<VolunteerOp>
     );
   }
 
-  //////void filterSearchResults(String query, List ls) {
-  // setState(() {
-  //   for (int item = 0; item < ls.length; item++) {
-  //     if (ls[item]
-  //         .subjectCode!
-  //         .toLowerCase()
-  //         .contains(query.toLowerCase().trim())) {
-  //       searchSessionList.add(ls[item]);
-  //     } //Add
-  // else {
-  //   if (ls[item]
-  //       .category!
-  //       .toLowerCase()
-  //       .contains(query.toLowerCase().trim())) {
-  //     searchSessionList.add(ls[item]);
-  //   }
-  // }
+  Widget _buildcardList() {
+    return StreamBuilder(
+      stream: Connection.databaseReference('opportunities'),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // return loadingFunction(context, true);
+          return Shimmer.fromColors(
+            baseColor: Colors.white,
+            highlightColor: Colors.grey[300]!,
+            enabled: true,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 10),
+              itemCount: volunteerOpReport.length,
+              itemBuilder: (context, index) {
+                return OpCard(volunteerOpReport[0]);
+              },
+            ),
+          );
+        }
+
+        final Map<dynamic, dynamic> data =
+            snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+        if (data == null) {
+          return Text('No data available');
+        }
+
+// todo make sure it works
+        final List<VolunteerOpReport> reports = data.entries.map((entry) {
+          final key = entry.key;
+          final value = entry.value;
+          return VolunteerOpReport(
+            id: key,
+            //model name : firebase name
+            name: value['op_name'],
+            date: value['op_date'],
+            time: value['op_time'],
+            location: value['op_location'],
+            opNumber: value['op_number'],
+            opLink: value['op_link'],
+            timestamp: value['timestamp'],
+          );
+        }).toList();
+        volunteerOpReport.clear();
+        volunteerOpReport = reports;
+        // to do store the values
+        return ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 10),
+          itemCount: reports.length,
+          itemBuilder: (context, index) {
+            final report = reports[index];
+            return OpCard(report);
+          },
+        );
+      },
+    );
+  }
 }

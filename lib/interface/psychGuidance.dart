@@ -13,7 +13,7 @@ import 'HomeScreen.dart';
 import 'ProfilePage.dart';
 import 'SaveListScreen.dart';
 import 'add_lost_item_screen.dart';
-import 'firebaseConnection.dart';
+import '../firebaseConnection.dart';
 import 'services_screen.dart';
 
 class PsychGuidance extends StatefulWidget {
@@ -26,6 +26,7 @@ class PsychGuidance extends StatefulWidget {
 class _PsychGuidanceState extends State<PsychGuidance>
     with SingleTickerProviderStateMixin {
   List<PsychGuidanceReport> _PsychGuidanceReport = [];
+  int matchingIndex = 0;
 
   void goToProfilePage() {
     Navigator.pop(context);
@@ -73,7 +74,6 @@ class _PsychGuidanceState extends State<PsychGuidance>
       });
 
       final response = await http.get(Connection.url('Psych-Guidance'));
-
       final Map<String, dynamic> foundData = json.decode(response.body);
       for (final item in foundData.entries) {
         print('sabreen test');
@@ -97,6 +97,8 @@ class _PsychGuidanceState extends State<PsychGuidance>
         print(_PsychGuidanceReport.toList());
       });
     }
+    matchingIndex = loadedPsychGuidance
+        .indexWhere((item) => item.collage.toString() == userInfo.collage);
   }
 
   void _selectPage(int index) {
@@ -243,15 +245,8 @@ class _PsychGuidanceState extends State<PsychGuidance>
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 110.0, left: 8.0, right: 8.0, bottom: 8.0),
-                        child: MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: ListView.builder(
-                              itemCount: _PsychGuidanceReport.length,
-                              itemBuilder: (context, index) =>
-                                  PGCard(_PsychGuidanceReport[index]),
-                            )),
+                            top: 120.0, left: 8.0, right: 8.0, bottom: 385),
+                        child: PGCard(_PsychGuidanceReport[matchingIndex]),
                       )),
                     ],
                   ),

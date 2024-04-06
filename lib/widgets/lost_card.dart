@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../model/lost_item_report.dart';
 import '../theme.dart';
@@ -24,17 +26,41 @@ class LostCard extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 95,
-              height: 130,
-              child: lostItemReport.photo == "empty"
-                  ? const Image(
-                      image: AssetImage('assets/images/logo-icon.png'))
-                  : Image.network(
-                      '${lostItemReport.photo}',
-                      fit: BoxFit.cover,
-                    ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                width: 95,
+                height: 130,
+                child: lostItemReport.photo == "empty"
+                    ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                    : FutureBuilder<void>(
+                  future: precacheImage(
+                    CachedNetworkImageProvider(lostItemReport.photo!),
+                    context,
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Shimmer.fromColors(
+                        baseColor: Colors.white,
+                        highlightColor: Colors.grey[300]!,
+                        enabled: true,
+                        child: Container(
+                          color: Colors.white,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error loading image'); // Handle error loading image
+                    } else {
+                      return CachedNetworkImage(
+                        imageUrl: lostItemReport.photo!,
+                        fit: BoxFit.fill,
+                      );
+                    }
+                  },
+                ),
+              ),
             ),
+
             Expanded(
               child: Padding(
                 padding:

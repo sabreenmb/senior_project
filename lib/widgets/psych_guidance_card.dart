@@ -17,7 +17,7 @@ class PGCard extends StatelessWidget {
         ),
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class PGCard extends StatelessWidget {
               Text(
                 psychGuidanceItem.collage!,
                 textAlign: TextAlign.right,
-                style: TextStyles.heading3B,
+                style: TextStyles.heading1B,
               ),
               const SizedBox(
                 height: 10,
@@ -37,7 +37,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.location_on_outlined,
                     color: CustomColors.lightGrey,
-                    size: 14.0,
+                    size: 24.0,
                   ),
                   const SizedBox(
                     width: 5,
@@ -57,7 +57,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.person_outlined,
                     color: CustomColors.lightGrey,
-                    size: 14.0,
+                    size: 24.0,
                   ),
                   const SizedBox(
                     width: 5,
@@ -77,7 +77,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.work_outline,
                     color: CustomColors.lightGrey,
-                    size: 14.0,
+                    size: 24.0,
                   ),
                   const SizedBox(
                     width: 5,
@@ -97,7 +97,7 @@ class PGCard extends StatelessWidget {
                   const Icon(
                     Icons.email_outlined,
                     color: CustomColors.lightGrey,
-                    size: 14.0,
+                    size: 24.0,
                   ),
                   const SizedBox(
                     width: 5,

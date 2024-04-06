@@ -4,7 +4,7 @@ import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/theme.dart';
 
 import 'login_screen.dart';
-import 'package:senior_project/interface/appSetup.dart';
+import 'package:senior_project/appSetup.dart';
 
 class LaunchScreen extends StatefulWidget {
   const LaunchScreen({super.key});
@@ -30,7 +30,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
         //        if (null != user.email) { to see the user loged in
        // final token = await user.getIdToken();
         await Setup.loadUserData(user.email.toString());
-        new Setup();
+        Setup();
 
         Future.delayed(const Duration(seconds: 2), () {
 

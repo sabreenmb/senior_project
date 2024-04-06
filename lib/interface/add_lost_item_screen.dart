@@ -12,6 +12,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../constant.dart';
+import '../firebaseConnection.dart';
 import '../model/lost_item_report.dart';
 import '../theme.dart';
 
@@ -85,10 +86,8 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       return;
     }
     _formKey.currentState!.save();
-    final storageRef = FirebaseStorage.instance
-        .ref()
-        .child('lost_images')
-        .child('$uniqueFileName.jpg');
+    final storageRef =Connection.firestorageRef('lost_images',uniqueFileName);
+
     if (_selectedImage == null) {
       _imageUrl = "empty";
     } else {
@@ -112,10 +111,10 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
 
   void _createLostItem() async {
     try {
-      final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'Lost-Items.json');
+      // final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
+      //     'Lost-Items.json');
       final response = await http.post(
-        url,
+        Connection.url('Lost-Items'),
         headers: {
           'Content-Type': 'application/json',
         },
