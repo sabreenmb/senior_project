@@ -38,7 +38,6 @@ class SideDrawer extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       height: 150,
                       decoration: BoxDecoration(
-                        //color: Color.fromARGB(255, 139, 139, 139),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: CustomColors.darkGrey,

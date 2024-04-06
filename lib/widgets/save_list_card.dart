@@ -1,12 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/interface/student_activity.dart';
 import 'package:senior_project/interface/study_group.dart';
+
 import '../constant.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
-import '../model/EventItem.dart';
 import '../model/SavedList.dart';
 import '../theme.dart';
 
@@ -40,14 +39,12 @@ class _SaveCardState extends State<SaveCard> {
     return isSaved
         ? Card(
             elevation: 4,
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             shape: RoundedRectangleBorder(
-              side: const BorderSide(color: CustomColors.lightBlue, width: 2),
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(22),
             ),
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: InkWell(
               onTap: () {
-                // Define the navigation logic here
                 if (widget.serviceName == 'فرصة تطوعية') {
                   Navigator.push(
                     context,
@@ -73,56 +70,12 @@ class _SaveCardState extends State<SaveCard> {
                   );
                 }
               },
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                      child: SvgPicture.asset(
-                        widget.icon,
-                        width: 50,
-                        height: 50,
-                      ),
-                    ),
-                    Container(
-                      width: 30.0,
-                      child: const VerticalDivider(
-                        thickness: 3.0,
-                        color: CustomColors.darkGrey,
-                        indent: 20.0,
-                        endIndent: 20.0,
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.serviceName,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.lightBlue)),
-                          const SizedBox(height: 10),
-                          Text(widget.dynamicObject.name!,
-                              style: const TextStyle(
-                                  fontSize: 14, color: CustomColors.darkGrey)),
-                          const SizedBox(height: 5),
-                          Text(widget.dynamicObject.location!,
-                              style: const TextStyle(
-                                  fontSize: 14, color: CustomColors.darkGrey)),
-                          const SizedBox(height: 5),
-                          Text(widget.dynamicObject.date!,
-                              style: const TextStyle(
-                                  fontSize: 14, color: CustomColors.darkGrey)),
-                          const SizedBox(height: 5),
-                          Text(widget.dynamicObject.time!,
-                              style: const TextStyle(
-                                  fontSize: 14, color: CustomColors.darkGrey)),
-                        ],
-                      ),
-                    ),
-                    IconButton(
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    top: 6,
+                    child: IconButton(
                       onPressed: () {
                         setState(() {
                           isSaved = !isSaved;
@@ -139,11 +92,92 @@ class _SaveCardState extends State<SaveCard> {
                         color: CustomColors.lightBlue,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 15),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: SvgPicture.asset(
+                            widget.icon,
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              height: 100.0,
+                              child: VerticalDivider(
+                                width: 30,
+                                thickness: 1.0,
+                                color: CustomColors.lightGrey,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.serviceName,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.lightBlue)),
+                              const SizedBox(height: 10),
+                              Text(widget.dynamicObject.name!,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      color: CustomColors.lightGrey)),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Icon(Icons.location_on,
+                                      size: 14, color: CustomColors.lightGrey),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.dynamicObject.location!,
+                                    style: TextStyles.text,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Icon(Icons.calendar_today,
+                                      size: 14, color: CustomColors.lightGrey),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.dynamicObject.date!,
+                                    style: TextStyles.text,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Icon(Icons.access_time,
+                                      size: 14, color: CustomColors.lightGrey),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.dynamicObject.time!,
+                                    style: TextStyles.text,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ),
-          )
+            ))
         : Container();
   }
 }
