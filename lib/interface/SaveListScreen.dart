@@ -5,6 +5,7 @@ import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/theme.dart';
+import 'package:senior_project/widgets/save_list_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
 class SaveListScreen extends StatefulWidget {
@@ -97,7 +98,7 @@ class _SaveListScreenState extends State<SaveListScreen>
                     ),
                     label: 'الدردشة'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
+                    icon: Icon(Icons.bookmark), label: 'المحفوظات'),
               ],
             ),
           ),
@@ -124,20 +125,11 @@ class _SaveListScreenState extends State<SaveListScreen>
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    // color: const Color.fromARGB(255, 187, 55, 55),
                   ),
-                  // margin: const EdgeInsets.only(bottom: 10),
-
-                  // child: ElevatedButton(
-                  //   onPressed: addTofire(),
-                  //   child: Text("test"),
-                  // )
                   child: InkWell(
                     child: _buildItems(),
                   ),
                 )
-
-                // _buildHorizontalScrollableCards(combinedList),
               ],
             ))
           ],
@@ -154,76 +146,11 @@ class _SaveListScreenState extends State<SaveListScreen>
       child: ListView.builder(
           // scrollDirection: Axis.,
           itemCount: saveList.length,
-          itemBuilder: (context, index) => _buildTextCard(
-                saveList[index].serviceName,
+          itemBuilder: (context, index) => SaveCard(
                 saveList[index].item,
+                saveList[index].serviceName,
                 saveList[index].icon,
               )),
-    );
-  }
-
-  Widget _buildTextCard(String title, dynamic item, String icon) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: CustomColors.lightBlue, width: 2),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: InkWell(
-        onTap: () {
-          print('Card tapped');
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              Image.asset(icon, width: 50,
-                  errorBuilder: (context, error, stackTrace) {
-                print('Failed to load image: $icon');
-                return Icon(Icons.broken_image);
-              }),
-              Container(
-                width: 30.0,
-                child: VerticalDivider(
-                  thickness: 3.0,
-                  color: CustomColors.darkGrey,
-                  indent: 20.0,
-                  endIndent: 20.0,
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: CustomColors.lightBlue)),
-                    SizedBox(height: 10),
-                    Text(item.name,
-                        style: TextStyle(
-                            fontSize: 14, color: CustomColors.darkGrey)),
-                    SizedBox(height: 5),
-                    Text(item.location,
-                        style: TextStyle(
-                            fontSize: 14, color: CustomColors.darkGrey)),
-                    SizedBox(height: 5),
-                    Text(item.date,
-                        style: TextStyle(
-                            fontSize: 14, color: CustomColors.darkGrey)),
-                    SizedBox(height: 5),
-                    Text(item.time,
-                        style: TextStyle(
-                            fontSize: 14, color: CustomColors.darkGrey)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

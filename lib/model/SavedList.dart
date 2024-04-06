@@ -21,9 +21,10 @@ class SavedList {
     'volunteerOp': 'فرصة تطوعية',
     'conferences': 'مؤتمر',
     'studentActivities': 'نشاط طلابي',
-    // 'volunteerOp': 'فرصة تطوعية',
-    // 'volunteerOp': 'فرصة تطوعية',
-    // 'volunteerOp': 'فرصة تطوعية',
+    'cources': 'دورة',
+    'workshops': 'ورشة عمل',
+    'otherEvents': 'أخرى',
+    'studyGroubs': 'جلسة مذاكرة',
   };
   static bool findId(String id) {
     bool isSaved = false;
