@@ -23,12 +23,7 @@ class CreateGroup extends StatefulWidget {
 
 class _CreateGroupState extends State<CreateGroup> {
   CreateGroupReport createGroupReport = CreateGroupReport(
-      id: '',
-      subjectCode: '',
-      sessionDate: '',
-      sessionTime: '',
-      sessionPlace: '',
-      numPerson: '');
+      id: '', name: '', date: '', time: '', location: '', numPerson: '');
   // bool imageEmpty = false;
   String? _selectedSubject;
   DateTime _selectedDate = DateTime.now();
@@ -213,11 +208,11 @@ class _CreateGroupState extends State<CreateGroup> {
                                     ),
                                   ),
                                   value: _selectedSubject,
-                                  items: SubjectsCode.map((subjectCode) {
+                                  items: SubjectsCode.map((name) {
                                     return DropdownMenuItem(
-                                      value: subjectCode,
+                                      value: name,
                                       child: Text(
-                                        subjectCode,
+                                        name,
                                         style: TextStyles.heading2,
                                         overflow: TextOverflow
                                             .ellipsis, // Add this line
@@ -239,8 +234,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                     });
                                   },
                                   onSaved: (value) {
-                                    createGroupReport.subjectCode =
-                                        _selectedSubject;
+                                    createGroupReport.name = _selectedSubject;
                                   },
                                   //هذا اللاين حق الكود مو راضي ينحذف ولازم احذفه
                                   iconStyleData: const IconStyleData(
@@ -308,7 +302,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          createGroupReport.sessionDate = value;
+                                          createGroupReport.date = value;
                                         },
                                       ),
                                     ),
@@ -356,7 +350,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          createGroupReport.sessionTime = value;
+                                          createGroupReport.time = value;
                                         },
                                       ),
                                     ),
@@ -367,7 +361,7 @@ class _CreateGroupState extends State<CreateGroup> {
                               TextFormField(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   suffixIcon: Icon(
                                     Icons.location_on,
                                     color: CustomColors.lightGrey,
@@ -375,8 +369,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                   labelText: 'مكان الجلسة',
                                   hintText: 'مثال: المقهى، المكتبة، البهو...',
                                   hintStyle: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 175, 175, 175),
+                                    color: Color.fromARGB(255, 175, 175, 175),
                                   ),
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -396,10 +389,10 @@ class _CreateGroupState extends State<CreateGroup> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  createGroupReport.sessionPlace = value;
+                                  createGroupReport.location = value;
                                 },
                               ),
-                              Text(
+                              const Text(
                                 '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
                                 style: TextStyle(
                                   color: CustomColors.darkGrey,

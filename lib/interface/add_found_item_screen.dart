@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 //import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
@@ -95,7 +94,8 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       return;
     }
     _formKey.currentState!.save();
-    final storageRef = Connection.firestorageRef('found_images',uniqueFileName);
+    final storageRef =
+        Connection.firestorageRef('found_images', uniqueFileName);
 
     try {
       setState(() {
@@ -117,7 +117,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
 
   void _createFoundItem() async {
     try {
-
       final response = await http.post(
         Connection.url('Found-Items'),
         headers: {

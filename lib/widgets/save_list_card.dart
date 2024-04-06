@@ -73,7 +73,7 @@ class _SaveCardState extends State<SaveCard> {
               child: Stack(
                 children: [
                   Positioned(
-                    left: 0,
+                    left: 8,
                     top: 6,
                     child: IconButton(
                       onPressed: () {
@@ -107,14 +107,14 @@ class _SaveCardState extends State<SaveCard> {
                             height: 50,
                           ),
                         ),
-                        Row(
+                        const Row(
                           children: [
-                            Container(
-                              height: 100.0,
+                            SizedBox(
+                              height: 80.0,
                               child: VerticalDivider(
                                 width: 30,
                                 thickness: 1.0,
-                                color: CustomColors.lightGrey,
+                                color: CustomColors.lightGreyLowTrans,
                               ),
                             ),
                           ],
@@ -125,7 +125,7 @@ class _SaveCardState extends State<SaveCard> {
                             children: [
                               Text(widget.serviceName,
                                   style: const TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: CustomColors.lightBlue)),
                               const SizedBox(height: 10),
@@ -134,21 +134,21 @@ class _SaveCardState extends State<SaveCard> {
                                       fontSize: 12,
                                       color: CustomColors.lightGrey)),
                               const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  Icon(Icons.location_on,
-                                      size: 14, color: CustomColors.lightGrey),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    widget.dynamicObject.location!,
-                                    style: TextStyles.text,
-                                  ),
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+                              //     const Icon(Icons.location_on,
+                              //         size: 14, color: CustomColors.lightGrey),
+                              //     const SizedBox(width: 5),
+                              //     Text(
+                              //       widget.dynamicObject.location!,
+                              //       style: TextStyles.text,
+                              //     ),
+                              //   ],
+                              // ),
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.calendar_today,
+                                  const Icon(Icons.calendar_today,
                                       size: 14, color: CustomColors.lightGrey),
                                   const SizedBox(width: 5),
                                   Text(
@@ -160,7 +160,7 @@ class _SaveCardState extends State<SaveCard> {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(Icons.access_time,
+                                  const Icon(Icons.access_time,
                                       size: 14, color: CustomColors.lightGrey),
                                   const SizedBox(width: 5),
                                   Text(

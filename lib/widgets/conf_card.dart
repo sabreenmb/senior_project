@@ -43,10 +43,13 @@ class _ConfCardState extends State<ConfCard> {
               //start the colom
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  widget.confItem.name!,
-                  textAlign: TextAlign.right,
-                  style: TextStyles.heading3B,
+                SizedBox(
+                  width: 270,
+                  child: Text(
+                    widget.confItem.name!,
+                    textAlign: TextAlign.right,
+                    style: TextStyles.heading3B,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,

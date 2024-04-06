@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/theme.dart';
-
-import '../interface/ChatScreen.dart';
 import '../interface/Chat_Pages/current_chats.dart';
 import '../interface/HomeScreen.dart';
 import '../interface/ProfilePage.dart';
-import '../interface/SaveListScreen.dart';
+
+import 'package:senior_project/interface/save_list_screen.dart';
 import '../interface/services_screen.dart';
 
 Widget buildBottomBarWF(BuildContext context, int index) {
@@ -51,7 +50,8 @@ Widget buildBottomBarWF(BuildContext context, int index) {
   );
 }
 
-Widget buildBottomBar(BuildContext context, int index,bool isService) {
+Widget buildBottomBar(BuildContext context, int index, bool isService,
+    {bool isSaved = false}) {
   return BottomAppBar(
     color: Colors.white,
     shape: const CircularNotchedRectangle(),
@@ -65,29 +65,32 @@ Widget buildBottomBar(BuildContext context, int index,bool isService) {
           color: Colors.white,
         ),
         child: BottomNavigationBar(
-          showSelectedLabels:isService?false:true,
+          showSelectedLabels: isService ? false : true,
           landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
           onTap: (int newIndex) => _selectPage(newIndex, context),
           unselectedItemColor: CustomColors.darkGrey,
-          selectedItemColor: isService?CustomColors.darkGrey:CustomColors.lightBlue,
+          selectedItemColor:
+              isService ? CustomColors.darkGrey : CustomColors.lightBlue,
           currentIndex: index,
-          items:  [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
               label: 'الرئيسية',
               icon: Icon(Icons.home_outlined),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.apps),
-              label:'الخدمات',
+              label: 'الخدمات',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(
                 Icons.messenger_outline,
               ),
               label: 'الدردشة',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_border),
+              icon: isSaved
+                  ? const Icon(Icons.bookmark)
+                  : const Icon(Icons.bookmark_border),
               label: 'المحفوظات',
             ),
           ],
@@ -106,16 +109,16 @@ void _selectPage(int index, BuildContext context) {
   //todo uncomment on next sprints
   if (index == 0) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => HomeScreen()));
+        context, MaterialPageRoute(builder: (_) => const HomeScreen()));
   } else if (index == 1) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+        context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
   } else if (index == 2) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => CurrentChats()));
+        context, MaterialPageRoute(builder: (_) => const CurrentChats()));
   } else if (index == 3) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => SaveListScreen()));
+        context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
   }
 }
 
@@ -123,16 +126,16 @@ void _selectPage2(int index, BuildContext context) {
   //todo uncomment on next sprints
   if (index == 0) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => HomeScreen()));
+        context, MaterialPageRoute(builder: (_) => const HomeScreen()));
   } else if (index == 1) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => ServisesScreen()));
+        context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
   } else if (index == 3) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => CurrentChats()));
+        context, MaterialPageRoute(builder: (_) => const CurrentChats()));
   } else if (index == 4) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => SaveListScreen()));
+        context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
   }
 }
 

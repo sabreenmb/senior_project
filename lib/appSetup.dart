@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:senior_project/firebaseConnection.dart';
-import 'package:senior_project/model/SavedList.dart';
 
 import 'constant.dart';
 import 'model/EventItem.dart';
@@ -101,9 +99,8 @@ class Setup {
         'items': items,
       });
     }
-    final userProfileData = await userProfileDoc
-        .get()
-        .then((snapshot) => snapshot.data() as Map<String, dynamic>?);
+    final userProfileData =
+        await userProfileDoc.get().then((snapshot) => snapshot.data());
 
     userInfo.image_url = userProfileData?['image_url'];
     userInfo.userID = userProfileData?['userID'];
@@ -215,7 +212,6 @@ class Setup {
       print('Error adding itemmmmm: $e');
     }
   }
-
 
   void loadWorkshopsItems() async {
     workshopItem = [];
@@ -329,6 +325,33 @@ class Setup {
           timestamp: item.value['timestamp'],
         ));
       }
+    }
+
+    try {
+      // Retrieve the +document
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc('otherEvents').get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      var items = data['items'] as List<dynamic>;
+
+      for (int i = 0; i < items.length; i++) {
+        var id = items[i];
+        bool zq = otherItem.any((item) => item.id.toString() == id);
+        int matchingIndex =
+            otherItem.indexWhere((item) => item.id.toString() == id);
+        if (zq) {
+          print("did i came hereeeeeee? 11");
+          saveList.add(EventItem(
+              serviceName: 'أخرى',
+              item: otherItem[matchingIndex],
+              icon: services[4]['icon']));
+        }
+      }
+
+      print('Items added successfully other.');
+    } catch (e) {
+      print('Error adding itemmmmm: $e');
     }
   }
 
@@ -488,118 +511,47 @@ class Setup {
         createGroupReport.add(CreateGroupReport(
           id: item.key,
           //model name : firebase name
-          subjectCode: item.value['SubjectCode'],
-          sessionDate: item.value['SessionDate'],
-          sessionTime: item.value['SessionTime'],
-          sessionPlace: item.value['SessionPlace'],
+          name: item.value['name'],
+          date: item.value['date'],
+          time: item.value['time'],
+          location: item.value['location'],
           numPerson: item.value['NumPerson'],
         ));
       }
     } catch (error) {
       print('Empty List');
     }
-  }
 
-  void loadSaveItems() async {
     try {
-      // Retrieve the document
-      List<String> tempServicesName = [
-        'conferences',
-        'workshops',
-        'cources',
-        'otherEvents',
-        'offers',
-        'studentActivities',
-        'studyGroubs',
-        'volunteerOp'
-      ];
-      for (int s = 0; s < tempServicesName.length; s++) {
-        print(tempServicesName[s]);
-        DocumentSnapshot documentSnapshot = await userProfileDoc
-            .collection("saveItems")
-            .doc(tempServicesName[s])
-            .get();
-        Map<String, dynamic> data =
-            documentSnapshot.data() as Map<String, dynamic>;
-        var items = data['items'] as List<dynamic>;
+      // Retrieve the +document
+      DocumentSnapshot documentSnapshot =
+          await userProfileDoc.collection("saveItems").doc('studyGroubs').get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      var items = data['items'] as List<dynamic>;
 
-        if (items.length > 0) {
-          for (int i = 1; i < items.length; i++) {
-            var id = items[i];
-            print(id);
-
-            print(confItem);
-            bool zq;
-            confItem.any((item) => item.id.toString() == id)
-                ? zq = true
-                : zq = false;
-            int matchingIndex =
-                confItem.indexWhere((item) => item.id.toString() == id);
-            print("mmmmmmmmmmmmmm");
-
-            print(confItem);
-            if (zq) {
-              print("did i came hereeeeeee? 0");
-              saveList.add(EventItem(
-                  serviceName: 'conferences',
-                  item: confItem[matchingIndex],
-                  icon: services[4]['icon']));
-            }
-            //  else if (workshopItem[i].id == id) {
-            //   print("did i came hereeeeeee? 1");
-            //   saveList.add(EventItem(
-            //       serviceName: 'workshops',
-            //       item: workshopItem[i],
-            //       icon: services[4]['icon']));
-            // } else if (courseItem[i].id == id) {
-            //   print("did i came hereeeeeee?");
-            //   saveList.add(EventItem(
-            //       serviceName: 'cources',
-            //       item: courseItem[i],
-            //       icon: services[4]['icon']));
-            // } else if (otherItem[i].id == id) {
-            //   saveList.add(EventItem(
-            //       serviceName: 'otherEvents',
-            //       item: otherItem[i],
-            //       icon: services[4]['icon']));
-            // }
-            // // else if (workshopItem[i].id == id) {
-            // //   saveList.add(EventItem(
-            // //       serviceName: 'offers',
-            // //       item: confItem[i],
-            // //       icon: services[2]['icon']));
-            // // }
-            // else if (createStudentActivityReport[i].id == id) {
-            //   saveList.add(EventItem(
-            //       serviceName: 'studentActivities',
-            //       item: createStudentActivityReport[i],
-            //       icon: services[6]['icon']));
-            // }
-            // // else if (workshopItem[i].id == id) {
-            // //   saveList.add(EventItem(
-            // //       serviceName: 'studyGroubs',
-            // //       item: confItem[i],
-            // //       icon: services[5]['icon']));
-            // // }
-            // else if (volunteerOpReport[i].id == id) {
-            //   print("did i came hereeeeeee? 7");
-            //   saveList.add(EventItem(
-            //       serviceName: 'volunteerOp',
-            //       item: volunteerOpReport[i],
-            //       icon: services[1]['icon']));
-            // }
-          }
+      for (int i = 0; i < items.length; i++) {
+        var id = items[i];
+        bool zq = createGroupReport.any((item) => item.id.toString() == id);
+        int matchingIndex =
+            createGroupReport.indexWhere((item) => item.id.toString() == id);
+        if (zq) {
+          print("did i came hereeeeeee? 98");
+          saveList.add(EventItem(
+              serviceName: 'جلسة مذاكرة',
+              item: createGroupReport[matchingIndex],
+              icon: services[5]['icon']));
         }
       }
-      print('Items added successfully.');
+
+      print('Items added successfully study grp.');
     } catch (e) {
       print('Error adding itemmmmm: $e');
     }
   }
 
-
   void LoadFoundItems() async {
-    foundItemReport=[];
+    foundItemReport = [];
     final List<FoundItemReport> loadedFoundItems = [];
 
     try {
@@ -620,16 +572,14 @@ class Setup {
     } catch (error) {
       print('Empty List');
     } finally {
-
-        foundItemReport = loadedFoundItems;
+      foundItemReport = loadedFoundItems;
     }
   }
 
   void LoadLostItems() async {
-    lostItemReport=[];
+    lostItemReport = [];
     final List<LostItemReport> loadedLostItems = [];
     try {
-
       final response = await http.get(Connection.url('Lost-Items'));
       final Map<String, dynamic> lostdata = json.decode(response.body);
       for (final item in lostdata.entries) {
@@ -646,8 +596,7 @@ class Setup {
     } catch (error) {
       print('empty list');
     } finally {
-
-        lostItemReport = loadedLostItems;
+      lostItemReport = loadedLostItems;
     }
   }
 }

@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
 
@@ -25,8 +23,6 @@ class StudyGroup extends StatefulWidget {
 
 class _StudyGroupState extends State<StudyGroup>
     with SingleTickerProviderStateMixin {
-
-
   //search
   List<CreateGroupReport> searchSessionList = [];
   final _userInputController = TextEditingController();
@@ -51,8 +47,6 @@ class _StudyGroupState extends State<StudyGroup>
       duration: const Duration(milliseconds: 200),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +159,6 @@ class _StudyGroupState extends State<StudyGroup>
                                         _userInputController.clear();
                                         FocusScope.of(context).unfocus();
 
-
                                         setState(() {
                                           isSearch = false;
                                         });
@@ -185,8 +178,8 @@ class _StudyGroupState extends State<StudyGroup>
                             onSubmitted: (text) {
                               //todo the same value of on icon presed
                               searchSessionList.clear();
-                              filterSearchResults(_userInputController.text,
-                                  createGroupReport);
+                              filterSearchResults(
+                                  _userInputController.text, createGroupReport);
                               FocusScope.of(context).unfocus();
                             },
                             onTap: () {
@@ -214,15 +207,15 @@ class _StudyGroupState extends State<StudyGroup>
                               child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: MediaQuery.removePadding(
-                              context: context,
-                              removeTop: true,
-                              child: isSearch
-                                  ? ListView.builder(
-                                      itemCount: searchSessionList.length,
-                                      itemBuilder: (context, index) =>
-                                          CreateCard(searchSessionList[index]))
-                                  : _buildCardList()
-                            ),
+                                context: context,
+                                removeTop: true,
+                                child: isSearch
+                                    ? ListView.builder(
+                                        itemCount: searchSessionList.length,
+                                        itemBuilder: (context, index) =>
+                                            CreateCard(
+                                                searchSessionList[index]))
+                                    : _buildCardList()),
                           )),
                       ],
                     ),
@@ -239,10 +232,7 @@ class _StudyGroupState extends State<StudyGroup>
   void filterSearchResults(String query, List ls) {
     setState(() {
       for (int item = 0; item < ls.length; item++) {
-        if (ls[item]
-            .subjectCode!
-            .toLowerCase()
-            .contains(query.toLowerCase().trim())) {
+        if (ls[item].name!.toLowerCase().contains(query.toLowerCase().trim())) {
           searchSessionList.add(ls[item]);
         } //Add
         // else {
@@ -257,6 +247,7 @@ class _StudyGroupState extends State<StudyGroup>
     });
   }
 }
+
 Widget _buildCardList() {
   return StreamBuilder(
     stream: Connection.databaseReference('create-group'),
@@ -283,23 +274,22 @@ Widget _buildCardList() {
       }
 
       final Map<dynamic, dynamic> data =
-      snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+          snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
       if (data == null) {
         return Text('No data available');
       }
 
 // todo make sure it works
-      final List<CreateGroupReport> reports =
-      data.entries.map((entry) {
+      final List<CreateGroupReport> reports = data.entries.map((entry) {
         final key = entry.key;
         final value = entry.value;
         return CreateGroupReport(
           id: key,
           //model name : firebase name
-          subjectCode: value['SubjectCode'],
-          sessionDate: value['SessionDate'],
-          sessionTime: value['SessionTime'],
-          sessionPlace:value['SessionPlace'],
+          name: value['name'],
+          date: value['date'],
+          time: value['time'],
+          location: value['location'],
           numPerson: value['NumPerson'],
         );
       }).toList();

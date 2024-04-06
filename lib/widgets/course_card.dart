@@ -43,10 +43,13 @@ class _CoursesCardState extends State<CoursesCard> {
             //start the colom
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                widget.courseItem.name!,
-                textAlign: TextAlign.right,
-                style: TextStyles.heading3B,
+              SizedBox(
+                width: 270,
+                child: Text(
+                  widget.courseItem.name!,
+                  textAlign: TextAlign.right,
+                  style: TextStyles.heading3B,
+                ),
               ),
               const SizedBox(
                 height: 10,

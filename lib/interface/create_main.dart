@@ -28,7 +28,7 @@ class CreateMain extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                createGroupReport.subjectCode!,
+                createGroupReport.name!,
                 textAlign: TextAlign.right,
                 style: TextStyles.heading3B,
               ),
@@ -46,7 +46,7 @@ class CreateMain extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    createGroupReport.sessionPlace!,
+                    createGroupReport.location!,
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
@@ -67,7 +67,7 @@ class CreateMain extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    '${createGroupReport.sessionDate!}   ${createGroupReport.sessionTime!}',
+                    '${createGroupReport.date!}   ${createGroupReport.time!}',
                     textAlign: TextAlign.right,
                     style: TextStyles.text,
                   ),
