@@ -94,7 +94,28 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                               width: 5,
                             ),
                             Text(
-                              '${widget.createStudentActivityReport.date!}   ${widget.createStudentActivityReport.time!}',
+                              '${widget.createStudentActivityReport.date!}',
+                              textAlign: TextAlign.right,
+                              style: TextStyles.text,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.access_time,
+                              color: CustomColors.lightGrey,
+                              size: 14.0,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '${widget.createStudentActivityReport.time!}',
                               textAlign: TextAlign.right,
                               style: TextStyles.text,
                             ),

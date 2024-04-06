@@ -21,6 +21,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -46,11 +47,22 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
-          child: Container(
-            color: CustomColors.pink, // Set background color here
-            child: SafeArea(
-              bottom: false,
-              child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 330,
+                  decoration: const BoxDecoration(
+                    color: CustomColors.pink,
+                  ),
+                ),
+                color: CustomColors.BackgroundColor, // Pink background color
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+              ),
+              SingleChildScrollView(
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
@@ -60,7 +72,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                   ],
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -142,7 +154,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
         child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white, // White background color
               borderRadius: BorderRadius.circular(40),
               border: Border.all(
                 color: CustomColors.lightBlue,
