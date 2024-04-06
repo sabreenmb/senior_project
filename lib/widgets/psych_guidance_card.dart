@@ -15,8 +15,8 @@ class PGCard extends StatelessWidget {
         elevation: 4,
         shape: RoundedRectangleBorder(
           side: const BorderSide(
-            color: Color.fromRGBO(89, 177, 212, 1), // Set the border color here
-            width: 2.0, // Set the border width
+            color: Color.fromRGBO(89, 177, 212, 1),
+            width: 2.0,
           ),
           borderRadius: BorderRadius.circular(22.0),
         ),
@@ -29,25 +29,6 @@ class PGCard extends StatelessWidget {
             //start the colom
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // const Row(children: [
-              //   Icon(
-              //     Icons.brain,
-              //     color: CustomColors.lightGrey,
-              //     size: 18.0,
-              //   ),
-              //   SizedBox(
-              //     width: 5,
-              //   ),
-              //   Text(
-              //     "كيف هو مزاجك اليوم؟",
-              //     style: TextStyle(
-              //       fontSize: 16,
-              //       color: Color(0xff535D74),
-              //     ),
-              //     textAlign: TextAlign.center,
-              //   ),
-              // ]),
-
               const SizedBox(
                 height: 5,
               ),
