@@ -2,6 +2,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:senior_project/constant.dart';
+import 'package:senior_project/interface/Chat_Pages/chat_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../model/lost_item_report.dart';
@@ -151,21 +153,31 @@ class LostCard extends StatelessWidget {
                       ],
                     ),
                     //todo manar
-                    Positioned(
-                      top: 5,
-                      left: 15.0,
-                      child: IconButton(
-                        onPressed: () {
-                          // setState(() {
-                          //   isSaved = savedItem.addToSave(isSaved);
-                          // });
-                        },
-                        icon: Icon(
-                          Icons.chat_bubble_rounded,
-                          color: CustomColors.lightBlue,
-                        ),
-                      ),
-                    ),
+                    lostItemReport.creatorID != userInfo.userID
+                        ? Positioned(
+                            top: 5,
+                            left: 15.0,
+                            child: IconButton(
+                              onPressed: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RealChatPage(
+                                      otherUserInfo: allUsers[
+                                          allUsers.indexWhere((element) =>
+                                              element.userID ==
+                                              lostItemReport.creatorID)],
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.chat_bubble_rounded,
+                                color: CustomColors.lightBlue,
+                              ),
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

@@ -133,7 +133,10 @@ class _CurrentChatsState extends State<CurrentChats>
 
   Widget _buildUsersList() {
     return StreamBuilder<QuerySnapshot>(
-        stream: getUsers(),
+        stream: FirebaseFirestore.instance
+            .collection("chat_rooms")
+            .orderBy('lastMsgTime', descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Text("كل زق");
@@ -171,7 +174,8 @@ class _CurrentChatsState extends State<CurrentChats>
 
       return UserChatItem(
         context: context,
-        recevierUserID: recevierUserID,
+        otherUserInfo: allUsers[
+            allUsers.indexWhere((element) => element.userID == recevierUserID)],
         chatInfo: data,
       );
     }

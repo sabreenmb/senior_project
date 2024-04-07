@@ -40,14 +40,6 @@ class _AllUsersState extends State<AllUsersScreen>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    getUsers();
-  }
-
-  void getUsers() {
-    users = FirebaseFirestore.instance
-        .collection("userProfile")
-        .where('userID', isNotEqualTo: userInfo.userID)
-        .snapshots();
   }
 
   @override
@@ -108,63 +100,17 @@ class _AllUsersState extends State<AllUsersScreen>
   }
 
   Widget _buildUsersList() {
-    return StreamBuilder<QuerySnapshot>(
-        stream: users,
-        // FirebaseFirestore.instance
-        //     .collection("userProfile")
-        //     .where('userID', isNotEqualTo: userInfo.userID)
-        //     .snapshots(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            //if data is loading
-            case ConnectionState.waiting:
-            case ConnectionState.none:
-              return const SizedBox();
-
-            //if some or all data is loaded then show it
-            case ConnectionState.active:
-            case ConnectionState.done:
-              _list = snapshot.data!.docs
-                  .map((document) => enteredUserInfo
-                      .fromJson(document.data()! as Map<String, dynamic>))
-                  .toList();
-              //data?.map(() => Message.fromJson(e.data())).toList() ?? [];
-
-              if (_list.isNotEmpty) {
-                return ListView.builder(
-                    // reverse: true,
-                    itemCount: _list.length,
-                    // padding: EdgeInsets.only(top: mq.height * .01),
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return UserChatItem(
-                        context: context,
-                        recevierUserID: _list[index].userID,
-                      );
-                    });
-              } else {
-                return const Center();
-              }
-            // if (snapshot.hasError) {
-            //   return const Text("كل زق");
-            // }
-
-            // if (snapshot.connectionState == ConnectionState.waiting) {
-            //   return loadingFunction(context, true);
-            // }
-            // return ListView(
-            //   physics: const BouncingScrollPhysics(),
-            //   padding: const EdgeInsets.only(bottom: 10),
-            //   children: snapshot.data!.docs
-            //       .map<Widget>((doc) => _buildUserListItem(doc))
-            //       .toList(),
-            // );
-          }
+    return ListView.builder(
+        // reverse: true,
+        itemCount: allUsers.length,
+        // padding: EdgeInsets.only(top: mq.height * .01),
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          print(allUsers.elementAt(3).userID);
+          return UserChatItem(
+            context: context,
+            otherUserInfo: allUsers[index],
+          );
         });
   }
-
-  // Widget _buildUserListItem(enteredUserInfo data) {
-  //   // Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-  //   return UserChatItem(context: context, recevierUserID: data.userID);
-  // }
 }

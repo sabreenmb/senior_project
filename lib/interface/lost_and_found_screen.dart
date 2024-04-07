@@ -487,12 +487,13 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
             final value = entry.value;
             return LostItemReport(
               id: key,
-              photo: value['Photo'],
-              category: value['Category'],
-              lostDate: value['LostDate'],
-              expectedPlace: value['ExpectedPlace'],
-              phoneNumber: value['PhoneNumber'],
-              desription: value['Description'],
+              photo: value['photo'],
+              category: value['category'],
+              lostDate: value['lostDate'],
+              expectedPlace: value['expectedPlace'],
+              phoneNumber: value['phoneNumber'],
+              desription: value['description'],
+              creatorID: value['creatorID'],
             );
           }).toList();
           lostItemReport = reports.cast<LostItemReport>();

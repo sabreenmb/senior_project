@@ -23,13 +23,15 @@ class AddLostItemScreen extends StatefulWidget {
 
 class _AddLostItemScreenState extends State<AddLostItemScreen> {
   LostItemReport lostItemReport = LostItemReport(
-      id: '',
-      photo: '',
-      category: '',
-      lostDate: '',
-      expectedPlace: '',
-      phoneNumber: '',
-      desription: '');
+    id: '',
+    photo: '',
+    category: '',
+    lostDate: '',
+    expectedPlace: '',
+    phoneNumber: '',
+    desription: '',
+    creatorID: userInfo.userID,
+  );
   File? _selectedImage;
   String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();

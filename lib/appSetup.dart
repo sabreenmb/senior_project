@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:senior_project/firebaseConnection.dart';
+import 'package:senior_project/model/entered_user_info.dart';
 
 import 'constant.dart';
 import 'model/EventItem.dart';
@@ -22,6 +23,7 @@ import 'model/workshop_item_report.dart';
 class Setup {
   Setup() {
     saveList = [];
+    loadAllUsers();
     LoadOffers();
     loadCoursesItems();
     loadWorkshopsItems();
@@ -118,6 +120,40 @@ class Setup {
     notificationServices.updatePushToken();
 
     // new Setup();
+  }
+
+  void loadAllUsers() async {
+    // List<enteredUserInfo> allUsers = [];
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('userProfile').get();
+
+      for (int i = 0; i < querySnapshot.docs.length; i++) {
+        DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
+        //allUsers[i] = documentSnapshot.data() as enteredUserInfo;
+        Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        enteredUserInfo otherUserInfo = enteredUserInfo(
+          userID: data['userID'],
+          rule: data['rule'],
+          name: data['name'],
+          collage: data['collage'],
+          major: data['major'],
+          intrests: data['intrests'],
+          hobbies: data['hobbies'],
+          skills: data['skills'],
+          image_url: data["image_url"],
+          pushToken: data["pushToken"],
+          offersPreferences: data['offersPreferences'],
+        );
+        print("yyyyyyarb");
+        print(allUsers[i].name);
+        allUsers[i] = otherUserInfo;
+      }
+      // Process the documents here
+    } catch (e) {
+      print('Error loading documents: $e');
+    }
   }
 
   void LoadOffers() async {
@@ -585,12 +621,13 @@ class Setup {
       for (final item in lostdata.entries) {
         loadedLostItems.add(LostItemReport(
           id: item.key,
-          photo: item.value['Photo'],
-          category: item.value['Category'],
-          lostDate: item.value['LostDate'],
-          expectedPlace: item.value['ExpectedPlace'],
-          phoneNumber: item.value['PhoneNumber'],
-          desription: item.value['Description'],
+          photo: item.value['photo'],
+          category: item.value['category'],
+          lostDate: item.value['lostDate'],
+          expectedPlace: item.value['expectedPlace'],
+          phoneNumber: item.value['phoneNumber'],
+          desription: item.value['description'],
+          creatorID: item.value['creatorID'],
         ));
       }
     } catch (error) {

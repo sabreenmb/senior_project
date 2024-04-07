@@ -26,7 +26,7 @@ int currentPageIndex = 0;
 NavigationDestinationLabelBehavior labelBehavior =
     NavigationDestinationLabelBehavior.alwaysHide;
 //todo move to coommen var
-
+List<enteredUserInfo> allUsers = [];
 bool isLoading = false;
 //todo move to coommen var
 List<String> Categories = [

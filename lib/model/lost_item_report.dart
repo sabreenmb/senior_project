@@ -7,6 +7,7 @@ class LostItemReport {
   String? expectedPlace;
   String? phoneNumber;
   String? desription;
+  String? creatorID;
 
   //Constructor
   LostItemReport({
@@ -17,16 +18,19 @@ class LostItemReport {
     required this.expectedPlace,
     required this.phoneNumber,
     required this.desription,
+    required this.creatorID,
   });
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['PhoneNumber'] = phoneNumber;
-    map['Category'] = category;
-    map['LostDate'] = lostDate;
-    map['ExpectedPlace'] = expectedPlace;
-    map['Description'] = desription;
-    map['Photo'] = photo;
+    map['phoneNumber'] = phoneNumber;
+    map['category'] = category;
+    map['lostDate'] = lostDate;
+    map['expectedPlace'] = expectedPlace;
+    map['description'] = desription;
+    map['photo'] = photo;
+    map['creatorID'] = creatorID;
+
     return map;
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/constant.dart';
@@ -15,39 +14,15 @@ class UserChatItem extends StatelessWidget {
   const UserChatItem({
     super.key,
     required this.context,
-    required this.recevierUserID,
+    required this.otherUserInfo,
     this.chatInfo,
   });
   final BuildContext context;
-  final String recevierUserID;
+  final enteredUserInfo otherUserInfo;
   final ChatInfo? chatInfo;
-
-  void _goToUserProfile(enteredUserInfo otherUserInfo) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => OtherUserProfileScreen(
-          otherUserInfo: otherUserInfo,
-        ),
-      ),
-    );
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> _getUser() {
-    return FirebaseFirestore.instance
-        .collection('userProfile')
-        .where('userID', isEqualTo: recevierUserID)
-        .get();
-  }
 
   @override
   Widget build(BuildContext context) {
-    String subti;
-    if (chatInfo != null) {
-      subti = (chatInfo?.lastMsgSender == userInfo.userID
-          ? "أنت: ${chatInfo?.lastMsg}"
-          : chatInfo?.lastMsg)!;
-    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
@@ -55,110 +30,89 @@ class UserChatItem extends StatelessWidget {
         color: CustomColors.white,
       ),
       margin: const EdgeInsets.only(bottom: 10),
-      child: FutureBuilder(
-        future: _getUser(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var data = snapshot.data!.docs[0];
-
-            enteredUserInfo otherUserInfo = enteredUserInfo(
-              userID: data.get('userID'),
-              rule: data.get('rule'),
-              name: data.get('name'),
-              collage: data.get('collage'),
-              major: data.get('major'),
-              intrests: data.get('intrests'),
-              hobbies: data.get('hobbies'),
-              skills: data.get('skills'),
-              image_url: data.get("image_url"),
-              pushToken: data.get("pushToken"),
-              offersPreferences: data.get('offersPreferences'),
-            );
-
-            return InkWell(
-                child: ListTile(
-                  title: Text(
-                    otherUserInfo.name,
-                    style: TextStyles.heading2,
-                  ),
-                  subtitle: Text(
-                    chatInfo != null
-                        ? (chatInfo?.lastMsgSender == userInfo.userID
-                        ? "أنت: ${chatInfo?.lastMsg}"
-                        : chatInfo?.lastMsg)!
-                        : otherUserInfo.major,
-                    maxLines: 1,
-                    style: const TextStyle(
-                        color: CustomColors.lightGrey, fontSize: 14),
-                  ),
-                  trailing: chatInfo == null
-                      ? null //show nothing when no message is sent
-                      : chatInfo!.lastMsgSender != userInfo.userID
-                      ? chatInfo!.readF.isEmpty
-                      ?
-                  //show for unread message
-                  Container(
-                    width: 15,
-                    height: 15,
-                    decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(10)),
-                  )
-                  // message sent time
-                      : Text(
-                    MyDateUtil.getLastMessageTime(
-                        context: context,
-                        time: chatInfo!.lastMsgTime),
-                    style: const TextStyle(color: Colors.black54),
-                  )
-                      : Text(
+      child: InkWell(
+          child: ListTile(
+        title: Text(
+          otherUserInfo.name,
+          style: TextStyles.heading2,
+        ),
+        subtitle: Text(
+          chatInfo != null
+              ? (chatInfo?.lastMsgSender == userInfo.userID
+                  ? "أنت: ${chatInfo?.lastMsg}"
+                  : chatInfo?.lastMsg)!
+              : otherUserInfo.major,
+          maxLines: 1,
+          style: const TextStyle(color: CustomColors.lightGrey, fontSize: 14),
+        ),
+        trailing: chatInfo == null
+            ? null //show nothing when no message is sent
+            : chatInfo!.lastMsgSender != userInfo.userID
+                ? chatInfo!.readF.isEmpty
+                    ?
+                    //show for unread message
+                    Container(
+                        width: 15,
+                        height: 15,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(10)),
+                      )
+                    // message sent time
+                    : Text(
+                        MyDateUtil.getLastMessageTime(
+                            context: context, time: chatInfo!.lastMsgTime),
+                        style: const TextStyle(color: Colors.black54),
+                      )
+                : Text(
                     MyDateUtil.getLastMessageTime(
                         context: context, time: chatInfo!.lastMsgTime),
                     style: const TextStyle(color: Colors.black54),
                   ),
-                  leading: GestureDetector(
-                    onTap: () {
-                      _goToUserProfile(otherUserInfo);
-                    },
-
-                    // backgroundColor: Color.fromARGB(207, 96, 125, 139),
-                    child: otherUserInfo.image_url == ''
-                        ? const Icon(
-                      Icons.account_circle_outlined,
-                      color: Color.fromARGB(163, 51, 51, 51),
-                      size: 40,
-                    )
-                        : ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: CachedNetworkImage(
-                        width: 38,
-                        height: 38,
-                        fit: BoxFit.cover,
-                        imageUrl: otherUserInfo.image_url,
-                        errorWidget: (context, url, error) => CircleAvatar(
-                          child: SvgPicture.asset(
-                            'assets/icons/UserProfile.svg',
-                            color: CustomColors.darkGrey,
-                          ),
-                        ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OtherUserProfileScreen(
+                  otherUserInfo: otherUserInfo,
+                ),
+              ),
+            );
+          },
+          child: otherUserInfo.image_url == ''
+              ? const Icon(
+                  Icons.account_circle_outlined,
+                  color: Color.fromARGB(163, 51, 51, 51),
+                  size: 40,
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage(
+                    width: 38,
+                    height: 38,
+                    fit: BoxFit.cover,
+                    imageUrl: otherUserInfo.image_url,
+                    errorWidget: (context, url, error) => CircleAvatar(
+                      child: SvgPicture.asset(
+                        'assets/icons/UserProfile.svg',
+                        color: CustomColors.darkGrey,
                       ),
                     ),
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RealChatPage(
-                          otherUserInfo: otherUserInfo,
-                        ),
-                      ),
-                    );
-                  },
-                ));
-          }
-          return Container();
+                ),
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RealChatPage(
+                otherUserInfo: otherUserInfo,
+              ),
+            ),
+          );
         },
-      ),
+      )),
     );
   }
 }
