@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/theme.dart';
 import '../../constant.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class OtherUserProfileScreen extends StatefulWidget {
   final enteredUserInfo otherUserInfo;
@@ -21,6 +21,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -46,18 +47,22 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [CustomColors.pink, Colors.white],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.5, 0.5],
+          child: Stack(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 330,
+                  decoration: const BoxDecoration(
+                    color: CustomColors.pink,
+                  ),
+                ),
+                color: CustomColors.BackgroundColor, // Pink background color
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
               ),
-            ),
-            child: SafeArea(
-              bottom: false,
-              child: SingleChildScrollView(
+              SingleChildScrollView(
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
@@ -67,7 +72,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                   ],
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -149,7 +154,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
         child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white, // White background color
               borderRadius: BorderRadius.circular(40),
               border: Border.all(
                 color: CustomColors.lightBlue,
