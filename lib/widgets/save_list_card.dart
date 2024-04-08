@@ -24,10 +24,10 @@ class SaveCard extends StatefulWidget {
 
 class _SaveCardState extends State<SaveCard> {
   //manar
-  bool isSaved = false;
 
   @override
   Widget build(BuildContext context) {
+    bool isSaved;
     Size size = MediaQuery.of(context).size;
     SavedList savedItem = SavedList(
         serviceName: widget.serviceName,
@@ -37,39 +37,37 @@ class _SaveCardState extends State<SaveCard> {
     isSaved = SavedList.findId(widget.dynamicObject.id);
 
     return isSaved
-        ? Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(22),
-            ),
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            child: InkWell(
-              onTap: () {
-                if (widget.serviceName == 'فرصة تطوعية') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const VolunteerOp()),
-                  );
-                } else if (widget.serviceName == 'نشاط طلابي') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StudentActivity()),
-                  );
-                } else if (widget.serviceName == 'جلسة مذاكرة') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const StudyGroup()),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const EventScreen()),
-                  );
-                }
-              },
+        ? InkWell(
+            onTap: () {
+              if (widget.serviceName == 'فرصة تطوعية') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const VolunteerOp()),
+                );
+              } else if (widget.serviceName == 'نشاط طلابي') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StudentActivity()),
+                );
+              } else if (widget.serviceName == 'جلسة مذاكرة') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudyGroup()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EventScreen()),
+                );
+              }
+            },
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(22),
+              ),
+              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Stack(
                 children: [
                   Positioned(
@@ -81,10 +79,11 @@ class _SaveCardState extends State<SaveCard> {
                           isSaved = !isSaved;
                           saveList.removeWhere((item) =>
                               item.serviceName == widget.serviceName &&
-                              item.item == widget.dynamicObject &&
+                              item.item.id == widget.dynamicObject.id &&
                               item.icon == widget.icon);
-                          savedItem
-                              .removeItem(widget.dynamicObject.id!.toString());
+                          savedItem.removeItem(
+                              widget.dynamicObject.id!.toString(),
+                              isSaveScreen: true);
                         });
                       },
                       icon: Icon(
@@ -177,7 +176,8 @@ class _SaveCardState extends State<SaveCard> {
                   ),
                 ],
               ),
-            ))
+            ),
+          )
         : Container();
   }
 }

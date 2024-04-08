@@ -76,9 +76,6 @@ class Setup {
       CollectionReference saveItemsCollection =
           userProfileDoc.collection('saveItems');
 
-      await saveItemsCollection.doc('offers').set({
-        'items': items,
-      });
       await saveItemsCollection.doc('conferences').set({
         'items': items,
       });

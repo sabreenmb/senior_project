@@ -1,11 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../constant.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
-import '../model/EventItem.dart';
-import '../model/SavedList.dart';
 import '../theme.dart';
 
 class HomeCard extends StatefulWidget {
@@ -22,22 +18,22 @@ class HomeCard extends StatefulWidget {
 
 class _HomeCardState extends State<HomeCard> {
   //manar
-  bool isSaved = false;
+  // bool isSaved = false;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    SavedList savedItem = SavedList(
-        serviceName: widget.serviceName,
-        dynamicObject: widget.dynamicObject,
-        icon: widget.icon);
-    //manar
-    isSaved = SavedList.findId(widget.dynamicObject.id);
+    // SavedList savedItem = SavedList(
+    //     serviceName: widget.serviceName,
+    //     dynamicObject: widget.dynamicObject,
+    //     icon: widget.icon);
+    // //manar
+    // isSaved = SavedList.findId(widget.dynamicObject.id);
 
     return InkWell(
       onTap: () {
         // Define the navigation logic here
-        if (widget.serviceName == 'OP') {
+        if (widget.serviceName == 'volunteerOp') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const VolunteerOp()),
@@ -64,17 +60,17 @@ class _HomeCardState extends State<HomeCard> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isSaved = savedItem.addToSave(isSaved);
-                    });
-                  },
-                  icon: Icon(
-                    isSaved ? Icons.bookmark : Icons.bookmark_border,
-                    color: CustomColors.lightBlue,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     setState(() {
+                //       isSaved = savedItem.addToSave(isSaved);
+                //     });
+                //   },
+                //   icon: Icon(
+                // isSaved ? Icons.bookmark : Icons.bookmark_border,
+                //     color: CustomColors.lightBlue,
+                //   ),
+                // ),
                 SizedBox(
                   height: 65,
                   child: Center(

@@ -21,8 +21,15 @@ class PsychGuidance extends StatefulWidget {
 
 class _PsychGuidanceState extends State<PsychGuidance>
     with SingleTickerProviderStateMixin {
-  List<PsychGuidanceReport> _PsychGuidanceReport = [];
-  int matchingIndex = 0;
+  PsychGuidanceReport pg = PsychGuidanceReport(
+    id: '',
+    //model name : firebase name
+    ProName: '',
+    ProLocation: '',
+    collage: '',
+    ProOfficeNumber: '',
+    ProEmail: '',
+  );
 
   @override
   void initState() {
@@ -31,7 +38,6 @@ class _PsychGuidanceState extends State<PsychGuidance>
   }
 
   void _LoadPsychGuidance() async {
-    final List<PsychGuidanceReport> loadedPsychGuidance = [];
 
     try {
       setState(() {
@@ -43,33 +49,52 @@ class _PsychGuidanceState extends State<PsychGuidance>
       for (final item in foundData.entries) {
         print('sabreen test');
         print(item.value['pg_name']);
-        loadedPsychGuidance.add(PsychGuidanceReport(
-          id: item.key,
-          //model name : firebase name
-          ProName: item.value['pg_name'],
-          ProLocation: item.value['pg_location'],
-          collage: item.value['pg_collage'],
-          ProOfficeNumber: item.value['pg_number'],
-          ProEmail: item.value['pg_email'],
-        ));
+        if (item.value['pg_collage'] == userInfo.collage) {
+          pg = PsychGuidanceReport(
+            id: item.key,
+            //model name : firebase name
+            ProName: item.value['pg_name'],
+            ProLocation: item.value['pg_location'],
+            collage: item.value['pg_collage'],
+            ProOfficeNumber: item.value['pg_number'],
+            ProEmail: item.value['pg_email'],
+          );
+          setState(() {
+            isLoading = false;
+          });
+          break;
+        }
+        // _PsychGuidanceReport.add(PsychGuidanceReport(
+        //   id: item.key,
+        //   //model name : firebase name
+        //   ProName: item.value['pg_name'],
+        //   ProLocation: item.value['pg_location'],
+        //   collage: item.value['pg_collage'],
+        //   ProOfficeNumber: item.value['pg_number'],
+        //   ProEmail: item.value['pg_email'],
+        // ));
       }
     } catch (error) {
       print('Empty List');
     } finally {
+      // _PsychGuidanceReport = loadedPsychGuidance;
       setState(() {
         isLoading = false;
-        _PsychGuidanceReport = loadedPsychGuidance;
-        print(_PsychGuidanceReport.toList());
+
+        // print(_PsychGuidanceReport.toList());
       });
     }
-    matchingIndex = loadedPsychGuidance
-        .indexWhere((item) => item.collage.toString() == userInfo.collage);
+    // matchingIndex = loadedPsychGuidance
+    //     .indexWhere((item) => item.collage.toString() == userInfo.collage);
   }
 
   @override
   Widget build(BuildContext context) {
     print('build enter');
-    print(_PsychGuidanceReport);
+    // _LoadPsychGuidance();
+    // print(_PsychGuidanceReport);
+    // matchingIndex = _PsychGuidanceReport.indexWhere(
+    //     (item) => item.collage.toString() == userInfo.collage);
 
     // ignore: deprecated_member_use
     return WillPopScope(
@@ -242,7 +267,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
                             child: Padding(
                           padding: const EdgeInsets.only(
                               top: 8.0, left: 8.0, right: 8.0, bottom: 100),
-                          child: PGCard(_PsychGuidanceReport[matchingIndex]),
+                          child: PGCard(pg),
                         )),
                       ],
                     ),
