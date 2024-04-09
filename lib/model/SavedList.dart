@@ -1,8 +1,5 @@
-import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:senior_project/model/volunteer_op_report.dart';
 
 import '../constant.dart';
 import 'EventItem.dart';
@@ -16,7 +13,6 @@ class SavedList {
     required this.dynamicObject,
     required this.icon,
   });
-  //to do
   Map<String, String> convertServiceName = {
     'volunteerOp': 'فرصة تطوعية',
     'conferences': 'مؤتمر',
@@ -52,7 +48,7 @@ class SavedList {
       print('reemooooove');
       saveList.removeWhere((item) =>
           item.serviceName == convertServiceName[serviceName].toString() &&
-          item.item == dynamicObject &&
+          item.item.id == dynamicObject.id &&
           item.icon == icon);
       removeItem(dynamicObject.id.toString());
     }
@@ -88,11 +84,12 @@ class SavedList {
     }
   }
 
-  Future<void> removeItem(String itemId) async {
+  Future<void> removeItem(String itemId, {bool isSaveScreen = false}) async {
     try {
+      String doc = isSaveScreen ? getKeyFromValue(serviceName) : serviceName;
       // Retrieve the document
       DocumentSnapshot documentSnapshot =
-          await userProfileDoc.collection("saveItems").doc(serviceName).get();
+          await userProfileDoc.collection("saveItems").doc(doc).get();
 
       if (documentSnapshot.exists) {
         // Check if the item already exists in the 'items' array
@@ -107,7 +104,7 @@ class SavedList {
       }
 
       // Remove the item from the 'items' array
-      await userProfileDoc.collection('saveItems').doc(serviceName).update({
+      await userProfileDoc.collection('saveItems').doc(doc).update({
         'items': FieldValue.arrayRemove([itemId])
       });
 
@@ -115,5 +112,17 @@ class SavedList {
     } catch (e) {
       print('Error removing item: $e');
     }
+  }
+
+  String getKeyFromValue(String value) {
+    for (var entry in convertServiceName.entries) {
+      if (entry.value == value) {
+        print('rmrmrmrmmrm');
+        print(entry.key);
+        print(entry.value);
+        return entry.key;
+      }
+    }
+    return ''; // If no matching key is found
   }
 }

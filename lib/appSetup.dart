@@ -76,9 +76,6 @@ class Setup {
       CollectionReference saveItemsCollection =
           userProfileDoc.collection('saveItems');
 
-      await saveItemsCollection.doc('offers').set({
-        'items': items,
-      });
       await saveItemsCollection.doc('conferences').set({
         'items': items,
       });
@@ -123,7 +120,7 @@ class Setup {
   }
 
   void loadAllUsers() async {
-    // List<enteredUserInfo> allUsers = [];
+    allUsers = [];
     try {
       QuerySnapshot querySnapshot =
           await FirebaseFirestore.instance.collection('userProfile').get();
@@ -147,8 +144,11 @@ class Setup {
           offersPreferences: data['offersPreferences'],
         );
         print("yyyyyyarb");
+        // print(allUsers[i].name);
+        allUsers.add(otherUserInfo);
+
         print(allUsers[i].name);
-        allUsers[i] = otherUserInfo;
+        // allUsers[i] = otherUserInfo;
       }
       // Process the documents here
     } catch (e) {

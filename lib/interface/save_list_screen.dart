@@ -55,10 +55,9 @@ class _SaveListScreenState extends State<SaveListScreen>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
                   ),
-                  child: InkWell(
-                    child: _buildItems(),
-                  ),
-                )
+                  // child: _buildItems(),
+                ),
+                _buildItems(),
               ],
             ))
           ],
@@ -68,8 +67,14 @@ class _SaveListScreenState extends State<SaveListScreen>
   }
 
   Widget _buildItems() {
-    return SizedBox(
-      height: 240,
+    return
+        // SizedBox(
+        //   height: 240,
+        // child:
+        // Expanded(
+        // child:
+        Padding(
+      padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
           // scrollDirection: Axis.,
           itemCount: saveList.length,
@@ -78,6 +83,8 @@ class _SaveListScreenState extends State<SaveListScreen>
                 saveList[index].serviceName,
                 saveList[index].icon,
               )),
+      // ),
+      // ),
     );
   }
 }
