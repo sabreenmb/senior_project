@@ -21,59 +21,59 @@ class LostCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(22),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
-          // mainAxisSize: MainAxisSize.min,
-          // mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: SizedBox(
-                width: 95,
-                height: 130,
-                child: lostItemReport.photo == "empty"
-                    ? Image(image: AssetImage('assets/images/logo-icon.png'))
-                    : FutureBuilder<void>(
-                        future: precacheImage(
-                          CachedNetworkImageProvider(lostItemReport.photo!),
-                          context,
-                        ),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Shimmer.fromColors(
-                              baseColor: Colors.white,
-                              highlightColor: Colors.grey[300]!,
-                              enabled: true,
-                              child: Container(
-                                color: Colors.white,
-                              ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text(
-                                'Error loading image'); // Handle error loading image
-                          } else {
-                            return CachedNetworkImage(
-                              imageUrl: lostItemReport.photo!,
-                              fit: BoxFit.fill,
-                            );
-                          }
-                        },
-                      ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-                child: Stack(
-                  children: [
-                    Column(
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              // mainAxisSize: MainAxisSize.min,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    width: 95,
+                    height: 130,
+                    child: lostItemReport.photo == "empty"
+                        ? Image(
+                            image: AssetImage('assets/images/logo-icon.png'))
+                        : FutureBuilder<void>(
+                            future: precacheImage(
+                              CachedNetworkImageProvider(lostItemReport.photo!),
+                              context,
+                            ),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Colors.grey[300]!,
+                                  enabled: true,
+                                  child: Container(
+                                    color: Colors.white,
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text(
+                                    'Error loading image'); // Handle error loading image
+                              } else {
+                                return CachedNetworkImage(
+                                  imageUrl: lostItemReport.photo!,
+                                  fit: BoxFit.fill,
+                                );
+                              }
+                            },
+                          ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0, vertical: 5),
+                    child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      //start the colom
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
@@ -152,38 +152,38 @@ class LostCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    //todo manar
-                    lostItemReport.creatorID != userInfo.userID
-                        ? Positioned(
-                            top: 5,
-                            left: 15.0,
-                            child: IconButton(
-                              onPressed: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RealChatPage(
-                                      otherUserInfo: allUsers[
-                                          allUsers.indexWhere((element) =>
-                                              element.userID ==
-                                              lostItemReport.creatorID)],
-                                    ),
-                                  ),
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.chat_bubble_rounded,
-                                color: CustomColors.lightBlue,
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
+              ],
+            ),
+          ),
+          //todo manar
+          lostItemReport.creatorID != userInfo.userID
+              ? Positioned(
+                  top: 9,
+                  left: 15,
+                  child: IconButton(
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RealChatPage(
+                            otherUserInfo: allUsers[allUsers.indexWhere(
+                                (element) =>
+                                    element.userID ==
+                                    lostItemReport.creatorID)],
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.chat,
+                      color: CustomColors.lightBlue,
+                    ),
+                  ),
+                )
+              : Container(),
+        ],
       ),
     );
   }
