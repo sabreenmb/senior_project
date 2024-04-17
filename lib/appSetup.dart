@@ -58,6 +58,7 @@ class Setup {
           pg = PsychGuidanceReport(
             id: item.key,
             //model name : firebase name
+            ProId: item.value['pg_ID'],
             ProName: item.value['pg_name'],
             ProLocation: item.value['pg_location'],
             collage: item.value['pg_collage'],
