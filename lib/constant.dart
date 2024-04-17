@@ -270,7 +270,7 @@ List<EventItem> saveList = [];
 List<CreateStudentActivityReport> createStudentActivityReport = [];
 List<CreateGroupReport> createGroupReport = [];
 List<ClinicReport> clinicReport = [];
-
+bool isOffline=false;
 
 void homeCards() async {
   combinedList = [];

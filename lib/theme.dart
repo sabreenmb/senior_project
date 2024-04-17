@@ -43,6 +43,8 @@ class TextStyles {
       color: CustomColors.lightBlue, fontWeight: FontWeight.w400, fontSize: 12);
   static TextStyle text3 = GoogleFonts.getFont("Almarai",
       color: CustomColors.white, fontWeight: FontWeight.w400, fontSize: 16);
+  static TextStyle text5 = GoogleFonts.getFont("Almarai",
+      color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 16,letterSpacing: 1.5,height: 3);
 }
 
 class CustomGradiant {

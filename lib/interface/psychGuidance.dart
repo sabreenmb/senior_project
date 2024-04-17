@@ -13,6 +13,8 @@ import '../widgets/side_menu.dart';
 import '../firebaseConnection.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import 'PsychGuidanceDetails.dart';
+
 class PsychGuidance extends StatefulWidget {
   const PsychGuidance({super.key});
 
@@ -128,22 +130,46 @@ class _PsychGuidanceState extends State<PsychGuidance>
                     ],
                   ),
                 ),
-                Expanded(
+
+      Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
 
                     child:Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
                       children: [
-                        Text('انت تستحق ان تكون سعيداً .', style: TextStyles.headingPink),
+                        Text('انت تستحق ان تكون سعيداً ', style: TextStyles.headingPink),
                         SizedBox(
                           height: 10,
                         ),
-                        Text(' تذكر...\n لا تخف من طلب المساعدة. مع الدعم المناسب , يمكنك ان تتحسن .'),
+                        Text(' تذكر...\n لا تخف من طلب المساعدة. مع الدعم المناسب , يمكنك ان تتحسن .',style: TextStyles.text5,       textAlign: TextAlign.center,
+                        ),
+                        Container(margin: EdgeInsets.all(10),
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 80),
+                        child: ElevatedButton(
+                          onPressed: () async { await Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PsychGuidanceDetails()));
+                              },
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(175, 40),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              backgroundColor: CustomColors.lightBlue),
+                          child: Text("اطلب المساعدة", style: TextStyles.text3),
+                        ),
+                                                )
 
                       ],
                     )
                   ),
-                )
+                ),
+
               ],
             ),
           ),

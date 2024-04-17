@@ -141,7 +141,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -154,22 +154,23 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-               Container(
-                decoration: BoxDecoration(
-                  color: Colors.white, // White background color
-                  borderRadius: BorderRadius.circular(30),
+              Visibility(
+                visible: widget.otherUserInfo.collage.isNotEmpty,
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // White background color
+                    borderRadius: BorderRadius.circular(30),
 
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Visibility(
-                  visible: widget.otherUserInfo.collage.isNotEmpty,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 5,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
                   child: ListTile(
                     leading: const Icon(
                       Icons.school,
@@ -193,24 +194,23 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                   ),
                 ),
               ),
-               SizedBox(height: 10,),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white, // White background color
-                  borderRadius: BorderRadius.circular(30),
+              Visibility(
+                visible: widget.otherUserInfo.major.isNotEmpty,
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // White background color
+                    borderRadius: BorderRadius.circular(30),
 
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 5,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child:
-                Visibility(
-                  visible: widget.otherUserInfo.major.isNotEmpty,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 5,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
                   child: ListTile(
                     leading: const Icon(
                       Icons.work,
@@ -233,68 +233,63 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     ),
                   ),
                 ),
-
               ),
-              SizedBox(height: 10,),
+              Visibility(
+                visible: widget.otherUserInfo.intrests.isNotEmpty,
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // White background color
+                    borderRadius: BorderRadius.circular(30),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white, // White background color
-                  borderRadius: BorderRadius.circular(30),
-
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 5,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 5,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.favorite,
+                      color: CustomColors.darkGrey,
                     ),
-                  ],
-                ),
-                 child:                      Visibility(
-                   visible: widget.otherUserInfo.intrests.isNotEmpty,
-                   child: ListTile(
-                     leading: const Icon(
-                       Icons.favorite,
-                       color: CustomColors.darkGrey,
-                     ),
-                     title: const Text(
-                       'الاهتمامات: ',
-                       style: TextStyle(
-                         fontSize: 18,
-                         fontWeight: FontWeight.bold,
-                         color: CustomColors.darkGrey,
-                       ),
-                     ),
-                     subtitle: Text(
-                       widget.otherUserInfo.intrests,
-                       style: const TextStyle(
-                         fontSize: 16,
-                         color: CustomColors.darkGrey,
-                       ),
-                     ),
-                   ),
-                 ),
-
-               ),
-              SizedBox(height: 10,),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white, // White background color
-                  borderRadius: BorderRadius.circular(30),
-
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 5,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
+                    title: const Text(
+                      'الاهتمامات: ',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: CustomColors.darkGrey,
+                      ),
                     ),
-                  ],
+                    subtitle: Text(
+                      widget.otherUserInfo.intrests,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: CustomColors.darkGrey,
+                      ),
+                    ),
+                  ),
                 ),
-                child:
-                Visibility(
-                  visible: widget.otherUserInfo.hobbies.isNotEmpty,
+              ),
+              Visibility(
+                visible: widget.otherUserInfo.hobbies.isNotEmpty,
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // White background color
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 5,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
                   child: ListTile(
                     leading: const Icon(
                       Icons.sports,
@@ -317,29 +312,27 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     ),
                   ),
                 ),
-
               ),
-              SizedBox(height: 10,),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white, // White background color
-                  borderRadius: BorderRadius.circular(30),
+              Visibility(
+                visible: widget.otherUserInfo.skills.isNotEmpty,
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // White background color
+                    borderRadius: BorderRadius.circular(30),
 
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 5,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child:
-                Visibility(
-                  visible: widget.otherUserInfo.skills.isNotEmpty,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 5,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
                   child: ListTile(
                     leading:
-                    const Icon(Icons.star, color: CustomColors.darkGrey),
+                        const Icon(Icons.star, color: CustomColors.darkGrey),
                     title: const Text(
                       'المهارات: ',
                       style: TextStyle(
@@ -357,152 +350,10 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     ),
                   ),
                 ),
-
-
               ),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     color: Colors.white, // White background color
-              //     borderRadius: BorderRadius.circular(40),
-              //
-              //     boxShadow: [
-              //       BoxShadow(
-              //         color: Colors.grey.withOpacity(0.5),
-              //         spreadRadius: 5,
-              //         blurRadius: 7,
-              //         offset: const Offset(0, 3),
-              //       ),
-              //     ],
-              //   ),
-              //   child: Column(
-              //     children: [
-              //       const SizedBox(height: 6),
-              //       Visibility(
-              //         visible: widget.otherUserInfo.collage.isNotEmpty,
-              //         child: ListTile(
-              //           leading: const Icon(
-              //             Icons.school,
-              //             color: CustomColors.darkGrey,
-              //           ),
-              //           title: const Text(
-              //             'الكلية: ',
-              //             style: TextStyle(
-              //               fontSize: 18,
-              //               fontWeight: FontWeight.bold,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //           subtitle: Text(
-              //             widget.otherUserInfo.collage,
-              //             style: const TextStyle(
-              //               fontSize: 16,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       const SizedBox(height: 6),
-              //       Visibility(
-              //         visible: widget.otherUserInfo.major.isNotEmpty,
-              //         child: ListTile(
-              //           leading: const Icon(
-              //             Icons.work,
-              //             color: CustomColors.darkGrey,
-              //           ),
-              //           title: const Text(
-              //             'التخصص: ',
-              //             style: TextStyle(
-              //               fontSize: 18,
-              //               fontWeight: FontWeight.bold,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //           subtitle: Text(
-              //             widget.otherUserInfo.major,
-              //             style: const TextStyle(
-              //               fontSize: 16,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       const SizedBox(height: 6),
-              //       Visibility(
-              //         visible: widget.otherUserInfo.hobbies.isNotEmpty,
-              //         child: ListTile(
-              //           leading: const Icon(
-              //             Icons.sports,
-              //             color: CustomColors.darkGrey,
-              //           ),
-              //           title: const Text(
-              //             'الهوايات: ',
-              //             style: TextStyle(
-              //               fontSize: 18,
-              //               fontWeight: FontWeight.bold,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //           subtitle: Text(
-              //             widget.otherUserInfo.hobbies,
-              //             style: const TextStyle(
-              //               fontSize: 16,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       Visibility(
-              //         visible: widget.otherUserInfo.intrests.isNotEmpty,
-              //         child: ListTile(
-              //           leading: const Icon(
-              //             Icons.favorite,
-              //             color: CustomColors.darkGrey,
-              //           ),
-              //           title: const Text(
-              //             'الاهتمامات: ',
-              //             style: TextStyle(
-              //               fontSize: 18,
-              //               fontWeight: FontWeight.bold,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //           subtitle: Text(
-              //             widget.otherUserInfo.intrests,
-              //             style: const TextStyle(
-              //               fontSize: 16,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       Visibility(
-              //         visible: widget.otherUserInfo.skills.isNotEmpty,
-              //         child: ListTile(
-              //           leading:
-              //               const Icon(Icons.star, color: CustomColors.darkGrey),
-              //           title: const Text(
-              //             'المهارات: ',
-              //             style: TextStyle(
-              //               fontSize: 18,
-              //               fontWeight: FontWeight.bold,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //           subtitle: Text(
-              //             widget.otherUserInfo.skills,
-              //             style: const TextStyle(
-              //               fontSize: 16,
-              //               color: CustomColors.darkGrey,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+
             ],
           ),
-
         ),
       ),
     );

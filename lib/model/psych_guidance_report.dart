@@ -1,6 +1,7 @@
 class PsychGuidanceReport {
   //Variables
   String? id;
+  String? ProId;
   String? ProName;
   String? collage;
   String? ProLocation;
@@ -10,6 +11,7 @@ class PsychGuidanceReport {
   PsychGuidanceReport({
     id= '',
     //model name : firebase name
+    this.ProId='',
     this.ProName= '',
     this.ProLocation= '',
     this.collage= '',
@@ -20,6 +22,7 @@ class PsychGuidanceReport {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['pg_ID']=ProId;
     map['pg_name'] = ProName;
     map['pg_location'] = ProLocation;
     map['pg_collage'] = collage;
