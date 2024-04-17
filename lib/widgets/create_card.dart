@@ -41,13 +41,15 @@ class _CreateCardState extends State<CreateCard> {
               //start the colom
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 300,
-                  child: Text(
-                    widget.createGroupReport.name!,
-                    textAlign: TextAlign.right,
-                    style: TextStyles.heading3B,
-                    maxLines: 2,
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: SizedBox(
+                    child: Text(
+                      widget.createGroupReport.name!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.heading3B,
+                      maxLines: 2,
+                    ),
                   ),
                 ),
                 const SizedBox(

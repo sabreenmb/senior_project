@@ -78,7 +78,7 @@ class _StudentActivityState extends State<StudentActivity>
           endDrawer: SideDrawer(
             onProfileTap: () => goToProfilePage(context),
           ),
-          bottomNavigationBar: buildBottomBarWF(context, 1),
+          bottomNavigationBar: buildBottomBarWF(context, 2),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(

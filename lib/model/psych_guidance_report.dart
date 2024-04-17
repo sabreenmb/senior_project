@@ -8,13 +8,15 @@ class PsychGuidanceReport {
   String? ProEmail;
   //Constructor
   PsychGuidanceReport({
-    required this.id,
-    required this.ProName,
-    required this.collage,
-    required this.ProLocation,
-    required this.ProOfficeNumber,
-    required this.ProEmail,
+    id= '',
+    //model name : firebase name
+    this.ProName= '',
+    this.ProLocation= '',
+    this.collage= '',
+    this.ProOfficeNumber= '',
+    this.ProEmail= '',
   });
+
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

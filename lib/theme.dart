@@ -16,6 +16,10 @@ class CustomColors {
 class TextStyles {
   static TextStyle heading1 = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 30);
+  static TextStyle headingPink = GoogleFonts.getFont("Almarai",
+      color: CustomColors.pink, fontWeight: FontWeight.bold, fontSize: 25);
+  static TextStyle heading11 = GoogleFonts.getFont("Almarai",
+      color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 25);
   static TextStyle heading1P = GoogleFonts.getFont("Almarai",
       color: CustomColors.lightBlue, fontWeight: FontWeight.w400, fontSize: 30);
   static TextStyle heading1B = GoogleFonts.getFont("Almarai",

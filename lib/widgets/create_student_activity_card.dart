@@ -38,110 +38,103 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              //start the colom
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      //start the colom
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 270,
-                          child: Text(
-                            widget.createStudentActivityReport.name!,
-                            textAlign: TextAlign.right,
-                            style: TextStyles.heading3B,
-                            // maxLines: 2,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.location_on_outlined,
-                              color: CustomColors.lightGrey,
-                              size: 14.0,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              widget.createStudentActivityReport.location!,
-                              textAlign: TextAlign.right,
-                              style: TextStyles.text,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.date_range_outlined,
-                              color: CustomColors.lightGrey,
-                              size: 14.0,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${widget.createStudentActivityReport.date!}',
-                              textAlign: TextAlign.right,
-                              style: TextStyles.text,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.access_time,
-                              color: CustomColors.lightGrey,
-                              size: 14.0,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${widget.createStudentActivityReport.time!}',
-                              textAlign: TextAlign.right,
-                              style: TextStyles.text,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.people,
-                              color: CustomColors.lightGrey,
-                              size: 14.0,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              widget.createStudentActivityReport.numOfPerson!,
-                              textAlign: TextAlign.right,
-                              style: TextStyles.text,
-                            ),
-                          ],
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: SizedBox(
+                    child: Text(
+                      widget.createStudentActivityReport.name!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.heading3B,
+                      maxLines: 2,
                     ),
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on_outlined,
+                      color: CustomColors.lightGrey,
+                      size: 14.0,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      widget.createStudentActivityReport.location!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.text,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.date_range_outlined,
+                      color: CustomColors.lightGrey,
+                      size: 14.0,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '${widget.createStudentActivityReport.date!}',
+                      textAlign: TextAlign.right,
+                      style: TextStyles.text,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.access_time,
+                      color: CustomColors.lightGrey,
+                      size: 14.0,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '${widget.createStudentActivityReport.time!}',
+                      textAlign: TextAlign.right,
+                      style: TextStyles.text,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.people,
+                      color: CustomColors.lightGrey,
+                      size: 14.0,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      widget.createStudentActivityReport.numOfPerson!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.text,
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

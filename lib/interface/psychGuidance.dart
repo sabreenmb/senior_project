@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/commonWidgets.dart';
 import '../constant.dart';
 import '../model/psych_guidance_report.dart';
@@ -21,71 +22,10 @@ class PsychGuidance extends StatefulWidget {
 
 class _PsychGuidanceState extends State<PsychGuidance>
     with SingleTickerProviderStateMixin {
-  PsychGuidanceReport pg = PsychGuidanceReport(
-    id: '',
-    //model name : firebase name
-    ProName: '',
-    ProLocation: '',
-    collage: '',
-    ProOfficeNumber: '',
-    ProEmail: '',
-  );
-
   @override
   void initState() {
     super.initState();
-    _LoadPsychGuidance();
-  }
-
-  void _LoadPsychGuidance() async {
-
-    try {
-      setState(() {
-        isLoading = true;
-      });
-
-      final response = await http.get(Connection.url('Psych-Guidance'));
-      final Map<String, dynamic> foundData = json.decode(response.body);
-      for (final item in foundData.entries) {
-        print('sabreen test');
-        print(item.value['pg_name']);
-        if (item.value['pg_collage'] == userInfo.collage) {
-          pg = PsychGuidanceReport(
-            id: item.key,
-            //model name : firebase name
-            ProName: item.value['pg_name'],
-            ProLocation: item.value['pg_location'],
-            collage: item.value['pg_collage'],
-            ProOfficeNumber: item.value['pg_number'],
-            ProEmail: item.value['pg_email'],
-          );
-          setState(() {
-            isLoading = false;
-          });
-          break;
-        }
-        // _PsychGuidanceReport.add(PsychGuidanceReport(
-        //   id: item.key,
-        //   //model name : firebase name
-        //   ProName: item.value['pg_name'],
-        //   ProLocation: item.value['pg_location'],
-        //   collage: item.value['pg_collage'],
-        //   ProOfficeNumber: item.value['pg_number'],
-        //   ProEmail: item.value['pg_email'],
-        // ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      // _PsychGuidanceReport = loadedPsychGuidance;
-      setState(() {
-        isLoading = false;
-
-        // print(_PsychGuidanceReport.toList());
-      });
-    }
-    // matchingIndex = loadedPsychGuidance
-    //     .indexWhere((item) => item.collage.toString() == userInfo.collage);
+    //  _LoadPsychGuidance();
   }
 
   @override
@@ -101,14 +41,27 @@ class _PsychGuidanceState extends State<PsychGuidance>
       onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: CustomColors.pink,
+        backgroundColor: CustomColors.BackgroundColor,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("دليلك للارشاد النفسي", style: TextStyles.heading1),
-          centerTitle: false,
+          title: Text("دليلك للارشاد النفسي", style: TextStyles.heading11),
+          centerTitle: true,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ServisesScreen()));
+                },
+              );
+            },
+          ),
         ),
         endDrawer: SideDrawer(
           onProfileTap: () => goToProfilePage(context),
@@ -121,158 +74,76 @@ class _PsychGuidanceState extends State<PsychGuidance>
           inAsyncCall: isLoading,
           child: SafeArea(
             bottom: false,
-            child: Column(
+            child:
+            Column(
               children: [
-                const SizedBox(height: 15),
+                // const SizedBox(height: 15),
+                // Expanded(
+                //   child: Stack(
+                //     children: [
+                //       Container(
+                //         width:  MediaQuery.of(context).size.width,
+                //         height: 400,
+                //         decoration: BoxDecoration(
+                //           color: CustomColors.white,
+                //           borderRadius: BorderRadius.only(
+                //             bottomLeft: Radius.circular(40),
+                //             bottomRight: Radius.circular(40),
+                //           ),
+                //           image: DecorationImage(
+                //             image: AssetImage('assets/images/brain.png'),
+                //             fit: BoxFit.contain,
+                //           ),
+                //         ),
+                //         child: Text("gggggggggggggggg"),
+                //       ),
+                //     ],
+                //   ),
+                // )
                 Expanded(
-                    child: Stack(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
+                  child: Stack(
+                    children: [
+                      Container(
+                        height:  MediaQuery.of(context).size.height/2,
+                        decoration: BoxDecoration(
+                          color: CustomColors.pink,
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40))),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 5,
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 5,
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                        ),
-                        Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Color.fromRGBO(89, 177, 212,
-                                    1), // Set the border color here
-                                width: 2.0, // Set the border width
-                              ),
-                              borderRadius: BorderRadius.circular(
-                                  22.0), // Set the border radius
-                            ),
-                            margin: const EdgeInsets.only(
-                                top: 90.0,
-                                left: 20.0,
-                                right: 20.0,
-                                bottom: 10.0),
-                            child: const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 20.0,
-                                    left: 20.0,
-                                    right: 20.0,
-                                    bottom: 20.0),
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    //start the colom
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      // SizedBox(
-                                      //   height: 5,
-                                      // ),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.favorite_border,
-                                              color: CustomColors.lightGrey,
-                                              size: 25.0,
-                                            ),
-                                          ]),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "تذكر أنه لا بأس في طلب المساعدة. تواصل مع مستشاريك في الحرم الجامعي. إنهم موجودون لدعمك ومساعدتك على النجاح.",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xff535D74),
-                                        ),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ]))),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text(
-                          "كيف هو مزاجك اليوم؟",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xff535D74),
+                            bottomLeft: Radius.circular(50),
+                            bottomRight: Radius.circular(50),
                           ),
-                          textAlign: TextAlign.right,
                         ),
-                        const SizedBox(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/brain.png',
+                              // 'assets/images/brain2.jpg',
+                              // 'assets/images/mind.jpg',
+                              fit: BoxFit.contain,
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+
+                    child:Column(
+                      children: [
+                        Text('انت تستحق ان تكون سعيداً .', style: TextStyles.headingPink),
+                        SizedBox(
                           height: 10,
                         ),
-                        RatingBar.builder(
-                          initialRating: 0,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            switch (index) {
-                              case 0:
-                                return const Icon(
-                                  Icons.sentiment_very_dissatisfied,
-                                  color: Colors.red,
-                                );
-                              case 1:
-                                return const Icon(
-                                  Icons.sentiment_dissatisfied,
-                                  color: Colors.redAccent,
-                                );
-                              case 2:
-                                return const Icon(
-                                  Icons.sentiment_neutral,
-                                  color: Colors.amber,
-                                );
-                              case 3:
-                                return const Icon(
-                                  Icons.sentiment_satisfied,
-                                  color: Colors.lightGreen,
-                                );
-                              case 4:
-                                return const Icon(
-                                  Icons.sentiment_very_satisfied,
-                                  color: Colors.green,
-                                );
-                              default:
-                                return const Icon(
-                                  Icons.sentiment_neutral,
-                                  color: Colors.amber,
-                                );
-                            }
-                          },
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, left: 8.0, right: 8.0, bottom: 100),
-                          child: PGCard(pg),
-                        )),
+                        Text(' تذكر...\n لا تخف من طلب المساعدة. مع الدعم المناسب , يمكنك ان تتحسن .'),
+
                       ],
-                    ),
-                  ],
-                ))
+                    )
+                  ),
+                )
               ],
             ),
           ),

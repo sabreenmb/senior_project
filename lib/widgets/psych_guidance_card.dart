@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../constant.dart';
 import '../model/psych_guidance_report.dart';
 import '../theme.dart';
 
 class PGCard extends StatelessWidget {
-  PsychGuidanceReport psychGuidanceItem;
-  PGCard(this.psychGuidanceItem, {super.key});
+  // PsychGuidanceReport psychGuidanceItem;
+  PGCard( {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class PGCard extends StatelessWidget {
                 height: 5,
               ),
               Text(
-                psychGuidanceItem.collage!,
+                pg.collage!,
                 textAlign: TextAlign.right,
                 style: const TextStyle(
                   fontSize: 20,
@@ -54,7 +55,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    psychGuidanceItem.ProLocation!,
+                    pg.ProLocation!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,
@@ -77,7 +78,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    psychGuidanceItem.ProName!,
+                    pg.ProName!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,
@@ -100,7 +101,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    psychGuidanceItem.ProOfficeNumber!,
+                    pg.ProOfficeNumber!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,
@@ -123,7 +124,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    psychGuidanceItem.ProEmail!,
+                    pg.ProEmail!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,

@@ -8,6 +8,7 @@ import 'package:shimmer/shimmer.dart';
 import 'firebaseConnection.dart';
 import 'model/EventItem.dart';
 import 'model/SClubInfo.dart';
+import 'model/clinic_report.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
 import 'model/create_group_report.dart';
@@ -15,6 +16,7 @@ import 'model/create_student_activity_report.dart';
 import 'model/found_item_report.dart';
 import 'model/lost_item_report.dart';
 import 'model/other_event_item_report.dart';
+import 'model/psych_guidance_report.dart';
 import 'model/volunteer_op_report.dart';
 import 'model/workshop_item_report.dart';
 //todo move to coommen var
@@ -45,7 +47,7 @@ PushNotification notificationServices = PushNotification();
 DocumentReference<Map<String, dynamic>> userProfileDoc = Connection.Users();
 //todo move to coommen var
 enteredUserInfo userInfo = enteredUserInfo();
-
+PsychGuidanceReport pg =PsychGuidanceReport();
 //todo change the list info
 List<String> SubjectsCode = [
   'ESPE-201',
@@ -267,6 +269,8 @@ List<SClubInfo> SClubs = [];
 List<EventItem> saveList = [];
 List<CreateStudentActivityReport> createStudentActivityReport = [];
 List<CreateGroupReport> createGroupReport = [];
+List<ClinicReport> clinicReport = [];
+
 
 void homeCards() async {
   combinedList = [];

@@ -23,9 +23,7 @@ class Clinic extends StatefulWidget {
 class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
   //search
   List<ClinicReport> filteredClinicList = [];
-  List<ClinicReport> _clinicReport = [];
   List<String> sortedDates = [];
-  Map<String, List<ClinicReport>> sortedGroupedClinics = {};
   String selectedBranch = 'المقر الرئيسي';
   final _userInputController = TextEditingController();
 
@@ -47,45 +45,47 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _LoadClinics();
-  }
-
-  void _LoadClinics() async {
-    final List<ClinicReport> loadedClinics = [];
-
-    try {
-      setState(() {
-        isLoading = true;
-      });
-
-      final url = Uri.https(
-          'senior-project-72daf-default-rtdb.firebaseio.com', 'clinicdb.json');
-      final response = await http.get(url);
-
-      final Map<String, dynamic> clinicdata = json.decode(response.body);
-      for (final item in clinicdata.entries) {
-        loadedClinics.add(ClinicReport(
-          id: item.key,
-          //model name : firebase name
-          clBranch: item.value['cl_branch'],
-          clDepartment: item.value['cl_department'],
-          clDoctor: item.value['cl_doctor'],
-          clDate: item.value['cl_date'],
-          clStarttime: item.value['cl_start_time'],
-          clEndtime: item.value['cl_end_time'],
-        ));
-      }
-    } catch (error) {
-      print('Empty List');
-    } finally {
-      setState(() {
-        isLoading = false;
-        print("sabreeeen: $loadedClinics");
-        _clinicReport = loadedClinics;
-      });
-    }
     _filterClinicListByBranch();
+
+    // _LoadClinics();
   }
+
+  // void _LoadClinics() async {
+  //   final List<ClinicReport> loadedClinics = [];
+  //
+  //   try {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //
+  //     final url = Uri.https(
+  //         'senior-project-72daf-default-rtdb.firebaseio.com', 'clinicdb.json');
+  //     final response = await http.get(url);
+  //
+  //     final Map<String, dynamic> clinicdata = json.decode(response.body);
+  //     for (final item in clinicdata.entries) {
+  //       loadedClinics.add(ClinicReport(
+  //         id: item.key,
+  //         //model name : firebase name
+  //         clBranch: item.value['cl_branch'],
+  //         clDepartment: item.value['cl_department'],
+  //         clDoctor: item.value['cl_doctor'],
+  //         clDate: item.value['cl_date'],
+  //         clStarttime: item.value['cl_start_time'],
+  //         clEndtime: item.value['cl_end_time'],
+  //       ));
+  //     }
+  //   } catch (error) {
+  //     print('Empty List');
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false;
+  //       print("sabreeeen: $loadedClinics");
+  //       clinicReport = loadedClinics;
+  //     });
+  //   }
+  //   _filterClinicListByBranch();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +246,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                           //       ),
                           //     ),
                           //   ),
-                          if (_clinicReport.isNotEmpty)
+                          if (clinicReport.isNotEmpty)
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -387,11 +387,11 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
   void _filterClinicListByBranch() {
     if (selectedBranch.isEmpty) {
-      filteredClinicList = _clinicReport
+      filteredClinicList = clinicReport
           .where((clinic) => clinic.clBranch == "المقر الرئيسي")
           .toList();
     } else {
-      filteredClinicList = _clinicReport
+      filteredClinicList = clinicReport
           .where((clinic) => clinic.clBranch == selectedBranch)
           .toList();
     }
@@ -405,7 +405,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
       filteredClinicList.clear();
 
       if (query.isNotEmpty) {
-        List<ClinicReport> tempList = _clinicReport.where((report) {
+        List<ClinicReport> tempList = clinicReport.where((report) {
           bool isSameBranch = report.clBranch == selectedBranch;
           bool matchesQuery = report.clDepartment!
                   .toLowerCase()
@@ -417,7 +417,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
         filteredClinicList.addAll(tempList);
       } else {
-        filteredClinicList = _clinicReport
+        filteredClinicList = clinicReport
             .where((report) => report.clBranch == selectedBranch)
             .toList();
       }

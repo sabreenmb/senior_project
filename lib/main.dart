@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:senior_project/interface/login_screen.dart';
 
 import 'firebase_options.dart';
+import 'interface/LaunchScreen.dart';
 //import 'interface/study_group.dart';
 
 void main() async {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('ar', 'AE')],
       locale: const Locale("ar", "AE"),
-      home: LoginScreen(),
+      home: LaunchScreen(),
     );
   }
 }

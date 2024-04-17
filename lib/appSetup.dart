@@ -7,6 +7,7 @@ import 'package:senior_project/model/entered_user_info.dart';
 import 'constant.dart';
 import 'model/EventItem.dart';
 import 'model/SClubInfo.dart';
+import 'model/clinic_report.dart';
 import 'model/conference_item_report.dart';
 import 'model/courses_item_report.dart';
 import 'model/create_group_report.dart';
@@ -17,6 +18,7 @@ import 'model/offer_info.dart';
 import 'package:http/http.dart' as http;
 
 import 'model/other_event_item_report.dart';
+import 'model/psych_guidance_report.dart';
 import 'model/volunteer_op_report.dart';
 import 'model/workshop_item_report.dart';
 
@@ -35,8 +37,55 @@ class Setup {
     loadStudyGroups();
     LoadLostItems();
     LoadFoundItems();
+    LoadClinics();
+    LoadPsychGuidance();
     // last one
     // loadSaveItems();
+  }
+  void LoadPsychGuidance() async {
+
+    try {
+
+
+      final response = await http.get(Connection.url('Psych-Guidance'));
+      final Map<String, dynamic> foundData = json.decode(response.body);
+      for (final item in foundData.entries) {
+        print('sabreen test');
+        print(item.value['pg_name']);
+        if (item.value['pg_collage'] == userInfo.collage) {
+          print('ouna');
+          print(userInfo.collage);
+          pg = PsychGuidanceReport(
+            id: item.key,
+            //model name : firebase name
+            ProName: item.value['pg_name'],
+            ProLocation: item.value['pg_location'],
+            collage: item.value['pg_collage'],
+            ProOfficeNumber: item.value['pg_number'],
+            ProEmail: item.value['pg_email'],
+          );
+
+          print(pg.ProName);
+          break;
+
+        }
+        // _PsychGuidanceReport.add(PsychGuidanceReport(
+        //   id: item.key,
+        //   //model name : firebase name
+        //   ProName: item.value['pg_name'],
+        //   ProLocation: item.value['pg_location'],
+        //   collage: item.value['pg_collage'],
+        //   ProOfficeNumber: item.value['pg_number'],
+        //   ProEmail: item.value['pg_email'],
+        // ));
+      }
+    } catch (error) {
+      print('Empty List');
+    } finally {
+      // _PsychGuidanceReport = loadedPsychGuidance;
+    }
+    // matchingIndex = loadedPsychGuidance
+    //     .indexWhere((item) => item.collage.toString() == userInfo.collage);
   }
 
   static Future<void> loadUserData(String enteredID) async {
@@ -636,4 +685,34 @@ class Setup {
       lostItemReport = loadedLostItems;
     }
   }
+
+  void LoadClinics() async {
+    final List<ClinicReport> loadedClinics = [];
+    try {
+      final url = Uri.https(
+          'senior-project-72daf-default-rtdb.firebaseio.com', 'clinicdb.json');
+      final response = await http.get(url);
+
+      final Map<String, dynamic> clinicdata = json.decode(response.body);
+      for (final item in clinicdata.entries) {
+        loadedClinics.add(ClinicReport(
+          id: item.key,
+          //model name : firebase name
+          clBranch: item.value['cl_branch'],
+          clDepartment: item.value['cl_department'],
+          clDoctor: item.value['cl_doctor'],
+          clDate: item.value['cl_date'],
+          clStarttime: item.value['cl_start_time'],
+          clEndtime: item.value['cl_end_time'],
+        ));
+      }
+    } catch (error) {
+      print('Empty List');
+    } finally {
+
+        clinicReport = loadedClinics;
+      }
+    }
+
+
 }

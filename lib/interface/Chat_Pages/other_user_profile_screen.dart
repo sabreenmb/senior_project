@@ -152,27 +152,23 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
       child: FractionallySizedBox(
         widthFactor: 0.9,
         child: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white, // White background color
-              borderRadius: BorderRadius.circular(40),
-              border: Border.all(
-                color: CustomColors.lightBlue,
-                width: 2,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3),
+          child: Column(
+            children: [
+               Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background color
+                  borderRadius: BorderRadius.circular(30),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 6),
-                Visibility(
+                child: Visibility(
                   visible: widget.otherUserInfo.collage.isNotEmpty,
                   child: ListTile(
                     leading: const Icon(
@@ -196,7 +192,23 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 6),
+              ),
+               SizedBox(height: 10,),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background color
+                  borderRadius: BorderRadius.circular(30),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child:
                 Visibility(
                   visible: widget.otherUserInfo.major.isNotEmpty,
                   child: ListTile(
@@ -221,7 +233,66 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 6),
+
+              ),
+              SizedBox(height: 10,),
+
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background color
+                  borderRadius: BorderRadius.circular(30),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                 child:                      Visibility(
+                   visible: widget.otherUserInfo.intrests.isNotEmpty,
+                   child: ListTile(
+                     leading: const Icon(
+                       Icons.favorite,
+                       color: CustomColors.darkGrey,
+                     ),
+                     title: const Text(
+                       'الاهتمامات: ',
+                       style: TextStyle(
+                         fontSize: 18,
+                         fontWeight: FontWeight.bold,
+                         color: CustomColors.darkGrey,
+                       ),
+                     ),
+                     subtitle: Text(
+                       widget.otherUserInfo.intrests,
+                       style: const TextStyle(
+                         fontSize: 16,
+                         color: CustomColors.darkGrey,
+                       ),
+                     ),
+                   ),
+                 ),
+
+               ),
+              SizedBox(height: 10,),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background color
+                  borderRadius: BorderRadius.circular(30),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child:
                 Visibility(
                   visible: widget.otherUserInfo.hobbies.isNotEmpty,
                   child: ListTile(
@@ -246,35 +317,29 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: widget.otherUserInfo.intrests.isNotEmpty,
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.favorite,
-                      color: CustomColors.darkGrey,
+
+              ),
+              SizedBox(height: 10,),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background color
+                  borderRadius: BorderRadius.circular(30),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
                     ),
-                    title: const Text(
-                      'الاهتمامات: ',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: CustomColors.darkGrey,
-                      ),
-                    ),
-                    subtitle: Text(
-                      widget.otherUserInfo.intrests,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: CustomColors.darkGrey,
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
+                child:
                 Visibility(
                   visible: widget.otherUserInfo.skills.isNotEmpty,
                   child: ListTile(
                     leading:
-                        const Icon(Icons.star, color: CustomColors.darkGrey),
+                    const Icon(Icons.star, color: CustomColors.darkGrey),
                     title: const Text(
                       'المهارات: ',
                       style: TextStyle(
@@ -292,9 +357,152 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     ),
                   ),
                 ),
-              ],
-            ),
+
+
+              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     color: Colors.white, // White background color
+              //     borderRadius: BorderRadius.circular(40),
+              //
+              //     boxShadow: [
+              //       BoxShadow(
+              //         color: Colors.grey.withOpacity(0.5),
+              //         spreadRadius: 5,
+              //         blurRadius: 7,
+              //         offset: const Offset(0, 3),
+              //       ),
+              //     ],
+              //   ),
+              //   child: Column(
+              //     children: [
+              //       const SizedBox(height: 6),
+              //       Visibility(
+              //         visible: widget.otherUserInfo.collage.isNotEmpty,
+              //         child: ListTile(
+              //           leading: const Icon(
+              //             Icons.school,
+              //             color: CustomColors.darkGrey,
+              //           ),
+              //           title: const Text(
+              //             'الكلية: ',
+              //             style: TextStyle(
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.bold,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //           subtitle: Text(
+              //             widget.otherUserInfo.collage,
+              //             style: const TextStyle(
+              //               fontSize: 16,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       const SizedBox(height: 6),
+              //       Visibility(
+              //         visible: widget.otherUserInfo.major.isNotEmpty,
+              //         child: ListTile(
+              //           leading: const Icon(
+              //             Icons.work,
+              //             color: CustomColors.darkGrey,
+              //           ),
+              //           title: const Text(
+              //             'التخصص: ',
+              //             style: TextStyle(
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.bold,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //           subtitle: Text(
+              //             widget.otherUserInfo.major,
+              //             style: const TextStyle(
+              //               fontSize: 16,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       const SizedBox(height: 6),
+              //       Visibility(
+              //         visible: widget.otherUserInfo.hobbies.isNotEmpty,
+              //         child: ListTile(
+              //           leading: const Icon(
+              //             Icons.sports,
+              //             color: CustomColors.darkGrey,
+              //           ),
+              //           title: const Text(
+              //             'الهوايات: ',
+              //             style: TextStyle(
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.bold,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //           subtitle: Text(
+              //             widget.otherUserInfo.hobbies,
+              //             style: const TextStyle(
+              //               fontSize: 16,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       Visibility(
+              //         visible: widget.otherUserInfo.intrests.isNotEmpty,
+              //         child: ListTile(
+              //           leading: const Icon(
+              //             Icons.favorite,
+              //             color: CustomColors.darkGrey,
+              //           ),
+              //           title: const Text(
+              //             'الاهتمامات: ',
+              //             style: TextStyle(
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.bold,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //           subtitle: Text(
+              //             widget.otherUserInfo.intrests,
+              //             style: const TextStyle(
+              //               fontSize: 16,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       Visibility(
+              //         visible: widget.otherUserInfo.skills.isNotEmpty,
+              //         child: ListTile(
+              //           leading:
+              //               const Icon(Icons.star, color: CustomColors.darkGrey),
+              //           title: const Text(
+              //             'المهارات: ',
+              //             style: TextStyle(
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.bold,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //           subtitle: Text(
+              //             widget.otherUserInfo.skills,
+              //             style: const TextStyle(
+              //               fontSize: 16,
+              //               color: CustomColors.darkGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
           ),
+
         ),
       ),
     );
