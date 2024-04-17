@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/theme.dart';
 
+import '../NetworkService.dart';
+import '../constant.dart';
+import '../widgets/popup.dart';
 import 'login_screen.dart';
 import 'package:senior_project/appSetup.dart';
 
@@ -29,6 +32,27 @@ class _LaunchScreenState extends State<LaunchScreen> {
       if (user != null) {
         //        if (null != user.email) { to see the user loged in
        // final token = await user.getIdToken();
+       //  await NetworkService.checkNetwork();
+       //  if(isOffline){
+       //    showPopupMessage(
+       //        context: context,
+       //        popupMessageType:
+       //        PopupMessageType.options,
+       //        canBeDismissed: false,
+       //        popupMessageTitle: 'Error',
+       //        popupMessageDescription:
+       //        'Your phone is not connected to the internet',
+       //        actions: [
+       //          PopupMessageButton(
+       //              buttonTitle: 'OK',
+       //              buttonFunction: () async {
+       //                Navigator.pop(context);
+       //              },
+       //              isPrimary: false,
+       //              flag: false),
+       //        ]);
+       //  }
+
         await Setup.loadUserData(user.email.toString());
         Setup();
 
