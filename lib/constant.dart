@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/model/offer_info.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,6 +31,7 @@ NavigationDestinationLabelBehavior labelBehavior =
 //todo move to coommen var
 List<enteredUserInfo> allUsers = [];
 bool isLoading = false;
+List<OfferInfo> recommendedOffers = [];
 //todo move to coommen var
 List<String> Categories = [
   'بطاقات',
@@ -47,7 +49,7 @@ PushNotification notificationServices = PushNotification();
 DocumentReference<Map<String, dynamic>> userProfileDoc = Connection.Users();
 //todo move to coommen var
 enteredUserInfo userInfo = enteredUserInfo();
-PsychGuidanceReport pg =PsychGuidanceReport();
+PsychGuidanceReport pg = PsychGuidanceReport();
 //todo change the list info
 List<String> SubjectsCode = [
   'ESPE-201',
@@ -270,7 +272,7 @@ List<EventItem> saveList = [];
 List<CreateStudentActivityReport> createStudentActivityReport = [];
 List<CreateGroupReport> createGroupReport = [];
 List<ClinicReport> clinicReport = [];
-bool isOffline=false;
+bool isOffline = false;
 
 void homeCards() async {
   combinedList = [];

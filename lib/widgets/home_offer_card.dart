@@ -39,17 +39,20 @@ class HomeOfferCard extends StatelessWidget {
         ),
         height: 180,
         child: Padding(
-          padding: const EdgeInsets.all(180.0),
+          padding: const EdgeInsets.all(18.0),
           child: SizedBox(
-            width: 65,
+            width: 300,
             height: 80,
+            // child: Text(
+            //   "offerInfo.category.toString()",
+            //   textAlign: TextAlign.center,
+            // ),
             child: offerInfo.logo == "empty"
                 ? const Image(image: AssetImage('assets/images/mug.png'))
-                :CachedNetworkImage(
-              imageUrl: offerInfo.logo!,
-              fit: BoxFit.fill,
-            ),
-
+                : CachedNetworkImage(
+                    imageUrl: offerInfo.logo!,
+                    fit: BoxFit.fill,
+                  ),
           ),
         ),
       ),

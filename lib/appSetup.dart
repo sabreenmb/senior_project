@@ -202,6 +202,9 @@ class Setup {
   }
 
   void LoadOffers() async {
+    for (Map<String, dynamic> item in offers) {
+      item['categoryList'].clear();
+    }
     final List<OfferInfo> loadedOfferInfo = [];
 
     try {
@@ -241,6 +244,9 @@ class Setup {
             item['categoryList'].add(offer);
             break;
           }
+        }
+        if (userInfo.offersPreferences[offer.category] == true) {
+          recommendedOffers.add(offer);
         }
       }
       print(offers[0]);
