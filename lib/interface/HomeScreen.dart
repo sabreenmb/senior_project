@@ -95,7 +95,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
     return FutureBuilder(
       future: Future.wait(
-        categoryList.map((offer) =>
+        recommendedOffers.map((offer) =>
             precacheImage(CachedNetworkImageProvider(offer.logo!), context)),
       ),
       builder: (context, snapshot) {
@@ -103,7 +103,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           return const CircularProgressIndicator();
         }
         return CarouselSlider(
-          items: categoryList
+          items: recommendedOffers
               .map((offer) => HomeOfferCard(offer))
               .toList()
               .cast<Widget>(),
