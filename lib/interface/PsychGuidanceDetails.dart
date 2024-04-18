@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
@@ -79,7 +80,8 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
             bottom: false,
             child: Stack(
               children: [
-                Container(margin: EdgeInsets.only(bottom: 250),
+                Container(
+                  margin: EdgeInsets.only(bottom: 250),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -91,7 +93,9 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                       SizedBox(height: 10),
                       Text(
                         // 'للتواصل مع المرشد/ة '+ pg.ProName!+' عن طريق : ',
-                        'للتواصل مع المرشد/ة '+ 'صابرين محمد بن سلمان '+' عن طريق : ',
+                        'للتواصل مع المرشد/ة ' +
+                            'صابرين محمد بن سلمان ' +
+                            ' عن طريق : ',
 
                         style: TextStyles.text5,
                         textAlign: TextAlign.center,
@@ -109,8 +113,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                             width: 5,
                           ),
                           Text(
-                            pg.ProLocation!+ " ,مكتب  "+  pg.ProOfficeNumber!,
-
+                            pg.ProLocation! + " ,مكتب  " + pg.ProOfficeNumber!,
                             style: TextStyles.heading1D,
                             textAlign: TextAlign.center,
                           ),
@@ -148,10 +151,30 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                           const SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            pg.ProEmail!,
-                            style: TextStyles.heading1D,
-                            textAlign: TextAlign.center,
+                          GestureDetector(
+                            onLongPress: () {
+                              Clipboard.setData(
+                                      ClipboardData(text: pg.ProEmail!))
+                                  .then((_) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        const Text("تم نسخ البريد الالكتروني"),
+                                    duration: const Duration(seconds: 1),
+                                    backgroundColor: CustomColors.darkGrey,
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                );
+                              });
+                            },
+                            child: Text(
+                              pg.ProEmail!,
+                              style: TextStyles.heading1D,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                       ),
@@ -167,9 +190,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                               MaterialPageRoute(
                                 builder: (context) => RealChatPage(
                                   otherUserInfo: allUsers[allUsers.indexWhere(
-                                          (element) =>
-                                      element.userID ==
-                                          pg.ProId)],
+                                      (element) => element.userID == pg.ProId)],
                                 ),
                               ),
                             );
@@ -184,7 +205,6 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-
                             children: [
                               Text(' لبدء المحادثة',
                                   textAlign: TextAlign.center,
