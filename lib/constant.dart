@@ -1,4 +1,7 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/push_notification.dart';
@@ -340,7 +343,13 @@ bool getValidity(String time) {
     return false;
   }
 }
+var connectivityResult =  (Connectivity().checkConnectivity());
 
+Future<void> network() async {
+  final connectivityResult =
+      await Connectivity().checkConnectivity();
+  isOffline= (connectivityResult[0] == ConnectivityResult.none);
+}
 bool getValidityF(String time) {
   DateTime expiryDate = DateTime.parse(time);
   DateTime now = DateTime.now();

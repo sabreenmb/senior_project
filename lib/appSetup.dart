@@ -24,25 +24,32 @@ import 'model/workshop_item_report.dart';
 
 class Setup {
   Setup() {
-    saveList = [];
-    loadAllUsers();
-    LoadOffers();
-    loadCoursesItems();
-    loadWorkshopsItems();
-    loadConferencesItems();
-    loadOtherEventsItems();
-    LoadCreatedSessions();
-    LoadSClubs();
-    LoadCreatedActivities();
-    loadStudyGroups();
-    LoadLostItems();
-    LoadFoundItems();
-    LoadClinics();
-    LoadPsychGuidance();
     // last one
     // loadSaveItems();
   }
-  void LoadPsychGuidance() async {
+  Future<void> Build() async {
+    saveList = [];
+    await LoadOffers();
+    await loadCoursesItems();
+    await loadWorkshopsItems();
+    await loadConferencesItems();
+    await loadOtherEventsItems();
+    await LoadCreatedSessions();
+
+  }
+  Future<void> Build2() async {
+     loadAllUsers();
+     LoadSClubs();
+   LoadCreatedActivities();
+     loadStudyGroups();
+     LoadLostItems();
+     LoadFoundItems();
+     LoadClinics();
+     LoadPsychGuidance();
+
+  }
+
+  Future<void> LoadPsychGuidance() async {
 
     try {
 
@@ -169,7 +176,7 @@ class Setup {
     // new Setup();
   }
 
-  void loadAllUsers() async {
+  Future<void> loadAllUsers() async {
     allUsers = [];
     try {
       QuerySnapshot querySnapshot =
@@ -206,7 +213,7 @@ class Setup {
     }
   }
 
-  void LoadOffers() async {
+  Future<void> LoadOffers() async {
     final List<OfferInfo> loadedOfferInfo = [];
 
     try {
@@ -251,7 +258,7 @@ class Setup {
     }
   }
 
-  void loadCoursesItems() async {
+  Future<void> loadCoursesItems() async {
     courseItem = [];
     final response = await http.get(Connection.url('eventsCoursesDB'));
 
@@ -299,7 +306,7 @@ class Setup {
     }
   }
 
-  void loadWorkshopsItems() async {
+  Future<void> loadWorkshopsItems() async {
     workshopItem = [];
     final response = await http.get(Connection.url('eventsWorkshopsDB'));
 
@@ -347,7 +354,7 @@ class Setup {
     }
   }
 
-  void loadConferencesItems() async {
+  Future<void> loadConferencesItems() async {
     confItem = [];
     final response = await http.get(Connection.url('eventsConferencesDB'));
 
@@ -393,7 +400,7 @@ class Setup {
     }
   }
 
-  void loadOtherEventsItems() async {
+  Future<void> loadOtherEventsItems() async {
     otherItem = [];
     final response = await http.get(Connection.url('eventsOthersDB'));
 
@@ -441,7 +448,7 @@ class Setup {
     }
   }
 
-  void LoadCreatedSessions() async {
+  Future<void> LoadCreatedSessions() async {
     final List<VolunteerOpReport> loadedVolunteerOp = [];
 
     try {
@@ -498,7 +505,7 @@ class Setup {
     }
   }
 
-  void LoadSClubs() async {
+  Future<void> LoadSClubs() async {
     List<SClubInfo> loadedClubsInfo = [];
 
     try {
@@ -532,7 +539,7 @@ class Setup {
     }
   }
 
-  void LoadCreatedActivities() async {
+  Future<void> LoadCreatedActivities() async {
     final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
 
     try {
@@ -587,13 +594,14 @@ class Setup {
     }
   }
 
-  void loadStudyGroups() async {
+  Future<void> loadStudyGroups() async {
     createGroupReport = [];
     try {
       final response = await http.get(Connection.url('create-group'));
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
+
         createGroupReport.add(CreateGroupReport(
           id: item.key,
           //model name : firebase name
@@ -636,7 +644,7 @@ class Setup {
     }
   }
 
-  void LoadFoundItems() async {
+  Future<void> LoadFoundItems() async {
     foundItemReport = [];
     final List<FoundItemReport> loadedFoundItems = [];
 
@@ -662,7 +670,7 @@ class Setup {
     }
   }
 
-  void LoadLostItems() async {
+  Future<void> LoadLostItems() async {
     lostItemReport = [];
     final List<LostItemReport> loadedLostItems = [];
     try {
@@ -687,7 +695,7 @@ class Setup {
     }
   }
 
-  void LoadClinics() async {
+  Future<void> LoadClinics() async {
     final List<ClinicReport> loadedClinics = [];
     try {
       final url = Uri.https(

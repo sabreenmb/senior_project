@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/theme.dart';
 
-import '../NetworkService.dart';
 import '../constant.dart';
-import '../widgets/popup.dart';
+import '../widgets/commonWidgets.dart';
 import 'login_screen.dart';
 import 'package:senior_project/appSetup.dart';
-
+import 'package:flutter/services.dart';
 class LaunchScreen extends StatefulWidget {
   const LaunchScreen({super.key});
 
@@ -18,11 +17,14 @@ class LaunchScreen extends StatefulWidget {
 
 class _LaunchScreenState extends State<LaunchScreen> {
   @override
-  void initState() {
+  void initState()  {
     super.initState();
 
+    setup();
+  }
+  Future<void> setup()async {
+   await network();
     _checkToken();
-
   }
 
   Future<void> _checkToken() async {
@@ -30,38 +32,19 @@ class _LaunchScreenState extends State<LaunchScreen> {
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        //        if (null != user.email) { to see the user loged in
-       // final token = await user.getIdToken();
-       //  await NetworkService.checkNetwork();
-       //  if(isOffline){
-       //    showPopupMessage(
-       //        context: context,
-       //        popupMessageType:
-       //        PopupMessageType.options,
-       //        canBeDismissed: false,
-       //        popupMessageTitle: 'Error',
-       //        popupMessageDescription:
-       //        'Your phone is not connected to the internet',
-       //        actions: [
-       //          PopupMessageButton(
-       //              buttonTitle: 'OK',
-       //              buttonFunction: () async {
-       //                Navigator.pop(context);
-       //              },
-       //              isPrimary: false,
-       //              flag: false),
-       //        ]);
-       //  }
+        if (isOffline){
+           await  networkPopup(context,true);
+           print(isOffline);
 
-        await Setup.loadUserData(user.email.toString());
-        Setup();
-
-        Future.delayed(const Duration(seconds: 2), () {
-
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          });
-
+        }
+        if(!isOffline) {
+          print('test');
+          await Setup.loadUserData(user.email.toString());
+          await Setup().Build();
+          Setup().Build2();
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()));
+        }
         }else{
         Future.delayed(const Duration(seconds: 2), () {
           Navigator.pushReplacement(context,
@@ -79,6 +62,12 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // if(isOffline){
+    //   networkPopup(context);
+    // }else{
+    //   _checkToken();
+    //
+    // }
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
