@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 import 'package:senior_project/firebaseConnection.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 
@@ -15,8 +16,6 @@ import 'model/create_student_activity_report.dart';
 import 'model/found_item_report.dart';
 import 'model/lost_item_report.dart';
 import 'model/offer_info.dart';
-import 'package:http/http.dart' as http;
-
 import 'model/other_event_item_report.dart';
 import 'model/psych_guidance_report.dart';
 import 'model/volunteer_op_report.dart';
@@ -43,10 +42,7 @@ class Setup {
     // loadSaveItems();
   }
   void LoadPsychGuidance() async {
-
     try {
-
-
       final response = await http.get(Connection.url('Psych-Guidance'));
       final Map<String, dynamic> foundData = json.decode(response.body);
       for (final item in foundData.entries) {
@@ -68,7 +64,6 @@ class Setup {
 
           print(pg.ProName);
           break;
-
         }
         // _PsychGuidanceReport.add(PsychGuidanceReport(
         //   id: item.key,
@@ -217,21 +212,22 @@ class Setup {
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
         print(item.value['of_name']);
-        loadedOfferInfo.add(OfferInfo(
-          id: item.key,
-          //model name : firebase name
-          timestamp: item.value['timestamp'],
-
-          name: item.value['of_name'],
-          logo: item.value['of_logo'],
-          category: item.value['of_category'],
-          code: item.value['of_code'],
-          details: item.value['of_details'],
-          discount: item.value['of_discount'],
-          expDate: item.value['of_expDate'],
-          contact: item.value['of_contact'],
-          targetUsers: item.value['of_target'],
-        ));
+        if (getValidityF(item.value['of_expDate'])) {
+          loadedOfferInfo.add(OfferInfo(
+            id: item.key,
+            //model name : firebase name
+            timestamp: item.value['timestamp'],
+            name: item.value['of_name'],
+            logo: item.value['of_logo'],
+            category: item.value['of_category'],
+            code: item.value['of_code'],
+            details: item.value['of_details'],
+            discount: item.value['of_discount'],
+            expDate: item.value['of_expDate'],
+            contact: item.value['of_contact'],
+            targetUsers: item.value['of_target'],
+          ));
+        }
       }
     } catch (error) {
       print('Empty List');
@@ -540,15 +536,17 @@ class Setup {
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
-        loadedCreatedStudentActivity.add(CreateStudentActivityReport(
-          id: item.key,
-          //model name : firebase name
-          name: item.value['name'],
-          date: item.value['date'],
-          time: item.value['time'],
-          location: item.value['location'],
-          numOfPerson: item.value['NumOfPerson'],
-        ));
+        if (getValidityF(item.value['date'])) {
+          loadedCreatedStudentActivity.add(CreateStudentActivityReport(
+            id: item.key,
+            //model name : firebase name
+            name: item.value['name'],
+            date: item.value['date'],
+            time: item.value['time'],
+            location: item.value['location'],
+            numOfPerson: item.value['NumOfPerson'],
+          ));
+        }
       }
     } catch (error) {
       print('Empty List');
@@ -594,15 +592,17 @@ class Setup {
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
-        createGroupReport.add(CreateGroupReport(
-          id: item.key,
-          //model name : firebase name
-          name: item.value['name'],
-          date: item.value['date'],
-          time: item.value['time'],
-          location: item.value['location'],
-          numPerson: item.value['NumPerson'],
-        ));
+        if (getValidityF(item.value['date'])) {
+          createGroupReport.add(CreateGroupReport(
+            id: item.key,
+            //model name : firebase name
+            name: item.value['name'],
+            date: item.value['date'],
+            time: item.value['time'],
+            location: item.value['location'],
+            numPerson: item.value['NumPerson'],
+          ));
+        }
       }
     } catch (error) {
       print('Empty List');
@@ -710,10 +710,7 @@ class Setup {
     } catch (error) {
       print('Empty List');
     } finally {
-
-        clinicReport = loadedClinics;
-      }
+      clinicReport = loadedClinics;
     }
-
-
+  }
 }
