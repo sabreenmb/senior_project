@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:senior_project/appSetup.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/theme.dart';
 
@@ -28,7 +29,6 @@ class _LaunchScreenState extends State<LaunchScreen> {
   }
 
   Future<void> _checkToken() async {
-
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
@@ -51,7 +51,6 @@ class _LaunchScreenState extends State<LaunchScreen> {
               MaterialPageRoute(builder: (context) => const LoginScreen()));
         });
       }
-
     } catch (e) {
       print('we do not have a token');
       Navigator.pushReplacement(
@@ -59,15 +58,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    // if(isOffline){
-    //   networkPopup(context);
-    // }else{
-    //   _checkToken();
-    //
-    // }
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,

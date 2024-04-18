@@ -43,12 +43,16 @@ class _OpCardState extends State<OpCard> {
               //start the colom
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 270,
-                  child: Text(
-                    widget.volunteerOpReport.name!,
-                    textAlign: TextAlign.right,
-                    style: TextStyles.heading3B,
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: SizedBox(
+                    width: 270,
+                    child: Text(
+                      widget.volunteerOpReport.name!,
+                      textAlign: TextAlign.right,
+                      style: TextStyles.heading3B,
+                      maxLines: 2,
+                    ),
                   ),
                 ),
                 const SizedBox(
