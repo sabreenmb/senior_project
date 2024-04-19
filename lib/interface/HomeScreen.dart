@@ -106,7 +106,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
       ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Container();
         }
         return CarouselSlider(
           items: recommendedOffers
