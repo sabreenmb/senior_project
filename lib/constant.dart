@@ -34,6 +34,8 @@ NavigationDestinationLabelBehavior labelBehavior =
 //todo move to coommen var
 List<enteredUserInfo> allUsers = [];
 bool isLoading = false;
+
+bool isConnected = false;
 List<OfferInfo> recommendedOffers = [];
 //todo move to coommen var
 List<String> Categories = [
@@ -347,10 +349,11 @@ bool getValidity(String time) {
 }
 var connectivityResult =  (Connectivity().checkConnectivity());
 
-Future<void> network() async {
+Future<bool> network() async {
   final connectivityResult =
       await Connectivity().checkConnectivity();
   isOffline= (connectivityResult[0] == ConnectivityResult.none);
+  return isOffline;
 }
 bool getValidityF(String time) {
   DateTime expiryDate = DateTime.parse(time);

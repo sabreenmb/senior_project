@@ -11,6 +11,7 @@ import 'package:senior_project/theme.dart';
 import '../constant.dart';
 import '../appSetup.dart';
 import '../widgets/commonWidgets.dart';
+import '../widgets/network.dart';
 import 'services_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -35,6 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     // Check if the user is already authenticated
+    network();
+
   }
 
   // Future<bool> checkNetworkConnection() async {
@@ -81,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     final screenHeight = MediaQuery.of(context).size.height;
     final topMargin = screenHeight * 0.05;
     final numericRegex = RegExp(r'^[0-9]+$');
@@ -90,7 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         backgroundColor: CustomColors.white,
         resizeToAvoidBottomInset: true,
-        body: ModalProgressHUD(
+        body:
+        ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, false),
@@ -100,7 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+
+                Container(
                     margin: const EdgeInsets.only(
                         top: 30, bottom: 20, left: 20, right: 20),
                     width: 200,
@@ -219,7 +225,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () async {
                                   await network();
                                   if (isOffline) {
-                                    networkPopup(context,false);
+                                    await Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) => const NetworkConnection()));
+                                  //todo  networkPopup(context,false);
                                   } else {
                                     _submit();
                                   }

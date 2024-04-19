@@ -151,126 +151,96 @@ void goToProfilePage(BuildContext context) {
   );
 }
 
- networkPopup(BuildContext context,bool start){
-
-  return showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        titlePadding: EdgeInsets.zero,
-        contentPadding: EdgeInsets.fromLTRB(
-            12, 30, 12, 12),
-        insetPadding:
-        const EdgeInsets.symmetric(
-            horizontal: 40.0,
-            vertical: 24.0),
-        shape: RoundedRectangleBorder(
-          borderRadius:
-          BorderRadius.circular(30),
-        ),
-        content: SizedBox(
-          width: MediaQuery.of(context)
-              .size
-              .width,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment:
-            MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: Colors.red,
-                      width: 2),
-                ),
-                child: Padding(
-                  padding:
-                  const EdgeInsets.all(
-                      8.0),
-                  child: Icon(
-                    size: 50,
-                    weight: 50,
-                    Icons.close,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                const EdgeInsets.symmetric(
-                    vertical:  20),
-                child:  Text(
-                    'حدث خطأ اثناء الاتصال بالانترنت',
-                    style:
-                    // TextStyles.heading1
-                    TextStyles.heading1D,
-                    textAlign:
-                    TextAlign.center),),
-
-              Text(
-                'يرجى التحقق من الاتصال بالانترنت ثم معاودة المحاولة',
-                textAlign: TextAlign.center,
-                style: TextStyles.text2,
-              ),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets
-                    .symmetric(
-                    horizontal: 6),
-                child: ElevatedButton(
-                    onPressed: () async {
-
-                      if(start&&isOffline){
-                        // Navigator.pushReplacement(context,
-                        //     MaterialPageRoute(builder: (context) => const LaunchScreen()));
-                        await network();
-
-
-                      } else{
-                        Navigator.pop(context);
-                      }
-                    },
-                    style: ElevatedButton
-                        .styleFrom(
-                      minimumSize:
-                      const Size(
-                          100, 40),
-                      backgroundColor:
-                      CustomColors
-                          .lightBlue,
-                      side: BorderSide(
-                          color: CustomColors
-                              .lightBlue,
-                          width: 1),
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius
-                              .circular(
-                              20)),
-                    ),
-                    child: Text(
-                     start?'اعادة المحاولة' :' حسناً',
-                      style: TextStyle(
-                          color:
-                          CustomColors
-                              .white),
-                    )),
-                // two buttons: primary (with colored background) and secondary (without colored background)
-              )
-
-              // footer of popup msg
+// bool isLoading = false; // Add isLoading variable
+// Future<void> networkPopup(BuildContext context, bool start) async {
+//    await showDialog<bool>(
+//     barrierDismissible: false,
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         titlePadding: EdgeInsets.zero,
+//         contentPadding: EdgeInsets.fromLTRB(12, 30, 12, 12),
+//         insetPadding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(30),
+//         ),
+//         content: SizedBox(
+//           width: MediaQuery.of(context).size.width,
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               SizedBox(height: 10),
+//               Container(
+//                 decoration: BoxDecoration(
+//                   shape: BoxShape.circle,
+//                   border: Border.all(color: Colors.red, width: 2),
+//                 ),
+//                 child: Padding(
+//                   padding: const EdgeInsets.all(8.0),
+//                   child: Icon(
+//                     size: 50,
+//                     weight: 50,
+//                     Icons.close,
+//                     color: Colors.red,
+//                   ),
+//                 ),
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.symmetric(vertical: 20),
+//                 child: Text(
+//                   'حدث خطأ أثناء الاتصال بالإنترنت',
+//                   style: TextStyles.heading1D,
+//                   textAlign: TextAlign.center,
+//                 ),
+//               ),
+//               Text(
+//                 'يرجى التحقق من الاتصال بالإنترنت ثم معاودة المحاولة',
+//                 textAlign: TextAlign.center,
+//                 style: TextStyles.text2,
+//               ),
+//               const SizedBox(height: 24),
+//            // Display loading indicator when isLoading is true
+//                   , Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 6),
+//                 child: ElevatedButton(
+//                   onPressed: () async {
+//                     isConnected=true;
+//                     if (start && isOffline) {
+//                       if(isConnected)
+//                       CircularProgressIndicator()
+//                     await network();
+//                       await Future.delayed(Duration(seconds: 2)); // Simulate 2 seconds delay
+//
+//                       isConnected=false;
+//                       //Navigator.pop(context,true);
+//                       // Close the dialog after network check
+//                     } else {
+//                       Navigator.pop(context,false);
+//                     }
+//                   },
+//                   style: ElevatedButton.styleFrom(
+//                     minimumSize: const Size(100, 40),
+//                     backgroundColor: CustomColors.lightBlue,
+//                     side: BorderSide(color: CustomColors.lightBlue, width: 1),
+//                     elevation: 0.0,
+//                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+//                   ),
+//                   child: Text(
+//                     start ? 'اعادة المحاولة' : 'حسناً',
+//                     style: TextStyle(color: CustomColors.white),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//
+//     },
+//   );
+//
+//
+// }
 
 
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
