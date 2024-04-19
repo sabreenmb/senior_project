@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
@@ -30,6 +27,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
   bool isSearch = false;
   bool isNew = false;
   bool isLoading = false;
+  bool searchPerformedAndEmpty = false;
 
   late AnimationController _animationController;
   @override
@@ -46,46 +44,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
       duration: const Duration(milliseconds: 200),
     );
     _filterClinicListByBranch();
-
-    // _LoadClinics();
   }
-
-  // void _LoadClinics() async {
-  //   final List<ClinicReport> loadedClinics = [];
-  //
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-  //
-  //     final url = Uri.https(
-  //         'senior-project-72daf-default-rtdb.firebaseio.com', 'clinicdb.json');
-  //     final response = await http.get(url);
-  //
-  //     final Map<String, dynamic> clinicdata = json.decode(response.body);
-  //     for (final item in clinicdata.entries) {
-  //       loadedClinics.add(ClinicReport(
-  //         id: item.key,
-  //         //model name : firebase name
-  //         clBranch: item.value['cl_branch'],
-  //         clDepartment: item.value['cl_department'],
-  //         clDoctor: item.value['cl_doctor'],
-  //         clDate: item.value['cl_date'],
-  //         clStarttime: item.value['cl_start_time'],
-  //         clEndtime: item.value['cl_end_time'],
-  //       ));
-  //     }
-  //   } catch (error) {
-  //     print('Empty List');
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //       print("sabreeeen: $loadedClinics");
-  //       clinicReport = loadedClinics;
-  //     });
-  //   }
-  //   _filterClinicListByBranch();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +79,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
         endDrawer: SideDrawer(
           onProfileTap: () => goToProfilePage(context),
         ),
-        // bottomNavigationBar: buildBottomBar(context, 1, true),
         body: ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,
@@ -185,6 +143,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
                                           setState(() {
                                             isSearch = false;
+                                            _filterClinicListByBranch();
                                           });
                                         },
                                         icon: const Icon(Icons.clear,
@@ -200,7 +159,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                 setState(() {});
                               },
                               onSubmitted: (text) {
-                                //todo the same value of on icon presed
                                 filteredClinicList.clear();
                                 filterSearchResults(text);
                                 FocusScope.of(context).unfocus();
@@ -232,20 +190,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                               ),
                             ),
                           ),
-                          // if ((isSearch
-                          //     ? filteredClinicList.isEmpty
-                          //     : _clinicReport.isEmpty))
-                          //   Expanded(
-                          //     child: Center(
-                          //       child: SizedBox(
-                          //         // padding: EdgeInsets.only(bottom: 20),
-                          //         // alignment: Alignment.topCenter,
-                          //         height: 200,
-                          //         child:
-                          //             Image.asset('assets/images/notFound.png'),
-                          //       ),
-                          //     ),
-                          //   ),
                           if (clinicReport.isNotEmpty)
                             Expanded(
                               child: Padding(
@@ -259,11 +203,13 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                         : filteredClinicList.length,
                                     itemBuilder: (context, index) {
                                       if (filteredClinicList.isEmpty) {
+                                        String imagePath = searchPerformedAndEmpty
+                                            ? 'assets/images/searching-removebg-preview.png'
+                                            : 'assets/images/no_content_removebg_preview.png';
                                         return Center(
                                           child: SizedBox(
                                             height: 200,
-                                            child: Image.asset(
-                                                'assets/images/notFound.png'),
+                                            child: Image.asset(imagePath),
                                           ),
                                         );
                                       } else {
@@ -286,12 +232,8 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                               Container(
                                                 padding:
                                                     const EdgeInsets.all(6),
-                                                // padding: const EdgeInsets.only(
-                                                //     bottom: 8),
-                                                //     style: TextStyle(
                                                 color:
                                                     TextStyles.heading3B.color,
-                                                //  ),
                                                 width: double.infinity,
                                                 child: Text(
                                                   date,
@@ -303,13 +245,10 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),
-                                            // SizedBox(height: 3.0),
                                             ClinicCard(report),
-                                            //    ),
                                             if (index <
                                                 filteredClinicList.length - 1)
                                               const SizedBox(height: 3),
-                                            //),
                                           ],
                                         );
                                       }
@@ -366,6 +305,8 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
           setState(() {
             selectedBranch = branchName;
             _filterClinicListByBranch();
+            isSearch = false;
+            searchPerformedAndEmpty = false;
           });
         },
         backgroundColor: Colors.grey[200],
@@ -403,8 +344,10 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
   void filterSearchResults(String query) {
     setState(() {
       filteredClinicList.clear();
+      searchPerformedAndEmpty = false;
 
       if (query.isNotEmpty) {
+        searchPerformedAndEmpty = true;
         List<ClinicReport> tempList = clinicReport.where((report) {
           bool isSameBranch = report.clBranch == selectedBranch;
           bool matchesQuery = report.clDepartment!
@@ -423,14 +366,4 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
       }
     });
   }
-
-  //Add
-  // else {
-  //   if (ls[item]
-  //       .category!
-  //       .toLowerCase()
-  //       .contains(query.toLowerCase().trim())) {
-  //     searchClinicList.add(ls[item]);
-  //   }
-  // }
 }

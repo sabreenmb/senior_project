@@ -3,16 +3,17 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/add_found_item_screen.dart';
 import 'package:senior_project/interface/add_lost_item_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
+import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/found_card.dart';
 import 'package:senior_project/widgets/lost_card.dart';
-import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../constant.dart';
+import '../firebaseConnection.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
 import '../widgets/commonWidgets.dart';
-import '../firebaseConnection.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
   const LostAndFoundScreen({super.key});
@@ -310,8 +311,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                 // padding: EdgeInsets.only(bottom: 20),
                                 // alignment: Alignment.topCenter,
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
+                                child: Image.asset(isSearch
+                                    ? 'assets/images/searching-removebg-preview.png'
+                                    : 'assets/images/no_content_removebg_preview.png'),
                               ),
                             ),
                           ),
