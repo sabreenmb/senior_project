@@ -31,7 +31,7 @@ NavigationDestinationLabelBehavior labelBehavior =
 //todo move to coommen var
 List<enteredUserInfo> allUsers = [];
 bool isLoading = false;
-List<OfferInfo> recommendedOffers = [];
+List<dynamic> recommendedOffers = [];
 //todo move to coommen var
 List<String> Categories = [
   'بطاقات',
