@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import '../constant.dart';
@@ -45,12 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
   //   return connectivityResult != ConnectivityResult.none;
   // }
 
-  void navigateToServicesScreen() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const ServisesScreen()),
-    );
-  }
 
   void _submit() async {
     _newVal = false;
@@ -70,8 +65,12 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await Setup.loadUserData(_enteredID);
-      new Setup();
-      navigateToServicesScreen();
+      await Setup().Build();
+      Setup().Build2();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
     } on FirebaseAuthException catch (error) {
       setState(() {
         errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';

@@ -28,12 +28,13 @@ class Setup {
   }
   Future<void> Build() async {
     saveList = [];
-     LoadOffers();
      loadCoursesItems();
      loadWorkshopsItems();
      loadConferencesItems();
      loadOtherEventsItems();
      LoadCreatedSessions();
+     await LoadOffers();
+
 
   }
   Future<void> Build2() async {

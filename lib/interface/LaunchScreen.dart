@@ -35,30 +35,24 @@ class _LaunchScreenState extends State<LaunchScreen> {
   Future<void> _checkToken() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        if (isOffline) {
-          await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const NetworkConnection()));
-          // networkPopup(context, true);
+      if (isOffline) {
+        await Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const NetworkConnection()));
+      }
+        if (user != null) {
 
-          // setState(() async {
-          //   isLoading= await
-          //  });
-
-          // print(isOffline);
-        }
         if (!isOffline) {
           print('test');
            await Setup.loadUserData(user.email.toString());
            await Setup().Build();
-          // Setup().Build2();
-          Future.delayed(const Duration(seconds: 2), () {
+           Setup().Build2();
+          Future.delayed(const Duration(seconds: 1), () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()));
           });
         }
       } else {
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 1), () {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const LoginScreen()));
         });

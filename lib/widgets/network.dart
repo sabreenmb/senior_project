@@ -95,12 +95,12 @@ class _NetworkConnectionState extends State<NetworkConnection> {
                                 //   Setup().Build2();
                                 // }
                                 isLoading = false;
-                                Navigator.pop(context);
-                                // await Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           const LaunchScreen()));
+                             //   Navigator.pop(context);
+                                await Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LaunchScreen()));
                             }
                           });
 

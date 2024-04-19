@@ -29,7 +29,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     homeCards();
     getTodayList();
 
-    _LoadCreatedSessions();
+  //  _LoadCreatedSessions();
   }
 
   void _LoadCreatedSessions() async {}
