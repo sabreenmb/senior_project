@@ -1,10 +1,8 @@
 // ignore_for_file: unrelated_type_equality_checks
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/model/conference_item_report.dart';
 import 'package:senior_project/model/courses_item_report.dart';
 import 'package:senior_project/model/other_event_item_report.dart';
@@ -15,11 +13,11 @@ import 'package:senior_project/widgets/other_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:senior_project/widgets/workshop_card.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../firebaseConnection.dart';
 import '../widgets/commonWidgets.dart';
 import '../widgets/course_card.dart';
 import 'services_screen.dart';
-import 'package:http/http.dart' as http;
 
 class EventScreen extends StatefulWidget {
   const EventScreen({super.key});
@@ -298,28 +296,36 @@ class _EventState extends State<EventScreen> {
                             ),
                           ),
                         ),
-                        if ((isSelectedCourse && courseItem.isEmpty) ||
-                            (isSelectedWorkshop && workshopItem.isEmpty) ||
-                            (isSelectedConfre && confItem.isEmpty) ||
-                            (isSelectedOther && otherItem.isEmpty) ||
-                            (isSearch &&
-                                ((searchCourseList.isEmpty &&
-                                        isSelectedCourse) ||
-                                    (isSelectedWorkshop &&
-                                        searchWorkshopList.isEmpty) ||
-                                    (isSelectedConfre &&
-                                        searchConfList.isEmpty) ||
-                                    (isSelectedOther &&
-                                        searchOtherList.isEmpty))))
+                        if (isSearch &&
+                            ((searchCourseList.isEmpty && isSelectedCourse) ||
+                                (isSelectedWorkshop &&
+                                    searchWorkshopList.isEmpty) ||
+                                (isSelectedConfre && searchConfList.isEmpty) ||
+                                (isSelectedOther && searchOtherList.isEmpty)))
                           Expanded(
                             child: Center(
                               child: SizedBox(
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
+                                child: Image.asset(
+                                    'assets/images/searching-removebg-preview.png'),
                               ),
                             ),
                           ),
+                        if (!isSearch &&
+                            ((isSelectedCourse && courseItem.isEmpty) ||
+                                (isSelectedWorkshop && workshopItem.isEmpty) ||
+                                (isSelectedConfre && confItem.isEmpty) ||
+                                (isSelectedOther && otherItem.isEmpty)))
+                          Expanded(
+                            child: Center(
+                              child: SizedBox(
+                                height: 200,
+                                child: Image.asset(
+                                    'assets/images/no_content_removebg_preview.png'),
+                              ),
+                            ),
+                          ),
+
                         // if (isSelectedCourse
                         //     ? (isSearch
                         //         ? searchCourseList.isEmpty
@@ -337,45 +343,49 @@ class _EventState extends State<EventScreen> {
                         //   ),
                         if (isSelectedCourse && courseItem.isNotEmpty)
                           buildExpandedWidget(courseItem, searchCourseList,
-                              (item) => CoursesCard(item),'eventsCoursesDB'),
+                              (item) => CoursesCard(item), 'eventsCoursesDB'),
 
                         if (isSelectedWorkshop && workshopItem.isNotEmpty)
-                          buildExpandedWidget(workshopItem, searchWorkshopList,
-                              (item) => WorkshopCard(item),'eventsWorkshopsDB'),
+                          buildExpandedWidget(
+                              workshopItem,
+                              searchWorkshopList,
+                              (item) => WorkshopCard(item),
+                              'eventsWorkshopsDB'),
 
                         if (isSelectedConfre && confItem.isNotEmpty)
                           buildExpandedWidget(confItem, searchConfList,
-                              (item) => ConfCard(item),'eventsConferencesDB'),
+                              (item) => ConfCard(item), 'eventsConferencesDB'),
 
                         if (isSelectedOther && otherItem.isNotEmpty)
                           buildExpandedWidget(otherItem, searchOtherList,
-                              (item) => OtherCard(item),'eventsOthersDB'),
+                              (item) => OtherCard(item), 'eventsOthersDB'),
                       ])
                     ]))
                   ])))),
     );
   }
 
-  Widget buildExpandedWidget(
-      List itemList, List searchList, Widget Function(dynamic) itemBuilder,String path) {
+  Widget buildExpandedWidget(List itemList, List searchList,
+      Widget Function(dynamic) itemBuilder, String path) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: isSearch
-              ? ListView.builder(
-                  itemCount: searchList.length,
-                  itemBuilder: (context, index) =>
-                      itemBuilder(searchList[index]),
-                )
-              : _buildCardsList(path,itemList,itemBuilder)
-        ),
+            context: context,
+            removeTop: true,
+            child: isSearch
+                ? ListView.builder(
+                    itemCount: searchList.length,
+                    itemBuilder: (context, index) =>
+                        itemBuilder(searchList[index]),
+                  )
+                : _buildCardsList(path, itemList, itemBuilder)),
       ),
     );
   }
-  Widget _buildCardsList(String name,  List itemList, Widget Function(dynamic) itemBuilder) {
+
+  Widget _buildCardsList(
+      String name, List itemList, Widget Function(dynamic) itemBuilder) {
     return StreamBuilder(
       stream: Connection.databaseReference(name),
       builder: (context, snapshot) {
@@ -401,13 +411,13 @@ class _EventState extends State<EventScreen> {
         }
 
         final Map<dynamic, dynamic> data =
-        snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+            snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
         if (data == null) {
           return Text('No data available');
         }
 
         List<dynamic> reports;
-        if (name=='eventsCoursesDB') {
+        if (name == 'eventsCoursesDB') {
           courseItem.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
@@ -420,11 +430,11 @@ class _EventState extends State<EventScreen> {
               time: value['course_time'],
               location: value['course_location'],
               courseLink: value['course_link'],
-              timestamp:value['timestamp'],
+              timestamp: value['timestamp'],
             );
           }).toList();
           courseItem = reports.cast<CoursesItemReport>();
-        } else if(name=='eventsWorkshopsDB') {
+        } else if (name == 'eventsWorkshopsDB') {
           workshopItem.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
@@ -441,7 +451,7 @@ class _EventState extends State<EventScreen> {
             );
           }).toList();
           workshopItem = reports.cast<WorkshopsItemReport>();
-        }else if(name=='eventsConferencesDB'){
+        } else if (name == 'eventsConferencesDB') {
           confItem.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
@@ -457,7 +467,7 @@ class _EventState extends State<EventScreen> {
             );
           }).toList();
           confItem = reports.cast<ConferencesItemReport>();
-        }else {
+        } else {
           otherItem.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
@@ -496,7 +506,11 @@ class _EventState extends State<EventScreen> {
       child: ElevatedButton(
         onPressed: onButtonPress,
         style: ElevatedButton.styleFrom(
-            side: BorderSide(color: (buttonColor==CustomColors.pink?buttonColor:CustomColors.darkGrey), width: 1),
+            side: BorderSide(
+                color: (buttonColor == CustomColors.pink
+                    ? buttonColor
+                    : CustomColors.darkGrey),
+                width: 1),
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -518,7 +532,7 @@ class _EventState extends State<EventScreen> {
       searchOtherList.clear();
 
       for (int item = 0; item < ls.length; item++) {
-        if (ls[item].Name!.toLowerCase().contains(query.toLowerCase().trim())) {
+        if (ls[item].name!.toLowerCase().contains(query.toLowerCase().trim())) {
           if (isSelectedCourse) {
             searchCourseList.add(ls[item]);
           } else if (isSelectedWorkshop) {
