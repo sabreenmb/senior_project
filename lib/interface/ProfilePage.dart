@@ -52,16 +52,20 @@ class _ProfilePageState extends State<ProfilePage> {
           const SnackBar(content: Text('حدث خطأ أثناء تحديث البيانات')));
     } finally {
       int falseNum = 0;
+      List<dynamic> tempOffer = [];
       recommendedOffers = [];
       for (Map<String, dynamic> item in offers) {
         if (userInfo.offersPreferences[item['offerCategory']] == true) {
           recommendedOffers.addAll(item['categoryList']);
         } else {
+          tempOffer.addAll(item['categoryList']);
           falseNum++;
         }
         // for()
       }
-      if (falseNum == 12) {}
+      if (falseNum == 10) {
+        recommendedOffers = tempOffer;
+      }
     }
   }
 

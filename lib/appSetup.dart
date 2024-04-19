@@ -235,9 +235,10 @@ class Setup {
     } catch (error) {
       print('Empty List');
     } finally {
+      recommendedOffers = [];
       List<OfferInfo> fetchedOffers =
           loadedOfferInfo; // fetched data from Firebase
-
+      int falseInt = 0;
       for (OfferInfo offer in fetchedOffers) {
         for (Map<String, dynamic> item in offers) {
           if (offer.category == item['offerCategory']) {
@@ -245,9 +246,15 @@ class Setup {
             break;
           }
         }
+
         if (userInfo.offersPreferences[offer.category] == true) {
           recommendedOffers.add(offer);
+        } else {
+          falseInt++;
         }
+      }
+      if (falseInt == 10) {
+        recommendedOffers = loadedOfferInfo;
       }
       print(offers[0]);
     }
