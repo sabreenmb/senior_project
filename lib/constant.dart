@@ -36,7 +36,7 @@ List<enteredUserInfo> allUsers = [];
 bool isLoading = false;
 
 bool isConnected = false;
-List<OfferInfo> recommendedOffers = [];
+List<dynamic> recommendedOffers = [];
 //todo move to coommen var
 List<String> Categories = [
   'بطاقات',
