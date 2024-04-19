@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/OffersListScreen.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
 
 import '../constant.dart';
-import '../model/create_group_report.dart';
 import '../theme.dart';
 import '../widgets/offer_card.dart';
 
@@ -20,7 +18,6 @@ class OfferCategoryScreen extends StatefulWidget {
 
 class _OfferCategoryState extends State<OfferCategoryScreen> {
   List<dynamic> _offerInfo = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +49,7 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
               );
             },
           ),
-
         ),
-
         body: ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,
@@ -84,8 +79,8 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
                                 // padding: EdgeInsets.only(bottom: 20),
                                 // alignment: Alignment.topCenter,
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
+                                child: Image.asset(
+                                    'assets/images/no_content_removebg_preview.png'),
                               ),
                             ),
                           ),

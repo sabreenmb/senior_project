@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
-
 import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/create_group_report.dart';
@@ -197,8 +195,9 @@ class _StudyGroupState extends State<StudyGroup>
                                 // padding: EdgeInsets.only(bottom: 20),
                                 // alignment: Alignment.topCenter,
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
+                                child: Image.asset(isSearch
+                                    ? 'assets/images/searching-removebg-preview.png'
+                                    : 'assets/images/no_content_removebg_preview.png'),
                               ),
                             ),
                           ),
