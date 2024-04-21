@@ -1,6 +1,10 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/model/offer_info.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,6 +34,9 @@ NavigationDestinationLabelBehavior labelBehavior =
 //todo move to coommen var
 List<enteredUserInfo> allUsers = [];
 bool isLoading = false;
+
+bool isConnected = false;
+List<dynamic> recommendedOffers = [];
 //todo move to coommen var
 List<String> Categories = [
   'بطاقات',
@@ -342,7 +349,13 @@ bool getValidity(String time) {
     return false;
   }
 }
+var connectivityResult =  (Connectivity().checkConnectivity());
 
+Future<void> network() async {
+  final connectivityResult =
+      await Connectivity().checkConnectivity();
+  isOffline= (connectivityResult[0] == ConnectivityResult.none);
+}
 bool getValidityF(String time) {
   DateTime expiryDate = DateTime.parse(time);
   DateTime now = DateTime.now();

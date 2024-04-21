@@ -193,8 +193,9 @@ class _StudentActivityState extends State<StudentActivity>
                                 // padding: EdgeInsets.only(bottom: 20),
                                 // alignment: Alignment.topCenter,
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/notFound.png'),
+                                child: Image.asset(isSearch
+                                    ? 'assets/images/searching-removebg-preview.png'
+                                    : 'assets/images/no_content_removebg_preview.png'),
                               ),
                             ),
                           ),

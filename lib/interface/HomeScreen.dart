@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/commonWidgets.dart';
@@ -28,11 +30,8 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
     homeCards();
     getTodayList();
-
-    _LoadCreatedSessions();
   }
 
-  void _LoadCreatedSessions() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -58,30 +57,42 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           inAsyncCall: isLoading,
           child: SafeArea(
             bottom: false,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 15),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: CustomColors.BackgroundColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
-                      ),
+            child: Column(
+              // mainAxisSize: MainAxisSize.max,
+              children: [
+                const SizedBox(height: 15),
+
+                Expanded(child: Stack(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
                     ),
-                    child: Column(
+                    Column(
                       children: [
+                        const SizedBox(height: 10),
                         _buildCard(),
-                        _buildSectionTitle('يحدث اليوم'),
-                        _buildHorizontalScrollableCards(todayList),
+                        Visibility(
+                          visible: todayList.isNotEmpty,
+                          child: _buildSectionTitle('يحدث اليوم'),
+                        ),
+                        Visibility(
+                          visible: todayList.isNotEmpty,
+                          child: _buildHorizontalScrollableCards(todayList),
+                        ),
                         _buildSectionTitle('أضيف حديثا'),
                         _buildHorizontalScrollableCards(combinedList),
                       ],
                     ),
-                  ),
-                ],
-              ),
+
+
+                  ],
+                ),),
+
+              ],
             ),
           ),
         ),
@@ -90,20 +101,20 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildCard() {
-    List<dynamic> categoryList = offers[1]['categoryList'];
+    // List<dynamic> categoryList = offers[1]['categoryList'];
     // bool autoplayEnabled = categoryList.length > 1;
 
     return FutureBuilder(
       future: Future.wait(
-        categoryList.map((offer) =>
+        recommendedOffers.map((offer) =>
             precacheImage(CachedNetworkImageProvider(offer.logo!), context)),
       ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Container();
         }
         return CarouselSlider(
-          items: categoryList
+          items: recommendedOffers
               .map((offer) => HomeOfferCard(offer))
               .toList()
               .cast<Widget>(),

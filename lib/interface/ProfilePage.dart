@@ -50,6 +50,22 @@ class _ProfilePageState extends State<ProfilePage> {
       print('يوجد خطأ حاول مرة أخرى $e');
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('حدث خطأ أثناء تحديث البيانات')));
+    } finally {
+      int falseNum = 0;
+      List<dynamic> tempOffer = [];
+      recommendedOffers = [];
+      for (Map<String, dynamic> item in offers) {
+        if (userInfo.offersPreferences[item['offerCategory']] == true) {
+          recommendedOffers.addAll(item['categoryList']);
+        } else {
+          tempOffer.addAll(item['categoryList']);
+          falseNum++;
+        }
+        // for()
+      }
+      if (falseNum == 10) {
+        recommendedOffers = tempOffer;
+      }
     }
   }
 
@@ -444,7 +460,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 90),
                                           child: ElevatedButton(
-                                            onPressed: _submit,
+                                            onPressed: () async {
+
+                                              await network();
+                                              if(isOffline){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: const Text('لم يتم تحديث البيانات لتعذر الاتصال بالانترنت'),
+                                                    duration: const Duration(seconds: 1),
+                                                    backgroundColor: CustomColors.darkGrey,
+                                                    behavior: SnackBarBehavior.floating,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                  ),
+                                                );
+                                              }else{
+                                                _submit();
+                                              }
+                                            },
                                             style: ElevatedButton.styleFrom(
                                                 fixedSize: const Size(175, 50),
                                                 elevation: 0,

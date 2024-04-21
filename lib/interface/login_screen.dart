@@ -1,16 +1,21 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/push_notification.dart';
 import 'package:senior_project/theme.dart';
 import '../constant.dart';
 import '../appSetup.dart';
+import '../widgets/commonWidgets.dart';
+import '../widgets/network.dart';
 import 'services_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -21,6 +26,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  var connectivityResult = (Connectivity().checkConnectivity());
+
   final _formKey = GlobalKey<FormState>();
   String errorMessage = '';
   String _enteredID = '';
@@ -30,124 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     // Check if the user is already authenticated
+    network();
 
   }
 
-
-
-
-
-
-
-  void navigateToServicesScreen() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const ServisesScreen()),
-    );
-  }
-  // void _submit() async {
-  //   _newVal = false;
-  //   final isValid = _formKey.currentState!.validate();
-  //   setState(() {
-  //     errorMessage = '';
-  //   });
-  //   if (!isValid) {
-  //     return;
-  //   }
-  //   _formKey.currentState!.save();
-  //   try {
-  //     setState(() => isLoading = true);
-  //     final userCridential = await _firebase.signInWithEmailAndPassword(
-  //         email: _enteredID, password: _enteredPass);
-  //
-  //     // userID = _enteredID.split("@")[0];
-  //     // print('saaabreeeeeeeeeeeeeeeeeeenaaaaa $userProfileDoc ,,,, $userID');
-  //     userProfileDoc = FirebaseFirestore.instance
-  //         .collection("userProfile")
-  //         .doc(_enteredID.split("@")[0]);
-  //     DocumentSnapshot snapshot = await userProfileDoc.get();
-  //
-  //     if (!snapshot.exists) {
-  //       userProfileDoc.set({
-  //         'image_url': '',
-  //         'userID': _enteredID.split("@")[0],
-  //         'rule': 'user',
-  //         'name': 'منار مجيد',
-  //         'collage': 'الحاسبات',
-  //         'major': 'هندسة برمجيات',
-  //         'intrests': '',
-  //         'hobbies': '',
-  //         'skills': '',
-  //         'pushToken': '',
-  //         'offersPreferences': {
-  //           'رياضة': false,
-  //           'تعليم وتدريب': false,
-  //           'مطاعم ومقاهي': false,
-  //           'ترفيه': false,
-  //           'مراكز صحية': false,
-  //           'عناية وجمال': false,
-  //           'سياحة وفنادق': false,
-  //           'خدمات السيارات': false,
-  //           'تسوق': false,
-  //           'عقارات وبناء': false,
-  //         },
-  //       });
-  //       CollectionReference saveItemsCollection =
-  //       userProfileDoc.collection('saveItems');
-  //
-  //       DocumentReference conferencesDocRef =
-  //       saveItemsCollection.doc('Conferences');
-  //
-  //       List<dynamic> items = ['default'];
-  //
-  //       await conferencesDocRef.set({
-  //       'items': items,
-  //       });
-  //     }
-  //     snapshot = await userProfileDoc.get();
-  //     // Cast the data to Map<String, dynamic> type
-  //     final userProfileData = snapshot.data() as Map<String, dynamic>?;
-  //
-  //     userInfo.image_url = userProfileData?['image_url'];
-  //     userInfo.userID = userProfileData?['userID'];
-  //     userInfo.rule = userProfileData?['rule'];
-  //     userInfo.name = userProfileData?['name'];
-  //     userInfo.collage = userProfileData?['collage'];
-  //     userInfo.major = userProfileData?['major'];
-  //     userInfo.intrests = userProfileData?['intrests'];
-  //     userInfo.hobbies = userProfileData?['hobbies'];
-  //     userInfo.skills = userProfileData?['skills'];
-  //     userInfo.pushToken = userProfileData?['pushToken'];
-  //
-  //     userInfo.offersPreferences = userProfileData?['offersPreferences'];
-  //     notificationServices.getFirebaseMessagingToken();
-  //     notificationServices.updatePushToken();
-  //     // await PushNotification.getFirebaseMessagingToken();
-  //     // PushNotification.updatePushToken();
-  //     // PushNotification.forgroundMessage();
-  //     // PushNotification.firebaseInit(context);
-  //     // PushNotification.setupInteractMessage(context);
-  //     //todo load data
-  //     new Setup() ;
-  //     // LoadOffers();
-  //     // loadCoursesItems();
-  //     // LoadCreatedSessions();
-  //     // loadWorkshopsItems();
-  //     // loadConferencesItems();
-  //     // loadOtherEventsItems();
-  //     // LoadSClubs();
-  //
-  //     Navigator.pushReplacement(
-  //         context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-  //   } on FirebaseAuthException catch (error) {
-  //     setState(() {
-  //       errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';
-  //     });
-  //     print(error.message ?? 'Athuntication Faild');
-  //   } finally {
-  //     setState(() => isLoading = false);
-  //   }
+  // Future<bool> checkNetworkConnection() async {
+  //   var connectivityResult = await Connectivity().checkConnectivity();
+  //   return connectivityResult != ConnectivityResult.none;
   // }
+
+
   void _submit() async {
     _newVal = false;
     final isValid = _formKey.currentState!.validate();
@@ -166,8 +65,12 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await Setup.loadUserData(_enteredID);
-      new Setup();
-      navigateToServicesScreen();
+      await Setup().Build();
+      Setup().Build2();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
     } on FirebaseAuthException catch (error) {
       setState(() {
         errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';
@@ -180,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     final screenHeight = MediaQuery.of(context).size.height;
     final topMargin = screenHeight * 0.05;
     final numericRegex = RegExp(r'^[0-9]+$');
@@ -189,7 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         backgroundColor: CustomColors.white,
         resizeToAvoidBottomInset: true,
-        body: ModalProgressHUD(
+        body:
+        ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, false),
@@ -199,7 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+
+                Container(
                     margin: const EdgeInsets.only(
                         top: 30, bottom: 20, left: 20, right: 20),
                     width: 200,
@@ -315,7 +221,40 @@ class _LoginScreenState extends State<LoginScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(27))),
-                                onPressed: _submit,
+                                onPressed: () async {
+                                  await network();
+                                  if (isOffline) {
+                                    await Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) => const NetworkConnection()));
+                                  //todo  networkPopup(context,false);
+                                  } else {
+                                    _submit();
+                                  }
+                                },
+                                //() async {
+                                // isOnline = await checkNetworkConnection();
+                                // if (isOnline) {
+                                //   _submit();
+                                // }else{
+                                //   showDialog(
+                                //     context: context,
+                                //     builder: (BuildContext context) {
+                                //       return AlertDialog(
+                                //         title: Text('Network Status'),
+                                //         content: Text('No internet connection.'),
+                                //         actions: [
+                                //           TextButton(
+                                //             child: Text('OK'),
+                                //             onPressed: () {
+                                //               Navigator.of(context).pop();
+                                //             },
+                                //           ),
+                                //         ],
+                                //       );
+                                //     },
+                                //   );
+                                // }
+                                // },
                                 child: Text("تسجيل الدخول",
                                     style: TextStyles.text3),
                               )

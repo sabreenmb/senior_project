@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 import 'package:senior_project/firebaseConnection.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 
@@ -15,8 +16,6 @@ import 'model/create_student_activity_report.dart';
 import 'model/found_item_report.dart';
 import 'model/lost_item_report.dart';
 import 'model/offer_info.dart';
-import 'package:http/http.dart' as http;
-
 import 'model/other_event_item_report.dart';
 import 'model/psych_guidance_report.dart';
 import 'model/volunteer_op_report.dart';
@@ -24,29 +23,35 @@ import 'model/workshop_item_report.dart';
 
 class Setup {
   Setup() {
-    saveList = [];
-    loadAllUsers();
-    LoadOffers();
-    loadCoursesItems();
-    loadWorkshopsItems();
-    loadConferencesItems();
-    loadOtherEventsItems();
-    LoadCreatedSessions();
-    LoadSClubs();
-    LoadCreatedActivities();
-    loadStudyGroups();
-    LoadLostItems();
-    LoadFoundItems();
-    LoadClinics();
-    LoadPsychGuidance();
     // last one
     // loadSaveItems();
   }
-  void LoadPsychGuidance() async {
+  Future<void> Build() async {
+    // saveList = [];
+     loadCoursesItems();
+     loadWorkshopsItems();
+     loadConferencesItems();
+     loadOtherEventsItems();
+     LoadCreatedSessions();
+     await LoadOffers();
+
+
+  }
+  Future<void> Build2() async {
+     loadAllUsers();
+     LoadSClubs();
+   LoadCreatedActivities();
+     loadStudyGroups();
+     LoadLostItems();
+     LoadFoundItems();
+     LoadClinics();
+     LoadPsychGuidance();
+
+  }
+
+  Future<void> LoadPsychGuidance() async {
 
     try {
-
-
       final response = await http.get(Connection.url('Psych-Guidance'));
       final Map<String, dynamic> foundData = json.decode(response.body);
       for (final item in foundData.entries) {
@@ -68,7 +73,6 @@ class Setup {
 
           print(pg.ProName);
           break;
-
         }
         // _PsychGuidanceReport.add(PsychGuidanceReport(
         //   id: item.key,
@@ -169,7 +173,7 @@ class Setup {
     // new Setup();
   }
 
-  void loadAllUsers() async {
+  Future<void> loadAllUsers() async {
     allUsers = [];
     try {
       QuerySnapshot querySnapshot =
@@ -206,7 +210,10 @@ class Setup {
     }
   }
 
-  void LoadOffers() async {
+  Future<void>  LoadOffers() async {
+    for (Map<String, dynamic> item in offers) {
+      item['categoryList'].clear();
+    }
     final List<OfferInfo> loadedOfferInfo = [];
 
     try {
@@ -217,28 +224,30 @@ class Setup {
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
         print(item.value['of_name']);
-        loadedOfferInfo.add(OfferInfo(
-          id: item.key,
-          //model name : firebase name
-          timestamp: item.value['timestamp'],
-
-          name: item.value['of_name'],
-          logo: item.value['of_logo'],
-          category: item.value['of_category'],
-          code: item.value['of_code'],
-          details: item.value['of_details'],
-          discount: item.value['of_discount'],
-          expDate: item.value['of_expDate'],
-          contact: item.value['of_contact'],
-          targetUsers: item.value['of_target'],
-        ));
+        if (getValidityF(item.value['of_expDate'])) {
+          loadedOfferInfo.add(OfferInfo(
+            id: item.key,
+            //model name : firebase name
+            timestamp: item.value['timestamp'],
+            name: item.value['of_name'],
+            logo: item.value['of_logo'],
+            category: item.value['of_category'],
+            code: item.value['of_code'],
+            details: item.value['of_details'],
+            discount: item.value['of_discount'],
+            expDate: item.value['of_expDate'],
+            contact: item.value['of_contact'],
+            targetUsers: item.value['of_target'],
+          ));
+        }
       }
     } catch (error) {
       print('Empty List');
     } finally {
+      recommendedOffers = [];
       List<OfferInfo> fetchedOffers =
           loadedOfferInfo; // fetched data from Firebase
-
+      int falseInt = 0;
       for (OfferInfo offer in fetchedOffers) {
         for (Map<String, dynamic> item in offers) {
           if (offer.category == item['offerCategory']) {
@@ -246,12 +255,21 @@ class Setup {
             break;
           }
         }
+
+        if (userInfo.offersPreferences[offer.category] == true) {
+          recommendedOffers.add(offer);
+        } else {
+          falseInt++;
+        }
+      }
+      if (falseInt == 10) {
+        recommendedOffers = loadedOfferInfo;
       }
       print(offers[0]);
     }
   }
 
-  void loadCoursesItems() async {
+  Future<void> loadCoursesItems() async {
     courseItem = [];
     final response = await http.get(Connection.url('eventsCoursesDB'));
 
@@ -299,7 +317,7 @@ class Setup {
     }
   }
 
-  void loadWorkshopsItems() async {
+  Future<void> loadWorkshopsItems() async {
     workshopItem = [];
     final response = await http.get(Connection.url('eventsWorkshopsDB'));
 
@@ -347,7 +365,7 @@ class Setup {
     }
   }
 
-  void loadConferencesItems() async {
+  Future<void> loadConferencesItems() async {
     confItem = [];
     final response = await http.get(Connection.url('eventsConferencesDB'));
 
@@ -393,7 +411,7 @@ class Setup {
     }
   }
 
-  void loadOtherEventsItems() async {
+  Future<void> loadOtherEventsItems() async {
     otherItem = [];
     final response = await http.get(Connection.url('eventsOthersDB'));
 
@@ -441,7 +459,7 @@ class Setup {
     }
   }
 
-  void LoadCreatedSessions() async {
+  Future<void> LoadCreatedSessions() async {
     final List<VolunteerOpReport> loadedVolunteerOp = [];
 
     try {
@@ -498,7 +516,7 @@ class Setup {
     }
   }
 
-  void LoadSClubs() async {
+  Future<void> LoadSClubs() async {
     List<SClubInfo> loadedClubsInfo = [];
 
     try {
@@ -532,7 +550,7 @@ class Setup {
     }
   }
 
-  void LoadCreatedActivities() async {
+  Future<void> LoadCreatedActivities() async {
     final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
 
     try {
@@ -540,15 +558,17 @@ class Setup {
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
-        loadedCreatedStudentActivity.add(CreateStudentActivityReport(
-          id: item.key,
-          //model name : firebase name
-          name: item.value['name'],
-          date: item.value['date'],
-          time: item.value['time'],
-          location: item.value['location'],
-          numOfPerson: item.value['NumOfPerson'],
-        ));
+        if (getValidityF(item.value['date'])) {
+          loadedCreatedStudentActivity.add(CreateStudentActivityReport(
+            id: item.key,
+            //model name : firebase name
+            name: item.value['name'],
+            date: item.value['date'],
+            time: item.value['time'],
+            location: item.value['location'],
+            numOfPerson: item.value['NumOfPerson'],
+          ));
+        }
       }
     } catch (error) {
       print('Empty List');
@@ -587,22 +607,24 @@ class Setup {
     }
   }
 
-  void loadStudyGroups() async {
+  Future<void> loadStudyGroups() async {
     createGroupReport = [];
     try {
       final response = await http.get(Connection.url('create-group'));
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
-        createGroupReport.add(CreateGroupReport(
-          id: item.key,
-          //model name : firebase name
-          name: item.value['name'],
-          date: item.value['date'],
-          time: item.value['time'],
-          location: item.value['location'],
-          numPerson: item.value['NumPerson'],
-        ));
+        if (getValidityF(item.value['date'])) {
+          createGroupReport.add(CreateGroupReport(
+            id: item.key,
+            //model name : firebase name
+            name: item.value['name'],
+            date: item.value['date'],
+            time: item.value['time'],
+            location: item.value['location'],
+            numPerson: item.value['NumPerson'],
+          ));
+        }
       }
     } catch (error) {
       print('Empty List');
@@ -636,7 +658,7 @@ class Setup {
     }
   }
 
-  void LoadFoundItems() async {
+  Future<void> LoadFoundItems() async {
     foundItemReport = [];
     final List<FoundItemReport> loadedFoundItems = [];
 
@@ -662,7 +684,7 @@ class Setup {
     }
   }
 
-  void LoadLostItems() async {
+  Future<void> LoadLostItems() async {
     lostItemReport = [];
     final List<LostItemReport> loadedLostItems = [];
     try {
@@ -687,7 +709,7 @@ class Setup {
     }
   }
 
-  void LoadClinics() async {
+  Future<void> LoadClinics() async {
     final List<ClinicReport> loadedClinics = [];
     try {
       final url = Uri.https(
@@ -710,10 +732,7 @@ class Setup {
     } catch (error) {
       print('Empty List');
     } finally {
-
-        clinicReport = loadedClinics;
-      }
+      clinicReport = loadedClinics;
     }
-
-
+  }
 }
