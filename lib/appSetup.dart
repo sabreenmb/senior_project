@@ -27,7 +27,7 @@ class Setup {
     // loadSaveItems();
   }
   Future<void> Build() async {
-    saveList = [];
+    // saveList = [];
      loadCoursesItems();
      loadWorkshopsItems();
      loadConferencesItems();

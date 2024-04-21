@@ -30,11 +30,8 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
     homeCards();
     getTodayList();
-
-  //  _LoadCreatedSessions();
   }
 
-  void _LoadCreatedSessions() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -60,34 +57,42 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           inAsyncCall: isLoading,
           child: SafeArea(
             bottom: false,
-            child: SingleChildScrollView(
-              child: Container(
-                // height: MediaQuery.of(context).size.height,
-                decoration: const BoxDecoration(
-                  color: CustomColors.BackgroundColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
-                ),
-                child: Column(
-                  // mainAxisSize: MainAxisSize.max,
+            child: Column(
+              // mainAxisSize: MainAxisSize.max,
+              children: [
+                const SizedBox(height: 15),
+
+                Expanded(child: Stack(
                   children: [
-                    const SizedBox(height: 10),
-                    _buildCard(),
-                    Visibility(
-                      visible: todayList.isNotEmpty,
-                      child: _buildSectionTitle('يحدث اليوم'),
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: CustomColors.BackgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
                     ),
-                    Visibility(
-                      visible: todayList.isNotEmpty,
-                      child: _buildHorizontalScrollableCards(todayList),
+                    Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        _buildCard(),
+                        Visibility(
+                          visible: todayList.isNotEmpty,
+                          child: _buildSectionTitle('يحدث اليوم'),
+                        ),
+                        Visibility(
+                          visible: todayList.isNotEmpty,
+                          child: _buildHorizontalScrollableCards(todayList),
+                        ),
+                        _buildSectionTitle('أضيف حديثا'),
+                        _buildHorizontalScrollableCards(combinedList),
+                      ],
                     ),
-                    _buildSectionTitle('أضيف حديثا'),
-                    _buildHorizontalScrollableCards(combinedList),
+
+
                   ],
-                ),
-              ),
+                ),),
+
+              ],
             ),
           ),
         ),

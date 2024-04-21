@@ -349,11 +349,10 @@ bool getValidity(String time) {
 }
 var connectivityResult =  (Connectivity().checkConnectivity());
 
-Future<bool> network() async {
+Future<void> network() async {
   final connectivityResult =
       await Connectivity().checkConnectivity();
   isOffline= (connectivityResult[0] == ConnectivityResult.none);
-  return isOffline;
 }
 bool getValidityF(String time) {
   DateTime expiryDate = DateTime.parse(time);
