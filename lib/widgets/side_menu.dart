@@ -56,18 +56,29 @@ class SideDrawer extends StatelessWidget {
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: CachedNetworkImage(
-                                width: 145,
-                                height: 150,
-                                fit: BoxFit.cover,
-                                imageUrl: userInfo.image_url,
-                                errorWidget: (context, url, error) =>
-                                    CircleAvatar(
-                                  child: SvgPicture.asset(
-                                    'assets/icons/UserProfile.svg',
-                                    color: CustomColors.darkGrey,
-                                  ),
-                                ),
-                              ),
+                                  width: 145,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                  imageUrl: userInfo.image_url,
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                        padding: const EdgeInsets.all(20),
+                                        alignment: Alignment.topCenter,
+                                        height: 140,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: CustomColors.darkGrey,
+                                            width: 3,
+                                          ),
+                                        ),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/UserProfile.svg',
+                                          height: 100,
+                                          width: 100,
+                                          color: CustomColors.darkGrey,
+                                        ),
+                                      )),
                             ),
                     ),
                     Text(
@@ -204,21 +215,39 @@ class SideDrawer extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(100),
                                               child: CachedNetworkImage(
-                                                width: 120,
-                                                height: 120,
-                                                fit: BoxFit.cover,
-                                                imageUrl: userInfo.image_url,
-                                                placeholder: (context, url) =>
-                                                    CircularProgressIndicator(),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        SvgPicture.asset(
-                                                  'assets/icons/UserProfile.svg',
-                                                  height: 100,
-                                                  width: 100,
-                                                  color: CustomColors.darkGrey,
-                                                ),
-                                              ),
+                                                  width: 120,
+                                                  height: 120,
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: userInfo.image_url,
+                                                  placeholder: (context, url) =>
+                                                      CircularProgressIndicator(),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(20),
+                                                        alignment:
+                                                            Alignment.topCenter,
+                                                        height: 140,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: CustomColors
+                                                                .darkGrey,
+                                                            width: 3,
+                                                          ),
+                                                        ),
+                                                        child: SvgPicture.asset(
+                                                          'assets/icons/UserProfile.svg',
+                                                          height: 100,
+                                                          width: 100,
+                                                          color: CustomColors
+                                                              .darkGrey,
+                                                        ),
+                                                      )),
                                             ),
                                     ],
                                   ),

@@ -115,6 +115,8 @@ class _CurrentChatsState extends State<CurrentChats>
             hoverColor: CustomColors.white,
             padding: const EdgeInsets.only(right: 4, top: 4),
             onPressed: () {
+              if (isOffline) {
+              } else {}
               _goToAllUsers();
             },
           ),
@@ -144,18 +146,20 @@ class _CurrentChatsState extends State<CurrentChats>
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
-                    ), (isOffline)?Center(
-                      child: SizedBox(
-                        // padding: EdgeInsets.only(bottom: 20),
-                        // alignment: Alignment.topCenter,
-                        height: 200,
-                        child: Image.asset('assets/images/logo-icon.png'),
-                      ),
-                    ):
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: _buildUsersList(),
                     ),
+                    (isOffline)
+                        ? Center(
+                            child: SizedBox(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset('assets/images/logo-icon.png'),
+                            ),
+                          )
+                        : Container(
+                            padding: const EdgeInsets.all(10),
+                            child: _buildUsersList(),
+                          ),
                   ],
                 ))
               ],

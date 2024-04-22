@@ -28,29 +28,26 @@ class Setup {
   }
   Future<void> Build() async {
     // saveList = [];
-     loadCoursesItems();
-     loadWorkshopsItems();
-     loadConferencesItems();
-     loadOtherEventsItems();
-     LoadCreatedSessions();
-     await LoadOffers();
-
-
+    loadCoursesItems();
+    loadWorkshopsItems();
+    loadConferencesItems();
+    loadOtherEventsItems();
+    LoadCreatedSessions();
+    await LoadOffers();
   }
-  Future<void> Build2() async {
-     loadAllUsers();
-     LoadSClubs();
-   LoadCreatedActivities();
-     loadStudyGroups();
-     LoadLostItems();
-     LoadFoundItems();
-     LoadClinics();
-     LoadPsychGuidance();
 
+  Future<void> Build2() async {
+    loadAllUsers();
+    LoadSClubs();
+    LoadCreatedActivities();
+    loadStudyGroups();
+    LoadLostItems();
+    LoadFoundItems();
+    LoadClinics();
+    LoadPsychGuidance();
   }
 
   Future<void> LoadPsychGuidance() async {
-
     try {
       final response = await http.get(Connection.url('Psych-Guidance'));
       final Map<String, dynamic> foundData = json.decode(response.body);
@@ -204,13 +201,15 @@ class Setup {
         print(allUsers[i].name);
         // allUsers[i] = otherUserInfo;
       }
+      allUsers.removeWhere((element) => element.userID == userInfo.userID);
+
       // Process the documents here
     } catch (e) {
       print('Error loading documents: $e');
     }
   }
 
-  Future<void>  LoadOffers() async {
+  Future<void> LoadOffers() async {
     for (Map<String, dynamic> item in offers) {
       item['categoryList'].clear();
     }
@@ -272,7 +271,7 @@ class Setup {
   Future<void> loadCoursesItems() async {
     courseItem = [];
     final response = await http.get(Connection.url('eventsCoursesDB'));
-    if(response.body=='placeholder') {
+    if (response.body == 'placeholder') {
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
@@ -323,7 +322,7 @@ class Setup {
     workshopItem = [];
 
     final response = await http.get(Connection.url('eventsWorkshopsDB'));
-    if(response.body=='placeholder') {
+    if (response.body == 'placeholder') {
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
@@ -373,7 +372,7 @@ class Setup {
   Future<void> loadConferencesItems() async {
     confItem = [];
     final response = await http.get(Connection.url('eventsConferencesDB'));
-    if(response.body=='placeholder') {
+    if (response.body == 'placeholder') {
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
@@ -422,7 +421,7 @@ class Setup {
   Future<void> loadOtherEventsItems() async {
     otherItem = [];
     final response = await http.get(Connection.url('eventsOthersDB'));
-    if(response.body=='placeholder') {
+    if (response.body == 'placeholder') {
       return;
     }
     final Map<String, dynamic> eventData = json.decode(response.body);
@@ -475,7 +474,7 @@ class Setup {
 
     try {
       final response = await http.get(Connection.url('opportunities'));
-      if(response.body=='placeholder') {
+      if (response.body == 'placeholder') {
         return;
       }
       final Map<String, dynamic> volunteerdata = json.decode(response.body);
@@ -536,7 +535,7 @@ class Setup {
       // final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
       //     'studentClubsDB.json');
       final response = await http.get(Connection.url('studentClubsDB'));
-      if(response.body=='placeholder') {
+      if (response.body == 'placeholder') {
         return;
       }
       final Map<String, dynamic> clubdata = json.decode(response.body);
