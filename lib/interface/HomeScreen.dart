@@ -9,9 +9,11 @@ import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/commonWidgets.dart';
 import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constant.dart';
 import '../model/EventItem.dart';
+import '../model/offer_info.dart';
 import '../widgets/home_card.dart';
 import '../widgets/networkWedget.dart';
 
@@ -116,8 +118,38 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
       ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container();
+          return Shimmer.fromColors(
+            baseColor: Colors.white,
+            highlightColor: Colors.grey[300]!,
+            enabled: true,
+            child: CarouselSlider(
+              items: [
+                HomeOfferCard(
+                  OfferInfo(
+                    timestamp: '',
+                    name: ' ',
+                    id: '',
+                    logo: 'empty',
+                    category: '',
+                    code: '',
+                    details: '',
+                    discount: '',
+                    expDate: '',
+                    contact: '',
+                    targetUsers: '',
+                  ),
+                ),
+              ],
+              options: CarouselOptions(
+                height: 180,
+                autoPlay: false,
+                autoPlayInterval: const Duration(seconds: 3),
+              ),
+            ),
+          );
+
         }
+
         return CarouselSlider(
           items: recommendedOffers
               .map((offer) => HomeOfferCard(offer))

@@ -77,6 +77,8 @@ class _SaveCardState extends State<SaveCard> {
                       onPressed: () {
                         setState(() {
                           isSaved = !isSaved;
+
+
                           saveList.removeWhere((item) =>
                               item.serviceName == widget.serviceName &&
                               item.item.id == widget.dynamicObject.id &&

@@ -34,6 +34,7 @@ NavigationDestinationLabelBehavior labelBehavior =
 //todo move to coommen var
 List<enteredUserInfo> allUsers = [];
 bool isLoading = false;
+bool EmptyList=  saveList.isEmpty;
 
 bool isConnected = false;
 List<dynamic> recommendedOffers = [];

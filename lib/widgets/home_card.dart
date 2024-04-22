@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../interface/VolunteerOpportunities.dart';
@@ -107,10 +108,14 @@ class _HomeCardState extends State<HomeCard> {
                           size: 14.0,
                         ),
                         const SizedBox(width: 5),
-                        Text(
-                          widget.dynamicObject.location!,
-                          textAlign: TextAlign.center,
-                          style: TextStyles.text,
+                        Expanded(
+                          child: Text(
+                            widget.dynamicObject.location!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
+                            style: TextStyles.text,
+                          ),
                         ),
                       ],
                     ),

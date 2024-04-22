@@ -455,7 +455,7 @@ class _EventState extends State<EventScreen> {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return loadingFunction(context, true);
-          if (itemList.isNotEmpty) {
+          if (itemList.isEmpty) {
             return Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.grey[300]!,
@@ -495,7 +495,7 @@ class _EventState extends State<EventScreen> {
         }
         final data = snapshot.data?.snapshot.value;
 
-        if (data == null || data == 'placeholder') {
+        if ( data == null ||data == 'placeholder') {
           return Center(
             child: SizedBox(
               height: 200,

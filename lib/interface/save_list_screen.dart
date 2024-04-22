@@ -17,6 +17,14 @@ class _SaveListScreenState extends State<SaveListScreen>
   bool isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+    //todo move it to the login screen
+     EmptyList=  saveList.isEmpty;
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.pink,
@@ -57,7 +65,11 @@ class _SaveListScreenState extends State<SaveListScreen>
                   ),
                   // child: _buildItems(),
                 ),
+                EmptyList?
+                    Center(child: Text('لا توجد محفوظات',style: TextStyles.heading11)):
+
                 _buildItems(),
+
               ],
             ))
           ],
@@ -67,13 +79,8 @@ class _SaveListScreenState extends State<SaveListScreen>
   }
 
   Widget _buildItems() {
-    return
-        // SizedBox(
-        //   height: 240,
-        // child:
-        // Expanded(
-        // child:
-        Padding(
+
+    return  Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
           // scrollDirection: Axis.,
@@ -83,6 +90,7 @@ class _SaveListScreenState extends State<SaveListScreen>
                 saveList[index].serviceName,
                 saveList[index].icon,
               )),
+
       // ),
       // ),
     );
