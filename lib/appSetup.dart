@@ -28,29 +28,26 @@ class Setup {
   }
   Future<void> Build() async {
     // saveList = [];
-     loadCoursesItems();
-     loadWorkshopsItems();
-     loadConferencesItems();
-     loadOtherEventsItems();
-     LoadCreatedSessions();
-     await LoadOffers();
-
-
+    loadCoursesItems();
+    loadWorkshopsItems();
+    loadConferencesItems();
+    loadOtherEventsItems();
+    LoadCreatedSessions();
+    await LoadOffers();
   }
-  Future<void> Build2() async {
-     loadAllUsers();
-     LoadSClubs();
-   LoadCreatedActivities();
-     loadStudyGroups();
-     LoadLostItems();
-     LoadFoundItems();
-     LoadClinics();
-     LoadPsychGuidance();
 
+  Future<void> Build2() async {
+    loadAllUsers();
+    LoadSClubs();
+    LoadCreatedActivities();
+    loadStudyGroups();
+    LoadLostItems();
+    LoadFoundItems();
+    LoadClinics();
+    LoadPsychGuidance();
   }
 
   Future<void> LoadPsychGuidance() async {
-
     try {
       final response = await http.get(Connection.url('Psych-Guidance'));
       final Map<String, dynamic> foundData = json.decode(response.body);
@@ -204,13 +201,15 @@ class Setup {
         print(allUsers[i].name);
         // allUsers[i] = otherUserInfo;
       }
+      allUsers.removeWhere((element) => element.userID == userInfo.userID);
+
       // Process the documents here
     } catch (e) {
       print('Error loading documents: $e');
     }
   }
 
-  Future<void>  LoadOffers() async {
+  Future<void> LoadOffers() async {
     for (Map<String, dynamic> item in offers) {
       item['categoryList'].clear();
     }
