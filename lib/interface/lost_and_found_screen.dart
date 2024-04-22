@@ -159,45 +159,87 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
-                    ),   isOffline
+                    ),
+                    isOffline
                         ? Center(
-                      child: SizedBox(
-                        // padding: EdgeInsets.only(bottom: 20),
-                        // alignment: Alignment.topCenter,
-                        height: 200,
-                        child: Image.asset('assets/images/logo-icon.png'),
-                      ),
-                    ) :  Column(
-                      children: [
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: TextField(
-                            autofocus: false,
-                            controller: _userInputController,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.search,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                              color: CustomColors.darkGrey,
+                            child: SizedBox(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset(
+                                  'assets/images/NoInternet_newo.png'),
                             ),
-                            decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                color: CustomColors.darkGrey,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
-                              ),
-                              prefixIcon: IconButton(
-                                  icon: const Icon(
-                                    Icons.search,
+                          )
+                        : Column(
+                            children: [
+                              Container(
+                                height: 60,
+                                padding: const EdgeInsets.only(
+                                    top: 15, left: 15, right: 15),
+                                child: TextField(
+                                  autofocus: false,
+                                  controller: _userInputController,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.search,
+                                  textAlignVertical: TextAlignVertical.bottom,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
                                     color: CustomColors.darkGrey,
                                   ),
-                                  onPressed: () {
+                                  decoration: InputDecoration(
+                                    hintStyle: const TextStyle(
+                                      color: CustomColors.darkGrey,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                      borderSide: const BorderSide(
+                                          color: CustomColors.darkGrey,
+                                          width: 1),
+                                    ),
+                                    prefixIcon: IconButton(
+                                        icon: const Icon(
+                                          Icons.search,
+                                          color: CustomColors.darkGrey,
+                                        ),
+                                        onPressed: () {
+                                          isLost
+                                              ? searchLostList.clear()
+                                              : searchFoundList.clear();
+                                          filterSearchResults(
+                                              _userInputController.text,
+                                              isLost
+                                                  ? lostItemReport
+                                                  : foundItemReport);
+                                          FocusScope.of(context).unfocus();
+                                        }),
+                                    hintText: 'ابحث',
+                                    suffixIcon: _userInputController
+                                            .text.isNotEmpty
+                                        ? IconButton(
+                                            onPressed: () {
+                                              _userInputController.clear();
+                                              FocusScope.of(context).unfocus();
+
+                                              setState(() {
+                                                isButtonClicked = false;
+                                                isSearch = false;
+                                              });
+                                            },
+                                            icon: const Icon(Icons.clear,
+                                                color: CustomColors.darkGrey))
+                                        : null,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          color: CustomColors.darkGrey,
+                                          width: 1),
+                                    ),
+                                  ),
+                                  onChanged: (text) {
+                                    setState(() {});
+                                  },
+                                  onSubmitted: (text) {
+                                    //todo the same value of on icon presed
                                     isLost
                                         ? searchLostList.clear()
                                         : searchFoundList.clear();
@@ -207,182 +249,155 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                             ? lostItemReport
                                             : foundItemReport);
                                     FocusScope.of(context).unfocus();
-                                  }),
-                              hintText: 'ابحث',
-                              suffixIcon: _userInputController.text.isNotEmpty
-                                  ? IconButton(
-                                      onPressed: () {
-                                        _userInputController.clear();
-                                        FocusScope.of(context).unfocus();
-
-                                        setState(() {
-                                          isButtonClicked = false;
-                                          isSearch = false;
-                                        });
-                                      },
-                                      icon: const Icon(Icons.clear,
-                                          color: CustomColors.darkGrey))
-                                  : null,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
+                                  },
+                                  onTap: () {
+                                    isSearch = true;
+                                    searchLostList.clear();
+                                    searchFoundList.clear();
+                                  },
+                                ),
                               ),
-                            ),
-                            onChanged: (text) {
-                              setState(() {});
-                            },
-                            onSubmitted: (text) {
-                              //todo the same value of on icon presed
-                              isLost
-                                  ? searchLostList.clear()
-                                  : searchFoundList.clear();
-                              filterSearchResults(_userInputController.text,
-                                  isLost ? lostItemReport : foundItemReport);
-                              FocusScope.of(context).unfocus();
-                            },
-                            onTap: () {
-                              isSearch = true;
-                              searchLostList.clear();
-                              searchFoundList.clear();
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      FocusScope.of(context).unfocus();
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            FocusScope.of(context).unfocus();
 
-                                      if (isLost != true) {
-                                        setState(() {
-                                          isButtonClicked = false;
-                                          isLost = true;
-                                          if (isSearch) {
-                                            _userInputController.clear();
-                                            isSearch = false;
-                                          }
-                                        });
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        fixedSize: const Size(150, 40),
-                                        side: BorderSide(
-                                            color: isLost
-                                                ? Colors.transparent
-                                                : CustomColors.darkGrey,
-                                            width: 1),
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                                            if (isLost != true) {
+                                              setState(() {
+                                                isButtonClicked = false;
+                                                isLost = true;
+                                                if (isSearch) {
+                                                  _userInputController.clear();
+                                                  isSearch = false;
+                                                }
+                                              });
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              fixedSize: const Size(150, 40),
+                                              side: BorderSide(
+                                                  color: isLost
+                                                      ? Colors.transparent
+                                                      : CustomColors.darkGrey,
+                                                  width: 1),
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              backgroundColor: isLost
+                                                  ? CustomColors.pink
+                                                  : Colors.transparent),
+                                          child: Text("المفقودة",
+                                              style: TextStyles.heading2),
                                         ),
-                                        backgroundColor: isLost
-                                            ? CustomColors.pink
-                                            : Colors.transparent),
-                                    child: Text("المفقودة",
-                                        style: TextStyles.heading2),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            if (isLost == true) {
+                                              setState(() {
+                                                isButtonClicked = false;
+                                                isLost = false;
+                                                if (isSearch) {
+                                                  _userInputController.clear();
+                                                  isSearch = false;
+                                                }
+                                              });
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              fixedSize: const Size(150, 40),
+                                              side: BorderSide(
+                                                  color: !isLost
+                                                      ? Colors.transparent
+                                                      : CustomColors.darkGrey,
+                                                  width: 1),
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              backgroundColor: !isLost
+                                                  ? CustomColors.pink
+                                                  : Colors.transparent),
+                                          child: Text(
+                                            "الموجودة",
+                                            style: TextStyles.heading2,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (isLost == true) {
-                                        setState(() {
-                                          isButtonClicked = false;
-                                          isLost = false;
-                                          if (isSearch) {
-                                            _userInputController.clear();
-                                            isSearch = false;
-                                          }
-                                        });
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        fixedSize: const Size(150, 40),
-                                        side: BorderSide(
-                                            color: !isLost
-                                                ? Colors.transparent
-                                                : CustomColors.darkGrey,
-                                            width: 1),
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        backgroundColor: !isLost
-                                            ? CustomColors.pink
-                                            : Colors.transparent),
-                                    child: Text(
-                                      "الموجودة",
-                                      style: TextStyles.heading2,
+                              ),
+                              if (isLost
+                                  ? (isSearch
+                                      ? searchLostList.isEmpty
+                                      : lostItemReport.isEmpty)
+                                  : (isSearch
+                                      ? searchFoundList.isEmpty
+                                      : foundItemReport.isEmpty))
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      // padding: EdgeInsets.only(bottom: 20),
+                                      // alignment: Alignment.topCenter,
+                                      height: 200,
+                                      child: Image.asset(isSearch
+                                          ? 'assets/images/searching-removebg-preview.png'
+                                          : 'assets/images/no_content_removebg_preview.png'),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        if (isLost
-                            ? (isSearch
-                                ? searchLostList.isEmpty
-                                : lostItemReport.isEmpty)
-                            : (isSearch
-                                ? searchFoundList.isEmpty
-                                : foundItemReport.isEmpty))
-                          Expanded(
-                            child: Center(
-                              child: SizedBox(
-                                // padding: EdgeInsets.only(bottom: 20),
-                                // alignment: Alignment.topCenter,
-                                height: 200,
-                                child: Image.asset(isSearch
-                                    ? 'assets/images/searching-removebg-preview.png'
-                                    : 'assets/images/no_content_removebg_preview.png'),
-                              ),
-                            ),
-                          ),
-                        if (isLost
-                            ? lostItemReport.isNotEmpty
-                            : foundItemReport.isNotEmpty)
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MediaQuery.removePadding(
-                                context: context,
-                                removeTop: true,
-                                child: isSearch
-                                    ? ListView.builder(
-                                        itemCount: isLost
-                                            ? searchLostList.length
-                                            : searchFoundList.length,
-                                        itemBuilder: (context, index) => isLost
-                                            ? LostCard(searchLostList[index])
-                                            : FoundCard(searchFoundList[index]))
-                                    : _buildcardList()
+                              if (isLost
+                                  ? lostItemReport.isNotEmpty
+                                  : foundItemReport.isNotEmpty)
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MediaQuery.removePadding(
+                                      context: context,
+                                      removeTop: true,
+                                      child: isSearch
+                                          ? ListView.builder(
+                                              itemCount: isLost
+                                                  ? searchLostList.length
+                                                  : searchFoundList.length,
+                                              itemBuilder: (context, index) =>
+                                                  isLost
+                                                      ? LostCard(
+                                                          searchLostList[index])
+                                                      : FoundCard(
+                                                          searchFoundList[
+                                                              index]))
+                                          : _buildcardList()
 
-                                // : ListView.builder(
-                                //     itemCount: isLost
-                                //         ? lostItemReport.length
-                                //         : foundItemReport.length,
-                                //     itemBuilder: (context, index) => isLost
-                                //         ? LostCard(lostItemReport[index])
-                                //         : FoundCard(foundItemReport[index])),
-                                ),
-                          )),
-                      ],
-                    ),
+                                      // : ListView.builder(
+                                      //     itemCount: isLost
+                                      //         ? lostItemReport.length
+                                      //         : foundItemReport.length,
+                                      //     itemBuilder: (context, index) => isLost
+                                      //         ? LostCard(lostItemReport[index])
+                                      //         : FoundCard(foundItemReport[index])),
+                                      ),
+                                )),
+                            ],
+                          ),
                     Stack(
                       alignment: Alignment.bottomCenter,
                       children: [

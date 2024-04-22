@@ -134,8 +134,8 @@ class _EventState extends State<EventScreen> {
                                 // padding: EdgeInsets.only(bottom: 20),
                                 // alignment: Alignment.topCenter,
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/logo-icon.png'),
+                                child: Image.asset(
+                                    'assets/images/NoInternet_newo.png'),
                               ),
                             )
                           : Column(children: [
@@ -456,26 +456,27 @@ class _EventState extends State<EventScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return loadingFunction(context, true);
           if (itemList.isNotEmpty) {
-           return Shimmer.fromColors(
-                baseColor: Colors.white,
-                highlightColor: Colors.grey[300]!,
-                enabled: true,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(bottom: 10),
-                  itemCount: 1,
-                  itemBuilder: (context, index) {
-                    return WorkshopCard(WorkshopsItemReport(
-                        time: '',
-                        timestamp: '',
-                        location: '',
-                        name: ' ',
-                        presentBy: ' ',
-                        date: '',
-                        id: '',
-                        workshopLink: ' '));
-                  },
-                ),);
+            return Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey[300]!,
+              enabled: true,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 10),
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return WorkshopCard(WorkshopsItemReport(
+                      time: '',
+                      timestamp: '',
+                      location: '',
+                      name: ' ',
+                      presentBy: ' ',
+                      date: '',
+                      id: '',
+                      workshopLink: ' '));
+                },
+              ),
+            );
           } else {
             return Shimmer.fromColors(
               baseColor: Colors.white,

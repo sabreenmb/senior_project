@@ -125,13 +125,14 @@ class _StudentClubsState extends State<StudentClubsScreen>
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40))),
                   ),
-                  isOffline && SClubs.isEmpty
+                  isOffline
                       ? Center(
                           child: SizedBox(
                             // padding: EdgeInsets.only(bottom: 20),
                             // alignment: Alignment.topCenter,
                             height: 200,
-                            child: Image.asset('assets/images/logo-icon.png'),
+                            child: Image.asset(
+                                'assets/images/NoInternet_newo.png'),
                           ),
                         )
                       : Container(

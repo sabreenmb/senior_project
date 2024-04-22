@@ -48,8 +48,6 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
   void initState() {
     super.initState();
     connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
-
-
   }
 
   @override
@@ -57,6 +55,7 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
     connSub.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> details = widget.details;
@@ -110,42 +109,43 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
                     ),
                     isOffline
                         ? Center(
-                      child: SizedBox(
-                        // padding: EdgeInsets.only(bottom: 20),
-                        // alignment: Alignment.topCenter,
-                        height: 200,
-                        child: Image.asset('assets/images/logo-icon.png'),
-                      ),
-                    )
+                            child: SizedBox(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset(
+                                  'assets/images/NoInternet_newo.png'),
+                            ),
+                          )
                         : Column(
-                      children: [
-                        if (_offerInfo.isEmpty)
-                          Expanded(
-                            child: Center(
-                              child: SizedBox(
-                                // padding: EdgeInsets.only(bottom: 20),
-                                // alignment: Alignment.topCenter,
-                                height: 200,
-                                child: Image.asset(
-                                    'assets/images/no_content_removebg_preview.png'),
-                              ),
-                            ),
+                            children: [
+                              if (_offerInfo.isEmpty)
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      // padding: EdgeInsets.only(bottom: 20),
+                                      // alignment: Alignment.topCenter,
+                                      height: 200,
+                                      child: Image.asset(
+                                          'assets/images/no_content_removebg_preview.png'),
+                                    ),
+                                  ),
+                                ),
+                              if (_offerInfo.isNotEmpty)
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MediaQuery.removePadding(
+                                    context: context,
+                                    removeTop: true,
+                                    child: ListView.builder(
+                                        itemCount: _offerInfo.length,
+                                        itemBuilder: (context, index) =>
+                                            OfferCard(_offerInfo[index])),
+                                  ),
+                                )),
+                            ],
                           ),
-                        if (_offerInfo.isNotEmpty)
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MediaQuery.removePadding(
-                              context: context,
-                              removeTop: true,
-                              child: ListView.builder(
-                                  itemCount: _offerInfo.length,
-                                  itemBuilder: (context, index) =>
-                                      OfferCard(_offerInfo[index])),
-                            ),
-                          )),
-                      ],
-                    ),
                   ],
                 ))
               ],

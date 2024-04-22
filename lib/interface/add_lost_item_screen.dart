@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:senior_project/widgets/networkWedget.dart';
 
 import '../constant.dart';
 import '../firebaseConnection.dart';
@@ -456,7 +457,13 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 90),
                                 child: ElevatedButton(
-                                  onPressed: _checkInputValue,
+                                  onPressed: () {
+                                    if (isOffline) {
+                                      showNetWidgetDialog(context);
+                                    } else {
+                                      _checkInputValue();
+                                    }
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       fixedSize: const Size(175, 50),
                                       elevation: 0,
