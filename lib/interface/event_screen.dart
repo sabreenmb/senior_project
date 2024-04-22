@@ -489,23 +489,24 @@ class _EventState extends State<EventScreen> {
             );
           }
         }
-        var data;
+        final data = snapshot.data?.snapshot.value;
 
-        if (snapshot.data?.snapshot.value == 'placeholder') {
-          // Handle the case where snapshot value is a string
-          print('Snapshot value is a string:');
-        } else {
-          data = snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+        if (data == null || data == 'placeholder') {
+          return Center(
+            child: SizedBox(
+              height: 200,
+              child:
+                  Image.asset('assets/images/no_content_removebg_preview.png'),
+            ),
+          );
         }
 
-        if (data == null) {
-          return Text('No data available');
-        }
+        Map<dynamic, dynamic> data2 = data as Map<dynamic, dynamic>;
 
         List<dynamic> reports;
         if (name == 'eventsCoursesDB') {
           courseItem.clear();
-          reports = data.entries.map((entry) {
+          reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
             return CoursesItemReport(
@@ -522,7 +523,7 @@ class _EventState extends State<EventScreen> {
           courseItem = reports.cast<CoursesItemReport>();
         } else if (name == 'eventsWorkshopsDB') {
           workshopItem.clear();
-          reports = data.entries.map((entry) {
+          reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
             return WorkshopsItemReport(
@@ -539,7 +540,7 @@ class _EventState extends State<EventScreen> {
           workshopItem = reports.cast<WorkshopsItemReport>();
         } else if (name == 'eventsConferencesDB') {
           confItem.clear();
-          reports = data.entries.map((entry) {
+          reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
             return ConferencesItemReport(
@@ -555,7 +556,7 @@ class _EventState extends State<EventScreen> {
           confItem = reports.cast<ConferencesItemReport>();
         } else {
           otherItem.clear();
-          reports = data.entries.map((entry) {
+          reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
             return OtherEventsItemReport(
