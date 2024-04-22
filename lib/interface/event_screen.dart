@@ -456,26 +456,29 @@ class _EventState extends State<EventScreen> {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return loadingFunction(context, true);
-          if (itemList.isEmpty) {
-            Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.grey[300]!,
-              enabled: true,
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.only(bottom: 10),
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 200,
-                    height: 100,
-                    child: Text('gfdggggggg'),
-                  );
-                },
-              ),
-            );
+          if (itemList.isNotEmpty) {
+           return Shimmer.fromColors(
+                baseColor: Colors.white,
+                highlightColor: Colors.grey[300]!,
+                enabled: true,
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 10),
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    return WorkshopCard(WorkshopsItemReport(
+                        time: '',
+                        timestamp: '',
+                        location: '',
+                        name: ' ',
+                        presentBy: ' ',
+                        date: '',
+                        id: '',
+                        workshopLink: ' '));
+                  },
+                ),);
           } else {
-            Shimmer.fromColors(
+            return Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.grey[300]!,
               enabled: true,
