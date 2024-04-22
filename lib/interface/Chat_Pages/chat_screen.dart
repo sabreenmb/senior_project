@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -9,6 +12,7 @@ import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/model/message_info.dart';
 import 'package:senior_project/widgets/chat_bubble.dart';
 import 'package:senior_project/theme.dart';
+import 'package:senior_project/widgets/networkWedget.dart';
 
 class RealChatPage extends StatefulWidget {
   final enteredUserInfo otherUserInfo;
@@ -21,11 +25,33 @@ class RealChatPage extends StatefulWidget {
 class _RealChatPageState extends State<RealChatPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  late StreamSubscription connSub;
 
   List<Message> _list = [];
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
   // final ScrollController _scrollController = ScrollController();
+
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
+        }
+        break;
+      case ConnectivityResult.none:
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
@@ -42,6 +68,8 @@ class _RealChatPageState extends State<RealChatPage>
   @override
   void dispose() {
     _animationController.dispose();
+    connSub.cancel();
+
     super.dispose();
   }
 
@@ -52,6 +80,7 @@ class _RealChatPageState extends State<RealChatPage>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
   }
 
   void _goToUserProfile() {
@@ -162,7 +191,17 @@ class _RealChatPageState extends State<RealChatPage>
                         //messages
                         children: [
                           Expanded(
-                            child: _buildMessageList(),
+                            child: (isOffline)
+                                ? Center(
+                                    child: SizedBox(
+                                      // padding: EdgeInsets.only(bottom: 20),
+                                      // alignment: Alignment.topCenter,
+                                      height: 200,
+                                      child: Image.asset(
+                                          'assets/images/logo-icon.png'),
+                                    ),
+                                  )
+                                : _buildMessageList(),
                           ),
 
                           //user input
@@ -283,7 +322,13 @@ class _RealChatPageState extends State<RealChatPage>
               ),
             ),
             IconButton(
-              onPressed: sendMessage,
+              onPressed: () {
+                if (isOffline) {
+                  showNetWidgetDialog(context);
+                } else {
+                  sendMessage();
+                }
+              },
               icon: const Icon(
                 Icons.send,
                 size: 35,

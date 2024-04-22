@@ -147,10 +147,19 @@ class _CurrentChatsState extends State<CurrentChats>
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: _buildUsersList(),
-                    ),
+                    (isOffline)
+                        ? Center(
+                            child: SizedBox(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset('assets/images/logo-icon.png'),
+                            ),
+                          )
+                        : Container(
+                            padding: const EdgeInsets.all(10),
+                            child: _buildUsersList(),
+                          ),
                   ],
                 ))
               ],
