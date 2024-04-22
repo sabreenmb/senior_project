@@ -455,8 +455,8 @@ class _EventState extends State<EventScreen> {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return loadingFunction(context, true);
-          if (itemList.isEmpty) {
-            Shimmer.fromColors(
+          if (itemList.isNotEmpty) {
+            return Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.grey[300]!,
               enabled: true,
@@ -478,7 +478,7 @@ class _EventState extends State<EventScreen> {
               ),
             );
           } else {
-            Shimmer.fromColors(
+            return Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.grey[300]!,
               enabled: true,
