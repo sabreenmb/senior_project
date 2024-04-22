@@ -272,7 +272,9 @@ class Setup {
   Future<void> loadCoursesItems() async {
     courseItem = [];
     final response = await http.get(Connection.url('eventsCoursesDB'));
-
+    if(response.body=='placeholder') {
+      return;
+    }
     final Map<String, dynamic> data = json.decode(response.body);
     for (final item in data.entries) {
       print(item.value['course_name']);
@@ -319,8 +321,11 @@ class Setup {
 
   Future<void> loadWorkshopsItems() async {
     workshopItem = [];
-    final response = await http.get(Connection.url('eventsWorkshopsDB'));
 
+    final response = await http.get(Connection.url('eventsWorkshopsDB'));
+    if(response.body=='placeholder') {
+      return;
+    }
     final Map<String, dynamic> data = json.decode(response.body);
     for (final item in data.entries) {
       if (getValidityF(item.value['workshop_date']) == true) {
@@ -368,8 +373,11 @@ class Setup {
   Future<void> loadConferencesItems() async {
     confItem = [];
     final response = await http.get(Connection.url('eventsConferencesDB'));
-
+    if(response.body=='placeholder') {
+      return;
+    }
     final Map<String, dynamic> data = json.decode(response.body);
+
     for (final item in data.entries) {
       if (getValidityF(item.value['conference_date']) == true) {
         confItem.add(ConferencesItemReport(
@@ -414,8 +422,11 @@ class Setup {
   Future<void> loadOtherEventsItems() async {
     otherItem = [];
     final response = await http.get(Connection.url('eventsOthersDB'));
-
+    if(response.body=='placeholder') {
+      return;
+    }
     final Map<String, dynamic> eventData = json.decode(response.body);
+
     for (final item in eventData.entries) {
       if (getValidityF(item.value['OEvent_date']) == true) {
         otherItem.add(OtherEventsItemReport(
@@ -464,7 +475,9 @@ class Setup {
 
     try {
       final response = await http.get(Connection.url('opportunities'));
-
+      if(response.body=='placeholder') {
+        return;
+      }
       final Map<String, dynamic> volunteerdata = json.decode(response.body);
       for (final item in volunteerdata.entries) {
         print(item.value['op_name']);
@@ -523,7 +536,9 @@ class Setup {
       // final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
       //     'studentClubsDB.json');
       final response = await http.get(Connection.url('studentClubsDB'));
-
+      if(response.body=='placeholder') {
+        return;
+      }
       final Map<String, dynamic> clubdata = json.decode(response.body);
       for (final item in clubdata.entries) {
         print(item.value['club_name']);
