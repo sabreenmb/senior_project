@@ -12,6 +12,7 @@ import 'package:senior_project/model/create_student_activity_report.dart';
 import '../constant.dart';
 //import '../model/found_item_report.dart';
 import '../theme.dart';
+import '../widgets/networkWedget.dart';
 
 class CreateStudentActivity extends StatefulWidget {
   const CreateStudentActivity({super.key});
@@ -388,6 +389,15 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                   } else if (!RegExp(r'^\d+$')
                                       .hasMatch(value)) {
                                     return 'الرجاء إدخال أرقام فقط';
+                                  } else {
+                                    final int? number = int.tryParse(value);
+                                    if (number == null) {
+                                      return 'الرجاء إدخال رقم صحيح';
+                                    } else if (number <= 2) {
+                                      return 'الرجاء إدخال رقم أكبر من 2';
+                                    } else if (number >= 100) {
+                                      return 'الرجاء إدخال رقم أقل من 100';
+                                    }
                                   }
                                   return null;
                                 },
@@ -401,9 +411,11 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 90),
                                 child: ElevatedButton(
-                                  onPressed: _checkInputValue,
-                                  style: ElevatedButton.styleFrom(
-                                      fixedSize: const Size(175, 50),
+                                  onPressed: (){if(isOffline){showNetWidgetDialog(context);}else{
+                                    _checkInputValue();}},
+                              style: ElevatedButton.styleFrom(
+                              fixedSize:
+                              const Size(175, 50),
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),

@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,12 +28,43 @@ class PsychGuidanceDetails extends StatefulWidget {
 
 class _PsychGuidanceState extends State<PsychGuidanceDetails>
     with SingleTickerProviderStateMixin {
+  late StreamSubscription connSub;
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
+        }
+        break;
+      case ConnectivityResult.none:
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    //  _LoadPsychGuidance();
-  }
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
 
+    Future.delayed(const Duration(seconds: 1), () {
+
+    });
+
+  }
+  @override
+  void dispose() {
+    connSub.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     print('build enter');
@@ -67,10 +100,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
             },
           ),
         ),
-        // endDrawer: SideDrawer(
-        //   onProfileTap: () => goToProfilePage(context),
-        // ),
-        // bottomNavigationBar: buildBottomBar(context, 1, true),
+
         body: ModalProgressHUD(
           color: Colors.black,
           opacity: 0.5,
@@ -78,10 +108,18 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
           inAsyncCall: isLoading,
           child: SafeArea(
             bottom: false,
-            child: Stack(
+            child:(isOffline&&pg==null)?Center(
+              child: SizedBox(
+                // padding: EdgeInsets.only(bottom: 20),
+                // alignment: Alignment.topCenter,
+                height: 200,
+                child: Image.asset('assets/images/logo-icon.png'),
+              ),
+            ):
+            Stack(
               children: [
                 Container(
-                  margin: EdgeInsets.only(bottom: 250),
+                  margin: EdgeInsets.only(left:5,right:5,bottom: 250),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -120,26 +158,6 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                         ],
                       ),
                       SizedBox(height: 30),
-
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     const Icon(
-                      //       Icons.work_outline,
-                      //       color: CustomColors.lightGrey,
-                      //       size: 18.0,
-                      //     ),
-                      //     const SizedBox(
-                      //       width: 5,
-                      //     ),
-                      //     Text(
-                      //       pg.ProOfficeNumber!,
-                      //
-                      //       style: TextStyles.heading1D,
-                      //       textAlign: TextAlign.center,
-                      //     ),
-                      //   ],
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

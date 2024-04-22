@@ -1,6 +1,9 @@
 // ignore_for_file: unused_field
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -29,6 +32,27 @@ class _CurrentChatsState extends State<CurrentChats>
   bool isSearch = false;
   bool isNew = false;
   late AnimationController _animationController;
+  late StreamSubscription connSub;
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
+        }
+        break;
+      case ConnectivityResult.none:
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   //manar from here
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -36,12 +60,16 @@ class _CurrentChatsState extends State<CurrentChats>
   @override
   void dispose() {
     _animationController.dispose();
+    connSub.cancel();
+
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
+
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -116,7 +144,14 @@ class _CurrentChatsState extends State<CurrentChats>
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
-                    ),
+                    ), (isOffline)?Center(
+                      child: SizedBox(
+                        // padding: EdgeInsets.only(bottom: 20),
+                        // alignment: Alignment.topCenter,
+                        height: 200,
+                        child: Image.asset('assets/images/logo-icon.png'),
+                      ),
+                    ):
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: _buildUsersList(),
