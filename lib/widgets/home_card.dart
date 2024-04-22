@@ -55,7 +55,7 @@ class _HomeCardState extends State<HomeCard> {
           ),
           margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,66 +94,63 @@ class _HomeCardState extends State<HomeCard> {
                   ),
                 ),
                 const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.location_on_outlined,
-                            color: CustomColors.lightGrey,
-                            size: 14.0,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            widget.dynamicObject.location!,
-                            textAlign: TextAlign.center,
-                            style: TextStyles.text,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 2),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.date_range_outlined,
-                            color: CustomColors.lightGrey,
-                            size: 14.0,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            '${widget.dynamicObject.date!}',
-                            textAlign: TextAlign.center,
-                            style: TextStyles.text,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 2),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.timer_sharp,
-                            color: CustomColors.lightGrey,
-                            size: 14.0,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            '${widget.dynamicObject.time!}',
-                            textAlign: TextAlign.center,
-                            style: TextStyles.text,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          widget.dynamicObject.location!,
+                          textAlign: TextAlign.center,
+                          style: TextStyles.text,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.date_range_outlined,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          '${widget.dynamicObject.date!}',
+                          textAlign: TextAlign.center,
+                          style: TextStyles.text,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.timer_sharp,
+                          color: CustomColors.lightGrey,
+                          size: 14.0,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          '${widget.dynamicObject.time!}',
+                          textAlign: TextAlign.center,
+                          style: TextStyles.text,
+                        ),
+                      ],
+                    ),
+                  ],
                 )
               ],
             ),

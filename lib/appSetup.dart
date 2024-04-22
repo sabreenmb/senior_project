@@ -201,6 +201,8 @@ class Setup {
         print(allUsers[i].name);
         // allUsers[i] = otherUserInfo;
       }
+      allUsers.removeWhere((element) => element.userID == userInfo.userID);
+
       // Process the documents here
     } catch (e) {
       print('Error loading documents: $e');

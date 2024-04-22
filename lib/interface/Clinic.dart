@@ -190,73 +190,71 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                               ),
                             ),
                           ),
-                          if (clinicReport.isNotEmpty)
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: MediaQuery.removePadding(
-                                  context: context,
-                                  removeTop: true,
-                                  child: ListView.builder(
-                                    itemCount: filteredClinicList.isEmpty
-                                        ? 1
-                                        : filteredClinicList.length,
-                                    itemBuilder: (context, index) {
-                                      if (filteredClinicList.isEmpty) {
-                                        String imagePath = searchPerformedAndEmpty
-                                            ? 'assets/images/searching-removebg-preview.png'
-                                            : 'assets/images/no_content_removebg_preview.png';
-                                        return Center(
-                                          child: SizedBox(
-                                            height: 200,
-                                            child: Image.asset(imagePath),
-                                          ),
-                                        );
-                                      } else {
-                                        ClinicReport report =
-                                            filteredClinicList[index];
-                                        String date = DateFormat('yyyy-MM-dd')
-                                            .format(DateFormat('yyyy-MM-dd')
-                                                .parse(report.clDate!));
-                                        bool showDateHeader = index == 0 ||
-                                            DateFormat('yyyy-MM-dd').format(
-                                                    DateFormat('yyyy-MM-dd')
-                                                        .parse(
-                                                            filteredClinicList[
-                                                                    index - 1]
-                                                                .clDate!)) !=
-                                                date;
-                                        return Column(
-                                          children: [
-                                            if (showDateHeader)
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.all(6),
-                                                color:
-                                                    TextStyles.heading3B.color,
-                                                width: double.infinity,
-                                                child: Text(
-                                                  date,
-                                                  style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        CustomColors.darkGrey,
-                                                  ),
-                                                  textAlign: TextAlign.center,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: MediaQuery.removePadding(
+                                context: context,
+                                removeTop: true,
+                                child: ListView.builder(
+                                  itemCount: filteredClinicList.isEmpty
+                                      ? 1
+                                      : filteredClinicList.length,
+                                  itemBuilder: (context, index) {
+                                    if (filteredClinicList.isEmpty) {
+                                      String imagePath = searchPerformedAndEmpty
+                                          ? 'assets/images/searching-removebg-preview.png'
+                                          : 'assets/images/no_content_removebg_preview.png';
+                                      return Center(
+                                        child: Container(
+                                          height:
+                                              MediaQuery.of(context).size.width,
+                                          alignment: Alignment.center,
+                                          child: Image.asset(imagePath,
+                                              height: 200),
+                                        ),
+                                      );
+                                    } else {
+                                      ClinicReport report =
+                                          filteredClinicList[index];
+                                      String date = DateFormat('yyyy-MM-dd')
+                                          .format(DateFormat('yyyy-MM-dd')
+                                              .parse(report.clDate!));
+                                      bool showDateHeader = index == 0 ||
+                                          DateFormat('yyyy-MM-dd').format(
+                                                  DateFormat('yyyy-MM-dd')
+                                                      .parse(filteredClinicList[
+                                                              index - 1]
+                                                          .clDate!)) !=
+                                              date;
+                                      return Column(
+                                        children: [
+                                          if (showDateHeader)
+                                            Container(
+                                              padding: const EdgeInsets.all(6),
+                                              color: TextStyles.heading3B.color,
+                                              width: double.infinity,
+                                              child: Text(
+                                                date,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: CustomColors.darkGrey,
                                                 ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                            ClinicCard(report),
-                                            if (index <
-                                                filteredClinicList.length - 1)
-                                              const SizedBox(height: 3),
-                                          ],
-                                        );
-                                      }
-                                    },
-                                  ),
+                                            ),
+                                          ClinicCard(report),
+                                          if (index <
+                                              filteredClinicList.length - 1)
+                                            const SizedBox(height: 3),
+                                        ],
+                                      );
+                                    }
+                                  },
                                 ),
                               ),
                             ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
@@ -264,9 +262,8 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                               onPressed: () async {
                                 final Uri url =
                                     Uri.parse('http://bit.ly/34oXjTO');
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url);
-                                } else {
+                                if (!await launchUrl(url,
+                                    mode: LaunchMode.externalApplication)) {
                                   throw 'Could not launch $url';
                                 }
                               },
