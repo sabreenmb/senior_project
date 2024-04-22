@@ -57,13 +57,15 @@ enteredUserInfo userInfo = enteredUserInfo();
 PsychGuidanceReport pg = PsychGuidanceReport();
 //todo change the list info
 List<String> SubjectsCode = [
-  'ESPE-201',
-  'CCCY-225',
-  'SCBZ-447',
-  'CCSW-438',
-  'CMCR-212',
-  'CCCS-214',
-  'CCCN-212',
+  'ESPE 201 - مقدمة تربية خاصة ',
+  'ELPR 101 - لغة انجليزية ',
+  'SSSH 100 - مفاهيم اللياقة البدنية والصحة',
+  'BACA 211 - محاسبة مالية',
+  'BCHR 101 - البيئة القانونية للأعمال',
+  'ISLM 201 - عبادات ومعاملات',
+  'SCMT 221 - جبر خطي',
+  'CCCY 225 -  أمن برمجيات',
+  'CCSW 438 - مواضيع متقدمة في هندسة برمجيات',
   'اخرى'
 ];
 Widget loadingCards(BuildContext context) {
