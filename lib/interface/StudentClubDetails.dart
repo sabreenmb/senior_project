@@ -73,7 +73,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                       ),
                       margin: const EdgeInsets.only(top: 200),
                       child: Padding(
-                        padding: const EdgeInsets.all(50.0),
+                        padding: const EdgeInsets.symmetric(vertical: 50.0,horizontal: 25),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
@@ -91,11 +91,16 @@ class _ClubDetailsState extends State<ClubDetails> {
                             const SizedBox(
                               height: 15,
                             ),
-                            Text(
-                              clubDetails.details!,
-                              textAlign: TextAlign.center,
-                              maxLines: 5,
-                              style: TextStyles.heading1B,
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  clubDetails.details!,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 8,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyles.heading3B,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               height: 15,
@@ -264,7 +269,7 @@ class _ClubDetailsState extends State<ClubDetails> {
     double width = MediaQuery.of(context).size.width / 20;
     print(width);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 35, vertical: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -278,7 +283,7 @@ class _ClubDetailsState extends State<ClubDetails> {
           Expanded(
             child: Text(
               value,
-              maxLines: 5,
+              maxLines: 2,
               style: TextStyles.text,
               textAlign: TextAlign.right,
             ),
