@@ -134,8 +134,8 @@ class _EventState extends State<EventScreen> {
                                 // padding: EdgeInsets.only(bottom: 20),
                                 // alignment: Alignment.topCenter,
                                 height: 200,
-                                child:
-                                    Image.asset('assets/images/logo-icon.png'),
+                                child: Image.asset(
+                                    'assets/images/NoInternet_newo.png'),
                               ),
                             )
                           : Column(children: [
@@ -465,11 +465,15 @@ class _EventState extends State<EventScreen> {
                 padding: const EdgeInsets.only(bottom: 10),
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  return Container(
-                    width: 200,
-                    height: 100,
-                    child: Text('gfdggggggg'),
-                  );
+                  return WorkshopCard(WorkshopsItemReport(
+                      time: '',
+                      timestamp: '',
+                      location: '',
+                      name: ' ',
+                      presentBy: ' ',
+                      date: '',
+                      id: '',
+                      workshopLink: ' '));
                 },
               ),
             );

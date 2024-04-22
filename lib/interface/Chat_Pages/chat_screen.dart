@@ -198,7 +198,7 @@ class _RealChatPageState extends State<RealChatPage>
                                       // alignment: Alignment.topCenter,
                                       height: 200,
                                       child: Image.asset(
-                                          'assets/images/logo-icon.png'),
+                                          'assets/images/NoInternet_newo.png'),
                                     ),
                                   )
                                 : _buildMessageList(),

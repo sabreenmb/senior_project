@@ -150,12 +150,12 @@ class _CurrentChatsState extends State<CurrentChats>
                     (isOffline)
                         ? Center(
                             child: SizedBox(
-                              // padding: EdgeInsets.only(bottom: 20),
-                              // alignment: Alignment.topCenter,
-                              height: 200,
-                              child: Image.asset('assets/images/logo-icon.png'),
-                            ),
-                          )
+                            // padding: EdgeInsets.only(bottom: 20),
+                            // alignment: Alignment.topCenter,
+                            height: 200,
+                            child: Image.asset(
+                                'assets/images/NoInternet_newo.png'),
+                          ))
                         : Container(
                             padding: const EdgeInsets.all(10),
                             child: _buildUsersList(),

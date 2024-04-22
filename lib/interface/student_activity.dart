@@ -38,17 +38,18 @@ class _StudentActivityState extends State<StudentActivity>
   void checkConnectivity(List<ConnectivityResult> result) {
     switch (result[0]) {
       case ConnectivityResult.mobile || ConnectivityResult.wifi:
-        if(isOffline!=false){
-        setState(() {
-          isOffline = false;
-        });
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
         }
         break;
       case ConnectivityResult.none:
-        if(isOffline!=true){
-        setState(() {
-          isOffline = true;
-        });}
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
         break;
       default:
         break;
@@ -147,7 +148,8 @@ class _StudentActivityState extends State<StudentActivity>
                               // padding: EdgeInsets.only(bottom: 20),
                               // alignment: Alignment.topCenter,
                               height: 200,
-                              child: Image.asset('assets/images/logo-icon.png'),
+                              child: Image.asset(
+                                  'assets/images/NoInternet_newo.png'),
                             ),
                           )
                         : Column(
