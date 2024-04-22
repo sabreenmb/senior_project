@@ -13,6 +13,7 @@ import 'package:senior_project/model/create_group_report.dart';
 import '../constant.dart';
 //import '../model/found_item_report.dart';
 import '../theme.dart';
+import '../widgets/networkWedget.dart';
 
 class CreateGroup extends StatefulWidget {
   const CreateGroup({super.key});
@@ -440,7 +441,8 @@ class _CreateGroupState extends State<CreateGroup> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 90),
                                 child: ElevatedButton(
-                                  onPressed: _checkInputValue,
+                                  onPressed:(){if(isOffline){showNetWidgetDialog(context);}else{
+                                    _checkInputValue();}},
                                   style: ElevatedButton.styleFrom(
                                       fixedSize: const Size(175, 50),
                                       elevation: 0,

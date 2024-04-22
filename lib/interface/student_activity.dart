@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/constant.dart';
 import 'package:senior_project/interface/create_student_activity.dart';
@@ -10,6 +13,7 @@ import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../firebaseConnection.dart';
+import '../widgets/networkWedget.dart';
 
 class StudentActivity extends StatefulWidget {
   const StudentActivity({super.key});
@@ -20,6 +24,7 @@ class StudentActivity extends StatefulWidget {
 
 class _StudentActivityState extends State<StudentActivity>
     with SingleTickerProviderStateMixin {
+  late StreamSubscription connSub;
   //search
   List<CreateStudentActivityReport> searchActivityList = [];
 
@@ -30,10 +35,24 @@ class _StudentActivityState extends State<StudentActivity>
   //create button
   late AnimationController _animationController;
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if(isOffline!=false){
+        setState(() {
+          isOffline = false;
+        });
+        }
+        break;
+      case ConnectivityResult.none:
+        if(isOffline!=true){
+        setState(() {
+          isOffline = true;
+        });}
+        break;
+      default:
+        break;
+    }
   }
 
   @override
@@ -43,6 +62,14 @@ class _StudentActivityState extends State<StudentActivity>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    connSub.cancel();
+    super.dispose();
   }
 
   @override
@@ -89,8 +116,12 @@ class _StudentActivityState extends State<StudentActivity>
             tooltip: '',
             elevation: 4,
             onPressed: () async {
-              await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => const CreateStudentActivity()));
+              if (isOffline) {
+                showNetWidgetDialog(context);
+              } else {
+                await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => const CreateStudentActivity()));
+              }
               //_LoadCreatedActivities();
             },
             child: const Icon(Icons.add),
@@ -110,120 +141,135 @@ class _StudentActivityState extends State<StudentActivity>
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: TextField(
-                            autofocus: false,
-                            controller: _userInputController,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.search,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                              color: CustomColors.darkGrey,
+                    isOffline
+                        ? Center(
+                            child: SizedBox(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset('assets/images/logo-icon.png'),
                             ),
-                            decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                color: CustomColors.darkGrey,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
-                              ),
-                              prefixIcon: IconButton(
-                                  icon: const Icon(
-                                    Icons.search,
+                          )
+                        : Column(
+                            children: [
+                              Container(
+                                height: 60,
+                                padding: const EdgeInsets.only(
+                                    top: 15, left: 15, right: 15),
+                                child: TextField(
+                                  autofocus: false,
+                                  controller: _userInputController,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.search,
+                                  textAlignVertical: TextAlignVertical.bottom,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
                                     color: CustomColors.darkGrey,
                                   ),
-                                  onPressed: () {
+                                  decoration: InputDecoration(
+                                    hintStyle: const TextStyle(
+                                      color: CustomColors.darkGrey,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                      borderSide: const BorderSide(
+                                          color: CustomColors.darkGrey,
+                                          width: 1),
+                                    ),
+                                    prefixIcon: IconButton(
+                                        icon: const Icon(
+                                          Icons.search,
+                                          color: CustomColors.darkGrey,
+                                        ),
+                                        onPressed: () {
+                                          searchActivityList.clear();
+                                          filterSearchResults(
+                                              _userInputController.text,
+                                              createStudentActivityReport);
+                                          FocusScope.of(context).unfocus();
+                                        }),
+                                    hintText: 'ابحث',
+                                    suffixIcon: _userInputController
+                                            .text.isNotEmpty
+                                        ? IconButton(
+                                            onPressed: () {
+                                              _userInputController.clear();
+                                              FocusScope.of(context).unfocus();
+
+                                              setState(() {
+                                                isSearch = false;
+                                              });
+                                            },
+                                            icon: const Icon(Icons.clear,
+                                                color: CustomColors.darkGrey))
+                                        : null,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          color: CustomColors.darkGrey,
+                                          width: 1),
+                                    ),
+                                  ),
+                                  onChanged: (text) {
+                                    setState(() {});
+                                  },
+                                  onSubmitted: (text) {
+                                    //todo the same value of on icon presed
                                     searchActivityList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
                                         createStudentActivityReport);
                                     FocusScope.of(context).unfocus();
-                                  }),
-                              hintText: 'ابحث',
-                              suffixIcon: _userInputController.text.isNotEmpty
-                                  ? IconButton(
-                                      onPressed: () {
-                                        _userInputController.clear();
-                                        FocusScope.of(context).unfocus();
-
-                                        setState(() {
-                                          isSearch = false;
-                                        });
-                                      },
-                                      icon: const Icon(Icons.clear,
-                                          color: CustomColors.darkGrey))
-                                  : null,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
-                              ),
-                            ),
-                            onChanged: (text) {
-                              setState(() {});
-                            },
-                            onSubmitted: (text) {
-                              //todo the same value of on icon presed
-                              searchActivityList.clear();
-                              filterSearchResults(_userInputController.text,
-                                  createStudentActivityReport);
-                              FocusScope.of(context).unfocus();
-                            },
-                            onTap: () {
-                              isSearch = true;
-                              searchActivityList.clear();
-                              // searchActivityList.clear();
-                            },
-                          ),
-                        ),
-                        if ((isSearch
-                            ? searchActivityList.isEmpty
-                            : createStudentActivityReport.isEmpty))
-                          Expanded(
-                            child: Center(
-                              child: SizedBox(
-                                // padding: EdgeInsets.only(bottom: 20),
-                                // alignment: Alignment.topCenter,
-                                height: 200,
-                                child: Image.asset(isSearch
-                                    ? 'assets/images/searching-removebg-preview.png'
-                                    : 'assets/images/no_content_removebg_preview.png'),
-                              ),
-                            ),
-                          ),
-                        if (createStudentActivityReport.isNotEmpty)
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MediaQuery.removePadding(
-                                context: context,
-                                removeTop: true,
-                                child: isSearch
-                                    ? ListView.builder(
-                                        itemCount: searchActivityList.length,
-                                        itemBuilder: (context, index) =>
-                                            CreateStudentActivityCard(
-                                                searchActivityList[index]))
-                                    : _buildCardList()
-                                // ListView.builder(
-                                //     itemCount: createStudentActivityReport.length,
-                                //
-                                //     itemBuilder: (context, index) =>
-                                //             CreateStudentActivityCard(
-                                //                 _createStudentActivityReport[
-                                //                     index])),
+                                  },
+                                  onTap: () {
+                                    isSearch = true;
+                                    searchActivityList.clear();
+                                    // searchActivityList.clear();
+                                  },
                                 ),
-                          )),
-                      ],
-                    ),
+                              ),
+                              if ((isSearch
+                                  ? searchActivityList.isEmpty
+                                  : createStudentActivityReport.isEmpty))
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      // padding: EdgeInsets.only(bottom: 20),
+                                      // alignment: Alignment.topCenter,
+                                      height: 200,
+                                      child: Image.asset(isSearch
+                                          ? 'assets/images/searching-removebg-preview.png'
+                                          : 'assets/images/no_content_removebg_preview.png'),
+                                    ),
+                                  ),
+                                ),
+                              if (createStudentActivityReport.isNotEmpty)
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MediaQuery.removePadding(
+                                      context: context,
+                                      removeTop: true,
+                                      child: isSearch
+                                          ? ListView.builder(
+                                              itemCount:
+                                                  searchActivityList.length,
+                                              itemBuilder: (context, index) =>
+                                                  CreateStudentActivityCard(
+                                                      searchActivityList[
+                                                          index]))
+                                          : _buildCardList()
+                                      // ListView.builder(
+                                      //     itemCount: createStudentActivityReport.length,
+                                      //
+                                      //     itemBuilder: (context, index) =>
+                                      //             CreateStudentActivityCard(
+                                      //                 _createStudentActivityReport[
+                                      //                     index])),
+                                      ),
+                                )),
+                            ],
+                          ),
                   ],
                 ))
               ],

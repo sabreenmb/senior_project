@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
@@ -11,6 +14,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../firebaseConnection.dart';
 import '../widgets/commonWidgets.dart';
+import '../widgets/networkWedget.dart';
 
 class StudyGroup extends StatefulWidget {
   const StudyGroup({super.key});
@@ -21,6 +25,8 @@ class StudyGroup extends StatefulWidget {
 
 class _StudyGroupState extends State<StudyGroup>
     with SingleTickerProviderStateMixin {
+  late StreamSubscription connSub;
+
   //search
   List<CreateGroupReport> searchSessionList = [];
   final _userInputController = TextEditingController();
@@ -30,11 +36,25 @@ class _StudyGroupState extends State<StudyGroup>
 
   //create button
   late AnimationController _animationController;
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
+        }
+        break;
+      case ConnectivityResult.none:
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   @override
@@ -44,6 +64,14 @@ class _StudyGroupState extends State<StudyGroup>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    connSub.cancel();
+    super.dispose();
   }
 
   @override
@@ -88,9 +116,14 @@ class _StudyGroupState extends State<StudyGroup>
           tooltip: '',
           elevation: 4,
           onPressed: () async {
-            await Navigator.of(context)
-                .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
-          },
+
+            if (isOffline) {
+              showNetWidgetDialog(context);
+            } else {
+              await Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
+            }
+            },
           child: const Icon(Icons.add),
         ),
         body: ModalProgressHUD(
@@ -113,111 +146,125 @@ class _StudyGroupState extends State<StudyGroup>
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: TextField(
-                            autofocus: false,
-                            controller: _userInputController,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.search,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                              color: CustomColors.darkGrey,
+                    isOffline
+                        ? Center(
+                            child: SizedBox(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset('assets/images/logo-icon.png'),
                             ),
-                            decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                color: CustomColors.darkGrey,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
-                              ),
-                              prefixIcon: IconButton(
-                                  icon: const Icon(
-                                    Icons.search,
+                          )
+                        : Column(
+                            children: [
+                              Container(
+                                height: 60,
+                                padding: const EdgeInsets.only(
+                                    top: 15, left: 15, right: 15),
+                                child: TextField(
+                                  autofocus: false,
+                                  controller: _userInputController,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.search,
+                                  textAlignVertical: TextAlignVertical.bottom,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
                                     color: CustomColors.darkGrey,
                                   ),
-                                  onPressed: () {
+                                  decoration: InputDecoration(
+                                    hintStyle: const TextStyle(
+                                      color: CustomColors.darkGrey,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                      borderSide: const BorderSide(
+                                          color: CustomColors.darkGrey,
+                                          width: 1),
+                                    ),
+                                    prefixIcon: IconButton(
+                                        icon: const Icon(
+                                          Icons.search,
+                                          color: CustomColors.darkGrey,
+                                        ),
+                                        onPressed: () {
+                                          searchSessionList.clear();
+                                          filterSearchResults(
+                                              _userInputController.text,
+                                              createGroupReport);
+                                          FocusScope.of(context).unfocus();
+                                        }),
+                                    hintText: 'ابحث',
+                                    suffixIcon: _userInputController
+                                            .text.isNotEmpty
+                                        ? IconButton(
+                                            onPressed: () {
+                                              _userInputController.clear();
+                                              FocusScope.of(context).unfocus();
+
+                                              setState(() {
+                                                isSearch = false;
+                                              });
+                                            },
+                                            icon: const Icon(Icons.clear,
+                                                color: CustomColors.darkGrey))
+                                        : null,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          color: CustomColors.darkGrey,
+                                          width: 1),
+                                    ),
+                                  ),
+                                  onChanged: (text) {
+                                    setState(() {});
+                                  },
+                                  onSubmitted: (text) {
+                                    //todo the same value of on icon presed
                                     searchSessionList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
                                         createGroupReport);
                                     FocusScope.of(context).unfocus();
-                                  }),
-                              hintText: 'ابحث',
-                              suffixIcon: _userInputController.text.isNotEmpty
-                                  ? IconButton(
-                                      onPressed: () {
-                                        _userInputController.clear();
-                                        FocusScope.of(context).unfocus();
-
-                                        setState(() {
-                                          isSearch = false;
-                                        });
-                                      },
-                                      icon: const Icon(Icons.clear,
-                                          color: CustomColors.darkGrey))
-                                  : null,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                    color: CustomColors.darkGrey, width: 1),
+                                  },
+                                  onTap: () {
+                                    isSearch = true;
+                                    searchSessionList.clear();
+                                  },
+                                ),
                               ),
-                            ),
-                            onChanged: (text) {
-                              setState(() {});
-                            },
-                            onSubmitted: (text) {
-                              //todo the same value of on icon presed
-                              searchSessionList.clear();
-                              filterSearchResults(
-                                  _userInputController.text, createGroupReport);
-                              FocusScope.of(context).unfocus();
-                            },
-                            onTap: () {
-                              isSearch = true;
-                              searchSessionList.clear();
-                            },
+                              if ((isSearch
+                                  ? searchSessionList.isEmpty
+                                  : createGroupReport.isEmpty))
+                                Expanded(
+                                  child: Center(
+                                    child: SizedBox(
+                                      // padding: EdgeInsets.only(bottom: 20),
+                                      // alignment: Alignment.topCenter,
+                                      height: 200,
+                                      child: Image.asset(isSearch
+                                          ? 'assets/images/searching-removebg-preview.png'
+                                          : 'assets/images/no_content_removebg_preview.png'),
+                                    ),
+                                  ),
+                                ),
+                              if (createGroupReport.isNotEmpty)
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MediaQuery.removePadding(
+                                      context: context,
+                                      removeTop: true,
+                                      child: isSearch
+                                          ? ListView.builder(
+                                              itemCount:
+                                                  searchSessionList.length,
+                                              itemBuilder: (context, index) =>
+                                                  CreateCard(
+                                                      searchSessionList[index]))
+                                          : _buildCardList()),
+                                )),
+                            ],
                           ),
-                        ),
-                        if ((isSearch
-                            ? searchSessionList.isEmpty
-                            : createGroupReport.isEmpty))
-                          Expanded(
-                            child: Center(
-                              child: SizedBox(
-                                // padding: EdgeInsets.only(bottom: 20),
-                                // alignment: Alignment.topCenter,
-                                height: 200,
-                                child: Image.asset(isSearch
-                                    ? 'assets/images/searching-removebg-preview.png'
-                                    : 'assets/images/no_content_removebg_preview.png'),
-                              ),
-                            ),
-                          ),
-                        if (createGroupReport.isNotEmpty)
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MediaQuery.removePadding(
-                                context: context,
-                                removeTop: true,
-                                child: isSearch
-                                    ? ListView.builder(
-                                        itemCount: searchSessionList.length,
-                                        itemBuilder: (context, index) =>
-                                            CreateCard(
-                                                searchSessionList[index]))
-                                    : _buildCardList()),
-                          )),
-                      ],
-                    ),
                   ],
                 ))
               ],
