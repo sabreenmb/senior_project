@@ -275,24 +275,43 @@ class _ProfilePageState extends State<ProfilePage> {
                                                           BorderRadius.circular(
                                                               100),
                                                       child: CachedNetworkImage(
-                                                        width: 140,
-                                                        height: 140,
-                                                        fit: BoxFit.cover,
-                                                        imageUrl:
-                                                            userInfo.image_url,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            CircleAvatar(
-                                                          child:
-                                                              SvgPicture.asset(
-                                                            'assets/icons/UserProfile.svg',
-                                                            height: 100,
-                                                            width: 100,
-                                                            color: CustomColors
-                                                                .darkGrey,
-                                                          ),
-                                                        ),
-                                                      ),
+                                                          width: 140,
+                                                          height: 140,
+                                                          fit: BoxFit.cover,
+                                                          imageUrl: userInfo
+                                                              .image_url,
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        20),
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topCenter,
+                                                                height: 140,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: CustomColors
+                                                                        .darkGrey,
+                                                                    width: 3,
+                                                                  ),
+                                                                ),
+                                                                child:
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  'assets/icons/UserProfile.svg',
+                                                                  height: 100,
+                                                                  width: 100,
+                                                                  color: CustomColors
+                                                                      .darkGrey,
+                                                                ),
+                                                              )),
                                                     ),
                                               Positioned(
                                                 right: -9,
@@ -461,21 +480,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                               horizontal: 90),
                                           child: ElevatedButton(
                                             onPressed: () async {
-
                                               await network();
-                                              if(isOffline){
-                                                ScaffoldMessenger.of(context).showSnackBar(
+                                              if (isOffline) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
                                                   SnackBar(
-                                                    content: const Text('لم يتم تحديث البيانات لتعذر الاتصال بالانترنت'),
-                                                    duration: const Duration(seconds: 1),
-                                                    backgroundColor: CustomColors.darkGrey,
-                                                    behavior: SnackBarBehavior.floating,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(20),
+                                                    content: const Text(
+                                                        'لم يتم تحديث البيانات لتعذر الاتصال بالانترنت'),
+                                                    duration: const Duration(
+                                                        seconds: 1),
+                                                    backgroundColor:
+                                                        CustomColors.darkGrey,
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
                                                     ),
                                                   ),
                                                 );
-                                              }else{
+                                              } else {
                                                 _submit();
                                               }
                                             },

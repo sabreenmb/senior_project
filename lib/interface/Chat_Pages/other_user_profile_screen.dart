@@ -114,19 +114,38 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
         : ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: CachedNetworkImage(
-              width: 140,
-              height: 140,
-              fit: BoxFit.cover,
-              imageUrl: widget.otherUserInfo.image_url,
-              errorWidget: (context, url, error) => CircleAvatar(
-                child: SvgPicture.asset(
-                  'assets/icons/UserProfile.svg',
-                  height: 100,
-                  width: 100,
-                  color: CustomColors.darkGrey,
+                width: 140,
+                height: 140,
+                fit: BoxFit.cover,
+                imageUrl: widget.otherUserInfo.image_url,
+                errorWidget: (context, url, error) => Container(
+                      padding: const EdgeInsets.all(20),
+                      alignment: Alignment.topCenter,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: CustomColors.darkGrey,
+                          width: 3,
+                        ),
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/icons/UserProfile.svg',
+                        height: 100,
+                        width: 100,
+                        color: CustomColors.darkGrey,
+                      ),
+                    )
+
+                //  CircleAvatar(
+                //   child: SvgPicture.asset(
+                //     'assets/icons/UserProfile.svg',
+                //     height: 100,
+                //     width: 100,
+                //     color: CustomColors.darkGrey,
+                //   ),
+                // ),
                 ),
-              ),
-            ),
           );
   }
 
@@ -351,7 +370,6 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),

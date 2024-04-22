@@ -92,17 +92,28 @@ class _RealChatPageState extends State<RealChatPage>
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: CachedNetworkImage(
-                          width: 38,
-                          height: 38,
-                          fit: BoxFit.cover,
-                          imageUrl: widget.otherUserInfo.image_url,
-                          errorWidget: (context, url, error) => CircleAvatar(
-                            child: SvgPicture.asset(
-                              'assets/icons/UserProfile.svg',
-                              color: CustomColors.darkGrey,
-                            ),
-                          ),
-                        ),
+                            width: 38,
+                            height: 38,
+                            fit: BoxFit.cover,
+                            imageUrl: widget.otherUserInfo.image_url,
+                            errorWidget: (context, url, error) => Container(
+                                  padding: const EdgeInsets.all(20),
+                                  alignment: Alignment.topCenter,
+                                  height: 140,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: CustomColors.darkGrey,
+                                      width: 3,
+                                    ),
+                                  ),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/UserProfile.svg',
+                                    height: 100,
+                                    width: 100,
+                                    color: CustomColors.darkGrey,
+                                  ),
+                                )),
                       ),
               ),
               const SizedBox(width: 12),
