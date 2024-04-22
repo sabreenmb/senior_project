@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/OffersListScreen.dart';
@@ -19,6 +22,41 @@ class OfferCategoryScreen extends StatefulWidget {
 class _OfferCategoryState extends State<OfferCategoryScreen> {
   List<dynamic> _offerInfo = [];
 
+  late StreamSubscription connSub;
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
+        }
+        break;
+      case ConnectivityResult.none:
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
+
+
+  }
+
+  @override
+  void dispose() {
+    connSub.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> details = widget.details;
@@ -70,7 +108,16 @@ class _OfferCategoryState extends State<OfferCategoryScreen> {
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
                     ),
-                    Column(
+                    isOffline
+                        ? Center(
+                      child: SizedBox(
+                        // padding: EdgeInsets.only(bottom: 20),
+                        // alignment: Alignment.topCenter,
+                        height: 200,
+                        child: Image.asset('assets/images/logo-icon.png'),
+                      ),
+                    )
+                        : Column(
                       children: [
                         if (_offerInfo.isEmpty)
                           Expanded(

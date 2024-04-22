@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
@@ -18,10 +21,33 @@ class StudentClubsScreen extends StatefulWidget {
 class _StudentClubsState extends State<StudentClubsScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  late StreamSubscription connSub;
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
+        }
+        break;
+      case ConnectivityResult.none:
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
+
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -30,6 +56,8 @@ class _StudentClubsState extends State<StudentClubsScreen>
 
   @override
   void dispose() {
+    connSub.cancel();
+
     _animationController.dispose();
     super.dispose();
   }
@@ -97,11 +125,20 @@ class _StudentClubsState extends State<StudentClubsScreen>
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40))),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 15.0),
-                    child: _buildSClubsList(),
-                  ),
+                  isOffline && SClubs.isEmpty
+                      ? Center(
+                          child: SizedBox(
+                            // padding: EdgeInsets.only(bottom: 20),
+                            // alignment: Alignment.topCenter,
+                            height: 200,
+                            child: Image.asset('assets/images/logo-icon.png'),
+                          ),
+                        )
+                      : Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 15.0),
+                          child: _buildSClubsList(),
+                        ),
                 ],
               ))
             ],
