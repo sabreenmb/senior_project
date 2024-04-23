@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../model/dynamic_item_model.dart';
 import 'constant.dart';
 import '../interface/Chat_Pages/current_chats.dart';
@@ -347,3 +348,19 @@ void showNetWidgetDialog(BuildContext context) {
         );
       });
 }
+Future<void> launchURL(String? urlString, BuildContext context) async {
+  if (urlString == null || urlString.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('The URL is not available.')),
+    );
+    return;
+  }
+  final Uri url = Uri.parse(urlString);
+
+  if (!await launchUrl(url)) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Could not launch $urlString')),
+    );
+  }
+}
+

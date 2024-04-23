@@ -83,10 +83,7 @@ class SideDrawer extends StatelessWidget {
                     ),
                     Text(
                       userInfo.name,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.darkGrey),
+                      style: TextStyles.menuTitle ,
                     ),
                   ],
                 ),
@@ -140,24 +137,24 @@ class SideDrawer extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           elevation: 0,
-                          backgroundColor: Colors.transparent,
+                          backgroundColor: CustomColors.noColor,
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.85,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
+                              color: CustomColors.white,
                               image: DecorationImage(
                                 image:
-                                    AssetImage('assets/images/logo/Logo.png'),
+                                    const AssetImage('assets/images/logo/Logo.png'),
                                 fit: BoxFit.scaleDown,
                                 colorFilter: ColorFilter.mode(
-                                  Colors.white.withOpacity(0.1),
+                                  CustomColors.white.withOpacity(0.1),
                                   BlendMode.dstATop,
                                 ),
                               ),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
-                                  color: Colors.black26,
+                                  color: CustomColors.black,
                                   blurRadius: 10.0,
                                   offset: Offset(0, 2),
                                 ),
@@ -168,33 +165,29 @@ class SideDrawer extends StatelessWidget {
                               children: <Widget>[
                                 Container(
                                   width: double.infinity,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: CustomColors.pink,
                                     borderRadius: BorderRadius.vertical(
                                       top: Radius.circular(20),
                                     ),
                                   ),
-                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  padding: const EdgeInsets.symmetric(vertical: 20),
                                   alignment: Alignment.center,
                                   child: Text(
                                     "البطاقة الجامعية",
-                                    style: TextStyle(
-                                      color: CustomColors.darkGrey,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: TextStyles.pageTitle2
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 CircleAvatar(
                                   radius: 80,
                                   backgroundColor:
-                                      Color.fromARGB(0, 15, 66, 186),
+                                      const Color.fromARGB(0, 15, 66, 186),
                                   child: Stack(
                                     children: [
                                       userInfo.image_url == ''
                                           ? Container(
-                                              padding: EdgeInsets.all(20),
+                                              padding: const EdgeInsets.all(20),
                                               alignment: Alignment.topCenter,
                                               height: 140,
                                               decoration: BoxDecoration(
@@ -220,7 +213,7 @@ class SideDrawer extends StatelessWidget {
                                                   fit: BoxFit.cover,
                                                   imageUrl: userInfo.image_url,
                                                   placeholder: (context, url) =>
-                                                      CircularProgressIndicator(),
+                                                      const CircularProgressIndicator(),
                                                   errorWidget: (context, url,
                                                           error) =>
                                                       Container(
@@ -254,41 +247,29 @@ class SideDrawer extends StatelessWidget {
                                 ),
                                 Text(
                                   userInfo.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: CustomColors.darkGrey,
-                                  ),
+                                  style: TextStyles.heading1D
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Text(
                                   userInfo.userID,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: CustomColors.darkGrey,
-                                  ),
+                                  style: TextStyles.heading2D
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(
                                   userInfo.collage,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: CustomColors.darkGrey,
-                                  ),
+                                    style: TextStyles.heading2D
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(
                                   userInfo.major,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: CustomColors.darkGrey,
-                                  ),
+                                    style: TextStyles.heading2D
+
                                 ),
-                                SizedBox(height: 24),
+                                const SizedBox(height: 24),
                                 Container(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   width: double.infinity,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: CustomColors.pink,
                                     borderRadius: BorderRadius.vertical(
                                       bottom: Radius.circular(20),
@@ -313,7 +294,7 @@ class SideDrawer extends StatelessWidget {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 10),
+            margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               color: CustomColors.lightBlue.withOpacity(0.3),
               border: const Border(
@@ -339,7 +320,6 @@ class SideDrawer extends StatelessWidget {
                   'pushToken': '',
                 });
                 FirebaseAuth.instance.signOut();
-                // print('saaabreeeeeeeeeeeeeeeeeeena $userProfileDoc');
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
