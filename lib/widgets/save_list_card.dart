@@ -154,7 +154,7 @@ class _SaveCardState extends State<SaveCard> {
                                   const SizedBox(width: 5),
                                   Text(
                                     widget.dynamicObject.date!,
-                                    style: TextStyles.text,
+                                    style: TextStyles.text1L,
                                   ),
                                 ],
                               ),
@@ -166,7 +166,7 @@ class _SaveCardState extends State<SaveCard> {
                                   const SizedBox(width: 5),
                                   Text(
                                     widget.dynamicObject.time!,
-                                    style: TextStyles.text,
+                                    style: TextStyles.text1L,
                                   ),
                                 ],
                               ),

@@ -72,7 +72,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                     Text(
                       widget.createStudentActivityReport.location!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -93,7 +93,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                     Text(
                       '${widget.createStudentActivityReport.date!}',
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -114,7 +114,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                     Text(
                       '${widget.createStudentActivityReport.time!}',
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -131,7 +131,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                     Text(
                       widget.createStudentActivityReport.numOfPerson!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),

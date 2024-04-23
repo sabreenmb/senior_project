@@ -114,7 +114,7 @@ class _HomeCardState extends State<HomeCard> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.right,
-                            style: TextStyles.text,
+                            style: TextStyles.text1L,
                           ),
                         ),
                       ],
@@ -133,7 +133,7 @@ class _HomeCardState extends State<HomeCard> {
                         Text(
                           '${widget.dynamicObject.date!}',
                           textAlign: TextAlign.center,
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),
@@ -151,7 +151,7 @@ class _HomeCardState extends State<HomeCard> {
                         Text(
                           '${widget.dynamicObject.time!}',
                           textAlign: TextAlign.center,
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),

@@ -101,7 +101,7 @@ class OfferCard extends StatelessWidget {
                         Text(
                           " خصم يصل الى  ${offerInfo.discount!}%",
                           textAlign: TextAlign.right,
-                          style: TextStyles.text2,
+                          style: TextStyles.text1D,
                         ),
 
 

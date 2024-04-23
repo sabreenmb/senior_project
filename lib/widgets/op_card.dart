@@ -72,7 +72,7 @@ class _OpCardState extends State<OpCard> {
                     Text(
                       "${widget.volunteerOpReport.date!} , ${widget.volunteerOpReport.time!}",
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -92,7 +92,7 @@ class _OpCardState extends State<OpCard> {
                     Text(
                       widget.volunteerOpReport.location!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -112,7 +112,7 @@ class _OpCardState extends State<OpCard> {
                     Text(
                       widget.volunteerOpReport.opNumber!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),

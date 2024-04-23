@@ -23,7 +23,7 @@ class _WorkshopCardState extends State<WorkshopCard> {
     bool isSaved;
     Size size = MediaQuery.of(context).size;
     SavedList savedItem = SavedList(
-        serviceName: 'volunteerOp',
+        serviceName: 'workshops',
         dynamicObject: widget.workshopItem,
         icon: services[4]['icon']);
     isSaved = SavedList.findId(widget.workshopItem.id.toString());
@@ -72,7 +72,7 @@ class _WorkshopCardState extends State<WorkshopCard> {
                       Text(
                         widget.workshopItem.presentBy!,
                         textAlign: TextAlign.right,
-                        style: TextStyles.text,
+                        style: TextStyles.text1L,
                       ),
                     ],
                   ),
@@ -92,7 +92,7 @@ class _WorkshopCardState extends State<WorkshopCard> {
                       Text(
                         "${widget.workshopItem.date!} , ${widget.workshopItem.time!}",
                         textAlign: TextAlign.right,
-                        style: TextStyles.text,
+                        style: TextStyles.text1L,
                       ),
                     ],
                   ),
@@ -112,7 +112,7 @@ class _WorkshopCardState extends State<WorkshopCard> {
                       Text(
                         widget.workshopItem.location!,
                         textAlign: TextAlign.right,
-                        style: TextStyles.text,
+                        style: TextStyles.text1L,
                       ),
                     ],
                   ),

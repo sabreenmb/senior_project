@@ -89,7 +89,7 @@ class _EventState extends State<EventScreen> {
             automaticallyImplyLeading: false,
             backgroundColor: CustomColors.pink,
             elevation: 0,
-            title: Text("الفعاليات", style: TextStyles.heading1),
+            title: Text("الفعاليات", style: TextStyles.pageTitle),
             centerTitle: true,
             iconTheme: const IconThemeData(color: CustomColors.darkGrey),
             leading: Builder(
@@ -123,7 +123,7 @@ class _EventState extends State<EventScreen> {
                         child: Stack(children: [
                       Container(
                         decoration: const BoxDecoration(
-                            color: CustomColors.BackgroundColor,
+                            color: CustomColors.backgroundColor,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40))),
@@ -607,7 +607,7 @@ class _EventState extends State<EventScreen> {
               borderRadius: BorderRadius.circular(20),
             ),
             backgroundColor: buttonColor),
-        child: Text(title, style: TextStyles.heading2),
+        child: Text(title, style: TextStyles.heading2D),
       ),
     );
   }

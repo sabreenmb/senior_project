@@ -32,7 +32,7 @@ class _SaveListScreenState extends State<SaveListScreen>
         automaticallyImplyLeading: false,
         backgroundColor: CustomColors.pink,
         elevation: 0,
-        title: Text("قائمة المحفوظات", style: TextStyles.heading1),
+        title: Text("قائمة المحفوظات", style: TextStyles.pageTitle),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
@@ -51,7 +51,7 @@ class _SaveListScreenState extends State<SaveListScreen>
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                      color: CustomColors.BackgroundColor,
+                      color: CustomColors.backgroundColor,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40))),
@@ -66,7 +66,7 @@ class _SaveListScreenState extends State<SaveListScreen>
                   // child: _buildItems(),
                 ),
                 EmptyList?
-                    Center(child: Text('لا توجد محفوظات',style: TextStyles.heading11)):
+                    Center(child: Text('لا توجد محفوظات',style: TextStyles.pageTitle2)):
 
                 _buildItems(),
 

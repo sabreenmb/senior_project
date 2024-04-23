@@ -108,7 +108,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("المفقودات", style: TextStyles.heading1),
+          title: Text("المفقودات", style: TextStyles.pageTitle),
           centerTitle: true,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
           leading: Builder(
@@ -155,7 +155,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
+                          color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
@@ -301,7 +301,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                                   ? CustomColors.pink
                                                   : Colors.transparent),
                                           child: Text("المفقودة",
-                                              style: TextStyles.heading2),
+                                              style: TextStyles.heading2D),
                                         ),
                                       ),
                                       Padding(
@@ -337,7 +337,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                                   : Colors.transparent),
                                           child: Text(
                                             "الموجودة",
-                                            style: TextStyles.heading2,
+                                            style: TextStyles.heading2D,
                                           ),
                                         ),
                                       ),
@@ -491,7 +491,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
       backgroundColor: CustomColors.lightBlue,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(27)),
       onPressed: onPressed,
-      label: Text(label, style: TextStyles.text3),
+      label: Text(label, style: TextStyles.btnText),
     );
   }
 

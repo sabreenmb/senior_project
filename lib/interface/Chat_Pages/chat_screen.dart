@@ -181,7 +181,7 @@ class _RealChatPageState extends State<RealChatPage>
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
+                          color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30))),

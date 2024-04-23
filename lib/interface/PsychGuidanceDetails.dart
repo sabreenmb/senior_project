@@ -125,7 +125,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                           children: [
                             Text(
                               'مرشدك النفسي متواجد لمساعدتك ',
-                              style: TextStyles.headingPink,
+                              style: TextStyles.subtitlePink,
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 15),
@@ -134,7 +134,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                               'للتواصل مع المرشد/ة ' +
                                   'صابرين محمد بن سلمان ' +
                                   ' عن طريق : ',
-                              style: TextStyles.text5,
+                              style: TextStyles.text2D,
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 20),
@@ -231,7 +231,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                                   children: [
                                     Text(' لبدء المحادثة',
                                         textAlign: TextAlign.center,
-                                        style: TextStyles.text3),
+                                        style: TextStyles.btnText),
                                     const SizedBox(
                                       width: 5,
                                     ),

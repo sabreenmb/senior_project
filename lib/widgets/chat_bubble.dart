@@ -37,7 +37,7 @@ class ChatBubble extends StatelessWidget {
                   : CustomColors.lightGreyLowTrans),
           child: Text(
             message.message,
-            style: TextStyles.heading2,
+            style: TextStyles.heading2D,
             textAlign: TextAlign.start,
           ),
         ),

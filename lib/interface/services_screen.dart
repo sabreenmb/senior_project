@@ -80,7 +80,7 @@ class _ServisesState extends State<ServisesScreen> {
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("الخدمات", style: TextStyles.heading1),
+          title: Text("الخدمات", style: TextStyles.pageTitle),
           centerTitle: false,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
           // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
@@ -134,7 +134,7 @@ class _ServisesState extends State<ServisesScreen> {
                 children: [
                   Container(
                     decoration: const BoxDecoration(
-                        color: CustomColors.BackgroundColor,
+                        color: CustomColors.backgroundColor,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40))),

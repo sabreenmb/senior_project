@@ -57,7 +57,7 @@ import '../theme.dart';
               Text(
                 'يرجى التحقق من الاتصال بالإنترنت ثم معاودة المحاولة',
                 textAlign: TextAlign.center,
-                style: TextStyles.text2,
+                style: TextStyles.text1D,
               ),
               const SizedBox(height: 24),
               Padding(

@@ -68,7 +68,7 @@ class _CreateCardState extends State<CreateCard> {
                     Text(
                       widget.createGroupReport.location!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -89,7 +89,7 @@ class _CreateCardState extends State<CreateCard> {
                     Text(
                       '${widget.createGroupReport.date!}',
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -110,7 +110,7 @@ class _CreateCardState extends State<CreateCard> {
                     Text(
                       '${widget.createGroupReport.time!}',
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -127,7 +127,7 @@ class _CreateCardState extends State<CreateCard> {
                     Text(
                       widget.createGroupReport.numPerson!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),

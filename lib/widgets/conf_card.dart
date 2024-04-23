@@ -71,7 +71,7 @@ class _ConfCardState extends State<ConfCard> {
                     Text(
                       "${widget.confItem.date!} , ${widget.confItem.time!}",
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),
@@ -91,7 +91,7 @@ class _ConfCardState extends State<ConfCard> {
                     Text(
                       widget.confItem.location!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text,
+                      style: TextStyles.text1L,
                     ),
                   ],
                 ),

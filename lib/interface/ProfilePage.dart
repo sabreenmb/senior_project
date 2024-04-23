@@ -200,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
             automaticallyImplyLeading: false,
             backgroundColor: CustomColors.pink,
             elevation: 0,
-            title: Text("الملف الشخصي", style: TextStyles.heading1),
+            title: Text("الملف الشخصي", style: TextStyles.pageTitle),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios,
                   color: CustomColors.darkGrey),
@@ -519,7 +519,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 backgroundColor:
                                                     CustomColors.lightBlue),
                                             child: Text("تحديث",
-                                                style: TextStyles.text3),
+                                                style: TextStyles.btnText),
                                           ),
                                         ),
                                       ],
@@ -595,7 +595,7 @@ class _ProfilePageState extends State<ProfilePage> {
               alignment: Alignment.center,
               child: Text(
                 offers[index]['offerCategory'],
-                style: TextStyles.text2,
+                style: TextStyles.text1D,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,

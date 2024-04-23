@@ -152,7 +152,7 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
               Navigator.pop(context, false);
             },
           ),
-          title: Text("انشاء نشاط", style: TextStyles.heading1),
+          title: Text("انشاء نشاط", style: TextStyles.pageTitle),
           centerTitle: true,
         ),
         body: ModalProgressHUD(
@@ -421,7 +421,7 @@ class _CreateStudentActivityState extends State<CreateStudentActivity> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       backgroundColor: CustomColors.lightBlue),
-                                  child: Text("انشاء", style: TextStyles.text3),
+                                  child: Text("انشاء", style: TextStyles.btnText),
                                 ),
                               ),
                             ],

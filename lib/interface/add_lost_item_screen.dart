@@ -149,7 +149,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
               Navigator.pop(context, false);
             },
           ),
-          title: Text("انشاء اعلان مفقود", style: TextStyles.heading1),
+          title: Text("انشاء اعلان مفقود", style: TextStyles.pageTitle),
           centerTitle: true,
         ),
         body: ModalProgressHUD(
@@ -256,7 +256,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                     value: category,
                                     child: Text(
                                       category,
-                                      style: TextStyles.heading2,
+                                      style: TextStyles.heading2D,
                                     ),
                                   );
                                 }).toList(),
@@ -471,7 +471,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       backgroundColor: CustomColors.lightBlue),
-                                  child: Text("انشاء", style: TextStyles.text3),
+                                  child: Text("انشاء", style: TextStyles.btnText),
                                 ),
                               ),
                             ],

@@ -49,7 +49,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("الرئيسية", style: TextStyles.heading1),
+          title: Text("الرئيسية", style: TextStyles.pageTitle),
           centerTitle: false,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
@@ -70,7 +70,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                            color: CustomColors.BackgroundColor,
+                            color: CustomColors.backgroundColor,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20))),

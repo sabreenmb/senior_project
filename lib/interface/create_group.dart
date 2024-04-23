@@ -153,7 +153,7 @@ class _CreateGroupState extends State<CreateGroup> {
               Navigator.pop(context, false);
             },
           ),
-          title: Text("انشاء جلسة مذاكرة", style: TextStyles.heading1),
+          title: Text("انشاء جلسة مذاكرة", style: TextStyles.pageTitle),
           centerTitle: true,
         ),
         body: ModalProgressHUD(
@@ -214,7 +214,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                       value: name,
                                       child: Text(
                                         name,
-                                        style: TextStyles.heading2,
+                                        style: TextStyles.heading2D,
                                         overflow: TextOverflow
                                             .ellipsis, // Add this line
                                         maxLines: 2,
@@ -459,7 +459,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       backgroundColor: CustomColors.lightBlue),
-                                  child: Text("انشاء", style: TextStyles.text3),
+                                  child: Text("انشاء", style: TextStyles.btnText),
                                 ),
                               ),
                             ],

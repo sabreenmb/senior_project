@@ -65,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await Setup.loadUserData(_enteredID);
-      await Setup().Build();
-      Setup().Build2();
+      await Setup().build();
+      Setup().build2();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
@@ -256,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 // }
                                 // },
                                 child: Text("تسجيل الدخول",
-                                    style: TextStyles.text3),
+                                    style: TextStyles.btnText),
                               )
                             ],
                           ),

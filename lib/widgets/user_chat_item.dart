@@ -34,7 +34,7 @@ class UserChatItem extends StatelessWidget {
           child: ListTile(
         title: Text(
           otherUserInfo.name,
-          style: TextStyles.heading2,
+          style: TextStyles.heading2D,
         ),
         subtitle: Text(
           chatInfo != null

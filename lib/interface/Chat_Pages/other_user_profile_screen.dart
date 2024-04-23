@@ -31,7 +31,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
           elevation: 0,
           title: Text(
             "المعلومات الشخصية",
-            style: TextStyles.heading1,
+            style: TextStyles.pageTitle,
           ),
           leading: IconButton(
             icon:
@@ -58,7 +58,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     color: CustomColors.pink,
                   ),
                 ),
-                color: CustomColors.BackgroundColor, // Pink background color
+                color: CustomColors.backgroundColor, // Pink background color
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
               ),

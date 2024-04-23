@@ -44,8 +44,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
         if (!isOffline) {
           print('test');
            await Setup.loadUserData(user.email.toString());
-           await Setup().Build();
-           Setup().Build2();
+           await Setup().build();
+           Setup().build2();
           Future.delayed(const Duration(seconds: 1), () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()));

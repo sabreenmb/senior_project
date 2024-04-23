@@ -86,7 +86,7 @@ class _StudentActivityState extends State<StudentActivity>
             automaticallyImplyLeading: false,
             backgroundColor: CustomColors.pink,
             elevation: 0,
-            title: Text("أنشطة طلابية", style: TextStyles.heading1),
+            title: Text("أنشطة طلابية", style: TextStyles.pageTitle),
             centerTitle: true,
             iconTheme: const IconThemeData(color: CustomColors.darkGrey),
             leading: Builder(
@@ -137,7 +137,7 @@ class _StudentActivityState extends State<StudentActivity>
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
+                          color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),

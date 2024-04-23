@@ -87,7 +87,7 @@ class LostCard extends StatelessWidget {
                         Text(
                           lostItemReport.desription!,
                           textAlign: TextAlign.right,
-                          style: TextStyles.text2,
+                          style: TextStyles.text1D,
                         ),
                         const SizedBox(
                           height: 10,
@@ -106,7 +106,7 @@ class LostCard extends StatelessWidget {
                             Text(
                               lostItemReport.lostDate!,
                               textAlign: TextAlign.right,
-                              style: TextStyles.text,
+                              style: TextStyles.text1L,
                             ),
                           ],
                         ),
@@ -126,7 +126,7 @@ class LostCard extends StatelessWidget {
                             Text(
                               lostItemReport.expectedPlace!,
                               textAlign: TextAlign.right,
-                              style: TextStyles.text,
+                              style: TextStyles.text1L,
                             ),
                           ],
                         ),
@@ -146,7 +146,7 @@ class LostCard extends StatelessWidget {
                             Text(
                               lostItemReport.phoneNumber!,
                               textAlign: TextAlign.right,
-                              style: TextStyles.text,
+                              style: TextStyles.text1L,
                             ),
                           ],
                         ),

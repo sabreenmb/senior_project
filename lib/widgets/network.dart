@@ -21,7 +21,7 @@ class _NetworkConnectionState extends State<NetworkConnection> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-          backgroundColor: CustomColors.BackgroundColor,
+          backgroundColor: CustomColors.backgroundColor,
           body: ModalProgressHUD(
             color: Colors.black,
             opacity: 0.5,
@@ -69,7 +69,7 @@ class _NetworkConnectionState extends State<NetworkConnection> {
                     Text(
                       'يرجى التحقق من الاتصال بالإنترنت ثم معاودة المحاولة',
                       textAlign: TextAlign.center,
-                      style: TextStyles.text2,
+                      style: TextStyles.text1D,
                     ),
                     const SizedBox(height: 24),
                     Padding(

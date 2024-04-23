@@ -24,7 +24,7 @@ class _ClubDetailsState extends State<ClubDetails> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: CustomColors.BackgroundColor,
+        backgroundColor: CustomColors.backgroundColor,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(
@@ -209,7 +209,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                         ),
                         backgroundColor: CustomColors.lightBlue,
                       ),
-                      child: Text("انضم للأعضاء", style: TextStyles.text3),
+                      child: Text("انضم للأعضاء", style: TextStyles.btnText),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -237,7 +237,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                         ),
                         backgroundColor: CustomColors.lightBlue,
                       ),
-                      child: Text("انضم للإدارة", style: TextStyles.text3),
+                      child: Text("انضم للإدارة", style: TextStyles.btnText),
                     ),
                   ],
                 ),
@@ -276,7 +276,7 @@ class _ClubDetailsState extends State<ClubDetails> {
         children: [
           Text(
             label,
-            style: TextStyles.text2,
+            style: TextStyles.text1D,
             textAlign: TextAlign.left,
           ),
           const SizedBox(height: 5),
@@ -284,7 +284,7 @@ class _ClubDetailsState extends State<ClubDetails> {
             child: Text(
               value,
               maxLines: 2,
-              style: TextStyles.text,
+              style: TextStyles.text1L,
               textAlign: TextAlign.right,
             ),
           ),

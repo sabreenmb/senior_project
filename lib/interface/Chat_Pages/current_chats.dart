@@ -105,7 +105,7 @@ class _CurrentChatsState extends State<CurrentChats>
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("الرسائل الخاصة", style: TextStyles.heading1),
+          title: Text("الرسائل الخاصة", style: TextStyles.pageTitle),
           centerTitle: true,
           // actions: <Widget>[
           leading: IconButton(
@@ -142,7 +142,7 @@ class _CurrentChatsState extends State<CurrentChats>
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
+                          color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),

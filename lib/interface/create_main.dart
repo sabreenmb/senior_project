@@ -48,7 +48,7 @@ class CreateMain extends StatelessWidget {
                   Text(
                     createGroupReport.location!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: TextStyles.text1L,
                   ),
                 ],
               ),
@@ -69,7 +69,7 @@ class CreateMain extends StatelessWidget {
                   Text(
                     '${createGroupReport.date!}   ${createGroupReport.time!}',
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: TextStyles.text1L,
                   ),
                 ],
               ),
@@ -86,7 +86,7 @@ class CreateMain extends StatelessWidget {
                   Text(
                     createGroupReport.numPerson!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: TextStyles.text1L,
                   ),
                 ],
               ),

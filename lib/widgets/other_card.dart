@@ -75,7 +75,7 @@ class _OtherCardState extends State<OtherCard> {
                         Text(
                           widget.otherEventsItem.presentBy!,
                           textAlign: TextAlign.right,
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),
@@ -95,7 +95,7 @@ class _OtherCardState extends State<OtherCard> {
                       Text(
                         "${widget.otherEventsItem.date!} , ${widget.otherEventsItem.time!}",
                         textAlign: TextAlign.right,
-                        style: TextStyles.text,
+                        style: TextStyles.text1L,
                       ),
                     ],
                   ),
@@ -115,7 +115,7 @@ class _OtherCardState extends State<OtherCard> {
                       Text(
                         widget.otherEventsItem.location!,
                         textAlign: TextAlign.right,
-                        style: TextStyles.text,
+                        style: TextStyles.text1L,
                       ),
                     ],
                   ),

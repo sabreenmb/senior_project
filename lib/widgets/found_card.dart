@@ -82,7 +82,7 @@ class FoundCard extends StatelessWidget {
                     Text(
                       foundItemReport.desription!,
                       textAlign: TextAlign.right,
-                      style: TextStyles.text2,
+                      style: TextStyles.text1D,
                     ),
                     const SizedBox(
                       height: 10,
@@ -101,7 +101,7 @@ class FoundCard extends StatelessWidget {
                         Text(
                           foundItemReport.foundDate!,
                           textAlign: TextAlign.right,
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),
@@ -121,7 +121,7 @@ class FoundCard extends StatelessWidget {
                         Text(
                           foundItemReport.foundPlace!,
                           textAlign: TextAlign.right,
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),
@@ -141,7 +141,7 @@ class FoundCard extends StatelessWidget {
                         Text(
                           foundItemReport.receivePlace!,
                           textAlign: TextAlign.right,
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),

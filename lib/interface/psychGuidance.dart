@@ -43,12 +43,12 @@ class _PsychGuidanceState extends State<PsychGuidance>
       onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: CustomColors.BackgroundColor,
+        backgroundColor: CustomColors.backgroundColor,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("دليلك للارشاد النفسي", style: TextStyles.heading11),
+          title: Text("دليلك للارشاد النفسي", style: TextStyles.pageTitle2),
           centerTitle: true,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
           leading: Builder(
@@ -139,11 +139,11 @@ class _PsychGuidanceState extends State<PsychGuidance>
                       mainAxisAlignment: MainAxisAlignment.center,
 
                       children: [
-                        Text('انت تستحق ان تكون سعيداً ', style: TextStyles.headingPink),
+                        Text('انت تستحق ان تكون سعيداً ', style: TextStyles.subtitlePink),
                         SizedBox(
                           height: 10,
                         ),
-                        Text(' تذكر...\n لا تخف من طلب المساعدة. مع الدعم المناسب , يمكنك ان تتحسن .',style: TextStyles.text5,       textAlign: TextAlign.center,
+                        Text(' تذكر...\n لا تخف من طلب المساعدة. مع الدعم المناسب , يمكنك ان تتحسن .',style: TextStyles.text2D,       textAlign: TextAlign.center,
                         ),
                         Container(margin: EdgeInsets.all(10),
                         padding:
@@ -161,7 +161,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               backgroundColor: CustomColors.lightBlue),
-                          child: Text("اطلب المساعدة", style: TextStyles.text3),
+                          child: Text("اطلب المساعدة", style: TextStyles.btnText),
                         ),
                                                 )
 

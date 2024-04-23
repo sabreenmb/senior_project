@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:senior_project/firebaseConnection.dart';
 import 'package:senior_project/model/entered_user_info.dart';
@@ -22,44 +23,36 @@ import 'model/volunteer_op_report.dart';
 import 'model/workshop_item_report.dart';
 
 class Setup {
-  Setup() {
-    // last one
-    // loadSaveItems();
-  }
-  Future<void> Build() async {
-    // saveList = [];
-    loadCoursesItems();
-    loadWorkshopsItems();
-    loadConferencesItems();
-    loadOtherEventsItems();
-    LoadCreatedSessions();
-    await LoadOffers();
+  Setup();
+  Future<void> build() async {
+     saveList = [];
+    loadCourses();
+    loadWorkshops();
+    loadConferences();
+    loadOtherEvents();
+    loadVolOp();
+    await loadOffers();
   }
 
-  Future<void> Build2() async {
+  Future<void> build2() async {
     loadAllUsers();
-    LoadSClubs();
-    LoadCreatedActivities();
+    loadSClubs();
+    loadSActivities();
     loadStudyGroups();
-    LoadLostItems();
-    LoadFoundItems();
-    LoadClinics();
-    LoadPsychGuidance();
+    loadLostItems();
+    loadFoundItems();
+    loadClinics();
+    loadPsychGuidance();
   }
 
-  Future<void> LoadPsychGuidance() async {
+  Future<void> loadPsychGuidance() async {
     try {
       final response = await http.get(FirebaseAPI.url('Psych-Guidance'));
-      final Map<String, dynamic> foundData = json.decode(response.body);
-      for (final item in foundData.entries) {
-        print('sabreen test');
-        print(item.value['pg_name']);
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         if (item.value['pg_collage'] == userInfo.collage) {
-          print('ouna');
-          print(userInfo.collage);
           pg = PsychGuidanceReport(
             id: item.key,
-            //model name : firebase name
             ProId: item.value['pg_ID'],
             ProName: item.value['pg_name'],
             ProLocation: item.value['pg_location'],
@@ -67,27 +60,14 @@ class Setup {
             ProOfficeNumber: item.value['pg_number'],
             ProEmail: item.value['pg_email'],
           );
-
-          print(pg.ProName);
           break;
         }
-        // _PsychGuidanceReport.add(PsychGuidanceReport(
-        //   id: item.key,
-        //   //model name : firebase name
-        //   ProName: item.value['pg_name'],
-        //   ProLocation: item.value['pg_location'],
-        //   collage: item.value['pg_collage'],
-        //   ProOfficeNumber: item.value['pg_number'],
-        //   ProEmail: item.value['pg_email'],
-        // ));
       }
     } catch (error) {
-      print('Empty List');
-    } finally {
-      // _PsychGuidanceReport = loadedPsychGuidance;
+      if (kDebugMode) {
+        print('Empty List');
+      }
     }
-    // matchingIndex = loadedPsychGuidance
-    //     .indexWhere((item) => item.collage.toString() == userInfo.collage);
   }
 
   static Future<void> loadUserData(String enteredID) async {
@@ -95,7 +75,6 @@ class Setup {
     DocumentSnapshot snapshot = await userProfileDoc.get();
 
     if (!snapshot.exists) {
-      print("meeeeeeeeeeeeeeeemooooooooooo");
       userProfileDoc.set({
         'image_url': '',
         'userID': enteredID.split("@")[0],
@@ -120,32 +99,30 @@ class Setup {
           'عقارات وبناء': false,
         },
       });
-
-      print("weeeeeeennnn");
       List<dynamic> items = ['INIT'];
 
       CollectionReference saveItemsCollection =
           userProfileDoc.collection('saveItems');
 
-      await saveItemsCollection.doc('conferences').set({
+       saveItemsCollection.doc('conferences').set({
         'items': items,
       });
-      await saveItemsCollection.doc('workshops').set({
+       saveItemsCollection.doc('workshops').set({
         'items': items,
       });
-      await saveItemsCollection.doc('cources').set({
+       saveItemsCollection.doc('cources').set({
         'items': items,
       });
-      await saveItemsCollection.doc('otherEvents').set({
+       saveItemsCollection.doc('otherEvents').set({
         'items': items,
       });
-      await saveItemsCollection.doc('studyGroubs').set({
+       saveItemsCollection.doc('studyGroubs').set({
         'items': items,
       });
-      await saveItemsCollection.doc('studentActivities').set({
+       saveItemsCollection.doc('studentActivities').set({
         'items': items,
       });
-      await saveItemsCollection.doc('volunteerOp').set({
+       saveItemsCollection.doc('volunteerOp').set({
         'items': items,
       });
     }
@@ -166,8 +143,6 @@ class Setup {
     userInfo.offersPreferences = userProfileData?['offersPreferences'];
     notificationServices.getFirebaseMessagingToken();
     notificationServices.updatePushToken();
-
-    // new Setup();
   }
 
   Future<void> loadAllUsers() async {
@@ -178,7 +153,6 @@ class Setup {
 
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
-        //allUsers[i] = documentSnapshot.data() as enteredUserInfo;
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
         enteredUserInfo otherUserInfo = enteredUserInfo(
@@ -194,39 +168,29 @@ class Setup {
           pushToken: data["pushToken"],
           offersPreferences: data['offersPreferences'],
         );
-        print("yyyyyyarb");
-        // print(allUsers[i].name);
         allUsers.add(otherUserInfo);
-
-        print(allUsers[i].name);
-        // allUsers[i] = otherUserInfo;
       }
       allUsers.removeWhere((element) => element.userID == userInfo.userID);
-
-      // Process the documents here
     } catch (e) {
-      print('Error loading documents: $e');
+      if (kDebugMode) {
+        print('Error loading documents');
+      }
     }
   }
 
-  Future<void> LoadOffers() async {
+  Future<void> loadOffers() async {
     for (Map<String, dynamic> item in offers) {
       item['categoryList'].clear();
     }
     final List<OfferInfo> loadedOfferInfo = [];
 
     try {
-      // final url = Uri.https(
-      //     'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
       final response = await http.get(FirebaseAPI.url('offersdb'));
-
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
-        print(item.value['of_name']);
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         if (getValidityF(item.value['of_expDate'])) {
           loadedOfferInfo.add(OfferInfo(
             id: item.key,
-            //model name : firebase name
             timestamp: item.value['timestamp'],
             name: item.value['of_name'],
             logo: item.value['of_logo'],
@@ -241,14 +205,14 @@ class Setup {
         }
       }
     } catch (error) {
-      print('Empty List');
+      if (kDebugMode) {
+        print('Empty List');
+      }
     } finally {
-      List<OfferInfo> fetchedOffers =
-          loadedOfferInfo; // fetched data from Firebase
       int falseNum = 0;
       List<dynamic> tempOffer = [];
       recommendedOffers = [];
-      for (OfferInfo offer in fetchedOffers) {
+      for (OfferInfo offer in loadedOfferInfo) {
         for (Map<String, dynamic> item in offers) {
           if (offer.category == item['offerCategory']) {
             item['categoryList'].add(offer);
@@ -256,7 +220,6 @@ class Setup {
           }
         }
       }
-
       for (Map<String, dynamic> item in offers) {
         if (userInfo.offersPreferences[item['offerCategory']] == true) {
           recommendedOffers.addAll(item['categoryList']);
@@ -264,7 +227,6 @@ class Setup {
           tempOffer.addAll(item['categoryList']);
           falseNum++;
         }
-        // for()
       }
       if (falseNum > 9 || recommendedOffers.isEmpty) {
         recommendedOffers = tempOffer;
@@ -272,15 +234,14 @@ class Setup {
     }
   }
 
-  Future<void> loadCoursesItems() async {
+  Future<void> loadCourses() async {
     courseItem = [];
     final response = await http.get(FirebaseAPI.url('eventsCoursesDB'));
-    if (response.body == 'placeholder') {
+    if (response.body == '"placeholder"') {
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
     for (final item in data.entries) {
-      print(item.value['course_name']);
       if (getValidityF(item.value['course_date']) == true) {
         courseItem.add(CoursesItemReport(
           id: item.key,
@@ -295,7 +256,6 @@ class Setup {
       }
     }
     try {
-      // Retrieve the +document
       DocumentSnapshot documentSnapshot =
           await userProfileDoc.collection("saveItems").doc('cources').get();
       Map<String, dynamic> data =
@@ -304,11 +264,10 @@ class Setup {
 
       for (int i = 0; i < items.length; i++) {
         var id = items[i];
-        bool zq = courseItem.any((item) => item.id.toString() == id);
+        bool flag = courseItem.any((item) => item.id.toString() == id);
         int matchingIndex =
             courseItem.indexWhere((item) => item.id.toString() == id);
-        if (zq) {
-          print("did i came hereeeeeee? 4");
+        if (flag) {
           saveList.add(EventItem(
               serviceName: 'دورة',
               item: courseItem[matchingIndex],
@@ -316,17 +275,18 @@ class Setup {
         }
       }
 
-      print('Items added successfully cources.');
     } catch (e) {
-      print('Error adding itemmmmm: $e');
+      if (kDebugMode) {
+        print('Error adding item');
+      }
     }
   }
 
-  Future<void> loadWorkshopsItems() async {
+  Future<void> loadWorkshops() async {
     workshopItem = [];
 
     final response = await http.get(FirebaseAPI.url('eventsWorkshopsDB'));
-    if (response.body == 'placeholder') {
+    if (response.body == '"placeholder"') {
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
@@ -346,7 +306,6 @@ class Setup {
     }
 
     try {
-      // Retrieve the +document
       DocumentSnapshot documentSnapshot =
           await userProfileDoc.collection("saveItems").doc('workshops').get();
       Map<String, dynamic> data =
@@ -355,28 +314,27 @@ class Setup {
 
       for (int i = 0; i < items.length; i++) {
         var id = items[i];
-        bool zq = workshopItem.any((item) => item.id.toString() == id);
+        bool flag = workshopItem.any((item) => item.id.toString() == id);
         int matchingIndex =
             workshopItem.indexWhere((item) => item.id.toString() == id);
-        if (zq) {
-          print("did i came hereeeeeee? 7");
+        if (flag) {
           saveList.add(EventItem(
               serviceName: 'ورشة عمل',
               item: workshopItem[matchingIndex],
               icon: services[4]['icon']));
         }
       }
-
-      print('Items added successfully work.');
     } catch (e) {
-      print('Error adding itemmmmm: $e');
+      if (kDebugMode) {
+        print('Error adding item');
+      }
     }
   }
 
-  Future<void> loadConferencesItems() async {
+  Future<void> loadConferences() async {
     confItem = [];
     final response = await http.get(FirebaseAPI.url('eventsConferencesDB'));
-    if (response.body == 'placeholder') {
+    if (response.body == '"placeholder"') {
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
@@ -395,8 +353,7 @@ class Setup {
       }
     }
     try {
-      // Retrieve the +document
-      DocumentSnapshot documentSnapshot =
+     DocumentSnapshot documentSnapshot =
           await userProfileDoc.collection("saveItems").doc('conferences').get();
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
@@ -404,28 +361,27 @@ class Setup {
 
       for (int i = 0; i < items.length; i++) {
         var id = items[i];
-        bool zq = confItem.any((item) => item.id.toString() == id);
+        bool flag = confItem.any((item) => item.id.toString() == id);
         int matchingIndex =
             confItem.indexWhere((item) => item.id.toString() == id);
-        if (zq) {
-          print("did i came hereeeeeee? 0");
+        if (flag) {
           saveList.add(EventItem(
               serviceName: 'مؤتمر',
               item: confItem[matchingIndex],
               icon: services[4]['icon']));
         }
       }
-
-      print('Items added successfully conf.');
     } catch (e) {
-      print('Error adding itemmmmm: $e');
+      if (kDebugMode) {
+        print('Error adding item');
+      }
     }
   }
 
-  Future<void> loadOtherEventsItems() async {
+  Future<void> loadOtherEvents() async {
     otherItem = [];
     final response = await http.get(FirebaseAPI.url('eventsOthersDB'));
-    if (response.body == 'placeholder') {
+    if (response.body == '"placeholder"') {
       return;
     }
     final Map<String, dynamic> eventData = json.decode(response.body);
@@ -446,7 +402,6 @@ class Setup {
     }
 
     try {
-      // Retrieve the +document
       DocumentSnapshot documentSnapshot =
           await userProfileDoc.collection("saveItems").doc('otherEvents').get();
       Map<String, dynamic> data =
@@ -455,11 +410,10 @@ class Setup {
 
       for (int i = 0; i < items.length; i++) {
         var id = items[i];
-        bool zq = otherItem.any((item) => item.id.toString() == id);
+        bool flag = otherItem.any((item) => item.id.toString() == id);
         int matchingIndex =
             otherItem.indexWhere((item) => item.id.toString() == id);
-        if (zq) {
-          print("did i came hereeeeeee? 11");
+        if (flag) {
           saveList.add(EventItem(
               serviceName: 'أخرى',
               item: otherItem[matchingIndex],
@@ -467,27 +421,29 @@ class Setup {
         }
       }
 
-      print('Items added successfully other.');
     } catch (e) {
-      print('Error adding itemmmmm: $e');
-    }
+      if (kDebugMode) {
+        print('Error adding item');
+      }
+          }
   }
 
-  Future<void> LoadCreatedSessions() async {
+  Future<void> loadVolOp() async {
+
+    volunteerOpReport = [];
     final List<VolunteerOpReport> loadedVolunteerOp = [];
+
 
     try {
       final response = await http.get(FirebaseAPI.url('opportunities'));
-      if (response.body == 'placeholder') {
+      if (response.body == '"placeholder"') {
         return;
       }
-      final Map<String, dynamic> volunteerdata = json.decode(response.body);
-      for (final item in volunteerdata.entries) {
-        print(item.value['op_name']);
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         if (getValidityF(item.value['op_date']) == true) {
           loadedVolunteerOp.add(VolunteerOpReport(
             id: item.key,
-            //model name : firebase name
             name: item.value['op_name'],
             date: item.value['op_date'],
             time: item.value['op_time'],
@@ -499,9 +455,10 @@ class Setup {
         }
       }
     } catch (error) {
-      print('Empty List');
+      if (kDebugMode) {
+        print('Empty List');
+      }
     }
-    volunteerOpReport = [];
     volunteerOpReport = loadedVolunteerOp;
 
     try {
@@ -514,44 +471,44 @@ class Setup {
 
       for (int i = 0; i < items.length; i++) {
         var id = items[i];
-        bool zq = volunteerOpReport.any((item) => item.id.toString() == id);
+        bool flag = volunteerOpReport.any((item) => item.id.toString() == id);
         int matchingIndex =
             volunteerOpReport.indexWhere((item) => item.id.toString() == id);
-        if (zq) {
-          print("did i came hereeeeeee? 1");
-          saveList.add(EventItem(
+        if (flag) {
+                    saveList.add(EventItem(
               serviceName: 'فرصة تطوعية',
               item: volunteerOpReport[matchingIndex],
               icon: services[1]['icon']));
         }
       }
 
-      print('Items added successfully vol.');
+
     } catch (e) {
-      print('Error adding itemmmmm: $e');
+      if (kDebugMode) {
+        print('Error adding item');
+      }
     }
   }
 
-  Future<void> LoadSClubs() async {
+  Future<void> loadSClubs() async {
+
+    SClubs = [];
     List<SClubInfo> loadedClubsInfo = [];
 
     try {
-      // final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-      //     'studentClubsDB.json');
-      final response = await http.get(FirebaseAPI.url('studentClubsDB'));
+
+     final response = await http.get(FirebaseAPI.url('studentClubsDB'));
       if (response.body == 'placeholder') {
         return;
       }
-      final Map<String, dynamic> clubdata = json.decode(response.body);
-      for (final item in clubdata.entries) {
-        print(item.value['club_name']);
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
+
         loadedClubsInfo.add(SClubInfo(
           id: item.key,
-          //model name : firebase name
           name: item.value['club_name'],
           logo: item.value['club_logo'],
           timestamp: item.value['timestamp'],
-
           details: item.value['club_details'],
           contact: item.value['club_contact'],
           regTime: item.value['club_regTime'],
@@ -561,25 +518,25 @@ class Setup {
         ));
       }
     } catch (error) {
-      print('Empty List');
+      if (kDebugMode) {
+        print('Empty List');
+      }
     } finally {
-      SClubs = [];
       SClubs = loadedClubsInfo; // fetched data from Firebase
     }
   }
 
-  Future<void> LoadCreatedActivities() async {
+  Future<void> loadSActivities() async {
     final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('create-activity'));
 
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         if (getValidityF(item.value['date'])) {
           loadedCreatedStudentActivity.add(CreateStudentActivityReport(
             id: item.key,
-            //model name : firebase name
             name: item.value['name'],
             date: item.value['date'],
             time: item.value['time'],
@@ -589,13 +546,14 @@ class Setup {
         }
       }
     } catch (error) {
-      print('Empty List');
+      if (kDebugMode) {
+        print('Empty List');
+      }
     } finally {
       createStudentActivityReport = loadedCreatedStudentActivity;
     }
 
     try {
-      // Retrieve the +document
       DocumentSnapshot documentSnapshot = await userProfileDoc
           .collection("saveItems")
           .doc('studentActivities')
@@ -606,12 +564,11 @@ class Setup {
 
       for (int i = 0; i < items.length; i++) {
         var id = items[i];
-        bool zq =
+        bool flag =
             createStudentActivityReport.any((item) => item.id.toString() == id);
         int matchingIndex = createStudentActivityReport
             .indexWhere((item) => item.id.toString() == id);
-        if (zq) {
-          print("did i came hereeeeeee? 6");
+        if (flag) {
           saveList.add(EventItem(
               serviceName: 'نشاط طلابي',
               item: createStudentActivityReport[matchingIndex],
@@ -619,9 +576,10 @@ class Setup {
         }
       }
 
-      print('Items added successfully act.');
     } catch (e) {
-      print('Error adding itemmmmm: $e');
+      if (kDebugMode) {
+        print('Error adding item');
+      }
     }
   }
 
@@ -630,12 +588,11 @@ class Setup {
     try {
       final response = await http.get(FirebaseAPI.url('create-group'));
 
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         if (getValidityF(item.value['date'])) {
           createGroupReport.add(CreateGroupReport(
             id: item.key,
-            //model name : firebase name
             name: item.value['name'],
             date: item.value['date'],
             time: item.value['time'],
@@ -645,11 +602,12 @@ class Setup {
         }
       }
     } catch (error) {
-      print('Empty List');
+      if (kDebugMode) {
+        print('Empty List');
+      }
     }
 
     try {
-      // Retrieve the +document
       DocumentSnapshot documentSnapshot =
           await userProfileDoc.collection("saveItems").doc('studyGroubs').get();
       Map<String, dynamic> data =
@@ -658,11 +616,10 @@ class Setup {
 
       for (int i = 0; i < items.length; i++) {
         var id = items[i];
-        bool zq = createGroupReport.any((item) => item.id.toString() == id);
+        bool flag = createGroupReport.any((item) => item.id.toString() == id);
         int matchingIndex =
             createGroupReport.indexWhere((item) => item.id.toString() == id);
-        if (zq) {
-          print("did i came hereeeeeee? 98");
+        if (flag) {
           saveList.add(EventItem(
               serviceName: 'جلسة مذاكرة',
               item: createGroupReport[matchingIndex],
@@ -670,21 +627,22 @@ class Setup {
         }
       }
 
-      print('Items added successfully study grp.');
     } catch (e) {
-      print('Error adding itemmmmm: $e');
+      if (kDebugMode) {
+        print('Error adding item');
+      }
     }
   }
 
-  Future<void> LoadFoundItems() async {
+  Future<void> loadFoundItems() async {
     foundItemReport = [];
     final List<FoundItemReport> loadedFoundItems = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('Found-Items'));
 
-      final Map<String, dynamic> founddata = json.decode(response.body);
-      for (final item in founddata.entries) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         loadedFoundItems.add(FoundItemReport(
           id: item.key,
           category: item.value['Category'],
@@ -696,19 +654,21 @@ class Setup {
         ));
       }
     } catch (error) {
-      print('Empty List');
+      if (kDebugMode) {
+        print('Empty List');
+      }
     } finally {
       foundItemReport = loadedFoundItems;
     }
   }
 
-  Future<void> LoadLostItems() async {
+  Future<void> loadLostItems() async {
     lostItemReport = [];
     final List<LostItemReport> loadedLostItems = [];
     try {
       final response = await http.get(FirebaseAPI.url('Lost-Items'));
-      final Map<String, dynamic> lostdata = json.decode(response.body);
-      for (final item in lostdata.entries) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         loadedLostItems.add(LostItemReport(
           id: item.key,
           photo: item.value['photo'],
@@ -721,24 +681,25 @@ class Setup {
         ));
       }
     } catch (error) {
-      print('empty list');
+      if (kDebugMode) {
+        print('empty list');
+      }
     } finally {
       lostItemReport = loadedLostItems;
     }
   }
 
-  Future<void> LoadClinics() async {
+  Future<void> loadClinics() async {
     final List<ClinicReport> loadedClinics = [];
     try {
       final url = Uri.https(
           'senior-project-72daf-default-rtdb.firebaseio.com', 'clinicdb.json');
       final response = await http.get(url);
 
-      final Map<String, dynamic> clinicdata = json.decode(response.body);
-      for (final item in clinicdata.entries) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      for (final item in data.entries) {
         loadedClinics.add(ClinicReport(
           id: item.key,
-          //model name : firebase name
           clBranch: item.value['cl_branch'],
           clDepartment: item.value['cl_department'],
           clDoctor: item.value['cl_doctor'],
@@ -748,7 +709,9 @@ class Setup {
         ));
       }
     } catch (error) {
-      print('Empty List');
+      if (kDebugMode) {
+        print('Empty List');
+      }
     } finally {
       clinicReport = loadedClinics;
     }

@@ -59,7 +59,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("العيادات", style: TextStyles.heading1),
+          title: Text("العيادات", style: TextStyles.pageTitle),
           centerTitle: true,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
           leading: Builder(
@@ -94,7 +94,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                            color: CustomColors.BackgroundColor,
+                            color: CustomColors.backgroundColor,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40))),
@@ -274,7 +274,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   backgroundColor: CustomColors.lightBlue),
-                              child: Text('احجز', style: TextStyles.text3),
+                              child: Text('احجز', style: TextStyles.btnText),
                             ),
                           ),
                         ],

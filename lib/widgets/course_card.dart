@@ -72,7 +72,7 @@ class _CoursesCardState extends State<CoursesCard> {
                   Text(
                     widget.courseItem.presentBy!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: TextStyles.text1L,
                   ),
                 ],
               ),
@@ -92,7 +92,7 @@ class _CoursesCardState extends State<CoursesCard> {
                   Text(
                     "${widget.courseItem.date!} , ${widget.courseItem.time!}",
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: TextStyles.text1L,
                   ),
                 ],
               ),
@@ -112,7 +112,7 @@ class _CoursesCardState extends State<CoursesCard> {
                   Text(
                     widget.courseItem.location!,
                     textAlign: TextAlign.right,
-                    style: TextStyles.text,
+                    style: TextStyles.text1L,
                   ),
                 ],
               ),

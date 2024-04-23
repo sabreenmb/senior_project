@@ -54,7 +54,7 @@ class _AllUsersState extends State<AllUsersScreen>
           automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
           elevation: 0,
-          title: Text("جميع الطلاب", style: TextStyles.heading1),
+          title: Text("جميع الطلاب", style: TextStyles.pageTitle),
           centerTitle: true,
           leading: IconButton(
             icon:
@@ -80,7 +80,7 @@ class _AllUsersState extends State<AllUsersScreen>
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: CustomColors.BackgroundColor,
+                          color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),

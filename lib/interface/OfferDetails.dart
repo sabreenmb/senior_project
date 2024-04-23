@@ -25,7 +25,7 @@ class _OfferDetailsState extends State<OfferDetails> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: CustomColors.BackgroundColor,
+        backgroundColor: CustomColors.backgroundColor,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(
@@ -133,7 +133,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                                           backgroundColor:
                                               CustomColors.lightBlue),
                                       child: Text("احصل على الخصم",
-                                          style: TextStyles.text3),
+                                          style: TextStyles.btnText),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(5.0),
@@ -232,7 +232,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                         Text(
                           ' ${offerInfo.details}',
                           textAlign: TextAlign.right,
-                          style: TextStyles.text2,
+                          style: TextStyles.text1D,
                         ),
                       ],
                     ),
@@ -255,14 +255,14 @@ class _OfferDetailsState extends State<OfferDetails> {
         children: [
           Text(
             label,
-            style: TextStyles.text2,
+            style: TextStyles.text1D,
             textAlign: TextAlign.left,
           ),
           const SizedBox(height: 5),
           Expanded(
             child: Text(
               value,
-              style: TextStyles.text,
+              style: TextStyles.text1L,
               maxLines: 5,
               textAlign: TextAlign.right,
             ),

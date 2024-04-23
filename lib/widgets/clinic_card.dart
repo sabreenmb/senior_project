@@ -53,7 +53,7 @@ class ClinicCard extends StatelessWidget {
                             //      .right,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: TextStyles.text.fontSize,
+                              fontSize: TextStyles.text1L.fontSize,
                               //    fontFamily: TextStyles.text
                               //     .fontFamily,
                               ///   fontWeight: TextStyles.text
@@ -74,7 +74,7 @@ class ClinicCard extends StatelessWidget {
                         const SizedBox(width: 5),
                         Text(
                           clinicReport.clDate!,
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),
@@ -89,7 +89,7 @@ class ClinicCard extends StatelessWidget {
                         const SizedBox(width: 5),
                         Text(
                           "${clinicReport.clStarttime!}-${clinicReport.clEndtime!}",
-                          style: TextStyles.text,
+                          style: TextStyles.text1L,
                         ),
                       ],
                     ),
