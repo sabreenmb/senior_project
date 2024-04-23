@@ -6,8 +6,8 @@ import 'package:senior_project/interface/HomeScreen.dart';
 import 'package:senior_project/theme.dart';
 
 import '../constant.dart';
-import '../widgets/commonWidgets.dart';
-import '../widgets/network.dart';
+import '../commonWidgets.dart';
+import '../network.dart';
 import 'login_screen.dart';
 import 'package:senior_project/appSetup.dart';
 import 'package:flutter/services.dart';

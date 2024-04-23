@@ -13,8 +13,8 @@ import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../firebaseConnection.dart';
-import '../widgets/commonWidgets.dart';
-import '../widgets/networkWedget.dart';
+import '../commonWidgets.dart';
+import '../networkWedget.dart';
 
 class StudyGroup extends StatefulWidget {
   const StudyGroup({super.key});

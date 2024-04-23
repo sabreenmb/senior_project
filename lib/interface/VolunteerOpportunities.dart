@@ -13,7 +13,7 @@ import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../firebaseConnection.dart';
-import '../widgets/commonWidgets.dart';
+import '../commonWidgets.dart';
 
 class VolunteerOp extends StatefulWidget {
   const VolunteerOp({super.key});

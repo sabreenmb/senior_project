@@ -7,13 +7,13 @@ import 'package:senior_project/interface/create_student_activity.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/create_student_activity_report.dart';
 import 'package:senior_project/theme.dart';
-import 'package:senior_project/widgets/commonWidgets.dart';
+import 'package:senior_project/commonWidgets.dart';
 import 'package:senior_project/widgets/create_student_activity_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../firebaseConnection.dart';
-import '../widgets/networkWedget.dart';
+import '../networkWedget.dart';
 
 class StudentActivity extends StatefulWidget {
   const StudentActivity({super.key});

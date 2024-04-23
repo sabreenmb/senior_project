@@ -6,7 +6,7 @@ import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/clinic_report.dart';
 import 'package:senior_project/theme.dart';
 import 'package:senior_project/widgets/clinic_card.dart';
-import 'package:senior_project/widgets/commonWidgets.dart';
+import 'package:senior_project/commonWidgets.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
 

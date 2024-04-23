@@ -18,7 +18,7 @@ import 'package:senior_project/widgets/workshop_card.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../firebaseConnection.dart';
-import '../widgets/commonWidgets.dart';
+import '../commonWidgets.dart';
 import '../widgets/course_card.dart';
 import 'services_screen.dart';
 

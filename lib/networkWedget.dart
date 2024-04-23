@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../constant.dart';
-import '../interface/LaunchScreen.dart';
-import '../theme.dart';
-  // const netWedget({super.key});
+import 'constant.dart';
+import 'interface/LaunchScreen.dart';
+import 'theme.dart';
 
   void showNetWidgetDialog(BuildContext context) {
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/widgets/commonWidgets.dart';
+import 'package:senior_project/commonWidgets.dart';
 import '../constant.dart';
 import '../model/psych_guidance_report.dart';
 import '../theme.dart';

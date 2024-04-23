@@ -12,7 +12,7 @@ import 'package:senior_project/model/create_student_activity_report.dart';
 import '../constant.dart';
 //import '../model/found_item_report.dart';
 import '../theme.dart';
-import '../widgets/networkWedget.dart';
+import '../networkWedget.dart';
 
 class CreateStudentActivity extends StatefulWidget {
   const CreateStudentActivity({super.key});

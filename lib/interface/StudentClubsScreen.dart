@@ -9,7 +9,7 @@ import 'package:senior_project/widgets/side_menu.dart';
 import '../constant.dart';
 import '../theme.dart';
 import '../widgets/clubs_card.dart';
-import '../widgets/commonWidgets.dart';
+import '../commonWidgets.dart';
 
 class StudentClubsScreen extends StatefulWidget {
   const StudentClubsScreen({super.key});

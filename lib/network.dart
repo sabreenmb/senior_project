@@ -2,11 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
-import '../appSetup.dart';
-import '../constant.dart';
-import '../interface/LaunchScreen.dart';
-import '../theme.dart';
+import 'constant.dart';
+import 'interface/LaunchScreen.dart';
+import 'theme.dart';
 
 class NetworkConnection extends StatefulWidget {
   const NetworkConnection({super.key});
@@ -87,16 +85,8 @@ class _NetworkConnectionState extends State<NetworkConnection> {
                                 isLoading = false;
                               });
                             } else {
-                                // final user = FirebaseAuth.instance.currentUser;
-                                // if (user != null) {
-                                //   await Setup.loadUserData(
-                                //       user.email.toString());
-                                //   await Setup().Build();
-                                //   Setup().Build2();
-                                // }
-                                isLoading = false;
-                             //   Navigator.pop(context);
-                                await Navigator.pushReplacement(
+                              isLoading = false;
+                              await Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>

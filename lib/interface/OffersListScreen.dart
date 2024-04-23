@@ -5,7 +5,7 @@ import 'package:senior_project/widgets/side_menu.dart';
 
 import '../constant.dart';
 import '../theme.dart';
-import '../widgets/commonWidgets.dart';
+import '../commonWidgets.dart';
 
 class OffersListScreen extends StatefulWidget {
   const OffersListScreen({super.key});

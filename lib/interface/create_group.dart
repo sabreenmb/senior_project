@@ -13,7 +13,7 @@ import 'package:senior_project/model/create_group_report.dart';
 import '../constant.dart';
 //import '../model/found_item_report.dart';
 import '../theme.dart';
-import '../widgets/networkWedget.dart';
+import '../networkWedget.dart';
 
 class CreateGroup extends StatefulWidget {
   const CreateGroup({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/constant.dart';
 import 'package:senior_project/theme.dart';
-import 'package:senior_project/widgets/commonWidgets.dart';
+import 'package:senior_project/commonWidgets.dart';
 import 'package:senior_project/widgets/save_list_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 

@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/widgets/networkWedget.dart';
+import 'package:senior_project/networkWedget.dart';
 
 import '../constant.dart';
 import '../firebaseConnection.dart';

@@ -16,7 +16,7 @@ import '../constant.dart';
 import '../firebaseConnection.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
-import '../widgets/commonWidgets.dart';
+import '../commonWidgets.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
   const LostAndFoundScreen({super.key});

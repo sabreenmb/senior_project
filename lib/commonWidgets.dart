@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/theme.dart';
-import '../constant.dart';
-import '../interface/Chat_Pages/current_chats.dart';
-import '../interface/HomeScreen.dart';
-import '../interface/LaunchScreen.dart';
-import '../interface/ProfilePage.dart';
+import 'constant.dart';
+import 'interface/Chat_Pages/current_chats.dart';
+import 'interface/HomeScreen.dart';
+import 'interface/LaunchScreen.dart';
+import 'interface/ProfilePage.dart';
 
 import 'package:senior_project/interface/save_list_screen.dart';
-import '../interface/services_screen.dart';
+import 'interface/services_screen.dart';
 
 Widget buildBottomBarWF(BuildContext context, int index) {
   return BottomAppBar(
@@ -103,11 +103,7 @@ Widget buildBottomBar(BuildContext context, int index, bool isService,
 }
 
 void _selectPage(int index, BuildContext context) {
-  // if (index == 1) {
-  //   Navigator.pushReplacement(
-  //       context, MaterialPageRoute(builder: (_) => const ServisesScreen()));
-  //   _selectedPageIndex = index;
-  // }
+
   //todo uncomment on next sprints
   if (index == 0) {
     Navigator.pushReplacement(

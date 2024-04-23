@@ -12,7 +12,7 @@ import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/model/message_info.dart';
 import 'package:senior_project/widgets/chat_bubble.dart';
 import 'package:senior_project/theme.dart';
-import 'package:senior_project/widgets/networkWedget.dart';
+import 'package:senior_project/networkWedget.dart';
 
 class RealChatPage extends StatefulWidget {
   final enteredUserInfo otherUserInfo;

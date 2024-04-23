@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/theme.dart';
-import 'package:senior_project/widgets/commonWidgets.dart';
+import 'package:senior_project/commonWidgets.dart';
 import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
@@ -15,7 +15,7 @@ import '../constant.dart';
 import '../model/EventItem.dart';
 import '../model/offer_info.dart';
 import '../widgets/home_card.dart';
-import '../widgets/networkWedget.dart';
+import '../networkWedget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
