@@ -96,7 +96,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
     }
     _formKey.currentState!.save();
     final storageRef =
-        Connection.firestorageRef('found_images', uniqueFileName);
+        FirebaseAPI.fireStorageRef('found_images', uniqueFileName);
 
     try {
       setState(() {
@@ -119,7 +119,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
   void _createFoundItem() async {
     try {
       final response = await http.post(
-        Connection.url('Found-Items'),
+        FirebaseAPI.url('Found-Items'),
         headers: {
           'Content-Type': 'application/json',
         },

@@ -296,7 +296,7 @@ class _StudyGroupState extends State<StudyGroup>
 
 Widget _buildCardList() {
   return StreamBuilder(
-    stream: Connection.databaseReference('create-group'),
+    stream: FirebaseAPI.databaseReference('create-group'),
     builder: (context, snapshot) {
       if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');

@@ -52,7 +52,7 @@ List<String> Categories = [
 
 PushNotification notificationServices = PushNotification();
 //todo sabreen changes
-DocumentReference<Map<String, dynamic>> userProfileDoc = Connection.Users();
+DocumentReference<Map<String, dynamic>> userProfileDoc = FirebaseAPI.currentUserInfo();
 //todo move to coommen var
 enteredUserInfo userInfo = enteredUserInfo();
 PsychGuidanceReport pg = PsychGuidanceReport();

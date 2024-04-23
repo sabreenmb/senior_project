@@ -498,7 +498,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   Widget _buildcardList() {
     return StreamBuilder(
       stream:
-          Connection.databaseReference(isLost ? 'Lost-Items' : 'Found-Items'),
+          FirebaseAPI.databaseReference(isLost ? 'Lost-Items' : 'Found-Items'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');

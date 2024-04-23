@@ -108,7 +108,7 @@ class _VolunteerOpState extends State<VolunteerOp>
 
   Widget _buildCardsList() {
     return StreamBuilder(
-      stream: Connection.databaseReference('opportunities'),
+      stream: FirebaseAPI.databaseReference('opportunities'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');

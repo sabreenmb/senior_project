@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class Connection{
+class FirebaseAPI{
   static const String projectDatabase= 'senior-project-72daf-default-rtdb.firebaseio.com';
   //todo change name
-  static DocumentReference<Map<String, dynamic>> Users(){
+  static DocumentReference<Map<String, dynamic>> currentUserInfo(){
     return FirebaseFirestore
         .instance
         .collection("userProfile")
@@ -22,7 +22,7 @@ class Connection{
 
   }
 
-  static Reference firestorageRef( String path,String uniqueFileName){
+  static Reference fireStorageRef( String path,String uniqueFileName){
     return FirebaseStorage.instance
         .ref()
         .child(path)

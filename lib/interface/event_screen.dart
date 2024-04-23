@@ -447,7 +447,7 @@ class _EventState extends State<EventScreen> {
   Widget _buildCardsList(
       String name, List itemList, Widget Function(dynamic) itemBuilder) {
     return StreamBuilder(
-      stream: Connection.databaseReference(name),
+      stream: FirebaseAPI.databaseReference(name),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');

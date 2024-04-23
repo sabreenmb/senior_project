@@ -282,7 +282,7 @@ class _StudentActivityState extends State<StudentActivity>
 
   Widget _buildCardList() {
     return StreamBuilder(
-      stream: Connection.databaseReference('create-activity'),
+      stream: FirebaseAPI.databaseReference('create-activity'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');

@@ -88,7 +88,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       return;
     }
     _formKey.currentState!.save();
-    final storageRef = Connection.firestorageRef('lost_images', uniqueFileName);
+    final storageRef = FirebaseAPI.fireStorageRef('lost_images', uniqueFileName);
 
     if (_selectedImage == null) {
       _imageUrl = "empty";
@@ -116,7 +116,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       // final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
       //     'Lost-Items.json');
       final response = await http.post(
-        Connection.url('Lost-Items'),
+        FirebaseAPI.url('Lost-Items'),
         headers: {
           'Content-Type': 'application/json',
         },

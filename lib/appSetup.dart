@@ -49,7 +49,7 @@ class Setup {
 
   Future<void> LoadPsychGuidance() async {
     try {
-      final response = await http.get(Connection.url('Psych-Guidance'));
+      final response = await http.get(FirebaseAPI.url('Psych-Guidance'));
       final Map<String, dynamic> foundData = json.decode(response.body);
       for (final item in foundData.entries) {
         print('sabreen test');
@@ -91,7 +91,7 @@ class Setup {
   }
 
   static Future<void> loadUserData(String enteredID) async {
-    userProfileDoc = Connection.Users();
+    userProfileDoc = FirebaseAPI.currentUserInfo();
     DocumentSnapshot snapshot = await userProfileDoc.get();
 
     if (!snapshot.exists) {
@@ -218,7 +218,7 @@ class Setup {
     try {
       // final url = Uri.https(
       //     'senior-project-72daf-default-rtdb.firebaseio.com', 'offersdb.json');
-      final response = await http.get(Connection.url('offersdb'));
+      final response = await http.get(FirebaseAPI.url('offersdb'));
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
@@ -274,7 +274,7 @@ class Setup {
 
   Future<void> loadCoursesItems() async {
     courseItem = [];
-    final response = await http.get(Connection.url('eventsCoursesDB'));
+    final response = await http.get(FirebaseAPI.url('eventsCoursesDB'));
     if (response.body == 'placeholder') {
       return;
     }
@@ -325,7 +325,7 @@ class Setup {
   Future<void> loadWorkshopsItems() async {
     workshopItem = [];
 
-    final response = await http.get(Connection.url('eventsWorkshopsDB'));
+    final response = await http.get(FirebaseAPI.url('eventsWorkshopsDB'));
     if (response.body == 'placeholder') {
       return;
     }
@@ -375,7 +375,7 @@ class Setup {
 
   Future<void> loadConferencesItems() async {
     confItem = [];
-    final response = await http.get(Connection.url('eventsConferencesDB'));
+    final response = await http.get(FirebaseAPI.url('eventsConferencesDB'));
     if (response.body == 'placeholder') {
       return;
     }
@@ -424,7 +424,7 @@ class Setup {
 
   Future<void> loadOtherEventsItems() async {
     otherItem = [];
-    final response = await http.get(Connection.url('eventsOthersDB'));
+    final response = await http.get(FirebaseAPI.url('eventsOthersDB'));
     if (response.body == 'placeholder') {
       return;
     }
@@ -477,7 +477,7 @@ class Setup {
     final List<VolunteerOpReport> loadedVolunteerOp = [];
 
     try {
-      final response = await http.get(Connection.url('opportunities'));
+      final response = await http.get(FirebaseAPI.url('opportunities'));
       if (response.body == 'placeholder') {
         return;
       }
@@ -538,7 +538,7 @@ class Setup {
     try {
       // final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
       //     'studentClubsDB.json');
-      final response = await http.get(Connection.url('studentClubsDB'));
+      final response = await http.get(FirebaseAPI.url('studentClubsDB'));
       if (response.body == 'placeholder') {
         return;
       }
@@ -572,7 +572,7 @@ class Setup {
     final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
 
     try {
-      final response = await http.get(Connection.url('create-activity'));
+      final response = await http.get(FirebaseAPI.url('create-activity'));
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
@@ -628,7 +628,7 @@ class Setup {
   Future<void> loadStudyGroups() async {
     createGroupReport = [];
     try {
-      final response = await http.get(Connection.url('create-group'));
+      final response = await http.get(FirebaseAPI.url('create-group'));
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
@@ -681,7 +681,7 @@ class Setup {
     final List<FoundItemReport> loadedFoundItems = [];
 
     try {
-      final response = await http.get(Connection.url('Found-Items'));
+      final response = await http.get(FirebaseAPI.url('Found-Items'));
 
       final Map<String, dynamic> founddata = json.decode(response.body);
       for (final item in founddata.entries) {
@@ -706,7 +706,7 @@ class Setup {
     lostItemReport = [];
     final List<LostItemReport> loadedLostItems = [];
     try {
-      final response = await http.get(Connection.url('Lost-Items'));
+      final response = await http.get(FirebaseAPI.url('Lost-Items'));
       final Map<String, dynamic> lostdata = json.decode(response.body);
       for (final item in lostdata.entries) {
         loadedLostItems.add(LostItemReport(
