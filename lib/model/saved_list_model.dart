@@ -1,7 +1,5 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-
 import '../common/constant.dart';
 import 'dynamic_item_model.dart';
 
@@ -40,7 +38,6 @@ class SavedListModel {
             item: dynamicObject,
             icon: icon),
       );
-
       addItem(dynamicObject.id.toString());
     } else {
       saveList.removeWhere((item) =>
