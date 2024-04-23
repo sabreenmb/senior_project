@@ -61,15 +61,13 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           inAsyncCall: isLoading,
           child: SafeArea(
             bottom: false,
-            child:            Column(
+            child: Column(
               // mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 15),
                 Expanded(
                   child: Stack(
                     children: [
-
-
                       Container(
                         decoration: const BoxDecoration(
                             color: CustomColors.BackgroundColor,
@@ -95,7 +93,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -147,20 +144,21 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
               ),
             ),
           );
-
         }
-
-        return CarouselSlider(
-          items: recommendedOffers
-              .map((offer) => HomeOfferCard(offer))
-              .toList()
-              .cast<Widget>(),
-          options: CarouselOptions(
-            height: 180,
-            autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 3),
-          ),
-        );
+        return recommendedOffers.length != 1
+            ? CarouselSlider(
+                items: recommendedOffers
+                    .map((offer) => HomeOfferCard(offer))
+                    .toList()
+                    .cast<Widget>(),
+                options: CarouselOptions(
+                  height: 180,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                ),
+              )
+            : HomeOfferCard(recommendedOffers[0]);
+        ;
       },
     );
   }

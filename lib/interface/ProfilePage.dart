@@ -12,8 +12,6 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../constant.dart';
 import '../theme.dart';
 
-Map<String, dynamic> tempOffersPreferences = userInfo.offersPreferences;
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
   @override
@@ -21,6 +19,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Map<String, dynamic> tempOffersPreferences =
+      Map.fromEntries(userInfo.offersPreferences.entries);
+
   final _formKey = GlobalKey<FormState>();
   String _image = userInfo.image_url;
   void _submit() async {
@@ -67,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         // for()
       }
-      if (falseNum > 9) {
+      if (falseNum > 9 || recommendedOffers.isEmpty) {
         recommendedOffers = tempOffer;
       }
     }
@@ -252,77 +253,77 @@ class _ProfilePageState extends State<ProfilePage> {
                                             children: [
                                               userInfo.image_url == ''
                                                   ? Container(
-                                                padding:
-                                                const EdgeInsets.all(
-                                                    20),
-                                                alignment:
-                                                Alignment.topCenter,
-                                                height: 140,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: CustomColors
-                                                        .darkGrey,
-                                                    width: 3,
-                                                  ),
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  'assets/icons/UserProfile.svg',
-                                                  height: 100,
-                                                  width: 100,
-                                                  color: CustomColors
-                                                      .darkGrey,
-                                                ),
-                                              )
-                                                  : ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(
-                                                    100),
-                                                child: CachedNetworkImage(
-                                                    width: 140,
-                                                    height: 140,
-                                                    fit: BoxFit.cover,
-                                                    imageUrl: _image,
-                                                    errorWidget: (context,
-                                                        url, error) =>
-                                                        Container(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(
+                                                      padding:
+                                                          const EdgeInsets.all(
                                                               20),
-                                                          alignment:
-                                                          Alignment
-                                                              .topCenter,
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      height: 140,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color: CustomColors
+                                                              .darkGrey,
+                                                          width: 3,
+                                                        ),
+                                                      ),
+                                                      child: SvgPicture.asset(
+                                                        'assets/icons/UserProfile.svg',
+                                                        height: 100,
+                                                        width: 100,
+                                                        color: CustomColors
+                                                            .darkGrey,
+                                                      ),
+                                                    )
+                                                  : ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      child: CachedNetworkImage(
+                                                          width: 140,
                                                           height: 140,
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            shape: BoxShape
-                                                                .circle,
-                                                            border: Border
-                                                                .all(
-                                                              color: CustomColors
-                                                                  .darkGrey,
-                                                              width: 3,
-                                                            ),
-                                                          ),
-                                                          child:
-                                                          SvgPicture
-                                                              .asset(
-                                                            'assets/icons/UserProfile.svg',
-                                                            height: 100,
-                                                            width: 100,
-                                                            color: CustomColors
-                                                                .darkGrey,
-                                                          ),
-                                                        )),
-                                              ),
+                                                          fit: BoxFit.cover,
+                                                          imageUrl: _image,
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        20),
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topCenter,
+                                                                height: 140,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: CustomColors
+                                                                        .darkGrey,
+                                                                    width: 3,
+                                                                  ),
+                                                                ),
+                                                                child:
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  'assets/icons/UserProfile.svg',
+                                                                  height: 100,
+                                                                  width: 100,
+                                                                  color: CustomColors
+                                                                      .darkGrey,
+                                                                ),
+                                                              )),
+                                                    ),
                                               Positioned(
                                                 right: -9,
                                                 bottom: 3,
                                                 child: CircleAvatar(
                                                   radius: 25,
                                                   backgroundColor:
-                                                  CustomColors.white,
+                                                      CustomColors.white,
                                                   child: IconButton(
                                                     icon: const Icon(
                                                       Icons.camera_alt_rounded,
@@ -414,7 +415,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               .onUserInteraction,
                                           decoration: const InputDecoration(
                                             labelText:
-                                            ' ما يمكنك اضافتة للمجتمع؟ ',
+                                                ' ما يمكنك اضافتة للمجتمع؟ ',
                                             focusedBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: CustomColors.lightBlue,
@@ -446,7 +447,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     color:
-                                                    CustomColors.darkGrey),
+                                                        CustomColors.darkGrey),
                                               ),
                                             ),
                                             SizedBox(
@@ -456,13 +457,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                               // width: 32,
                                               child: ListView(
                                                 scrollDirection:
-                                                Axis.horizontal,
+                                                    Axis.horizontal,
                                                 children: [
                                                   ...List.generate(
                                                     offers.length,
-                                                        (index) => OfferItem(
-                                                      index: index,
-                                                      onSelected: (bool value) {
+                                                    (index) => OfferItem(
+                                                      index,
+                                                      (bool value) {
                                                         fun(value, index);
                                                         print(
                                                             "oooooooooooooooooooooooooooooooooooooooooooooooooo");
@@ -483,7 +484,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               horizontal: 90),
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                               await network();
+                                              await network();
                                               if (isOffline) {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
@@ -493,14 +494,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     duration: const Duration(
                                                         seconds: 1),
                                                     backgroundColor:
-                                                    CustomColors.darkGrey,
+                                                        CustomColors.darkGrey,
                                                     behavior: SnackBarBehavior
                                                         .floating,
                                                     shape:
-                                                    RoundedRectangleBorder(
+                                                        RoundedRectangleBorder(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          20),
+                                                          BorderRadius.circular(
+                                                              20),
                                                     ),
                                                   ),
                                                 );
@@ -513,10 +514,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 elevation: 0,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(20),
+                                                      BorderRadius.circular(20),
                                                 ),
                                                 backgroundColor:
-                                                CustomColors.lightBlue),
+                                                    CustomColors.lightBlue),
                                             child: Text("تحديث",
                                                 style: TextStyles.text3),
                                           ),
@@ -542,7 +543,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void fun(bool value, int index) {
-    bool found = false;
     if (value) {
       if (tempOffersPreferences[offers[index]['offerCategory']] == false) {
         tempOffersPreferences[offers[index]['offerCategory']] = true;
@@ -553,28 +553,15 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
   }
-}
 
-class OfferItem extends StatefulWidget {
-  final int index;
-  final ValueChanged<bool> onSelected;
+  Widget OfferItem(int index, ValueChanged<bool> onSelected) {
+    bool _isSelected = tempOffersPreferences[offers[index]['offerCategory']];
 
-  const OfferItem({super.key, required this.index, required this.onSelected});
-
-  @override
-  State<OfferItem> createState() => _OfferItemState();
-}
-
-class _OfferItemState extends State<OfferItem> {
-  bool _isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
           _isSelected = !_isSelected;
-          widget.onSelected(_isSelected);
+          onSelected(_isSelected);
         });
       },
       child: Container(
@@ -589,14 +576,13 @@ class _OfferItemState extends State<OfferItem> {
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: tempOffersPreferences[offers[widget.index]
-                ['offerCategory']] ==
-                    true
+                border: tempOffersPreferences[offers[index]['offerCategory']] ==
+                        true
                     ? Border.all(color: CustomColors.lightBlue, width: 2.0)
                     : null,
               ),
               child: SvgPicture.asset(
-                offers[widget.index]['icon']!,
+                offers[index]['icon']!,
                 width: 28,
                 height: 28,
                 color: CustomColors.lightBlue,
@@ -608,7 +594,7 @@ class _OfferItemState extends State<OfferItem> {
             Container(
               alignment: Alignment.center,
               child: Text(
-                offers[widget.index]['offerCategory'],
+                offers[index]['offerCategory'],
                 style: TextStyles.text2,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
