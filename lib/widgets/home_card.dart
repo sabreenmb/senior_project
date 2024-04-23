@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class HomeCard extends StatefulWidget {
   dynamic dynamicObject;

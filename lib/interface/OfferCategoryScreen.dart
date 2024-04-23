@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/OffersListScreen.dart';
 
-import '../constant.dart';
-import '../theme.dart';
+import '../common/common_functions.dart';
+import '../common/constant.dart';
+import '../common/theme.dart';
 import '../widgets/offer_card.dart';
 
 class OfferCategoryScreen extends StatefulWidget {

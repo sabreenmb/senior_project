@@ -5,20 +5,20 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/conference_item_report.dart';
 import 'package:senior_project/model/courses_item_report.dart';
 import 'package:senior_project/model/other_event_item_report.dart';
 import 'package:senior_project/model/workshop_item_report.dart';
-import 'package:senior_project/theme.dart';
+import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/conf_card.dart';
 import 'package:senior_project/widgets/other_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:senior_project/widgets/workshop_card.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../firebaseConnection.dart';
-import '../commonWidgets.dart';
+import '../common/firebase_api.dart';
+import '../common/common_functions.dart';
 import '../widgets/course_card.dart';
 import 'services_screen.dart';
 
@@ -172,13 +172,13 @@ class _EventState extends State<EventScreen> {
                                           filterSearchResults(
                                             _userInputController.text,
                                             isSelectedCourse
-                                                ? courseItem
+                                                ? courseItems
                                                 : isSelectedConfre
-                                                    ? confItem
+                                                    ? confItems
                                                     : isSelectedWorkshop
-                                                        ? workshopItem
+                                                        ? workshopItems
                                                         : isSelectedOther
-                                                            ? otherItem
+                                                            ? otherItems
                                                             : [],
                                           );
                                           FocusScope.of(context).unfocus();
@@ -216,13 +216,13 @@ class _EventState extends State<EventScreen> {
                                     filterSearchResults(
                                       _userInputController.text,
                                       isSelectedCourse
-                                          ? courseItem
+                                          ? courseItems
                                           : isSelectedConfre
-                                              ? confItem
+                                              ? confItems
                                               : isSelectedWorkshop
-                                                  ? workshopItem
+                                                  ? workshopItems
                                                   : isSelectedOther
-                                                      ? otherItem
+                                                      ? otherItems
                                                       : [],
                                     );
 
@@ -362,11 +362,11 @@ class _EventState extends State<EventScreen> {
                                   ),
                                 ),
                               if (!isSearch &&
-                                  ((isSelectedCourse && courseItem.isEmpty) ||
+                                  ((isSelectedCourse && courseItems.isEmpty) ||
                                       (isSelectedWorkshop &&
-                                          workshopItem.isEmpty) ||
-                                      (isSelectedConfre && confItem.isEmpty) ||
-                                      (isSelectedOther && otherItem.isEmpty)))
+                                          workshopItems.isEmpty) ||
+                                      (isSelectedConfre && confItems.isEmpty) ||
+                                      (isSelectedOther && otherItems.isEmpty)))
                                 Expanded(
                                   child: Center(
                                     child: SizedBox(
@@ -392,30 +392,30 @@ class _EventState extends State<EventScreen> {
                               //       ),
                               //     ),
                               //   ),
-                              if (isSelectedCourse && courseItem.isNotEmpty)
+                              if (isSelectedCourse && courseItems.isNotEmpty)
                                 buildExpandedWidget(
-                                    courseItem,
+                                    courseItems,
                                     searchCourseList,
                                     (item) => CoursesCard(item),
                                     'eventsCoursesDB'),
 
-                              if (isSelectedWorkshop && workshopItem.isNotEmpty)
+                              if (isSelectedWorkshop && workshopItems.isNotEmpty)
                                 buildExpandedWidget(
-                                    workshopItem,
+                                    workshopItems,
                                     searchWorkshopList,
                                     (item) => WorkshopCard(item),
                                     'eventsWorkshopsDB'),
 
-                              if (isSelectedConfre && confItem.isNotEmpty)
+                              if (isSelectedConfre && confItems.isNotEmpty)
                                 buildExpandedWidget(
-                                    confItem,
+                                    confItems,
                                     searchConfList,
                                     (item) => ConfCard(item),
                                     'eventsConferencesDB'),
 
-                              if (isSelectedOther && otherItem.isNotEmpty)
+                              if (isSelectedOther && otherItems.isNotEmpty)
                                 buildExpandedWidget(
-                                    otherItem,
+                                    otherItems,
                                     searchOtherList,
                                     (item) => OtherCard(item),
                                     'eventsOthersDB'),
@@ -509,7 +509,7 @@ class _EventState extends State<EventScreen> {
 
         List<dynamic> reports;
         if (name == 'eventsCoursesDB') {
-          courseItem.clear();
+          courseItems.clear();
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
@@ -524,9 +524,9 @@ class _EventState extends State<EventScreen> {
               timestamp: value['timestamp'],
             );
           }).toList();
-          courseItem = reports.cast<CoursesItemReport>();
+          courseItems = reports.cast<CoursesItemReport>();
         } else if (name == 'eventsWorkshopsDB') {
-          workshopItem.clear();
+          workshopItems.clear();
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
@@ -541,9 +541,9 @@ class _EventState extends State<EventScreen> {
               timestamp: value['timestamp'],
             );
           }).toList();
-          workshopItem = reports.cast<WorkshopsItemReport>();
+          workshopItems = reports.cast<WorkshopsItemReport>();
         } else if (name == 'eventsConferencesDB') {
-          confItem.clear();
+          confItems.clear();
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
@@ -557,9 +557,9 @@ class _EventState extends State<EventScreen> {
               confLink: value['conference_link'],
             );
           }).toList();
-          confItem = reports.cast<ConferencesItemReport>();
+          confItems = reports.cast<ConferencesItemReport>();
         } else {
-          otherItem.clear();
+          otherItems.clear();
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
@@ -574,7 +574,7 @@ class _EventState extends State<EventScreen> {
               timestamp: value['timestamp'],
             );
           }).toList();
-          otherItem = reports.cast<OtherEventsItemReport>();
+          otherItems = reports.cast<OtherEventsItemReport>();
         }
         // to do store the values
         return ListView.builder(

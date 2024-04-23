@@ -1,11 +1,11 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/helper/my_date_util.dart';
 import 'package:senior_project/model/message_info.dart';
 
-import '../theme.dart';
+import '../common/theme.dart';
 
 class ChatBubble extends StatelessWidget {
   final Message message;

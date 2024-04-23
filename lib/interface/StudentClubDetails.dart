@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../model/SClubInfo.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class ClubDetails extends StatefulWidget {
   SClubInfo clubDetails;

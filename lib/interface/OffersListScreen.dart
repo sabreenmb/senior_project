@@ -3,9 +3,9 @@ import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/grid_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
-import '../constant.dart';
-import '../theme.dart';
-import '../commonWidgets.dart';
+import '../common/constant.dart';
+import '../common/theme.dart';
+import '../common/common_functions.dart';
 
 class OffersListScreen extends StatefulWidget {
   const OffersListScreen({super.key});

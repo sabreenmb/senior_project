@@ -1,12 +1,12 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/model/workshop_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../theme.dart';
+import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class WorkshopCard extends StatefulWidget {

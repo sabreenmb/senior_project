@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:senior_project/constant.dart';
-import 'package:senior_project/theme.dart';
-import 'package:senior_project/commonWidgets.dart';
+import 'package:senior_project/common/constant.dart';
+import 'package:senior_project/common/theme.dart';
+import 'package:senior_project/common/common_functions.dart';
 import 'package:senior_project/widgets/save_list_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
@@ -19,8 +19,6 @@ class _SaveListScreenState extends State<SaveListScreen>
   @override
   void initState() {
     super.initState();
-    //todo move it to the login screen
-     EmptyList=  saveList.isEmpty;
 
   }
 
@@ -65,7 +63,7 @@ class _SaveListScreenState extends State<SaveListScreen>
                   ),
                   // child: _buildItems(),
                 ),
-                EmptyList?
+                saveList.isEmpty?
                     Center(child: Text('لا توجد محفوظات',style: TextStyles.pageTitle2)):
 
                 _buildItems(),

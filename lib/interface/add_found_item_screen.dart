@@ -10,12 +10,14 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/networkWedget.dart';
 
-import '../constant.dart';
-import '../firebaseConnection.dart';
+import '../common/common_functions.dart';
+import '../common/constant.dart';
+import '../common/firebase_api.dart';
 import '../model/found_item_report.dart';
-import '../theme.dart'; //.
+import '../common/theme.dart'; //.
+
+
 
 class AddFoundItemScreen extends StatefulWidget {
   const AddFoundItemScreen({super.key});
@@ -25,6 +27,16 @@ class AddFoundItemScreen extends StatefulWidget {
 }
 
 class _AddFoundItemState extends State<AddFoundItemScreen> {
+  List<String> categories = [
+    'بطاقات',
+    'نقود',
+    'مستندات',
+    'مجوهرات',
+    'ملابس',
+    'إلكترونيات',
+    'أغراض شخصية',
+    'اخرى'
+  ];
   FoundItemReport foundItemReport = FoundItemReport(
       id: '',
       photo: '',
@@ -256,7 +268,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                   ),
                                 ),
                                 value: _selectedCategory,
-                                items: Categories.map((category) {
+                                items: categories.map((category) {
                                   return DropdownMenuItem(
                                     value: category,
                                     child: Text(

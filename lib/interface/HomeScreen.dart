@@ -5,17 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/theme.dart';
-import 'package:senior_project/commonWidgets.dart';
+import 'package:senior_project/common/theme.dart';
+import 'package:senior_project/common/common_functions.dart';
 import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../constant.dart';
+import '../common/constant.dart';
 import '../model/EventItem.dart';
 import '../model/offer_info.dart';
 import '../widgets/home_card.dart';
-import '../networkWedget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -182,7 +181,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   Widget _buildHorizontalScrollableCards(List<EventItem> details) {
     print('fiss');
-    print(courseItem.length);
+    print(courseItems.length);
     return Container(
       height: 240,
       child: ListView.builder(

@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'common_functions.dart';
 import 'constant.dart';
-import 'interface/LaunchScreen.dart';
+import '../interface/LaunchScreen.dart';
 import 'theme.dart';
 
 class NetworkConnection extends StatefulWidget {

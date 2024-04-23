@@ -14,7 +14,7 @@ import '../interface/event_screen.dart';
 import '../interface/psychGuidance.dart';
 import '../interface/student_activity.dart';
 import '../interface/study_group.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class GridCard extends StatelessWidget {
   Map<String, dynamic> details;

@@ -8,7 +8,7 @@ import 'package:senior_project/interface/lost_and_found_screen.dart';
 
 import '../interface/event_screen.dart';
 import '../interface/psychGuidance.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class ServiceCard extends StatelessWidget {
   Map<String, dynamic> details;

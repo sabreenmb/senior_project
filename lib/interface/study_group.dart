@@ -3,18 +3,17 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/create_group_report.dart';
-import 'package:senior_project/theme.dart';
+import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/create_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../firebaseConnection.dart';
-import '../commonWidgets.dart';
-import '../networkWedget.dart';
+import '../common/firebase_api.dart';
+import '../common/common_functions.dart';
 
 class StudyGroup extends StatefulWidget {
   const StudyGroup({super.key});
@@ -190,7 +189,7 @@ class _StudyGroupState extends State<StudyGroup>
                                           searchSessionList.clear();
                                           filterSearchResults(
                                               _userInputController.text,
-                                              createGroupReport);
+                                              studyGroupItems);
                                           FocusScope.of(context).unfocus();
                                         }),
                                     hintText: 'ابحث',
@@ -223,7 +222,7 @@ class _StudyGroupState extends State<StudyGroup>
                                     searchSessionList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
-                                        createGroupReport);
+                                        studyGroupItems);
                                     FocusScope.of(context).unfocus();
                                   },
                                   onTap: () {
@@ -234,7 +233,7 @@ class _StudyGroupState extends State<StudyGroup>
                               ),
                               if ((isSearch
                                   ? searchSessionList.isEmpty
-                                  : createGroupReport.isEmpty))
+                                  : studyGroupItems.isEmpty))
                                 Expanded(
                                   child: Center(
                                     child: SizedBox(
@@ -247,7 +246,7 @@ class _StudyGroupState extends State<StudyGroup>
                                     ),
                                   ),
                                 ),
-                              if (createGroupReport.isNotEmpty)
+                              if (studyGroupItems.isNotEmpty)
                                 Expanded(
                                     child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -311,9 +310,9 @@ Widget _buildCardList() {
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.only(bottom: 10),
-            itemCount: createGroupReport.length,
+            itemCount: studyGroupItems.length,
             itemBuilder: (context, index) {
-              return CreateCard(createGroupReport[0]);
+              return CreateCard(studyGroupItems[0]);
             },
           ),
         );
@@ -339,8 +338,8 @@ Widget _buildCardList() {
           numPerson: value['NumPerson'],
         );
       }).toList();
-      createGroupReport.clear();
-      createGroupReport = reports;
+      studyGroupItems.clear();
+      studyGroupItems = reports;
       // to do store the values
       return ListView.builder(
         physics: const BouncingScrollPhysics(),

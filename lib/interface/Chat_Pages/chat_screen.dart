@@ -5,17 +5,18 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_service.dart';
 import 'package:senior_project/interface/Chat_Pages/other_user_profile_screen.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/model/message_info.dart';
 import 'package:senior_project/widgets/chat_bubble.dart';
-import 'package:senior_project/theme.dart';
-import 'package:senior_project/networkWedget.dart';
+import 'package:senior_project/common/theme.dart';
+
+import '../../common/common_functions.dart';
 
 class RealChatPage extends StatefulWidget {
-  final enteredUserInfo otherUserInfo;
+  final UserInformation otherUserInfo;
   const RealChatPage({super.key, required this.otherUserInfo});
 
   @override

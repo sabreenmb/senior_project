@@ -6,10 +6,10 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 
-import '../constant.dart';
-import '../theme.dart';
+import '../common/constant.dart';
+import '../common/theme.dart';
 import '../widgets/clubs_card.dart';
-import '../commonWidgets.dart';
+import '../common/common_functions.dart';
 
 class StudentClubsScreen extends StatefulWidget {
   const StudentClubsScreen({super.key});
@@ -72,7 +72,7 @@ class _StudentClubsState extends State<StudentClubsScreen>
           mainAxisSpacing: 20.0,
           crossAxisSpacing: 10.0,
           childAspectRatio: 1.1),
-      children: SClubs.map<Widget>((doc) => ClubsCard(doc)).toList(),
+      children: sClubsItems.map<Widget>((doc) => ClubsCard(doc)).toList(),
     );
   }
 

@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/appSetup.dart';
+import 'package:senior_project/common/app_setup.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
-import 'package:senior_project/theme.dart';
+import 'package:senior_project/common/theme.dart';
 
-import '../constant.dart';
-import '../commonWidgets.dart';
-import '../network.dart';
+import '../common/constant.dart';
+import '../common/common_functions.dart';
+import '../common/network_page.dart';
 import 'login_screen.dart';
-import 'package:senior_project/appSetup.dart';
+import 'package:senior_project/common/app_setup.dart';
 import 'package:flutter/services.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -24,7 +24,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
   void initState() {
     super.initState();
 
-     setup();
+    setup();
   }
 
   Future<void> setup() async {
@@ -38,24 +38,24 @@ class _LaunchScreenState extends State<LaunchScreen> {
       if (isOffline) {
         await Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const NetworkConnection()));
-      }
+      } else {
         if (user != null) {
-
-        if (!isOffline) {
-          print('test');
-           await Setup.loadUserData(user.email.toString());
-           await Setup().build();
-           Setup().build2();
+          if (!isOffline) {
+            print('test');
+            await Setup.loadUserData(user.email.toString());
+            await Setup().build();
+            Setup().build2();
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            });
+          }
+        } else {
           Future.delayed(const Duration(seconds: 1), () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+                MaterialPageRoute(builder: (context) => const LoginScreen()));
           });
         }
-      } else {
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()));
-        });
       }
     } catch (e) {
       print('we do not have a token');

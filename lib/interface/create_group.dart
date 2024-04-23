@@ -10,10 +10,9 @@ import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/model/create_group_report.dart';
 
-import '../constant.dart';
-//import '../model/found_item_report.dart';
-import '../theme.dart';
-import '../networkWedget.dart';
+import '../common/common_functions.dart';
+import '../common/constant.dart';
+import '../common/theme.dart';
 
 class CreateGroup extends StatefulWidget {
   const CreateGroup({super.key});
@@ -23,6 +22,18 @@ class CreateGroup extends StatefulWidget {
 }
 
 class _CreateGroupState extends State<CreateGroup> {
+  List<String> subjectsList = [
+    'ESPE 201 - مقدمة تربية خاصة ',
+    'ELPR 101 - لغة انجليزية ',
+    'SSSH 100 - مفاهيم اللياقة البدنية والصحة',
+    'BACA 211 - محاسبة مالية',
+    'BCHR 101 - البيئة القانونية للأعمال',
+    'ISLM 201 - عبادات ومعاملات',
+    'SCMT 221 - جبر خطي',
+    'CCCY 225 -  أمن برمجيات',
+    'CCSW 438 - مواضيع متقدمة في هندسة برمجيات',
+    'اخرى'
+  ];
   CreateGroupReport createGroupReport = CreateGroupReport(
       id: '', name: '', date: '', time: '', location: '', numPerson: '');
   // bool imageEmpty = false;
@@ -209,7 +220,8 @@ class _CreateGroupState extends State<CreateGroup> {
                                     ),
                                   ),
                                   value: _selectedSubject,
-                                  items: SubjectsCode.map((name) {
+                                  items:
+                                  subjectsList.map((name) {
                                     return DropdownMenuItem(
                                       value: name,
                                       child: Text(

@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/widgets/user_chat_item.dart';
-import 'package:senior_project/theme.dart';
+import 'package:senior_project/common/theme.dart';
+
+import '../../common/common_functions.dart';
 
 class AllUsersScreen extends StatefulWidget {
   const AllUsersScreen({super.key});
@@ -21,7 +23,7 @@ class _AllUsersState extends State<AllUsersScreen>
   final int _selectedPageIndex = 2;
 
   final _userInputController = TextEditingController();
-  List<enteredUserInfo> _list = [];
+  List<UserInfo> _list = [];
   late AnimationController _animationController;
   late Stream<QuerySnapshot> users;
   //manar from here

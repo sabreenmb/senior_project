@@ -9,12 +9,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/networkWedget.dart';
 
-import '../constant.dart';
-import '../firebaseConnection.dart';
+import '../common/common_functions.dart';
+import '../common/constant.dart';
+import '../common/firebase_api.dart';
 import '../model/lost_item_report.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class AddLostItemScreen extends StatefulWidget {
   const AddLostItemScreen({super.key});
@@ -23,6 +23,16 @@ class AddLostItemScreen extends StatefulWidget {
 }
 
 class _AddLostItemScreenState extends State<AddLostItemScreen> {
+  List<String> categories = [
+    'بطاقات',
+    'نقود',
+    'مستندات',
+    'مجوهرات',
+    'ملابس',
+    'إلكترونيات',
+    'أغراض شخصية',
+    'اخرى'
+  ];
   LostItemReport lostItemReport = LostItemReport(
     id: '',
     photo: '',
@@ -251,7 +261,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                   ),
                                 ),
                                 value: _selectedCategory,
-                                items: Categories.map((category) {
+                                items: categories.map((category) {
                                   return DropdownMenuItem(
                                     value: category,
                                     child: Text(

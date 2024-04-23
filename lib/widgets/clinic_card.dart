@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/clinic_report.dart';
 
-import '../theme.dart';
+import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class ClinicCard extends StatelessWidget {

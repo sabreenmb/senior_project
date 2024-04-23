@@ -1,7 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../constant.dart';
+import '../common/constant.dart';
 import 'EventItem.dart';
 
 class SavedList {

@@ -2,18 +2,17 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/create_student_activity.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/create_student_activity_report.dart';
-import 'package:senior_project/theme.dart';
-import 'package:senior_project/commonWidgets.dart';
+import 'package:senior_project/common/theme.dart';
+import 'package:senior_project/common/common_functions.dart';
 import 'package:senior_project/widgets/create_student_activity_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../firebaseConnection.dart';
-import '../networkWedget.dart';
+import '../common/firebase_api.dart';
 
 class StudentActivity extends StatefulWidget {
   const StudentActivity({super.key});
@@ -187,7 +186,7 @@ class _StudentActivityState extends State<StudentActivity>
                                           searchActivityList.clear();
                                           filterSearchResults(
                                               _userInputController.text,
-                                              createStudentActivityReport);
+                                              sActivitiesItems);
                                           FocusScope.of(context).unfocus();
                                         }),
                                     hintText: 'ابحث',
@@ -220,7 +219,7 @@ class _StudentActivityState extends State<StudentActivity>
                                     searchActivityList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
-                                        createStudentActivityReport);
+                                        sActivitiesItems);
                                     FocusScope.of(context).unfocus();
                                   },
                                   onTap: () {
@@ -232,7 +231,7 @@ class _StudentActivityState extends State<StudentActivity>
                               ),
                               if ((isSearch
                                   ? searchActivityList.isEmpty
-                                  : createStudentActivityReport.isEmpty))
+                                  : sActivitiesItems.isEmpty))
                                 Expanded(
                                   child: Center(
                                     child: SizedBox(
@@ -245,7 +244,7 @@ class _StudentActivityState extends State<StudentActivity>
                                     ),
                                   ),
                                 ),
-                              if (createStudentActivityReport.isNotEmpty)
+                              if (sActivitiesItems.isNotEmpty)
                                 Expanded(
                                     child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -300,7 +299,7 @@ class _StudentActivityState extends State<StudentActivity>
               itemCount: 4,
               itemBuilder: (context, index) {
                 return CreateStudentActivityCard(
-                    createStudentActivityReport[0]);
+                    sActivitiesItems[0]);
               },
             ),
           );
@@ -326,8 +325,8 @@ class _StudentActivityState extends State<StudentActivity>
             id: key,
           );
         }).toList();
-        createStudentActivityReport.clear();
-        createStudentActivityReport = reports;
+        sActivitiesItems.clear();
+        sActivitiesItems = reports;
         // to do store the values
         return ListView.builder(
           physics: const BouncingScrollPhysics(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/create_group_report.dart';
 
-import '../theme.dart';
+import '../common/theme.dart';
 
 class CreateMain extends StatelessWidget {
   CreateGroupReport createGroupReport;

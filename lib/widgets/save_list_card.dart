@@ -3,11 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/interface/student_activity.dart';
 import 'package:senior_project/interface/study_group.dart';
 
-import '../constant.dart';
+import '../common/constant.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
 import '../model/SavedList.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class SaveCard extends StatefulWidget {

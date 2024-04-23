@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:io';
 import '../model/found_item_report.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class FoundCard extends StatelessWidget {
   FoundItemReport foundItemReport;

@@ -6,10 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/login_screen.dart';
 
-import '../theme.dart';
+import '../common/theme.dart';
 
 class SideDrawer extends StatelessWidget {
   final void Function()? onProfileTap;

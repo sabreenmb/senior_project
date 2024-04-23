@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../constant.dart';
+import '../common/constant.dart';
 import '../model/psych_guidance_report.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class PGCard extends StatelessWidget {
   // PsychGuidanceReport psychGuidanceItem;

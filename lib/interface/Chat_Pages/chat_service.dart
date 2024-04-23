@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/chat_info.dart';
 import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/model/message_info.dart';
-import 'package:senior_project/push_notification.dart';
+import 'package:senior_project/common/push_notification.dart';
 
 class ChatService extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //send
   Future<void> sendMessage(
-      enteredUserInfo otherUserInfo, String message) async {
+      UserInformation otherUserInfo, String message) async {
     //get current user info ----
 
     try {

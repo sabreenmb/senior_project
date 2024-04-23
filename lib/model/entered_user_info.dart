@@ -1,4 +1,4 @@
-class enteredUserInfo {
+class UserInformation {
   //Variables
   late String image_url;
   late String userID;
@@ -12,7 +12,7 @@ class enteredUserInfo {
   late String pushToken;
   late Map<String, dynamic> offersPreferences;
 
-  enteredUserInfo({
+  UserInformation({
     this.image_url = '',
     this.userID = '',
     this.rule = '',
@@ -51,7 +51,7 @@ class enteredUserInfo {
   //   required this.offersPreferences,
   // });
 
-  enteredUserInfo.fromJson(Map<String, dynamic> json) {
+  UserInformation.fromJson(Map<String, dynamic> json) {
     userID = json['userID'] ?? '';
     rule = json['userID'] ?? '';
     name = json['userID'] ?? '';

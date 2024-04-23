@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../interface/StudentClubDetails.dart';
 import '../model/SClubInfo.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class ClubsCard extends StatelessWidget {
   SClubInfo clubDetails;

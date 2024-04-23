@@ -9,8 +9,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import '../constant.dart';
-import '../theme.dart';
+import '../common/common_functions.dart';
+import '../common/constant.dart';
+import '../common/theme.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

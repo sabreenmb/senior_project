@@ -8,13 +8,13 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/commonWidgets.dart';
-import '../constant.dart';
+import 'package:senior_project/common/common_functions.dart';
+import '../common/constant.dart';
 import '../model/psych_guidance_report.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 import '../widgets/psych_guidance_card.dart';
 import '../widgets/side_menu.dart';
-import '../firebaseConnection.dart';
+import '../common/firebase_api.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'Chat_Pages/chat_screen.dart';

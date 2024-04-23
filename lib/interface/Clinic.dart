@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/clinic_report.dart';
-import 'package:senior_project/theme.dart';
+import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/clinic_card.dart';
-import 'package:senior_project/commonWidgets.dart';
+import 'package:senior_project/common/common_functions.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -325,11 +325,11 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
   void _filterClinicListByBranch() {
     if (selectedBranch.isEmpty) {
-      filteredClinicList = clinicReport
+      filteredClinicList = clinicItems
           .where((clinic) => clinic.clBranch == "المقر الرئيسي")
           .toList();
     } else {
-      filteredClinicList = clinicReport
+      filteredClinicList = clinicItems
           .where((clinic) => clinic.clBranch == selectedBranch)
           .toList();
     }
@@ -345,7 +345,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
       if (query.isNotEmpty) {
         searchPerformedAndEmpty = true;
-        List<ClinicReport> tempList = clinicReport.where((report) {
+        List<ClinicReport> tempList = clinicItems.where((report) {
           bool isSameBranch = report.clBranch == selectedBranch;
           bool matchesQuery = report.clDepartment!
                   .toLowerCase()
@@ -357,7 +357,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
         filteredClinicList.addAll(tempList);
       } else {
-        filteredClinicList = clinicReport
+        filteredClinicList = clinicItems
             .where((report) => report.clBranch == selectedBranch)
             .toList();
       }

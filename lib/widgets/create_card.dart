@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/create_group_report.dart';
 import 'package:senior_project/model/SavedList.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 
-import '../theme.dart';
+import '../common/theme.dart';
 
 class CreateCard extends StatefulWidget {
   CreateGroupReport createGroupReport;

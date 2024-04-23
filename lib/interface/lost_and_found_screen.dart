@@ -6,17 +6,17 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/add_found_item_screen.dart';
 import 'package:senior_project/interface/add_lost_item_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/theme.dart';
+import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/found_card.dart';
 import 'package:senior_project/widgets/lost_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../constant.dart';
-import '../firebaseConnection.dart';
+import '../common/constant.dart';
+import '../common/firebase_api.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
-import '../commonWidgets.dart';
+import '../common/common_functions.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
   const LostAndFoundScreen({super.key});
@@ -208,8 +208,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                           filterSearchResults(
                                               _userInputController.text,
                                               isLost
-                                                  ? lostItemReport
-                                                  : foundItemReport);
+                                                  ? lostItems
+                                                  : foundItems);
                                           FocusScope.of(context).unfocus();
                                         }),
                                     hintText: 'ابحث',
@@ -246,8 +246,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     filterSearchResults(
                                         _userInputController.text,
                                         isLost
-                                            ? lostItemReport
-                                            : foundItemReport);
+                                            ? lostItems
+                                            : foundItems);
                                     FocusScope.of(context).unfocus();
                                   },
                                   onTap: () {
@@ -348,10 +348,10 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                               if (isLost
                                   ? (isSearch
                                       ? searchLostList.isEmpty
-                                      : lostItemReport.isEmpty)
+                                      : lostItems.isEmpty)
                                   : (isSearch
                                       ? searchFoundList.isEmpty
-                                      : foundItemReport.isEmpty))
+                                      : foundItems.isEmpty))
                                 Expanded(
                                   child: Center(
                                     child: SizedBox(
@@ -365,8 +365,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                   ),
                                 ),
                               if (isLost
-                                  ? lostItemReport.isNotEmpty
-                                  : foundItemReport.isNotEmpty)
+                                  ? lostItems.isNotEmpty
+                                  : foundItems.isNotEmpty)
                                 Expanded(
                                     child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -514,12 +514,12 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 10),
               itemCount:
-                  isLost ? lostItemReport.length : foundItemReport.length,
+                  isLost ? lostItems.length : foundItems.length,
               itemBuilder: (context, index) {
                 if (isLost) {
-                  return LostCard(lostItemReport[0]);
+                  return LostCard(lostItems[0]);
                 } else {
-                  return FoundCard(foundItemReport[0]);
+                  return FoundCard(foundItems[0]);
                 }
               },
             ),
@@ -534,7 +534,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
 
         List<dynamic> reports;
         if (isLost) {
-          lostItemReport.clear();
+          lostItems.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
@@ -549,9 +549,9 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
               creatorID: value['creatorID'],
             );
           }).toList();
-          lostItemReport = reports.cast<LostItemReport>();
+          lostItems = reports.cast<LostItemReport>();
         } else {
-          foundItemReport.clear();
+          foundItems.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
@@ -565,7 +565,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
               photo: value['Photo'],
             );
           }).toList();
-          foundItemReport = reports.cast<FoundItemReport>();
+          foundItems = reports.cast<FoundItemReport>();
         }
 
         return ListView.builder(

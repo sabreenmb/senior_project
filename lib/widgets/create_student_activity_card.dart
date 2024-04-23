@@ -1,11 +1,11 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/model/create_student_activity_report.dart';
 
-import '../theme.dart';
+import '../common/theme.dart';
 
 class CreateStudentActivityCard extends StatefulWidget {
   CreateStudentActivityReport createStudentActivityReport;

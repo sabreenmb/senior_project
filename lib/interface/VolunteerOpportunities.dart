@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 //import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/volunteer_op_report.dart';
-import 'package:senior_project/theme.dart';
+import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/op_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../firebaseConnection.dart';
-import '../commonWidgets.dart';
+import '../common/firebase_api.dart';
+import '../common/common_functions.dart';
 
 class VolunteerOp extends StatefulWidget {
   const VolunteerOp({super.key});
@@ -128,7 +128,7 @@ class _VolunteerOpState extends State<VolunteerOp>
                                 padding:
                                     const EdgeInsets.only(left: 15, right: 15),
                               ),
-                              (volunteerOpReport.isNotEmpty)
+                              (volOpItems.isNotEmpty)
                                   ? Expanded(
                                       child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -167,7 +167,7 @@ class _VolunteerOpState extends State<VolunteerOp>
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          if (volunteerOpReport.isEmpty) {
+          if (volOpItems.isEmpty) {
             return Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.grey[300]!,
@@ -198,9 +198,9 @@ class _VolunteerOpState extends State<VolunteerOp>
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: 10),
-                itemCount: volunteerOpReport.length,
+                itemCount: volOpItems.length,
                 itemBuilder: (context, index) {
-                  return OpCard(volunteerOpReport[index]);
+                  return OpCard(volOpItems[index]);
                 },
               ),
             );
@@ -236,8 +236,8 @@ class _VolunteerOpState extends State<VolunteerOp>
             timestamp: value['timestamp'],
           );
         }).toList();
-        volunteerOpReport.clear();
-        volunteerOpReport = reports;
+        volOpItems.clear();
+        volOpItems = reports;
         // to do store the values
         return ListView.builder(
           physics: const BouncingScrollPhysics(),

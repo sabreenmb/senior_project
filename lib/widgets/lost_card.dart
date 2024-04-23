@@ -2,12 +2,12 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:senior_project/constant.dart';
+import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../model/lost_item_report.dart';
-import '../theme.dart';
+import '../common/theme.dart';
 
 class LostCard extends StatelessWidget {
   LostItemReport lostItemReport;
