@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/saved_list_model.dart';
-import 'package:senior_project/model/conference_item_report.dart';
+import 'package:senior_project/model/conference_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class ConfCard extends StatefulWidget {
-  ConferencesItemReport confItem;
+  ConferencesModel confItem;
   ConfCard(this.confItem, {super.key});
 
   @override

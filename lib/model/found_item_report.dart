@@ -1,5 +1,4 @@
-
-class FoundItemReport {
+class FoundItemModel {
   //Variables
   String? id;
   String? photo;
@@ -10,7 +9,7 @@ class FoundItemReport {
   String? desription;
 
   //Constructor
-  FoundItemReport({
+  FoundItemModel({
     required this.id,
     required this.photo,
     required this.category,
@@ -19,7 +18,6 @@ class FoundItemReport {
     required this.receivePlace,
     required this.desription,
   });
-
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -32,4 +30,3 @@ class FoundItemReport {
     return map;
   }
 }
-

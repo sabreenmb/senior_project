@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/model/create_student_activity_report.dart';
+import 'package:senior_project/model/student_activity_model.dart';
 
 import '../common/common_functions.dart';
 import '../common/constant.dart';
@@ -22,8 +22,8 @@ class CreateStudentActivity extends StatefulWidget {
 }
 
 class _CreateStudentActivityState extends State<CreateStudentActivity> {
-  CreateStudentActivityReport createStudentActivityReport =
-      CreateStudentActivityReport(
+  StudentActivityModel createStudentActivityReport =
+      StudentActivityModel(
           id: '', name: '', date: '', time: '', location: '', numOfPerson: '');
   // bool imageEmpty = false;
   DateTime _selectedDate = DateTime.now();

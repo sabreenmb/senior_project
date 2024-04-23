@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/common/theme.dart';
 import '../../common/common_functions.dart';
 import '../../common/constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class OtherUserProfileScreen extends StatefulWidget {
-  final UserInformation otherUserInfo;
+  final UserInformationModel otherUserInfo;
 
   const OtherUserProfileScreen({Key? key, required this.otherUserInfo})
       : super(key: key);

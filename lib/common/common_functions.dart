@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:shimmer/shimmer.dart';
-import '../model/EventItem.dart';
+import '../model/dynamic_item_model.dart';
 import 'constant.dart';
 import '../interface/Chat_Pages/current_chats.dart';
 import '../interface/HomeScreen.dart';
@@ -224,26 +224,26 @@ void homeCards() async {
   combinedList = [];
 
   for (var item in workshopItems) {
-    combinedList.add(EventItem(
+    combinedList.add(DynamicItemModel(
         serviceName: 'workshops', item: item, icon: services[4]['icon']));
   }
 
   for (var item in confItems) {
-    combinedList.add(EventItem(
+    combinedList.add(DynamicItemModel(
         serviceName: 'conferences', item: item, icon: services[4]['icon']));
   }
 
   for (var item in otherItems) {
-    combinedList.add(EventItem(
+    combinedList.add(DynamicItemModel(
         serviceName: 'otherEvents', item: item, icon: services[4]['icon']));
   }
 
   for (var item in courseItems) {
-    combinedList.add(EventItem(
+    combinedList.add(DynamicItemModel(
         serviceName: 'courses', item: item, icon: services[4]['icon']));
   }
   for (var item in volOpItems) {
-    combinedList.add(EventItem(
+    combinedList.add(DynamicItemModel(
         serviceName: 'volunteerOp', item: item, icon: services[1]['icon']));
   }
   sortItemsByTimestamp(combinedList);

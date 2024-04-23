@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/student_group_model.dart';
 
 import '../common/common_functions.dart';
 import '../common/constant.dart';
@@ -34,7 +34,7 @@ class _CreateGroupState extends State<CreateGroup> {
     'CCSW 438 - مواضيع متقدمة في هندسة برمجيات',
     'اخرى'
   ];
-  CreateGroupReport createGroupReport = CreateGroupReport(
+  StudentGroupModel createGroupReport = StudentGroupModel(
       id: '', name: '', date: '', time: '', location: '', numPerson: '');
   // bool imageEmpty = false;
   String? _selectedSubject;

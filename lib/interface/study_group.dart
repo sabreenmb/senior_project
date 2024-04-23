@@ -6,7 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/student_group_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/create_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
@@ -27,7 +27,7 @@ class _StudyGroupState extends State<StudyGroup>
   late StreamSubscription connSub;
 
   //search
-  List<CreateGroupReport> searchSessionList = [];
+  List<StudentGroupModel> searchSessionList = [];
   final _userInputController = TextEditingController();
   //filter
   bool isSearch = false;
@@ -325,10 +325,10 @@ Widget _buildCardList() {
       }
 
 // todo make sure it works
-      final List<CreateGroupReport> reports = data.entries.map((entry) {
+      final List<StudentGroupModel> reports = data.entries.map((entry) {
         final key = entry.key;
         final value = entry.value;
-        return CreateGroupReport(
+        return StudentGroupModel(
           id: key,
           //model name : firebase name
           name: value['name'],

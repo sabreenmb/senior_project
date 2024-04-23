@@ -4,18 +4,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:senior_project/common/firebase_api.dart';
-import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/model/user_information_model.dart';
 import 'common_functions.dart';
 import 'constant.dart';
-import '../model/EventItem.dart';
+import '../model/dynamic_item_model.dart';
 import '../model/student_club_model.dart';
-import '../model/clinic_report.dart';
-import '../model/conference_item_report.dart';
-import '../model/courses_item_report.dart';
-import '../model/create_group_report.dart';
-import '../model/create_student_activity_report.dart';
+import '../model/clinic_model.dart';
+import '../model/conference_model.dart';
+import '../model/courses_model.dart';
+import '../model/student_group_model.dart';
+import '../model/student_activity_model.dart';
 import '../model/found_item_report.dart';
-import '../model/lost_item_report.dart';
+import '../model/lost_item_model.dart';
 import '../model/offer_info_moedl.dart';
 import '../model/other_events_model.dart';
 import '../model/psych_guidance_model.dart';
@@ -147,7 +147,7 @@ class Setup {
 
   Future<void> loadAllUsers() async {
     allUsers = [];
-    List<UserInformation> loadedUsers = [];
+    List<UserInformationModel> loadedUsers = [];
 
     try {
       QuerySnapshot querySnapshot =
@@ -157,7 +157,7 @@ class Setup {
         DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
-        UserInformation otherUserInfo = UserInformation(
+        UserInformationModel otherUserInfo = UserInformationModel(
           userID: data['userID'],
           rule: data['rule'],
           name: data['name'],
@@ -239,7 +239,7 @@ class Setup {
 
   Future<void> loadCourses() async {
     courseItems = [];
-    List<CoursesItemReport> loadedCourseItems = [];
+    List<CoursesModel> loadedCourseItems = [];
     final response = await http.get(FirebaseAPI.url('eventsCoursesDB'));
     if (response.body == '"placeholder"') {
       return;
@@ -247,7 +247,7 @@ class Setup {
     final Map<String, dynamic> data = json.decode(response.body);
     for (final item in data.entries) {
       if (getValidityF(item.value['course_date']) == true) {
-        loadedCourseItems.add(CoursesItemReport(
+        loadedCourseItems.add(CoursesModel(
           id: item.key,
           name: item.value['course_name'],
           presentBy: item.value['course_presenter'],
@@ -274,7 +274,7 @@ class Setup {
         int matchingIndex =
             courseItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
-          saveList.add(EventItem(
+          saveList.add(DynamicItemModel(
               serviceName: 'دورة',
               item: courseItems[matchingIndex],
               icon: services[4]['icon']));
@@ -324,7 +324,7 @@ class Setup {
         int matchingIndex =
             workshopItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
-          saveList.add(EventItem(
+          saveList.add(DynamicItemModel(
               serviceName: 'ورشة عمل',
               item: workshopItems[matchingIndex],
               icon: services[4]['icon']));
@@ -339,7 +339,7 @@ class Setup {
 
   Future<void> loadConferences() async {
     confItems = [];
-    List<ConferencesItemReport> loadedConferencesItems = [];
+    List<ConferencesModel> loadedConferencesItems = [];
 
     final response = await http.get(FirebaseAPI.url('eventsConferencesDB'));
     if (response.body == '"placeholder"') {
@@ -349,7 +349,7 @@ class Setup {
 
     for (final item in data.entries) {
       if (getValidityF(item.value['conference_date']) == true) {
-        loadedConferencesItems.add(ConferencesItemReport(
+        loadedConferencesItems.add(ConferencesModel(
           id: item.key,
           name: item.value['conference_name'],
           date: item.value['conference_date'],
@@ -374,7 +374,7 @@ class Setup {
         int matchingIndex =
             confItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
-          saveList.add(EventItem(
+          saveList.add(DynamicItemModel(
               serviceName: 'مؤتمر',
               item: confItems[matchingIndex],
               icon: services[4]['icon']));
@@ -425,7 +425,7 @@ class Setup {
         int matchingIndex =
             otherItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
-          saveList.add(EventItem(
+          saveList.add(DynamicItemModel(
               serviceName: 'أخرى',
               item: otherItems[matchingIndex],
               icon: services[4]['icon']));
@@ -483,7 +483,7 @@ class Setup {
         int matchingIndex =
             volOpItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
-          saveList.add(EventItem(
+          saveList.add(DynamicItemModel(
               serviceName: 'فرصة تطوعية',
               item: volOpItems[matchingIndex],
               icon: services[1]['icon']));
@@ -530,7 +530,7 @@ class Setup {
   }
 
   Future<void> loadSActivities() async {
-    final List<CreateStudentActivityReport> loadedCreatedStudentActivity = [];
+    final List<StudentActivityModel> loadedCreatedStudentActivity = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('create-activity'));
@@ -538,7 +538,7 @@ class Setup {
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
         if (getValidityF(item.value['date'])) {
-          loadedCreatedStudentActivity.add(CreateStudentActivityReport(
+          loadedCreatedStudentActivity.add(StudentActivityModel(
             id: item.key,
             name: item.value['name'],
             date: item.value['date'],
@@ -571,7 +571,7 @@ class Setup {
         int matchingIndex =
             sActivitiesItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
-          saveList.add(EventItem(
+          saveList.add(DynamicItemModel(
               serviceName: 'نشاط طلابي',
               item: sActivitiesItems[matchingIndex],
               icon: services[1]['icon']));
@@ -592,7 +592,7 @@ class Setup {
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
         if (getValidityF(item.value['date'])) {
-          studyGroupItems.add(CreateGroupReport(
+          studyGroupItems.add(StudentGroupModel(
             id: item.key,
             name: item.value['name'],
             date: item.value['date'],
@@ -621,7 +621,7 @@ class Setup {
         int matchingIndex =
             studyGroupItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
-          saveList.add(EventItem(
+          saveList.add(DynamicItemModel(
               serviceName: 'جلسة مذاكرة',
               item: studyGroupItems[matchingIndex],
               icon: services[5]['icon']));
@@ -636,14 +636,14 @@ class Setup {
 
   Future<void> loadFoundItems() async {
     foundItems = [];
-    final List<FoundItemReport> loadedFoundItems = [];
+    final List<FoundItemModel> loadedFoundItems = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('Found-Items'));
 
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        loadedFoundItems.add(FoundItemReport(
+        loadedFoundItems.add(FoundItemModel(
           id: item.key,
           category: item.value['Category'],
           foundDate: item.value['FoundDate'],
@@ -664,12 +664,12 @@ class Setup {
 
   Future<void> loadLostItems() async {
     lostItems = [];
-    final List<LostItemReport> loadedLostItems = [];
+    final List<LostItemModel> loadedLostItems = [];
     try {
       final response = await http.get(FirebaseAPI.url('Lost-Items'));
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        loadedLostItems.add(LostItemReport(
+        loadedLostItems.add(LostItemModel(
           id: item.key,
           photo: item.value['photo'],
           category: item.value['category'],
@@ -690,7 +690,7 @@ class Setup {
   }
 
   Future<void> loadClinics() async {
-    final List<ClinicReport> loadedClinics = [];
+    final List<ClinicModel> loadedClinics = [];
     try {
       final url = Uri.https(
           'senior-project-72daf-default-rtdb.firebaseio.com', 'clinicdb.json');
@@ -698,7 +698,7 @@ class Setup {
 
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        loadedClinics.add(ClinicReport(
+        loadedClinics.add(ClinicModel(
           id: item.key,
           clBranch: item.value['cl_branch'],
           clDepartment: item.value['cl_department'],

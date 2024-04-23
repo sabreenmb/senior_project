@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/student_group_model.dart';
 
 import '../common/theme.dart';
 
 class CreateMain extends StatelessWidget {
-  CreateGroupReport createGroupReport;
+  StudentGroupModel createGroupReport;
   CreateMain(this.createGroupReport, {super.key});
 
   @override

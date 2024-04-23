@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import '../common/constant.dart';
-import 'EventItem.dart';
+import 'dynamic_item_model.dart';
 
 class SavedListModel {
   final String serviceName;
@@ -35,7 +35,7 @@ class SavedListModel {
     isSaved = !isSaved;
     if (isSaved) {
       saveList.add(
-        EventItem(
+        DynamicItemModel(
             serviceName: convertServiceName[serviceName].toString(),
             item: dynamicObject,
             icon: icon),

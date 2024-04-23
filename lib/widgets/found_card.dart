@@ -9,7 +9,7 @@ import '../model/found_item_report.dart';
 import '../common/theme.dart';
 
 class FoundCard extends StatelessWidget {
-  FoundItemReport foundItemReport;
+  FoundItemModel foundItemReport;
   FoundCard(this.foundItemReport, {super.key});
 
   @override

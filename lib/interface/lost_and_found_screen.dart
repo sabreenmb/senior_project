@@ -15,7 +15,7 @@ import 'package:shimmer/shimmer.dart';
 import '../common/constant.dart';
 import '../common/firebase_api.dart';
 import '../model/found_item_report.dart';
-import '../model/lost_item_report.dart';
+import '../model/lost_item_model.dart';
 import '../common/common_functions.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
@@ -50,8 +50,8 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   }
 
   //search
-  List<LostItemReport> searchLostList = [];
-  List<FoundItemReport> searchFoundList = [];
+  List<LostItemModel> searchLostList = [];
+  List<FoundItemModel> searchFoundList = [];
 
   final _userInputController = TextEditingController();
   //filter
@@ -538,7 +538,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           reports = data.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
-            return LostItemReport(
+            return LostItemModel(
               id: key,
               photo: value['photo'],
               category: value['category'],
@@ -549,13 +549,13 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
               creatorID: value['creatorID'],
             );
           }).toList();
-          lostItems = reports.cast<LostItemReport>();
+          lostItems = reports.cast<LostItemModel>();
         } else {
           foundItems.clear();
           reports = data.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
-            return FoundItemReport(
+            return FoundItemModel(
               id: key,
               category: value['Category'],
               foundDate: value['FoundDate'],
@@ -565,7 +565,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
               photo: value['Photo'],
             );
           }).toList();
-          foundItems = reports.cast<FoundItemReport>();
+          foundItems = reports.cast<FoundItemModel>();
         }
 
         return ListView.builder(

@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/helper/my_date_util.dart';
-import 'package:senior_project/model/message_info.dart';
+import 'package:senior_project/model/message_info_model.dart';
 
 import '../common/theme.dart';
 
 class ChatBubble extends StatelessWidget {
-  final Message message;
+  final MessageInfoModel message;
   const ChatBubble({super.key, required this.message});
 
   @override

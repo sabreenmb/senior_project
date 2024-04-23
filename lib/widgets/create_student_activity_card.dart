@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/saved_list_model.dart';
-import 'package:senior_project/model/create_student_activity_report.dart';
+import 'package:senior_project/model/student_activity_model.dart';
 
 import '../common/theme.dart';
 
 class CreateStudentActivityCard extends StatefulWidget {
-  CreateStudentActivityReport createStudentActivityReport;
+  StudentActivityModel createStudentActivityReport;
   CreateStudentActivityCard(this.createStudentActivityReport, {super.key});
 
   @override

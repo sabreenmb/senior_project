@@ -1,4 +1,4 @@
-class LostItemReport {
+class LostItemModel {
   //Variables
   String? id;
   String? photo;
@@ -10,7 +10,7 @@ class LostItemReport {
   String? creatorID;
 
   //Constructor
-  LostItemReport({
+  LostItemModel({
     required this.id,
     required this.photo,
     required this.category,

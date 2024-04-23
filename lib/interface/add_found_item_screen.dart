@@ -37,7 +37,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
     'أغراض شخصية',
     'اخرى'
   ];
-  FoundItemReport foundItemReport = FoundItemReport(
+  FoundItemModel foundItemReport = FoundItemModel(
       id: '',
       photo: '',
       category: '',

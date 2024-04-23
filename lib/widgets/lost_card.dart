@@ -6,11 +6,11 @@ import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../model/lost_item_report.dart';
+import '../model/lost_item_model.dart';
 import '../common/theme.dart';
 
 class LostCard extends StatelessWidget {
-  LostItemReport lostItemReport;
+  LostItemModel lostItemReport;
   LostCard(this.lostItemReport, {super.key});
 
   @override

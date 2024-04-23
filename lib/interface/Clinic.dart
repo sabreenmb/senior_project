@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/model/clinic_report.dart';
+import 'package:senior_project/model/clinic_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/clinic_card.dart';
 import 'package:senior_project/common/common_functions.dart';
@@ -19,7 +19,7 @@ class Clinic extends StatefulWidget {
 
 class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
   //search
-  List<ClinicReport> filteredClinicList = [];
+  List<ClinicModel> filteredClinicList = [];
   List<String> sortedDates = [];
   String selectedBranch = 'المقر الرئيسي';
   final _userInputController = TextEditingController();
@@ -215,7 +215,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                         ),
                                       );
                                     } else {
-                                      ClinicReport report =
+                                      ClinicModel report =
                                           filteredClinicList[index];
                                       String date = DateFormat('yyyy-MM-dd')
                                           .format(DateFormat('yyyy-MM-dd')
@@ -345,7 +345,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
       if (query.isNotEmpty) {
         searchPerformedAndEmpty = true;
-        List<ClinicReport> tempList = clinicItems.where((report) {
+        List<ClinicModel> tempList = clinicItems.where((report) {
           bool isSameBranch = report.clBranch == selectedBranch;
           bool matchesQuery = report.clDepartment!
                   .toLowerCase()
