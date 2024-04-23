@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../model/offer_info_moedl.dart';
+import '../model/offer_info_model.dart';
 import '../common/theme.dart';
 
 class OfferDetails extends StatefulWidget {

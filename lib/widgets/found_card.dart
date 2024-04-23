@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:io';
-import '../model/found_item_report.dart';
+import '../model/found_item_model.dart';
 import '../common/theme.dart';
 
 class FoundCard extends StatelessWidget {
@@ -80,7 +80,7 @@ class FoundCard extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      foundItemReport.desription!,
+                      foundItemReport.description!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1D,
                     ),

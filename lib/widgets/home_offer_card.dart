@@ -3,7 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../interface/OfferDetails.dart';
-import '../model/offer_info_moedl.dart';
+import '../model/offer_info_model.dart';
 
 class HomeOfferCard extends StatelessWidget {
   OfferInfoModel offerInfo;

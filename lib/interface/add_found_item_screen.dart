@@ -14,7 +14,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/firebase_api.dart';
-import '../model/found_item_report.dart';
+import '../model/found_item_model.dart';
 import '../common/theme.dart'; //.
 
 
@@ -44,7 +44,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       foundDate: '',
       foundPlace: '',
       receivePlace: '',
-      desription: '');
+      description: '');
   bool imageEmpty = false;
   File? _selectedImage;
   String? _selectedCategory;
@@ -449,7 +449,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  foundItemReport.desription = value;
+                                  foundItemReport.description = value;
                                 },
                               ),
                               const SizedBox(height: 32.0),

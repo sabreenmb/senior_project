@@ -14,9 +14,9 @@ import '../model/conference_model.dart';
 import '../model/courses_model.dart';
 import '../model/student_group_model.dart';
 import '../model/student_activity_model.dart';
-import '../model/found_item_report.dart';
+import '../model/found_item_model.dart';
 import '../model/lost_item_model.dart';
-import '../model/offer_info_moedl.dart';
+import '../model/offer_info_model.dart';
 import '../model/other_events_model.dart';
 import '../model/psych_guidance_model.dart';
 import '../model/vol_op_model.dart';
@@ -649,7 +649,7 @@ class Setup {
           foundDate: item.value['FoundDate'],
           foundPlace: item.value['FoundPlace'],
           receivePlace: item.value['ReceivePlace'],
-          desription: item.value['Description'],
+          description: item.value['Description'],
           photo: item.value['Photo'],
         ));
       }

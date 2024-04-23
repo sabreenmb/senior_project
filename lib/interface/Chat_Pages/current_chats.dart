@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/all_users_screen.dart';
-import 'package:senior_project/model/chat_info.dart';
+import 'package:senior_project/model/chat_info_model.dart';
 import 'package:senior_project/common/common_functions.dart';
 import 'package:senior_project/widgets/user_chat_item.dart';
 import 'package:senior_project/common/theme.dart';

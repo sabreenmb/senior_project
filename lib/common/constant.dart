@@ -12,7 +12,7 @@ import '../model/conference_model.dart';
 import '../model/courses_model.dart';
 import '../model/student_group_model.dart';
 import '../model/student_activity_model.dart';
-import '../model/found_item_report.dart';
+import '../model/found_item_model.dart';
 import '../model/lost_item_model.dart';
 import '../model/other_events_model.dart';
 import '../model/psych_guidance_model.dart';

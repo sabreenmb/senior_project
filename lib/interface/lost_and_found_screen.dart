@@ -14,7 +14,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../common/constant.dart';
 import '../common/firebase_api.dart';
-import '../model/found_item_report.dart';
+import '../model/found_item_model.dart';
 import '../model/lost_item_model.dart';
 import '../common/common_functions.dart';
 
@@ -466,7 +466,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
       isButtonClicked = false;
       for (int item = 0; item < ls.length; item++) {
         if (ls[item]
-            .desription!
+            .description!
             .toLowerCase()
             .contains(query.toLowerCase().trim())) {
           isLost ? searchLostList.add(ls[item]) : searchFoundList.add(ls[item]);
@@ -561,7 +561,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
               foundDate: value['FoundDate'],
               foundPlace: value['FoundPlace'],
               receivePlace: value['ReceivePlace'],
-              desription: value['Description'],
+              description: value['Description'],
               photo: value['Photo'],
             );
           }).toList();

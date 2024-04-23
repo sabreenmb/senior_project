@@ -6,7 +6,7 @@ class FoundItemModel {
   String? foundDate;
   String? foundPlace;
   String? receivePlace;
-  String? desription;
+  String? description;
 
   //Constructor
   FoundItemModel({
@@ -16,7 +16,7 @@ class FoundItemModel {
     required this.foundDate,
     required this.foundPlace,
     required this.receivePlace,
-    required this.desription,
+    required this.description,
   });
 
   Map<String, dynamic> toJson() {
@@ -25,7 +25,7 @@ class FoundItemModel {
     map['FoundDate'] = foundDate;
     map['FoundPlace'] = foundPlace;
     map['ReceivePlace'] = receivePlace;
-    map['Description'] = desription;
+    map['Description'] = description;
     map['Photo'] = photo;
     return map;
   }

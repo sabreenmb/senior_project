@@ -4,7 +4,7 @@ import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_screen.dart';
 import 'package:senior_project/interface/Chat_Pages/helper/my_date_util.dart';
 import 'package:senior_project/interface/Chat_Pages/other_user_profile_screen.dart';
-import 'package:senior_project/model/chat_info.dart';
+import 'package:senior_project/model/chat_info_model.dart';
 import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';

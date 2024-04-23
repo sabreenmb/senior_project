@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 
 
 import '../interface/OfferDetails.dart';
-import '../model/offer_info_moedl.dart';
+import '../model/offer_info_model.dart';
 import '../common/theme.dart';
 
 class OfferCard extends StatelessWidget {

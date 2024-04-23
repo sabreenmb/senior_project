@@ -13,7 +13,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../common/constant.dart';
 import '../model/dynamic_item_model.dart';
-import '../model/offer_info_moedl.dart';
+import '../model/offer_info_model.dart';
 import '../widgets/home_card.dart';
 
 class HomeScreen extends StatefulWidget {
