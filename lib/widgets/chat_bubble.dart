@@ -1,10 +1,7 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/helper/my_date_util.dart';
 import 'package:senior_project/model/message_info_model.dart';
-
 import '../common/theme.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -25,15 +22,15 @@ class ChatBubble extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: isMe
                   ? const BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                      bottomLeft: Radius.circular(25))
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20))
                   : const BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                      bottomRight: Radius.circular(25)),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                      bottomRight: Radius.circular(20)),
               color: isMe
-                  ? const Color.fromARGB(168, 131, 205, 234)
+                  ? CustomColors.lightBlueLowTrans
                   : CustomColors.lightGreyLowTrans),
           child: Text(
             message.message,
@@ -42,7 +39,6 @@ class ChatBubble extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 2),
-        // Text(message.timestamp),
         Row(
           mainAxisAlignment:
               isMe ? MainAxisAlignment.end : MainAxisAlignment.end,
@@ -51,18 +47,17 @@ class ChatBubble extends StatelessWidget {
             if (!isMe)
               Container()
             else if (message.readF.isNotEmpty)
-              const Icon(Icons.done_all_rounded, color: Colors.blue, size: 20)
+              const Icon(Icons.done_all_rounded,
+                  color: CustomColors.realBlue, size: 20)
             else
               const Icon(Icons.done, color: CustomColors.lightGrey, size: 20),
             Container(
               alignment: alignment,
-              // constraints: const BoxConstraints(maxWidth: 60),
-              // color: Color.fromARGB(255, 162, 73, 25),
               padding: const EdgeInsets.all(1.0),
               child: Text(
                 MyDateUtil.getFormattedTime(
                     context: context, time: message.time),
-                style: const TextStyle(fontSize: 13, color: Colors.black54),
+                style: TextStyles.text1D,
               ),
             ),
           ],
