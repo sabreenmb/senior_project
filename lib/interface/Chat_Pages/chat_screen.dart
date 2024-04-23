@@ -138,11 +138,7 @@ class _RealChatPageState extends State<RealChatPage>
               const SizedBox(width: 12),
               Text(
                 widget.otherUserInfo.name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: CustomColors.darkGrey,
-                ),
+                style: TextStyles.menuTitle,
               ),
             ],
           ),
@@ -199,7 +195,6 @@ class _RealChatPageState extends State<RealChatPage>
                                     )
                                   : _buildMessageList(),
                             ),
-
                             //user input
                             _buildMessageInput(),
                           ],
@@ -231,13 +226,10 @@ class _RealChatPageState extends State<RealChatPage>
             //if some or all data is loaded then show it
             case ConnectionState.active:
             case ConnectionState.done:
-              // final data = snapshot.data?.docs; //
               _list = snapshot.data!.docs
                   .map((document) => MessageInfoModel.fromJson(
                       document.data()! as Map<String, dynamic>))
                   .toList();
-              //data?.map(() => Message.fromJson(e.data())).toList() ?? [];
-
               if (_list.isNotEmpty) {
                 return ListView.builder(
                     reverse: true,
@@ -248,8 +240,12 @@ class _RealChatPageState extends State<RealChatPage>
                       return _buildMessageItem(_list[index]);
                     });
               } else {
-                return const Center(
-                  child: Text('أهلًاـ!👋', style: TextStyle(fontSize: 20)),
+                return Center(
+                  child: Text(
+                    'أهلا! 👋\n\nيمكنك بدأ المحادثة الان',
+                    textAlign: TextAlign.center,
+                    style: TextStyles.heading2D,
+                  ),
                 );
               }
           }
@@ -278,16 +274,15 @@ class _RealChatPageState extends State<RealChatPage>
       child: Container(
         height: 55,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(65, 171, 171, 171),
+          color: CustomColors.lightGreyLowTrans.withOpacity(0.25),
           borderRadius: BorderRadius.circular(40),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.only(right: 15, left: 5),
         child: Row(
           children: [
             Expanded(
               child: TextField(
                 onTap: () {},
-                // keyboardType: TextInputType.text,
                 controller: _messageController,
                 obscureText: false,
                 decoration: const InputDecoration(
@@ -296,20 +291,27 @@ class _RealChatPageState extends State<RealChatPage>
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                if (isOffline) {
-                  showNetWidgetDialog(context);
-                } else {
-                  sendMessage();
-                }
-              },
-              icon: const Icon(
-                Icons.send,
-                size: 35,
-                color: Color.fromARGB(255, 59, 111, 132),
-              ),
+            Container(
               padding: const EdgeInsets.only(bottom: 2),
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: CustomColors.lightBlue.withOpacity(0.7),
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  if (isOffline) {
+                    showNetWidgetDialog(context);
+                  } else {
+                    sendMessage();
+                  }
+                },
+                icon: Icon(
+                  Icons.send_rounded,
+                  size: 35,
+                  color: CustomColors.darkGrey.withOpacity(0.6),
+                ),
+              ),
             )
           ],
         ),
