@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/constant.dart';
@@ -21,9 +24,38 @@ class VolunteerOp extends StatefulWidget {
 
 class _VolunteerOpState extends State<VolunteerOp>
     with SingleTickerProviderStateMixin {
+  late StreamSubscription connSub;
+  void checkConnectivity(List<ConnectivityResult> result) {
+    switch (result[0]) {
+      case ConnectivityResult.mobile || ConnectivityResult.wifi:
+        if (isOffline != false) {
+          setState(() {
+            isOffline = false;
+          });
+        }
+        break;
+      case ConnectivityResult.none:
+        if (isOffline != true) {
+          setState(() {
+            isOffline = true;
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
+  }
+
+  @override
+  void dispose() {
+    connSub.cancel();
+    super.dispose();
   }
 
   @override
@@ -79,23 +111,43 @@ class _VolunteerOpState extends State<VolunteerOp>
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40))),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 5,
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                        ),
-                        if (volunteerOpReport.isNotEmpty)
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MediaQuery.removePadding(
-                                context: context,
-                                removeTop: true,
-                                child: _buildCardsList()),
-                          )),
-                      ],
-                    ),
+                    isOffline
+                        ? Center(
+                            child: SizedBox(
+                              // padding: EdgeInsets.only(bottom: 20),
+                              // alignment: Alignment.topCenter,
+                              height: 200,
+                              child: Image.asset(
+                                  'assets/images/NoInternet_newo.png'),
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Container(
+                                height: 5,
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                              ),
+                              (volunteerOpReport.isNotEmpty)
+                                  ? Expanded(
+                                      child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: MediaQuery.removePadding(
+                                          context: context,
+                                          removeTop: true,
+                                          child: _buildCardsList()),
+                                    ))
+                                  : Expanded(
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 200,
+                                          child: Image.asset(
+                                              'assets/images/no_content_removebg_preview.png'),
+                                        ),
+                                      ),
+                                    ),
+                            ],
+                          ),
                   ],
                 ))
               ],
@@ -115,30 +167,61 @@ class _VolunteerOpState extends State<VolunteerOp>
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // return loadingFunction(context, true);
-          return Shimmer.fromColors(
-            baseColor: Colors.white,
-            highlightColor: Colors.grey[300]!,
-            enabled: true,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 10),
-              itemCount: volunteerOpReport.length,
-              itemBuilder: (context, index) {
-                return OpCard(volunteerOpReport[0]);
-              },
+          if (volunteerOpReport.isEmpty) {
+            return Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey[300]!,
+              enabled: true,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 10),
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return OpCard(VolunteerOpReport(
+                    time: '',
+                    id: '',
+                    name: ' ',
+                    date: '',
+                    location: '',
+                    opLink: ' ',
+                    opNumber: ' ',
+                    timestamp: ' ',
+                  ));
+                },
+              ),
+            );
+          } else {
+            return Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey[300]!,
+              enabled: true,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 10),
+                itemCount: volunteerOpReport.length,
+                itemBuilder: (context, index) {
+                  return OpCard(volunteerOpReport[index]);
+                },
+              ),
+            );
+          }
+        }
+
+        final data = snapshot.data?.snapshot.value;
+        if (data == null || data == 'placeholder') {
+          return Center(
+            child: SizedBox(
+              height: 200,
+              child:
+                  Image.asset('assets/images/no_content_removebg_preview.png'),
             ),
           );
         }
 
-        final Map<dynamic, dynamic> data =
-            snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
-        if (data == null) {
-          return Text('No data available');
-        }
+        Map<dynamic, dynamic> data2 = data as Map<dynamic, dynamic>;
 
 // todo make sure it works
-        final List<VolunteerOpReport> reports = data.entries.map((entry) {
+        final List<VolunteerOpReport> reports = data2.entries.map((entry) {
           final key = entry.key;
           final value = entry.value;
           return VolunteerOpReport(

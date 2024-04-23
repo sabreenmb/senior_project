@@ -116,14 +116,13 @@ class _StudyGroupState extends State<StudyGroup>
           tooltip: '',
           elevation: 4,
           onPressed: () async {
-
             if (isOffline) {
               showNetWidgetDialog(context);
             } else {
-              await Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) => const CreateGroup()));
+              await Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => const CreateGroup()));
             }
-            },
+          },
           child: const Icon(Icons.add),
         ),
         body: ModalProgressHUD(
@@ -152,7 +151,8 @@ class _StudyGroupState extends State<StudyGroup>
                               // padding: EdgeInsets.only(bottom: 20),
                               // alignment: Alignment.topCenter,
                               height: 200,
-                              child: Image.asset('assets/images/logo-icon.png'),
+                              child: Image.asset(
+                                  'assets/images/NoInternet_newo.png'),
                             ),
                           )
                         : Column(
