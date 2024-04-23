@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/login_screen.dart';
-
 import '../common/theme.dart';
 
 class SideDrawer extends StatelessWidget {

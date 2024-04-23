@@ -23,17 +23,13 @@ class SaveCard extends StatefulWidget {
 }
 
 class _SaveCardState extends State<SaveCard> {
-  //manar
-
   @override
   Widget build(BuildContext context) {
     bool isSaved;
-    Size size = MediaQuery.of(context).size;
     SavedListModel savedItem = SavedListModel(
         serviceName: widget.serviceName,
         dynamicObject: widget.dynamicObject,
         icon: widget.icon);
-    //manar
     isSaved = SavedListModel.findId(widget.dynamicObject.id);
 
     return isSaved
@@ -71,14 +67,12 @@ class _SaveCardState extends State<SaveCard> {
               child: Stack(
                 children: [
                   Positioned(
-                    left: 8,
-                    top: 6,
+                    left: 10,
+                    top: 5,
                     child: IconButton(
                       onPressed: () {
                         setState(() {
                           isSaved = !isSaved;
-
-
                           saveList.removeWhere((item) =>
                               item.serviceName == widget.serviceName &&
                               item.item.id == widget.dynamicObject.id &&
@@ -125,28 +119,11 @@ class _SaveCardState extends State<SaveCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(widget.serviceName,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: CustomColors.lightBlue)),
+                                  style: TextStyles.heading1B),
                               const SizedBox(height: 10),
                               Text(widget.dynamicObject.name!,
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      color: CustomColors.lightGrey)),
-                              const SizedBox(height: 5),
-                              // Row(
-                              //   children: [
-                              //     const Icon(Icons.location_on,
-                              //         size: 14, color: CustomColors.lightGrey),
-                              //     const SizedBox(width: 5),
-                              //     Text(
-                              //       widget.dynamicObject.location!,
-                              //       style: TextStyles.text,
-                              //     ),
-                              //   ],
-                              // ),
-                              const SizedBox(height: 5),
+                                  style: TextStyles.text1L),
+                              const SizedBox(height: 10),
                               Row(
                                 children: [
                                   const Icon(Icons.calendar_today,

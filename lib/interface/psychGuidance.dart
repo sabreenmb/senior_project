@@ -8,7 +8,6 @@ import 'package:senior_project/common/common_functions.dart';
 import '../common/constant.dart';
 import '../model/psych_guidance_model.dart';
 import '../common/theme.dart';
-import '../widgets/psych_guidance_card.dart';
 import '../widgets/side_menu.dart';
 import '../common/firebase_api.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

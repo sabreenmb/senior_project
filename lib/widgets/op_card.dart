@@ -4,28 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/model/vol_op_model.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import '../common/common_functions.dart';
 import '../common/theme.dart';
 
 class OpCard extends StatefulWidget {
-  VolOpModel volunteerOpReport;
-  OpCard(this.volunteerOpReport, {super.key});
+  VolOpModel volOpItem;
+  OpCard(this.volOpItem, {super.key});
 
   @override
   State<OpCard> createState() => _OpCardState();
+
 }
 
 class _OpCardState extends State<OpCard> {
   @override
   Widget build(BuildContext context) {
     bool isSaved;
-    Size size = MediaQuery.of(context).size;
     SavedListModel savedItem = SavedListModel(
         serviceName: 'volunteerOp',
-        dynamicObject: widget.volunteerOpReport,
+        dynamicObject: widget.volOpItem,
         icon: services[1]['icon']);
-    isSaved = SavedListModel.findId(widget.volunteerOpReport.id.toString());
+    isSaved = SavedListModel.findId(widget.volOpItem.id.toString());
 
     return Card(
       elevation: 4,
@@ -40,7 +39,6 @@ class _OpCardState extends State<OpCard> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
-              //start the colom
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
@@ -48,7 +46,7 @@ class _OpCardState extends State<OpCard> {
                   child: SizedBox(
                     width: 270,
                     child: Text(
-                      widget.volunteerOpReport.name!,
+                      widget.volOpItem.name!,
                       textAlign: TextAlign.right,
                       style: TextStyles.heading3B,
                       maxLines: 2,
@@ -70,7 +68,7 @@ class _OpCardState extends State<OpCard> {
                       width: 5,
                     ),
                     Text(
-                      "${widget.volunteerOpReport.date!} , ${widget.volunteerOpReport.time!}",
+                      "${widget.volOpItem.date!} , ${widget.volOpItem.time!}",
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -90,7 +88,7 @@ class _OpCardState extends State<OpCard> {
                       width: 5,
                     ),
                     Text(
-                      widget.volunteerOpReport.location!,
+                      widget.volOpItem.location!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -110,7 +108,7 @@ class _OpCardState extends State<OpCard> {
                       width: 5,
                     ),
                     Text(
-                      widget.volunteerOpReport.opNumber!,
+                      widget.volOpItem.opNumber!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -124,7 +122,7 @@ class _OpCardState extends State<OpCard> {
           ),
           Positioned(
             top: 5,
-            left: 15.0,
+            left: 10.0,
             child: IconButton(
               onPressed: () {
                 setState(() {
@@ -137,18 +135,16 @@ class _OpCardState extends State<OpCard> {
               ),
             ),
           ),
-          if (widget.volunteerOpReport.opLink != "")
+          if (widget.volOpItem.opLink != "")
             Positioned(
-              bottom: 8.0,
-              left: 15.0,
+              bottom: 2.0,
+              left: 8.0,
               child: TextButton(
                 onPressed: () =>
-                    _launchURL(widget.volunteerOpReport.opLink!, context),
+                    launchURL(widget.volOpItem.opLink!, context),
                 child: Text(
                   'سجل',
-                  style: TextStyle(
-                    color: TextStyles.heading3B.color,
-                  ),
+                  style:  TextStyles.text1B,
                 ),
               ),
             ),
@@ -157,19 +153,4 @@ class _OpCardState extends State<OpCard> {
     );
   }
 
-  Future<void> _launchURL(String? urlString, BuildContext context) async {
-    if (urlString == null || urlString.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('The URL is not available.')),
-      );
-      return;
-    }
-    final Uri url = Uri.parse(urlString);
-
-    if (!await launchUrl(url)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not launch $urlString')),
-      );
-    }
-  }
 }

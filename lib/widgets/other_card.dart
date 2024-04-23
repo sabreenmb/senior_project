@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/model/other_events_model.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import '../common/common_functions.dart';
 import '../common/theme.dart';
 
 // ignore: must_be_immutable
@@ -22,8 +21,6 @@ class _OtherCardState extends State<OtherCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print(widget.otherEventsItem.name);
-
     SavedListModel savedItem = SavedListModel(
         serviceName: 'otherEvents',
         dynamicObject: widget.otherEventsItem,
@@ -42,7 +39,6 @@ class _OtherCardState extends State<OtherCard> {
             child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                //start the colom
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
@@ -126,7 +122,7 @@ class _OtherCardState extends State<OtherCard> {
           ),
           Positioned(
             top: 5,
-            left: 15.0,
+            left: 10.0,
             child: IconButton(
               onPressed: () {
                 setState(() {
@@ -141,35 +137,19 @@ class _OtherCardState extends State<OtherCard> {
           ),
           if (widget.otherEventsItem.otherEventLink != "")
             Positioned(
-              bottom: 8.0,
-              left: 15.0,
+              bottom: 2.0,
+              left: 8.0,
               child: TextButton(
                 onPressed: () =>
-                    _launchURL(widget.otherEventsItem.otherEventLink!, context),
+                    launchURL(widget.otherEventsItem.otherEventLink!, context),
                 child: Text(
                   'سجل',
-                  style: TextStyle(
-                    color: TextStyles.heading3B.color,
-                  ),
+                  style: TextStyles.text1B,
+
                 ),
               ),
             )
-        ]));
+        ],),);
   }
 
-  Future<void> _launchURL(String? urlString, BuildContext context) async {
-    if (urlString == null || urlString.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('The URL is not available.')),
-      );
-      return;
-    }
-    final Uri url = Uri.parse(urlString);
-
-    if (!await launchUrl(url)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not launch $urlString')),
-      );
-    }
-  }
 }
