@@ -243,11 +243,11 @@ class Setup {
     } catch (error) {
       print('Empty List');
     } finally {
-      recommendedOffers = [];
       List<OfferInfo> fetchedOffers =
           loadedOfferInfo; // fetched data from Firebase
       int falseNum = 0;
       List<dynamic> tempOffer = [];
+      recommendedOffers = [];
       for (OfferInfo offer in fetchedOffers) {
         for (Map<String, dynamic> item in offers) {
           if (offer.category == item['offerCategory']) {
@@ -255,17 +255,20 @@ class Setup {
             break;
           }
         }
+      }
 
-        if (userInfo.offersPreferences[offer.category] == true) {
-          recommendedOffers.add(offer);
+      for (Map<String, dynamic> item in offers) {
+        if (userInfo.offersPreferences[item['offerCategory']] == true) {
+          recommendedOffers.addAll(item['categoryList']);
         } else {
+          tempOffer.addAll(item['categoryList']);
           falseNum++;
         }
+        // for()
       }
       if (falseNum > 9 || recommendedOffers.isEmpty) {
         recommendedOffers = tempOffer;
       }
-      print(offers[0]);
     }
   }
 
