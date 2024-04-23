@@ -1,20 +1,20 @@
-class CreateStudentActivityReport {
+class StudentGroupModel {
   //Variables
   String? id;
   String? name;
   String? date;
   String? time;
   String? location;
-  String? numOfPerson;
+  String? numPerson;
 
   //Constructor
-  CreateStudentActivityReport({
+  StudentGroupModel({
     required this.id,
     required this.name,
     required this.date,
     required this.time,
     required this.location,
-    required this.numOfPerson,
+    required this.numPerson,
   });
 
   Map<String, dynamic> toJson() {
@@ -23,7 +23,7 @@ class CreateStudentActivityReport {
     map['date'] = date;
     map['time'] = time;
     map['location'] = location;
-    map['NumOfPerson'] = numOfPerson;
+    map['NumPerson'] = numPerson;
     return map;
   }
 }

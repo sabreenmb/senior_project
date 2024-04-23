@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/SavedList.dart';
-import 'package:senior_project/model/courses_item_report.dart';
+import 'package:senior_project/model/courses_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class CoursesCard extends StatefulWidget {
-  CoursesItemReport courseItem;
+  CoursesModel courseItem;
   CoursesCard(this.courseItem, {super.key});
 
   @override

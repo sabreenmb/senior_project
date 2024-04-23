@@ -2,18 +2,18 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/common/push_notification.dart';
 import 'firebase_api.dart';
-import '../model/EventItem.dart';
+import '../model/dynamic_item_model.dart';
 import '../model/SClubInfo.dart';
-import '../model/clinic_report.dart';
-import '../model/conference_item_report.dart';
-import '../model/courses_item_report.dart';
-import '../model/create_group_report.dart';
-import '../model/create_student_activity_report.dart';
+import '../model/clinic_model.dart';
+import '../model/conference_model.dart';
+import '../model/courses_model.dart';
+import '../model/student_group_model.dart';
+import '../model/student_activity_model.dart';
 import '../model/found_item_report.dart';
-import '../model/lost_item_report.dart';
+import '../model/lost_item_model.dart';
 import '../model/other_event_item_report.dart';
 import '../model/psych_guidance_report.dart';
 import '../model/volunteer_op_report.dart';
@@ -25,28 +25,28 @@ bool isOffline = false;
 var connectivityResult = (Connectivity().checkConnectivity());
 
 PushNotification notificationServices = PushNotification();
-UserInformation userInfo = UserInformation();
+UserInformationModel userInfo = UserInformationModel();
 PsychGuidanceReport pg = PsychGuidanceReport();
 DocumentReference<Map<String, dynamic>> userProfileDoc =
     FirebaseAPI.currentUserInfo();
 
 //Lists use through all app
-List<UserInformation> allUsers = [];
+List<UserInformationModel> allUsers = [];
 List<dynamic> recommendedOffers = [];
-List<LostItemReport> lostItems = [];
-List<FoundItemReport> foundItems = [];
+List<LostItemModel> lostItems = [];
+List<FoundItemModel> foundItems = [];
 List<WorkshopsItemReport> workshopItems = [];
-List<ConferencesItemReport> confItems = [];
+List<ConferencesModel> confItems = [];
 List<OtherEventsItemReport> otherItems = [];
-List<CoursesItemReport> courseItems = [];
+List<CoursesModel> courseItems = [];
 List<VolunteerOpReport> volOpItems = [];
 List<SClubInfo> sClubsItems = [];
-List<EventItem> saveList = [];
-List<CreateStudentActivityReport> sActivitiesItems = [];
-List<CreateGroupReport> studyGroupItems = [];
-List<ClinicReport> clinicItems = [];
-List<EventItem> combinedList = [];
-List<EventItem> todayList = [];
+List<DynamicItemModel> saveList = [];
+List<StudentActivityModel> sActivitiesItems = [];
+List<StudentGroupModel> studyGroupItems = [];
+List<ClinicModel> clinicItems = [];
+List<DynamicItemModel> combinedList = [];
+List<DynamicItemModel> todayList = [];
 
 final List offers = [
   {

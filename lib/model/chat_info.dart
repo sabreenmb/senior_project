@@ -24,9 +24,7 @@ class ChatInfo {
     lastMsg = json['lastMsg'].toString();
     lastMsgSender = json['lastMsgSender'].toString();
     readF = json['readF'].toString();
-
     lastMsgTime = json['lastMsgTime'].toString();
-    // message = json['message'].toString();
   }
 
   Map<String, dynamic> toJson() {

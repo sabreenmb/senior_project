@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/chat_info.dart';
-import 'package:senior_project/model/entered_user_info.dart';
-import 'package:senior_project/model/message_info.dart';
+import 'package:senior_project/model/user_information_model.dart';
+import 'package:senior_project/model/message_info_model.dart';
 import 'package:senior_project/common/push_notification.dart';
 
 class ChatService extends ChangeNotifier {
@@ -11,14 +11,14 @@ class ChatService extends ChangeNotifier {
 
   //send
   Future<void> sendMessage(
-      UserInformation otherUserInfo, String message) async {
+      UserInformationModel otherUserInfo, String message) async {
     //get current user info ----
 
     try {
       final time = DateTime.now().millisecondsSinceEpoch.toString();
 
       //create new message
-      Message newMessage = Message(
+      MessageInfoModel newMessage = MessageInfoModel(
         senderID: userInfo.userID,
         receiverID: otherUserInfo.userID,
         message: message,
@@ -96,7 +96,7 @@ class ChatService extends ChangeNotifier {
     return true;
   }
 
-  Future<void> updateMessageReadStatus(Message message) async {
+  Future<void> updateMessageReadStatus(MessageInfoModel message) async {
     List<String> ids = [message.senderID, message.receiverID];
     ids.sort();
     String chatRoomID = ids.join("_");

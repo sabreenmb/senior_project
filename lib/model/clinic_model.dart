@@ -1,4 +1,4 @@
-class ClinicReport {
+class ClinicModel {
   //Variables
   String? id;
   String? clBranch;
@@ -9,7 +9,7 @@ class ClinicReport {
   String? clEndtime;
 
   //Constructor
-  ClinicReport({
+  ClinicModel({
     required this.id,
     required this.clBranch,
     required this.clDepartment,

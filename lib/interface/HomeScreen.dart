@@ -12,7 +12,7 @@ import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../common/constant.dart';
-import '../model/EventItem.dart';
+import '../model/dynamic_item_model.dart';
 import '../model/offer_info.dart';
 import '../widgets/home_card.dart';
 
@@ -179,7 +179,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildHorizontalScrollableCards(List<EventItem> details) {
+  Widget _buildHorizontalScrollableCards(List<DynamicItemModel> details) {
     print('fiss');
     print(courseItems.length);
     return Container(

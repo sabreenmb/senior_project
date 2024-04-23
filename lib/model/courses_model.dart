@@ -1,4 +1,4 @@
-class CoursesItemReport {
+class CoursesModel {
   //Variables
   String? id;
   String? name;
@@ -9,9 +9,8 @@ class CoursesItemReport {
   String? courseLink;
   String? timestamp;
 
-
   //Constructor
-  CoursesItemReport({
+  CoursesModel({
     required this.id,
     required this.name,
     required this.presentBy,
@@ -20,7 +19,6 @@ class CoursesItemReport {
     required this.location,
     required this.courseLink,
     required this.timestamp,
-
   });
 
   Map<String, dynamic> toJson() {
@@ -31,7 +29,7 @@ class CoursesItemReport {
     map['CourseTime'] = time;
     map['CoursePlace'] = location;
     map['CourseLink'] = courseLink;
-    map['timestamp']=timestamp;
+    map['timestamp'] = timestamp;
 
     return map;
   }

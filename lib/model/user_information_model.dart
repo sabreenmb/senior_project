@@ -1,4 +1,4 @@
-class UserInformation {
+class UserInformationModel {
   //Variables
   late String image_url;
   late String userID;
@@ -12,7 +12,7 @@ class UserInformation {
   late String pushToken;
   late Map<String, dynamic> offersPreferences;
 
-  UserInformation({
+  UserInformationModel({
     this.image_url = '',
     this.userID = '',
     this.rule = '',
@@ -51,7 +51,7 @@ class UserInformation {
   //   required this.offersPreferences,
   // });
 
-  UserInformation.fromJson(Map<String, dynamic> json) {
+  UserInformationModel.fromJson(Map<String, dynamic> json) {
     userID = json['userID'] ?? '';
     rule = json['userID'] ?? '';
     name = json['userID'] ?? '';

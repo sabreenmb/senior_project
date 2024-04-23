@@ -13,7 +13,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/firebase_api.dart';
-import '../model/lost_item_report.dart';
+import '../model/lost_item_model.dart';
 import '../common/theme.dart';
 
 class AddLostItemScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
     'أغراض شخصية',
     'اخرى'
   ];
-  LostItemReport lostItemReport = LostItemReport(
+  LostItemModel lostItemReport = LostItemModel(
     id: '',
     photo: '',
     category: '',

@@ -1,4 +1,4 @@
-class ConferencesItemReport {
+class ConferencesModel {
   //Variables
   String? id;
   String? name;
@@ -9,7 +9,7 @@ class ConferencesItemReport {
   String? confLink;
 
   //Constructor
-  ConferencesItemReport({
+  ConferencesModel({
     required this.id,
     required this.name,
     required this.date,
@@ -23,7 +23,7 @@ class ConferencesItemReport {
     final map = <String, dynamic>{};
     map['ConfName'] = name;
     map['ConfDate'] = date;
-    map['timestamp']=timestamp;
+    map['timestamp'] = timestamp;
     map['ConfTime'] = time;
     map['ConfPlace'] = location;
     map['ConfLink'] = confLink;

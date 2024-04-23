@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/create_student_activity.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/model/create_student_activity_report.dart';
+import 'package:senior_project/model/student_activity_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/common/common_functions.dart';
 import 'package:senior_project/widgets/create_student_activity_card.dart';
@@ -25,7 +25,7 @@ class _StudentActivityState extends State<StudentActivity>
     with SingleTickerProviderStateMixin {
   late StreamSubscription connSub;
   //search
-  List<CreateStudentActivityReport> searchActivityList = [];
+  List<StudentActivityModel> searchActivityList = [];
 
   final _userInputController = TextEditingController();
   //filter
@@ -312,11 +312,11 @@ class _StudentActivityState extends State<StudentActivity>
         }
 
 // todo make sure it works
-        final List<CreateStudentActivityReport> reports =
+        final List<StudentActivityModel> reports =
             data.entries.map((entry) {
           final key = entry.key;
           final value = entry.value;
-          return CreateStudentActivityReport(
+          return StudentActivityModel(
             numOfPerson: value['NumOfPerson'],
             date: value['date'],
             name: value['name'],

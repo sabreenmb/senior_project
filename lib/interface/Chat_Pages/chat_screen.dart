@@ -8,15 +8,15 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_service.dart';
 import 'package:senior_project/interface/Chat_Pages/other_user_profile_screen.dart';
-import 'package:senior_project/model/entered_user_info.dart';
-import 'package:senior_project/model/message_info.dart';
+import 'package:senior_project/model/user_information_model.dart';
+import 'package:senior_project/model/message_info_model.dart';
 import 'package:senior_project/widgets/chat_bubble.dart';
 import 'package:senior_project/common/theme.dart';
 
 import '../../common/common_functions.dart';
 
 class RealChatPage extends StatefulWidget {
-  final UserInformation otherUserInfo;
+  final UserInformationModel otherUserInfo;
   const RealChatPage({super.key, required this.otherUserInfo});
 
   @override
@@ -28,7 +28,7 @@ class _RealChatPageState extends State<RealChatPage>
   late AnimationController _animationController;
   late StreamSubscription connSub;
 
-  List<Message> _list = [];
+  List<MessageInfoModel> _list = [];
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
   // final ScrollController _scrollController = ScrollController();
@@ -237,7 +237,7 @@ class _RealChatPageState extends State<RealChatPage>
             case ConnectionState.done:
               // final data = snapshot.data?.docs; //
               _list = snapshot.data!.docs
-                  .map((document) => Message.fromJson(
+                  .map((document) => MessageInfoModel.fromJson(
                       document.data()! as Map<String, dynamic>))
                   .toList();
               //data?.map(() => Message.fromJson(e.data())).toList() ?? [];
@@ -282,7 +282,7 @@ class _RealChatPageState extends State<RealChatPage>
   }
 
   //item
-  Widget _buildMessageItem(Message message) {
+  Widget _buildMessageItem(MessageInfoModel message) {
     // Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
     bool isMe = userInfo.userID == message.senderID ? true : false;
     if (!isMe && message.readF.isEmpty) {

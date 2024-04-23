@@ -9,7 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/model/user_information_model.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class PushNotification {
@@ -107,7 +107,7 @@ class PushNotification {
 
   // for sending push notification
   Future<void> sendPushNotification(
-      UserInformation chatUser, String msg) async {
+      UserInformationModel chatUser, String msg) async {
     try {
       final body = {
         "to": chatUser.pushToken,

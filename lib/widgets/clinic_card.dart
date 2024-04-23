@@ -1,13 +1,13 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/clinic_report.dart';
+import 'package:senior_project/model/clinic_model.dart';
 
 import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class ClinicCard extends StatelessWidget {
-  ClinicReport clinicReport;
+  ClinicModel clinicReport;
   ClinicCard(
     this.clinicReport, {
     super.key,

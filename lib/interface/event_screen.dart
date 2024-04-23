@@ -6,8 +6,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/conference_item_report.dart';
-import 'package:senior_project/model/courses_item_report.dart';
+import 'package:senior_project/model/conference_model.dart';
+import 'package:senior_project/model/courses_model.dart';
 import 'package:senior_project/model/other_event_item_report.dart';
 import 'package:senior_project/model/workshop_item_report.dart';
 import 'package:senior_project/common/theme.dart';
@@ -32,9 +32,9 @@ class _EventState extends State<EventScreen> {
   final _userInputController = TextEditingController();
   late StreamSubscription connSub;
 
-  List<CoursesItemReport> searchCourseList = [];
+  List<CoursesModel> searchCourseList = [];
   List<WorkshopsItemReport> searchWorkshopList = [];
-  List<ConferencesItemReport> searchConfList = [];
+  List<ConferencesModel> searchConfList = [];
   List<OtherEventsItemReport> searchOtherList = [];
 
   bool isSelected = true;
@@ -513,7 +513,7 @@ class _EventState extends State<EventScreen> {
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
-            return CoursesItemReport(
+            return CoursesModel(
               id: key,
               name: value['course_name'],
               presentBy: value['course_presenter'],
@@ -524,7 +524,7 @@ class _EventState extends State<EventScreen> {
               timestamp: value['timestamp'],
             );
           }).toList();
-          courseItems = reports.cast<CoursesItemReport>();
+          courseItems = reports.cast<CoursesModel>();
         } else if (name == 'eventsWorkshopsDB') {
           workshopItems.clear();
           reports = data2.entries.map((entry) {
@@ -547,7 +547,7 @@ class _EventState extends State<EventScreen> {
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
-            return ConferencesItemReport(
+            return ConferencesModel(
               id: key,
               name: value['conference_name'],
               date: value['conference_date'],
@@ -557,7 +557,7 @@ class _EventState extends State<EventScreen> {
               confLink: value['conference_link'],
             );
           }).toList();
-          confItems = reports.cast<ConferencesItemReport>();
+          confItems = reports.cast<ConferencesModel>();
         } else {
           otherItems.clear();
           reports = data2.entries.map((entry) {

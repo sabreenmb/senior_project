@@ -1,4 +1,4 @@
-class Message {
+class MessageInfoModel {
   //Variables
   late final String senderID;
   late final String receiverID;
@@ -9,7 +9,7 @@ class Message {
   // final String skills;
 
   //Constructor
-  Message({
+  MessageInfoModel({
     required this.senderID,
     required this.receiverID,
     required this.message,
@@ -17,7 +17,7 @@ class Message {
     required this.readF,
   });
 
-  Message.fromJson(Map<String, dynamic> json) {
+  MessageInfoModel.fromJson(Map<String, dynamic> json) {
     senderID = json['senderID'].toString();
     receiverID = json['receiverID'].toString();
     message = json['message'].toString();

@@ -1,14 +1,14 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:senior_project/model/create_group_report.dart';
+import 'package:senior_project/model/student_group_model.dart';
 import 'package:senior_project/model/SavedList.dart';
 import 'package:senior_project/common/constant.dart';
 
 import '../common/theme.dart';
 
 class CreateCard extends StatefulWidget {
-  CreateGroupReport createGroupReport;
+  StudentGroupModel createGroupReport;
   CreateCard(this.createGroupReport, {super.key});
 
   @override

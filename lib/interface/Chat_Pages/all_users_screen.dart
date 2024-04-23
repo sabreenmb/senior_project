@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/entered_user_info.dart';
+import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/widgets/user_chat_item.dart';
 import 'package:senior_project/common/theme.dart';
 
