@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_service.dart';
@@ -122,39 +122,22 @@ class _RealChatPageState extends State<RealChatPage>
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: CachedNetworkImage(
-                            width: 38,
-                            height: 38,
-                            fit: BoxFit.cover,
-                            imageUrl: widget.otherUserInfo.image_url,
-                            errorWidget: (context, url, error) => Container(
-                                  padding: const EdgeInsets.all(20),
-                                  alignment: Alignment.topCenter,
-                                  height: 140,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: CustomColors.darkGrey,
-                                      width: 3,
-                                    ),
-                                  ),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/UserProfile.svg',
-                                    height: 100,
-                                    width: 100,
-                                    color: CustomColors.darkGrey,
-                                  ),
-                                )),
+                          width: 38,
+                          height: 38,
+                          fit: BoxFit.cover,
+                          imageUrl: widget.otherUserInfo.image_url,
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.account_circle_outlined,
+                            color: Color.fromARGB(163, 51, 51, 51),
+                            size: 40,
+                          ),
+                        ),
                       ),
               ),
               const SizedBox(width: 12),
-              // Add spacing between the image and title
               Text(
                 widget.otherUserInfo.name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: CustomColors.darkGrey,
-                ),
+                style: TextStyles.menuTitle,
               ),
             ],
           ),
@@ -187,27 +170,34 @@ class _RealChatPageState extends State<RealChatPage>
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30))),
                     ),
-                    Container(
-                      child: Column(
-                        //messages
-                        children: [
-                          Expanded(
-                            child: (isOffline)
-                                ? Center(
-                                    child: SizedBox(
-                                      // padding: EdgeInsets.only(bottom: 20),
-                                      // alignment: Alignment.topCenter,
-                                      height: 200,
-                                      child: Image.asset(
-                                          'assets/images/NoInternet_newo.png'),
-                                    ),
-                                  )
-                                : _buildMessageList(),
-                          ),
-
-                          //user input
-                          _buildMessageInput(),
-                        ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, right: 5, left: 5),
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(35),
+                              topRight: Radius.circular(35)),
+                        ),
+                        child: Column(
+                          //messages
+                          children: [
+                            Expanded(
+                              child: (isOffline)
+                                  ? Center(
+                                      child: SizedBox(
+                                        height: 200,
+                                        child: Image.asset(
+                                            'assets/images/NoInternet_newo.png'),
+                                      ),
+                                    )
+                                  : _buildMessageList(),
+                            ),
+                            //user input
+                            _buildMessageInput(),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -235,13 +225,10 @@ class _RealChatPageState extends State<RealChatPage>
             //if some or all data is loaded then show it
             case ConnectionState.active:
             case ConnectionState.done:
-              // final data = snapshot.data?.docs; //
               _list = snapshot.data!.docs
                   .map((document) => MessageInfoModel.fromJson(
                       document.data()! as Map<String, dynamic>))
                   .toList();
-              //data?.map(() => Message.fromJson(e.data())).toList() ?? [];
-
               if (_list.isNotEmpty) {
                 return ListView.builder(
                     reverse: true,
@@ -252,38 +239,20 @@ class _RealChatPageState extends State<RealChatPage>
                       return _buildMessageItem(_list[index]);
                     });
               } else {
-                return const Center(
-                  child: Text('Say Hii! 👋', style: TextStyle(fontSize: 20)),
+                return Center(
+                  child: Text(
+                    'أهلا! 👋\n\nيمكنك بدأ المحادثة الان',
+                    textAlign: TextAlign.center,
+                    style: TextStyles.heading2D,
+                  ),
                 );
               }
           }
-        }
-        // if (snapshot.hasError) {
-        //   return const Text("كل زق");
-        // }
-
-        // if (snapshot.connectionState == ConnectionState.waiting) {
-        //   return loadingFunction(context, true);
-        // }
-
-        // WidgetsBinding.instance!.addPostFrameCallback((_) {
-        //   // Scroll to the last item in the list
-        //   _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-        // });
-        // return ListView(
-        //   controller: _scrollController,
-        //   padding: const EdgeInsets.symmetric(horizontal: 2),
-        //   children: snapshot.data!.docs
-        //       .map((document) => _buildMessageItem(document))
-        //       .toList(),
-        // );
-
-        );
+        });
   }
 
   //item
   Widget _buildMessageItem(MessageInfoModel message) {
-    // Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
     bool isMe = userInfo.userID == message.senderID ? true : false;
     if (!isMe && message.readF.isEmpty) {
       _chatService.updateMessageReadStatus(message);
@@ -304,16 +273,15 @@ class _RealChatPageState extends State<RealChatPage>
       child: Container(
         height: 55,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(65, 171, 171, 171),
+          color: CustomColors.lightGreyLowTrans.withOpacity(0.25),
           borderRadius: BorderRadius.circular(40),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.only(right: 15, left: 5),
         child: Row(
           children: [
             Expanded(
               child: TextField(
                 onTap: () {},
-                // keyboardType: TextInputType.text,
                 controller: _messageController,
                 obscureText: false,
                 decoration: const InputDecoration(
@@ -322,20 +290,27 @@ class _RealChatPageState extends State<RealChatPage>
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                if (isOffline) {
-                  showNetWidgetDialog(context);
-                } else {
-                  sendMessage();
-                }
-              },
-              icon: const Icon(
-                Icons.send,
-                size: 35,
-                color: Color.fromARGB(255, 59, 111, 132),
-              ),
+            Container(
               padding: const EdgeInsets.only(bottom: 2),
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: CustomColors.lightBlue.withOpacity(0.7),
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  if (isOffline) {
+                    showNetWidgetDialog(context);
+                  } else {
+                    sendMessage();
+                  }
+                },
+                icon: Icon(
+                  Icons.send_rounded,
+                  size: 35,
+                  color: CustomColors.darkGrey.withOpacity(0.6),
+                ),
+              ),
             )
           ],
         ),

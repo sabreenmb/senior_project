@@ -9,7 +9,9 @@ class CustomColors {
   static const Color lightGrey = Color(0xffABABAB);
   static const Color backgroundColor = Color(0xFFF1EFF1);
   static const Color white = Colors.white;
+  static const Color realBlue = Colors.blue;
   static const Color lightGreyLowTrans = Color.fromRGBO(171, 171, 171, 0.5);
+  static const Color lightBlueLowTrans = Color.fromARGB(168, 131, 205, 234);
   static const Color noColor = Color.fromRGBO(171, 171, 171, 0.0);
 }
 
