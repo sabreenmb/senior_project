@@ -13,7 +13,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../common/constant.dart';
 import '../model/EventItem.dart';
-import '../model/offer_info.dart';
+import '../model/offer_info_moedl.dart';
 import '../widgets/home_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -121,7 +121,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
             child: CarouselSlider(
               items: [
                 HomeOfferCard(
-                  OfferInfo(
+                  OfferInfoModel(
                     timestamp: '',
                     name: ' ',
                     id: '',

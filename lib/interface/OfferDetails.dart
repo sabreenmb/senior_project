@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../model/offer_info.dart';
+import '../model/offer_info_moedl.dart';
 import '../common/theme.dart';
 
 class OfferDetails extends StatefulWidget {
-  OfferInfo offerInfo;
+  OfferInfoModel offerInfo;
 
   OfferDetails(this.offerInfo, {super.key});
   @override
@@ -20,7 +20,7 @@ class _OfferDetailsState extends State<OfferDetails> {
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
-    OfferInfo offerInfo = widget.offerInfo;
+    OfferInfoModel offerInfo = widget.offerInfo;
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,

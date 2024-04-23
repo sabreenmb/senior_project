@@ -6,7 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 //import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/model/volunteer_op_report.dart';
+import 'package:senior_project/model/vol_op_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/op_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
@@ -177,7 +177,7 @@ class _VolunteerOpState extends State<VolunteerOp>
                 padding: const EdgeInsets.only(bottom: 10),
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  return OpCard(VolunteerOpReport(
+                  return OpCard(VolOpModel(
                     time: '',
                     id: '',
                     name: ' ',
@@ -221,10 +221,10 @@ class _VolunteerOpState extends State<VolunteerOp>
         Map<dynamic, dynamic> data2 = data as Map<dynamic, dynamic>;
 
 // todo make sure it works
-        final List<VolunteerOpReport> reports = data2.entries.map((entry) {
+        final List<VolOpModel> reports = data2.entries.map((entry) {
           final key = entry.key;
           final value = entry.value;
-          return VolunteerOpReport(
+          return VolOpModel(
             id: key,
             //model name : firebase name
             name: value['op_name'],

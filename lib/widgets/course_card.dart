@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/SavedList.dart';
+import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/model/courses_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,11 +22,11 @@ class _CoursesCardState extends State<CoursesCard> {
   Widget build(BuildContext context) {
     bool isSaved;
     Size size = MediaQuery.of(context).size;
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: 'cources',
         dynamicObject: widget.courseItem,
         icon: services[4]['icon']);
-    isSaved = SavedList.findId(widget.courseItem.id.toString());
+    isSaved = SavedListModel.findId(widget.courseItem.id.toString());
 
     return Card(
       elevation: 4,

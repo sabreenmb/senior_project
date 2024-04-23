@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/create_group_report.dart';
-import 'package:senior_project/model/SavedList.dart';
+import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/common/constant.dart';
 
 import '../common/theme.dart';
@@ -19,11 +19,11 @@ class _CreateCardState extends State<CreateCard> {
   @override
   Widget build(BuildContext context) {
     bool isSaved = false;
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: 'studyGroubs',
         dynamicObject: widget.createGroupReport,
         icon: services[5]['icon']);
-    isSaved = SavedList.findId(widget.createGroupReport.id.toString());
+    isSaved = SavedListModel.findId(widget.createGroupReport.id.toString());
 
     return Card(
       elevation: 4,

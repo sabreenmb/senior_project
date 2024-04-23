@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/SavedList.dart';
+import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/model/create_student_activity_report.dart';
 
 import '../common/theme.dart';
@@ -22,12 +22,12 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: 'studentActivities',
         dynamicObject: widget.createStudentActivityReport,
         icon: services[6]['icon']);
     isSaved =
-        SavedList.findId(widget.createStudentActivityReport.id.toString());
+        SavedListModel.findId(widget.createStudentActivityReport.id.toString());
 
     return Card(
       elevation: 4,

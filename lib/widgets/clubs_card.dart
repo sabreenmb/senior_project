@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../interface/StudentClubDetails.dart';
-import '../model/SClubInfo.dart';
+import '../model/student_club_model.dart';
 import '../common/theme.dart';
 
 class ClubsCard extends StatelessWidget {
-  SClubInfo clubDetails;
+  SClubModel clubDetails;
 
   ClubsCard(this.clubDetails, {super.key});
 

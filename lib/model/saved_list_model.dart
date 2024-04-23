@@ -1,14 +1,15 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../common/constant.dart';
 import 'EventItem.dart';
 
-class SavedList {
+class SavedListModel {
   final String serviceName;
   final dynamic dynamicObject;
   final String icon;
-  SavedList({
+  SavedListModel({
     required this.serviceName,
     required this.dynamicObject,
     required this.icon,
@@ -32,10 +33,7 @@ class SavedList {
 
   bool addToSave(bool isSaved) {
     isSaved = !isSaved;
-// convertServiceName[eventItem.serviceName].toString()
     if (isSaved) {
-      print('savvvveeeeddd');
-
       saveList.add(
         EventItem(
             serviceName: convertServiceName[serviceName].toString(),
@@ -45,7 +43,6 @@ class SavedList {
 
       addItem(dynamicObject.id.toString());
     } else {
-      print('reemooooove');
       saveList.removeWhere((item) =>
           item.serviceName == convertServiceName[serviceName].toString() &&
           item.item.id == dynamicObject.id &&
@@ -66,9 +63,10 @@ class SavedList {
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
         var items = data['items'] as List<dynamic>;
-        // print(items);
         if (items.contains(itemId)) {
-          print('Item already exists.');
+          if (kDebugMode) {
+            print('Item already exists.');
+          }
           return;
         }
       }
@@ -77,10 +75,10 @@ class SavedList {
       await userProfileDoc.collection('saveItems').doc(serviceName).update({
         'items': FieldValue.arrayUnion([itemId])
       });
-
-      print('Item added successfully.');
     } catch (e) {
-      print('Error adding item: $e');
+      if (kDebugMode) {
+        print('Error adding item');
+      }
     }
   }
 
@@ -96,9 +94,10 @@ class SavedList {
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
         var items = data['items'] as List<dynamic>;
-        // print(items);
         if (!items.contains(itemId)) {
-          print('Item does not exist.');
+          if (kDebugMode) {
+            print('Item does not exist.');
+          }
           return;
         }
       }
@@ -108,18 +107,16 @@ class SavedList {
         'items': FieldValue.arrayRemove([itemId])
       });
 
-      print('Item removed successfully.');
     } catch (e) {
-      print('Error removing item: $e');
+      if (kDebugMode) {
+        print('Error removing item');
+      }
     }
   }
 
   String getKeyFromValue(String value) {
     for (var entry in convertServiceName.entries) {
       if (entry.value == value) {
-        print('rmrmrmrmmrm');
-        print(entry.key);
-        print(entry.value);
         return entry.key;
       }
     }

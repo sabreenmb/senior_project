@@ -2,15 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/SavedList.dart';
-import 'package:senior_project/model/workshop_item_report.dart';
+import 'package:senior_project/model/saved_list_model.dart';
+import 'package:senior_project/model/workshop_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class WorkshopCard extends StatefulWidget {
-  WorkshopsItemReport workshopItem;
+  WorkshopModel workshopItem;
   WorkshopCard(this.workshopItem, {super.key});
 
   @override
@@ -22,11 +22,11 @@ class _WorkshopCardState extends State<WorkshopCard> {
   Widget build(BuildContext context) {
     bool isSaved;
     Size size = MediaQuery.of(context).size;
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: 'workshops',
         dynamicObject: widget.workshopItem,
         icon: services[4]['icon']);
-    isSaved = SavedList.findId(widget.workshopItem.id.toString());
+    isSaved = SavedListModel.findId(widget.workshopItem.id.toString());
 
     return Card(
         elevation: 4,

@@ -2,15 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/SavedList.dart';
-import 'package:senior_project/model/other_event_item_report.dart';
+import 'package:senior_project/model/saved_list_model.dart';
+import 'package:senior_project/model/other_events_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/theme.dart';
 
 // ignore: must_be_immutable
 class OtherCard extends StatefulWidget {
-  OtherEventsItemReport otherEventsItem;
+  OtherEventsModel otherEventsItem;
   OtherCard(this.otherEventsItem, {super.key});
 
   @override
@@ -24,11 +24,11 @@ class _OtherCardState extends State<OtherCard> {
     Size size = MediaQuery.of(context).size;
     print(widget.otherEventsItem.name);
 
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: 'otherEvents',
         dynamicObject: widget.otherEventsItem,
         icon: services[6]['icon']);
-    isSaved = SavedList.findId(widget.otherEventsItem.id.toString());
+    isSaved = SavedListModel.findId(widget.otherEventsItem.id.toString());
 
     return Card(
         elevation: 4,

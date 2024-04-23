@@ -6,7 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/common/common_functions.dart';
 import '../common/constant.dart';
-import '../model/psych_guidance_report.dart';
+import '../model/psych_guidance_model.dart';
 import '../common/theme.dart';
 import '../widgets/psych_guidance_card.dart';
 import '../widgets/side_menu.dart';

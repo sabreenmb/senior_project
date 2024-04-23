@@ -8,7 +8,7 @@ import 'package:senior_project/model/entered_user_info.dart';
 import 'common_functions.dart';
 import 'constant.dart';
 import '../model/EventItem.dart';
-import '../model/SClubInfo.dart';
+import '../model/student_club_model.dart';
 import '../model/clinic_report.dart';
 import '../model/conference_item_report.dart';
 import '../model/courses_item_report.dart';
@@ -16,11 +16,11 @@ import '../model/create_group_report.dart';
 import '../model/create_student_activity_report.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
-import '../model/offer_info.dart';
-import '../model/other_event_item_report.dart';
-import '../model/psych_guidance_report.dart';
-import '../model/volunteer_op_report.dart';
-import '../model/workshop_item_report.dart';
+import '../model/offer_info_moedl.dart';
+import '../model/other_events_model.dart';
+import '../model/psych_guidance_model.dart';
+import '../model/vol_op_model.dart';
+import '../model/workshop_model.dart';
 
 class Setup {
   Setup();
@@ -51,14 +51,14 @@ class Setup {
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
         if (item.value['pg_collage'] == userInfo.collage) {
-          pg = PsychGuidanceReport(
+          pg = PsychGuidanceModel(
             id: item.key,
-            ProId: item.value['pg_ID'],
-            ProName: item.value['pg_name'],
-            ProLocation: item.value['pg_location'],
+            proId: item.value['pg_ID'],
+            proName: item.value['pg_name'],
+            proLocation: item.value['pg_location'],
             collage: item.value['pg_collage'],
-            ProOfficeNumber: item.value['pg_number'],
-            ProEmail: item.value['pg_email'],
+            proOfficeNumber: item.value['pg_number'],
+            proEmail: item.value['pg_email'],
           );
           break;
         }
@@ -185,14 +185,14 @@ class Setup {
     for (Map<String, dynamic> item in offers) {
       item['categoryList'].clear();
     }
-    final List<OfferInfo> loadedOfferInfo = [];
+    final List<OfferInfoModel> loadedOfferInfo = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('offersdb'));
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
         if (getValidityF(item.value['of_expDate'])) {
-          loadedOfferInfo.add(OfferInfo(
+          loadedOfferInfo.add(OfferInfoModel(
             id: item.key,
             timestamp: item.value['timestamp'],
             name: item.value['of_name'],
@@ -215,7 +215,7 @@ class Setup {
       int falseNum = 0;
       List<dynamic> tempOffer = [];
       recommendedOffers = [];
-      for (OfferInfo offer in loadedOfferInfo) {
+      for (OfferInfoModel offer in loadedOfferInfo) {
         for (Map<String, dynamic> item in offers) {
           if (offer.category == item['offerCategory']) {
             item['categoryList'].add(offer);
@@ -289,7 +289,7 @@ class Setup {
 
   Future<void> loadWorkshops() async {
     workshopItems = [];
-    List<WorkshopsItemReport> loadedWorkshopsItems = [];
+    List<WorkshopModel> loadedWorkshopsItems = [];
 
     final response = await http.get(FirebaseAPI.url('eventsWorkshopsDB'));
     if (response.body == '"placeholder"') {
@@ -298,7 +298,7 @@ class Setup {
     final Map<String, dynamic> data = json.decode(response.body);
     for (final item in data.entries) {
       if (getValidityF(item.value['workshop_date']) == true) {
-        loadedWorkshopsItems.add(WorkshopsItemReport(
+        loadedWorkshopsItems.add(WorkshopModel(
           id: item.key,
           name: item.value['workshop_name'],
           presentBy: item.value['workshop_presenter'],
@@ -389,7 +389,7 @@ class Setup {
 
   Future<void> loadOtherEvents() async {
     otherItems = [];
-    List<OtherEventsItemReport> loadedOtherEventsItems = [];
+    List<OtherEventsModel> loadedOtherEventsItems = [];
 
     final response = await http.get(FirebaseAPI.url('eventsOthersDB'));
     if (response.body == '"placeholder"') {
@@ -399,7 +399,7 @@ class Setup {
 
     for (final item in eventData.entries) {
       if (getValidityF(item.value['OEvent_date']) == true) {
-        loadedOtherEventsItems.add(OtherEventsItemReport(
+        loadedOtherEventsItems.add(OtherEventsModel(
           id: item.key,
           name: item.value['OEvent_name'],
           presentBy: item.value['OEvent_presenter'],
@@ -440,7 +440,7 @@ class Setup {
 
   Future<void> loadVolOp() async {
     volOpItems = [];
-    final List<VolunteerOpReport> loadedVolunteerOp = [];
+    final List<VolOpModel> loadedVolunteerOp = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('opportunities'));
@@ -450,7 +450,7 @@ class Setup {
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
         if (getValidityF(item.value['op_date']) == true) {
-          loadedVolunteerOp.add(VolunteerOpReport(
+          loadedVolunteerOp.add(VolOpModel(
             id: item.key,
             name: item.value['op_name'],
             date: item.value['op_date'],
@@ -498,7 +498,7 @@ class Setup {
 
   Future<void> loadSClubs() async {
     sClubsItems = [];
-    List<SClubInfo> loadedClubsInfo = [];
+    List<SClubModel> loadedClubsInfo = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('studentClubsDB'));
@@ -507,7 +507,7 @@ class Setup {
       }
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        loadedClubsInfo.add(SClubInfo(
+        loadedClubsInfo.add(SClubModel(
           id: item.key,
           name: item.value['club_name'],
           logo: item.value['club_logo'],
@@ -517,7 +517,7 @@ class Setup {
           regTime: item.value['club_regTime'],
           leader: item.value['club_leader'],
           membersLink: item.value['clubMB_link'],
-          MngLink: item.value['clubMG_link'],
+          mngLink: item.value['clubMG_link'],
         ));
       }
     } catch (error) {

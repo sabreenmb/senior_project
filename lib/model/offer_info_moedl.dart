@@ -1,5 +1,5 @@
 
-class OfferInfo {
+class OfferInfoModel {
   //Variables
   String? id;
   String? logo;
@@ -15,7 +15,7 @@ class OfferInfo {
 
 
   //Constructor
-  OfferInfo({
+  OfferInfoModel({
     required this.id,
     required this.name,
     required this.logo,

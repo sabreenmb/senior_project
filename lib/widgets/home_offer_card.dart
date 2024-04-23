@@ -3,10 +3,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../interface/OfferDetails.dart';
-import '../model/offer_info.dart';
+import '../model/offer_info_moedl.dart';
 
 class HomeOfferCard extends StatelessWidget {
-  OfferInfo offerInfo;
+  OfferInfoModel offerInfo;
   HomeOfferCard(this.offerInfo, {super.key});
 
   @override

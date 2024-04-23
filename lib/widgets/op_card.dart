@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/SavedList.dart';
-import 'package:senior_project/model/volunteer_op_report.dart';
+import 'package:senior_project/model/saved_list_model.dart';
+import 'package:senior_project/model/vol_op_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/theme.dart';
 
 class OpCard extends StatefulWidget {
-  VolunteerOpReport volunteerOpReport;
+  VolOpModel volunteerOpReport;
   OpCard(this.volunteerOpReport, {super.key});
 
   @override
@@ -21,11 +21,11 @@ class _OpCardState extends State<OpCard> {
   Widget build(BuildContext context) {
     bool isSaved;
     Size size = MediaQuery.of(context).size;
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: 'volunteerOp',
         dynamicObject: widget.volunteerOpReport,
         icon: services[1]['icon']);
-    isSaved = SavedList.findId(widget.volunteerOpReport.id.toString());
+    isSaved = SavedListModel.findId(widget.volunteerOpReport.id.toString());
 
     return Card(
       elevation: 4,

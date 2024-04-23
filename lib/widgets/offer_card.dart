@@ -6,11 +6,11 @@ import 'package:shimmer/shimmer.dart';
 
 
 import '../interface/OfferDetails.dart';
-import '../model/offer_info.dart';
+import '../model/offer_info_moedl.dart';
 import '../common/theme.dart';
 
 class OfferCard extends StatelessWidget {
-  OfferInfo offerInfo;
+  OfferInfoModel offerInfo;
   OfferCard(this.offerInfo, {super.key});
 
   @override

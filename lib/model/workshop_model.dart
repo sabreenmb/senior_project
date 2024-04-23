@@ -1,4 +1,4 @@
-class WorkshopsItemReport {
+class WorkshopModel {
   //Variables
   String? id;
   String? name;
@@ -10,7 +10,7 @@ class WorkshopsItemReport {
   String? timestamp;
 
   //Constructor
-  WorkshopsItemReport({
+  WorkshopModel({
     required this.id,
     required this.name,
     required this.presentBy,

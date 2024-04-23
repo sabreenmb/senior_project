@@ -6,7 +6,7 @@ import 'package:senior_project/interface/study_group.dart';
 import '../common/constant.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
-import '../model/SavedList.dart';
+import '../model/saved_list_model.dart';
 import '../common/theme.dart';
 
 // ignore: must_be_immutable
@@ -29,12 +29,12 @@ class _SaveCardState extends State<SaveCard> {
   Widget build(BuildContext context) {
     bool isSaved;
     Size size = MediaQuery.of(context).size;
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: widget.serviceName,
         dynamicObject: widget.dynamicObject,
         icon: widget.icon);
     //manar
-    isSaved = SavedList.findId(widget.dynamicObject.id);
+    isSaved = SavedListModel.findId(widget.dynamicObject.id);
 
     return isSaved
         ? InkWell(

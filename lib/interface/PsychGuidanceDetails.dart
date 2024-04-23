@@ -10,7 +10,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/common/common_functions.dart';
 import '../common/constant.dart';
-import '../model/psych_guidance_report.dart';
+import '../model/psych_guidance_model.dart';
 import '../common/theme.dart';
 import '../widgets/psych_guidance_card.dart';
 import '../widgets/side_menu.dart';
@@ -150,9 +150,9 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                                   width: 5,
                                 ),
                                 Text(
-                                  pg.ProLocation! +
+                                  pg.proLocation! +
                                       " ,مكتب  " +
-                                      pg.ProOfficeNumber!,
+                                      pg.proOfficeNumber!,
                                   style: TextStyles.heading1D,
                                   textAlign: TextAlign.center,
                                 ),
@@ -173,7 +173,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                                 GestureDetector(
                                   onLongPress: () {
                                     Clipboard.setData(
-                                            ClipboardData(text: pg.ProEmail!))
+                                            ClipboardData(text: pg.proEmail!))
                                         .then((_) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -193,7 +193,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                                     });
                                   },
                                   child: Text(
-                                    pg.ProEmail!,
+                                    pg.proEmail!,
                                     style: TextStyles.heading1D,
                                     textAlign: TextAlign.center,
                                   ),
@@ -213,7 +213,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                                       builder: (context) => RealChatPage(
                                         otherUserInfo: allUsers[
                                             allUsers.indexWhere((element) =>
-                                                element.userID == pg.ProId)],
+                                                element.userID == pg.proId)],
                                       ),
                                     ),
                                   );

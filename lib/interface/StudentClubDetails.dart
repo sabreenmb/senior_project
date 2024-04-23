@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../model/SClubInfo.dart';
+import '../model/student_club_model.dart';
 import '../common/theme.dart';
 
 class ClubDetails extends StatefulWidget {
-  SClubInfo clubDetails;
+  SClubModel clubDetails;
   ClubDetails(this.clubDetails, {super.key});
   @override
   State<ClubDetails> createState() => _ClubDetailsState();
@@ -19,7 +19,7 @@ class _ClubDetailsState extends State<ClubDetails> {
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
-    SClubInfo clubDetails = widget.clubDetails;
+    SClubModel clubDetails = widget.clubDetails;
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
@@ -213,7 +213,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (clubDetails.MngLink == "") {
+                        if (clubDetails.mngLink == "") {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: const Text('التسجيل غير متاح حاليًا. '),
@@ -226,7 +226,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                             ),
                           );
                         } else {
-                          _launchURL(clubDetails.MngLink!, context);
+                          _launchURL(clubDetails.mngLink!, context);
                         }
                       },
                       style: ElevatedButton.styleFrom(

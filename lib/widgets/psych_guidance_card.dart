@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../common/constant.dart';
-import '../model/psych_guidance_report.dart';
+import '../model/psych_guidance_model.dart';
 import '../common/theme.dart';
 
 class PGCard extends StatelessWidget {
@@ -55,7 +55,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    pg.ProLocation!,
+                    pg.proLocation!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,
@@ -78,7 +78,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    pg.ProName!,
+                    pg.proName!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,
@@ -101,7 +101,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    pg.ProOfficeNumber!,
+                    pg.proOfficeNumber!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,
@@ -124,7 +124,7 @@ class PGCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    pg.ProEmail!,
+                    pg.proEmail!,
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 18,

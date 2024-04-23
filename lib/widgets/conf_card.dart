@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/SavedList.dart';
+import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/model/conference_item_report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,11 +22,11 @@ class _ConfCardState extends State<ConfCard> {
   Widget build(BuildContext context) {
     bool isSaved;
     Size size = MediaQuery.of(context).size;
-    SavedList savedItem = SavedList(
+    SavedListModel savedItem = SavedListModel(
         serviceName: 'conferences',
         dynamicObject: widget.confItem,
         icon: services[4]['icon']);
-    isSaved = SavedList.findId(widget.confItem.id.toString());
+    isSaved = SavedListModel.findId(widget.confItem.id.toString());
 
     return Card(
       elevation: 4,

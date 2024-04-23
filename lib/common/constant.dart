@@ -6,7 +6,7 @@ import 'package:senior_project/model/entered_user_info.dart';
 import 'package:senior_project/common/push_notification.dart';
 import 'firebase_api.dart';
 import '../model/EventItem.dart';
-import '../model/SClubInfo.dart';
+import '../model/student_club_model.dart';
 import '../model/clinic_report.dart';
 import '../model/conference_item_report.dart';
 import '../model/courses_item_report.dart';
@@ -14,10 +14,10 @@ import '../model/create_group_report.dart';
 import '../model/create_student_activity_report.dart';
 import '../model/found_item_report.dart';
 import '../model/lost_item_report.dart';
-import '../model/other_event_item_report.dart';
-import '../model/psych_guidance_report.dart';
-import '../model/volunteer_op_report.dart';
-import '../model/workshop_item_report.dart';
+import '../model/other_events_model.dart';
+import '../model/psych_guidance_model.dart';
+import '../model/vol_op_model.dart';
+import '../model/workshop_model.dart';
 
 //Common use variables
 bool isLoading = false;
@@ -26,7 +26,7 @@ var connectivityResult = (Connectivity().checkConnectivity());
 
 PushNotification notificationServices = PushNotification();
 UserInformation userInfo = UserInformation();
-PsychGuidanceReport pg = PsychGuidanceReport();
+PsychGuidanceModel pg = PsychGuidanceModel();
 DocumentReference<Map<String, dynamic>> userProfileDoc =
     FirebaseAPI.currentUserInfo();
 
@@ -35,12 +35,12 @@ List<UserInformation> allUsers = [];
 List<dynamic> recommendedOffers = [];
 List<LostItemReport> lostItems = [];
 List<FoundItemReport> foundItems = [];
-List<WorkshopsItemReport> workshopItems = [];
+List<WorkshopModel> workshopItems = [];
 List<ConferencesItemReport> confItems = [];
-List<OtherEventsItemReport> otherItems = [];
+List<OtherEventsModel> otherItems = [];
 List<CoursesItemReport> courseItems = [];
-List<VolunteerOpReport> volOpItems = [];
-List<SClubInfo> sClubsItems = [];
+List<VolOpModel> volOpItems = [];
+List<SClubModel> sClubsItems = [];
 List<EventItem> saveList = [];
 List<CreateStudentActivityReport> sActivitiesItems = [];
 List<CreateGroupReport> studyGroupItems = [];

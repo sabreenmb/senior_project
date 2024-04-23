@@ -8,8 +8,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/conference_item_report.dart';
 import 'package:senior_project/model/courses_item_report.dart';
-import 'package:senior_project/model/other_event_item_report.dart';
-import 'package:senior_project/model/workshop_item_report.dart';
+import 'package:senior_project/model/other_events_model.dart';
+import 'package:senior_project/model/workshop_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/conf_card.dart';
 import 'package:senior_project/widgets/other_card.dart';
@@ -33,9 +33,9 @@ class _EventState extends State<EventScreen> {
   late StreamSubscription connSub;
 
   List<CoursesItemReport> searchCourseList = [];
-  List<WorkshopsItemReport> searchWorkshopList = [];
+  List<WorkshopModel> searchWorkshopList = [];
   List<ConferencesItemReport> searchConfList = [];
-  List<OtherEventsItemReport> searchOtherList = [];
+  List<OtherEventsModel> searchOtherList = [];
 
   bool isSelected = true;
   bool isSearch = false;
@@ -465,7 +465,7 @@ class _EventState extends State<EventScreen> {
                 padding: const EdgeInsets.only(bottom: 10),
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  return WorkshopCard(WorkshopsItemReport(
+                  return WorkshopCard(WorkshopModel(
                       time: '',
                       timestamp: '',
                       location: '',
@@ -530,7 +530,7 @@ class _EventState extends State<EventScreen> {
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
-            return WorkshopsItemReport(
+            return WorkshopModel(
               id: key,
               name: value['workshop_name'],
               presentBy: value['workshop_presenter'],
@@ -541,7 +541,7 @@ class _EventState extends State<EventScreen> {
               timestamp: value['timestamp'],
             );
           }).toList();
-          workshopItems = reports.cast<WorkshopsItemReport>();
+          workshopItems = reports.cast<WorkshopModel>();
         } else if (name == 'eventsConferencesDB') {
           confItems.clear();
           reports = data2.entries.map((entry) {
@@ -563,7 +563,7 @@ class _EventState extends State<EventScreen> {
           reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
-            return OtherEventsItemReport(
+            return OtherEventsModel(
               id: key,
               name: value['OEvent_name'],
               presentBy: value['OEvent_presenter'],
@@ -574,7 +574,7 @@ class _EventState extends State<EventScreen> {
               timestamp: value['timestamp'],
             );
           }).toList();
-          otherItems = reports.cast<OtherEventsItemReport>();
+          otherItems = reports.cast<OtherEventsModel>();
         }
         // to do store the values
         return ListView.builder(
