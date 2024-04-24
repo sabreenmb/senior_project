@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, deprecated_member_use
 
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -82,7 +82,7 @@ class SideDrawer extends StatelessWidget {
                     ),
                     Text(
                       userInfo.name,
-                      style: TextStyles.menuTitle ,
+                      style: TextStyles.menuTitle,
                     ),
                   ],
                 ),
@@ -143,8 +143,8 @@ class SideDrawer extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               color: CustomColors.white,
                               image: DecorationImage(
-                                image:
-                                    const AssetImage('assets/images/logo/Logo.png'),
+                                image: const AssetImage(
+                                    'assets/images/logo/Logo.png'),
                                 fit: BoxFit.scaleDown,
                                 colorFilter: ColorFilter.mode(
                                   CustomColors.white.withOpacity(0.1),
@@ -170,12 +170,11 @@ class SideDrawer extends StatelessWidget {
                                       top: Radius.circular(20),
                                     ),
                                   ),
-                                  padding: const EdgeInsets.symmetric(vertical: 20),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
                                   alignment: Alignment.center,
-                                  child: Text(
-                                    "البطاقة الجامعية",
-                                    style: TextStyles.pageTitle2
-                                  ),
+                                  child: Text("البطاقة الجامعية",
+                                      style: TextStyles.pageTitle2),
                                 ),
                                 const SizedBox(height: 20),
                                 CircleAvatar(
@@ -244,26 +243,17 @@ class SideDrawer extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Text(
-                                  userInfo.name,
-                                  style: TextStyles.heading1D
-                                ),
+                                Text(userInfo.name,
+                                    style: TextStyles.heading1D),
                                 const SizedBox(height: 10),
-                                Text(
-                                  userInfo.userID,
-                                  style: TextStyles.heading2D
-                                ),
+                                Text(userInfo.userID,
+                                    style: TextStyles.heading2D),
                                 const SizedBox(height: 8),
-                                Text(
-                                  userInfo.collage,
-                                    style: TextStyles.heading2D
-                                ),
+                                Text(userInfo.collage,
+                                    style: TextStyles.heading2D),
                                 const SizedBox(height: 8),
-                                Text(
-                                  userInfo.major,
-                                    style: TextStyles.heading2D
-
-                                ),
+                                Text(userInfo.major,
+                                    style: TextStyles.heading2D),
                                 const SizedBox(height: 24),
                                 Container(
                                   padding: const EdgeInsets.all(16),
