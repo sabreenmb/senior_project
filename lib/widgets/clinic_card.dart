@@ -1,11 +1,9 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/clinic_model.dart';
-
 import '../common/theme.dart';
 
-// ignore: must_be_immutable
 class ClinicCard extends StatelessWidget {
   ClinicModel clinicReport;
   ClinicCard(
@@ -15,8 +13,6 @@ class ClinicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
@@ -49,16 +45,7 @@ class ClinicCard extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 10.0),
                           child: Text(
                             clinicReport.clDoctor!,
-                            //   textAlign: TextAlign
-                            //      .right,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: TextStyles.text1L.fontSize,
-                              //    fontFamily: TextStyles.text
-                              //     .fontFamily,
-                              ///   fontWeight: TextStyles.text
-                              //      .fontWeight,
-                            ),
+                            style: TextStyles.text1D,
                           ),
                         ),
                       ],
