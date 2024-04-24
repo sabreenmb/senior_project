@@ -48,11 +48,11 @@ class FoundCard extends StatelessWidget {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Shimmer.fromColors(
-                              baseColor: Colors.white,
-                              highlightColor: Colors.grey[300]!,
+                              baseColor: CustomColors.white,
+                              highlightColor:CustomColors.highlightColor,
                               enabled: true,
                               child: Container(
-                                color: Colors.white,
+                                color: CustomColors.white,
                               ),
                             );
                           } else if (snapshot.hasError) {

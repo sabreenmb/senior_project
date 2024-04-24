@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../interface/VolunteerOpportunities.dart';
@@ -18,60 +19,39 @@ class HomeCard extends StatefulWidget {
 }
 
 class _HomeCardState extends State<HomeCard> {
-  //manar
-  // bool isSaved = false;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    // SavedList savedItem = SavedList(
-    //     serviceName: widget.serviceName,
-    //     dynamicObject: widget.dynamicObject,
-    //     icon: widget.icon);
-    // //manar
-    // isSaved = SavedList.findId(widget.dynamicObject.id);
 
     return InkWell(
       onTap: () {
-        // Define the navigation logic here
         if (widget.serviceName == 'volunteerOp') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const VolunteerOp()),
-          );
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const VolunteerOp()));
         } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const EventScreen()),
-          );
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const EventScreen()));
         }
       },
       child: SizedBox(
         width: 200,
         child: Card(
-          elevation: 4,
+          elevation: 3,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(22),
-            side: BorderSide(color: CustomColors.lightBlue),
+            side: const BorderSide(color: CustomColors.lightBlue),
           ),
           margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+            padding: const EdgeInsets.only(left: 15.0,right: 15, bottom: 15,top: 25),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // IconButton(
-                //   onPressed: () {
-                //     setState(() {
-                //       isSaved = savedItem.addToSave(isSaved);
-                //     });
-                //   },
-                //   icon: Icon(
-                // isSaved ? Icons.bookmark : Icons.bookmark_border,
-                //     color: CustomColors.lightBlue,
-                //   ),
-                // ),
                 SizedBox(
                   height: 65,
                   child: Center(
@@ -102,7 +82,7 @@ class _HomeCardState extends State<HomeCard> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on_outlined,
                           color: CustomColors.lightGrey,
                           size: 14.0,
@@ -124,7 +104,7 @@ class _HomeCardState extends State<HomeCard> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.date_range_outlined,
                           color: CustomColors.lightGrey,
                           size: 14.0,
@@ -142,7 +122,7 @@ class _HomeCardState extends State<HomeCard> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.timer_sharp,
                           color: CustomColors.lightGrey,
                           size: 14.0,

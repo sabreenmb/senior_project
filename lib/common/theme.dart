@@ -14,6 +14,8 @@ class CustomColors {
   static const Color lightGreyLowTrans = Color.fromRGBO(171, 171, 171, 0.5);
   static const Color lightBlueLowTrans = Color.fromARGB(168, 131, 205, 234);
   static const Color noColor = Color.fromRGBO(171, 171, 171, 0.0);
+  static const Color highlightColor =  Color(0xFFE0E0E0);
+
 }
 
 class TextStyles {

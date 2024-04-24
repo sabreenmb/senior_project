@@ -6,7 +6,6 @@ import 'package:senior_project/interface/Clinic.dart';
 import 'package:senior_project/interface/OfferCategoryScreen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../interface/OffersListScreen.dart';
 import '../interface/StudentClubsScreen.dart';
 import '../interface/VolunteerOpportunities.dart';
@@ -19,8 +18,8 @@ import '../common/theme.dart';
 class GridCard extends StatelessWidget {
   Map<String, dynamic> details;
   int i;
-  bool isServises;
-  GridCard(this.details, this.i, this.isServises, {super.key});
+  bool isService;
+  GridCard(this.details, this.i, this.isService, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,27 +27,18 @@ class GridCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        isServises ? _navigateOnServises(context) : _navigateOnOffers(context);
+        isService ? _navigateOnServises(context) : _navigateOnOffers(context);
       },
       child: Container(
         decoration: BoxDecoration(
           color: CustomColors.white,
           border: Border.all(color: CustomColors.lightGreyLowTrans),
           borderRadius: const BorderRadius.all(Radius.circular(30)),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: CustomColors.lightGreyLowTrans,
-              offset: Offset(
-                0.0,
-                10.0,
-              ),
-              blurRadius: 7.5,
-            ),
-            BoxShadow(
-              color: Color.fromARGB(0, 255, 255, 255),
-              offset: Offset(0.0, 0.0),
-              blurRadius: 0.0,
-              spreadRadius: 0.0,
+              color: CustomColors.lightGrey.withOpacity(0.5),
+              offset: const Offset(0, 5),
+              blurRadius: 5.5,
             ),
           ],
         ),
@@ -65,26 +55,22 @@ class GridCard extends StatelessWidget {
                   height: 70,
                   fit: BoxFit.cover,
                   placeholderBuilder: (BuildContext context) => Shimmer.fromColors(
-                    baseColor: Colors.white,
-                    highlightColor: Colors.grey[100]!,
+                    baseColor: CustomColors.white,
+                    highlightColor: CustomColors.highlightColor,
                     child: Container(
                       width: 70,
                       height: 70,
-                      color: Colors.white,
+                      color: CustomColors.white,
                     ),
                   ),
                 ),
               ),
             ),
             Text(
-              isServises ? details['serviceName'] : details['offerCategory'],
+              isService ? details['serviceName'] : details['offerCategory'],
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: CustomColors.lightGrey,
-              ),
-            ),
+                style: TextStyles.heading1L,
+              )
           ],
         ),
       ),
@@ -99,8 +85,6 @@ class GridCard extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => const LostAndFoundScreen()));
         break;
-      // Add cases for other services as needed
-
       case 1:
         Navigator.pushReplacement(
           context,
@@ -112,7 +96,6 @@ class GridCard extends StatelessWidget {
       case 2:
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const OffersListScreen()));
-
         break;
       case 3:
         Navigator.pushReplacement(
@@ -146,20 +129,18 @@ class GridCard extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Clinic(),
+          builder: (context) => const Clinic(),
         ),
       );
       break;
-
       case 8:
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => PsychGuidance(),
+          builder: (context) => const PsychGuidance(),
         ),
       );
       break;
-      // Add cases for other services as needed
     }
   }
 
