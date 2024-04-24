@@ -1,5 +1,5 @@
 
-class SClubModel {
+class StudentClubModel {
   //Variables
   String? id;
   String? logo;
@@ -12,9 +12,8 @@ class SClubModel {
   String? mngLink;
   String? timestamp;
 
-
   //Constructor
-  SClubModel({
+  StudentClubModel({
     required this.id,
     required this.name,
     required this.logo,
@@ -25,8 +24,5 @@ class SClubModel {
     required this.mngLink,
     required this.contact,
     required this.timestamp,
-
   });
-
 }
-

@@ -8,7 +8,7 @@ import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/student_group_model.dart';
 import 'package:senior_project/common/theme.dart';
-import 'package:senior_project/widgets/create_card.dart';
+import 'package:senior_project/widgets/study_goup_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -258,7 +258,7 @@ class _StudyGroupState extends State<StudyGroup>
                                               itemCount:
                                                   searchSessionList.length,
                                               itemBuilder: (context, index) =>
-                                                  CreateCard(
+                                                  StudyGroupCard(
                                                       searchSessionList[index]))
                                           : _buildCardList()),
                                 )),
@@ -312,7 +312,7 @@ Widget _buildCardList() {
             padding: const EdgeInsets.only(bottom: 10),
             itemCount: studyGroupItems.length,
             itemBuilder: (context, index) {
-              return CreateCard(studyGroupItems[0]);
+              return StudyGroupCard(studyGroupItems[0]);
             },
           ),
         );
@@ -347,7 +347,7 @@ Widget _buildCardList() {
         itemCount: reports.length,
         itemBuilder: (context, index) {
           final report = reports[index];
-          return CreateCard(report);
+          return StudyGroupCard(report);
         },
       );
     },

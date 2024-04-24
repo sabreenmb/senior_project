@@ -1,14 +1,13 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:senior_project/common/common_functions.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/model/courses_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../common/theme.dart';
+import 'package:senior_project/common/theme.dart';
 
-// ignore: must_be_immutable
 class CoursesCard extends StatefulWidget {
   CoursesModel courseItem;
   CoursesCard(this.courseItem, {super.key});
@@ -21,7 +20,6 @@ class _CoursesCardState extends State<CoursesCard> {
   @override
   Widget build(BuildContext context) {
     bool isSaved;
-    Size size = MediaQuery.of(context).size;
     SavedListModel savedItem = SavedListModel(
         serviceName: 'cources',
         dynamicObject: widget.courseItem,
@@ -40,7 +38,6 @@ class _CoursesCardState extends State<CoursesCard> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
-            //start the colom
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
@@ -135,35 +132,17 @@ class _CoursesCardState extends State<CoursesCard> {
           ),
         ),
         Positioned(
-          bottom: 8.0,
-          left: 15.0,
+          bottom: 2.0,
+          left: 8.0,
           child: TextButton(
-            onPressed: () => _launchURL(widget.courseItem.courseLink!, context),
+            onPressed: () => launchURL(widget.courseItem.courseLink!, context),
             child: Text(
               'سجل',
-              style: TextStyle(
-                color: TextStyles.heading3B.color,
-              ),
+              style: TextStyles.text1B,
             ),
           ),
         )
       ]),
     );
-  }
-
-  Future<void> _launchURL(String? urlString, BuildContext context) async {
-    if (urlString == null || urlString.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('The URL is not available.')),
-      );
-      return;
-    }
-    final Uri url = Uri.parse(urlString);
-
-    if (!await launchUrl(url)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not launch $urlString')),
-      );
-    }
   }
 }

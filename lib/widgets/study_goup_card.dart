@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/model/student_group_model.dart';
@@ -7,23 +7,23 @@ import 'package:senior_project/common/constant.dart';
 
 import '../common/theme.dart';
 
-class CreateCard extends StatefulWidget {
-  StudentGroupModel createGroupReport;
-  CreateCard(this.createGroupReport, {super.key});
+class StudyGroupCard extends StatefulWidget {
+  StudentGroupModel studyGroup;
+  StudyGroupCard(this.studyGroup, {super.key});
 
   @override
-  State<CreateCard> createState() => _CreateCardState();
+  State<StudyGroupCard> createState() => _StudyGroupCardState();
 }
 
-class _CreateCardState extends State<CreateCard> {
+class _StudyGroupCardState extends State<StudyGroupCard> {
   @override
   Widget build(BuildContext context) {
     bool isSaved = false;
     SavedListModel savedItem = SavedListModel(
-        serviceName: 'studyGroubs',
-        dynamicObject: widget.createGroupReport,
+        serviceName: 'studyGroups',
+        dynamicObject: widget.studyGroup,
         icon: services[5]['icon']);
-    isSaved = SavedListModel.findId(widget.createGroupReport.id.toString());
+    isSaved = SavedListModel.findId(widget.studyGroup.id.toString());
 
     return Card(
       elevation: 4,
@@ -38,14 +38,13 @@ class _CreateCardState extends State<CreateCard> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
-              //start the colom
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: SizedBox(
                     child: Text(
-                      widget.createGroupReport.name!,
+                      widget.studyGroup.name!,
                       textAlign: TextAlign.right,
                       style: TextStyles.heading3B,
                       maxLines: 2,
@@ -66,7 +65,7 @@ class _CreateCardState extends State<CreateCard> {
                       width: 5,
                     ),
                     Text(
-                      widget.createGroupReport.location!,
+                      widget.studyGroup.location!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -87,7 +86,7 @@ class _CreateCardState extends State<CreateCard> {
                       width: 5,
                     ),
                     Text(
-                      '${widget.createGroupReport.date!}',
+                      widget.studyGroup.date!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -108,7 +107,7 @@ class _CreateCardState extends State<CreateCard> {
                       width: 5,
                     ),
                     Text(
-                      '${widget.createGroupReport.time!}',
+                      widget.studyGroup.time!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -125,7 +124,7 @@ class _CreateCardState extends State<CreateCard> {
                       width: 5,
                     ),
                     Text(
-                      widget.createGroupReport.numPerson!,
+                      widget.studyGroup.numPerson!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),

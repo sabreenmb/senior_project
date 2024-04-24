@@ -8,7 +8,7 @@ import 'package:senior_project/widgets/side_menu.dart';
 
 import '../common/constant.dart';
 import '../common/theme.dart';
-import '../widgets/clubs_card.dart';
+import '../widgets/student_clubs_card.dart';
 import '../common/common_functions.dart';
 
 class StudentClubsScreen extends StatefulWidget {
@@ -72,7 +72,7 @@ class _StudentClubsState extends State<StudentClubsScreen>
           mainAxisSpacing: 20.0,
           crossAxisSpacing: 10.0,
           childAspectRatio: 1.1),
-      children: sClubsItems.map<Widget>((doc) => ClubsCard(doc)).toList(),
+      children: sClubsItems.map<Widget>((doc) => StudentClubCard(doc)).toList(),
     );
   }
 
