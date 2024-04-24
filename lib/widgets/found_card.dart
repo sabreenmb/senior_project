@@ -1,20 +1,19 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:path_provider/path_provider.dart';
+// ignore_for_file: deprecated_member_use
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
-import 'dart:io';
 import '../model/found_item_model.dart';
 import '../common/theme.dart';
 
 class FoundCard extends StatelessWidget {
-  FoundItemModel foundItemReport;
-  FoundCard(this.foundItemReport, {super.key});
+  FoundItemModel foundItem;
+  FoundCard(this.foundItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return Card(
       elevation: 4,
@@ -27,15 +26,22 @@ class FoundCard extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(22),
               child: SizedBox(
                 width: 95,
                 height: 130,
-                child: foundItemReport.photo == "empty"
-                    ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                child: foundItem.photo == "empty"
+                    ?           Container(
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      'assets/icons/lost-items.svg',
+                      height: 100,
+                      width: 100,
+                      color: CustomColors.darkGrey,
+                    ))
                     : FutureBuilder<void>(
                         future: precacheImage(
-                          CachedNetworkImageProvider(foundItemReport.photo!),
+                          CachedNetworkImageProvider(foundItem.photo!),
                           context,
                         ),
                         builder: (context, snapshot) {
@@ -50,13 +56,32 @@ class FoundCard extends StatelessWidget {
                               ),
                             );
                           } else if (snapshot.hasError) {
-                            return Text(
-                                'Error loading image'); // Handle error loading image
+                            return Container(
+                                width: 95,
+                                height: 130,
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: 70,
+                                  height: 70,
+                                  child: SvgPicture.asset(
+                                    'assets/icons/lost-items.svg',
+                                    color: CustomColors.darkGrey.withOpacity(0.7),
+                                  ),
+                                )); // Handle error loading image
                           } else {
-                            return CachedNetworkImage(
-                              imageUrl: foundItemReport.photo!,
-                              fit: BoxFit.fill,
-                            );
+                            return  CachedNetworkImage(
+                                width: 95,
+                                height: 130,
+                                fit: BoxFit.fill,
+                                imageUrl: foundItem.photo!,
+                                errorWidget: (context, url, error) => Container(
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      'assets/icons/lost-items.svg',
+                                      height: 100,
+                                      width: 100,
+                                      color: CustomColors.darkGrey,
+                                    )));
                           }
                         },
                       ),
@@ -72,7 +97,7 @@ class FoundCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      foundItemReport.category!,
+                      foundItem.category!,
                       textAlign: TextAlign.right,
                       style: TextStyles.heading3B,
                     ),
@@ -80,7 +105,7 @@ class FoundCard extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      foundItemReport.description!,
+                      foundItem.description!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1D,
                     ),
@@ -99,7 +124,7 @@ class FoundCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          foundItemReport.foundDate!,
+                          foundItem.foundDate!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text1L,
                         ),
@@ -119,7 +144,7 @@ class FoundCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          foundItemReport.foundPlace!,
+                          foundItem.foundPlace!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text1L,
                         ),
@@ -139,7 +164,7 @@ class FoundCard extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          foundItemReport.receivePlace!,
+                          foundItem.receivePlace!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text1L,
                         ),

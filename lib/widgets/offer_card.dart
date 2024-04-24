@@ -1,10 +1,9 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
+// ignore_for_file: deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
-
-
+import 'package:flutter_svg/svg.dart';
 import '../interface/OfferDetails.dart';
 import '../model/offer_info_model.dart';
 import '../common/theme.dart';
@@ -18,11 +17,11 @@ class OfferCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap:  () {
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => OfferDetails( offerInfo),
+            builder: (context) => OfferDetails(offerInfo),
           ),
         );
       },
@@ -38,43 +37,35 @@ class OfferCard extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: Row(
               children: [
-            ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              width: 65,
-              height: 80,
-              child: offerInfo.logo == "empty"
-                  ? Image(image: AssetImage('assets/images/logo-icon.png'))
-                  : FutureBuilder<void>(
-                future: precacheImage(
-                  CachedNetworkImageProvider(offerInfo.logo!),
-                  context,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    width: 65,
+                    height: 80,
+                    child: offerInfo.logo == "empty"
+                        ? Container(
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              'assets/icons/offers.svg',
+                              height: 100,
+                              width: 100,
+                              color: CustomColors.darkGrey,
+                            ))
+                        : CachedNetworkImage(
+                            fit: BoxFit.fill,
+                            imageUrl: offerInfo.logo!,
+                            errorWidget: (context, url, error) =>
+                                Container(
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      'assets/icons/offers.svg',
+                                      height: 100,
+                                      width: 100,
+                                      color: CustomColors.darkGrey,
+                                    ))
+                        ),
+                  ),
                 ),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return Shimmer.fromColors(
-                      baseColor: Colors.white,
-                      highlightColor: Colors.grey[300]!,
-                      enabled: true,
-                      child: Container(
-                        color: Colors.white,
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text(
-                        'Error loading image'); // Handle error loading image
-                  } else {
-                    return CachedNetworkImage(
-                      imageUrl: offerInfo.logo!,
-                      fit: BoxFit.fill,
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-
                 Container(
                   width: 1,
                   height: 80,
@@ -87,11 +78,12 @@ class OfferCard extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      //start the colom
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           offerInfo.name!,
+                          maxLines: 1,
+                          overflow:TextOverflow.ellipsis,
                           textAlign: TextAlign.right,
                           style: TextStyles.heading1B,
                         ),
@@ -103,9 +95,6 @@ class OfferCard extends StatelessWidget {
                           textAlign: TextAlign.right,
                           style: TextStyles.text1D,
                         ),
-
-
-
                       ],
                     ),
                   ),
