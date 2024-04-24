@@ -8,7 +8,7 @@ import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/student_activity_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/common/common_functions.dart';
-import 'package:senior_project/widgets/create_student_activity_card.dart';
+import 'package:senior_project/widgets/student_activity_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -256,7 +256,7 @@ class _StudentActivityState extends State<StudentActivity>
                                               itemCount:
                                                   searchActivityList.length,
                                               itemBuilder: (context, index) =>
-                                                  CreateStudentActivityCard(
+                                                  StudentActivityCard(
                                                       searchActivityList[
                                                           index]))
                                           : _buildCardList()
@@ -298,7 +298,7 @@ class _StudentActivityState extends State<StudentActivity>
               padding: const EdgeInsets.only(bottom: 10),
               itemCount: 4,
               itemBuilder: (context, index) {
-                return CreateStudentActivityCard(
+                return StudentActivityCard(
                     sActivitiesItems[0]);
               },
             ),
@@ -334,7 +334,7 @@ class _StudentActivityState extends State<StudentActivity>
           itemCount: reports.length,
           itemBuilder: (context, index) {
             final report = reports[index];
-            return CreateStudentActivityCard(report);
+            return StudentActivityCard(report);
           },
         );
       },

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
@@ -7,27 +7,24 @@ import 'package:senior_project/model/student_activity_model.dart';
 
 import '../common/theme.dart';
 
-class CreateStudentActivityCard extends StatefulWidget {
-  StudentActivityModel createStudentActivityReport;
-  CreateStudentActivityCard(this.createStudentActivityReport, {super.key});
+class StudentActivityCard extends StatefulWidget {
+  StudentActivityModel studentActivity;
+  StudentActivityCard(this.studentActivity, {super.key});
 
   @override
-  State<CreateStudentActivityCard> createState() =>
-      _CreateStudentActivityCardState();
+  State<StudentActivityCard> createState() => _StudentActivityCardState();
 }
 
-class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
+class _StudentActivityCardState extends State<StudentActivityCard> {
   bool isSaved = false;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     SavedListModel savedItem = SavedListModel(
         serviceName: 'studentActivities',
-        dynamicObject: widget.createStudentActivityReport,
+        dynamicObject: widget.studentActivity,
         icon: services[6]['icon']);
-    isSaved =
-        SavedListModel.findId(widget.createStudentActivityReport.id.toString());
+    isSaved = SavedListModel.findId(widget.studentActivity.id.toString());
 
     return Card(
       elevation: 4,
@@ -42,14 +39,13 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
-              //start the colom
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: SizedBox(
                     child: Text(
-                      widget.createStudentActivityReport.name!,
+                      widget.studentActivity.name!,
                       textAlign: TextAlign.right,
                       style: TextStyles.heading3B,
                       maxLines: 2,
@@ -70,7 +66,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                       width: 5,
                     ),
                     Text(
-                      widget.createStudentActivityReport.location!,
+                      widget.studentActivity.location!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -91,7 +87,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                       width: 5,
                     ),
                     Text(
-                      '${widget.createStudentActivityReport.date!}',
+                      widget.studentActivity.date!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -112,7 +108,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                       width: 5,
                     ),
                     Text(
-                      '${widget.createStudentActivityReport.time!}',
+                      widget.studentActivity.time!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),
@@ -129,7 +125,7 @@ class _CreateStudentActivityCardState extends State<CreateStudentActivityCard> {
                       width: 5,
                     ),
                     Text(
-                      widget.createStudentActivityReport.numOfPerson!,
+                      widget.studentActivity.numOfPerson!,
                       textAlign: TextAlign.right,
                       style: TextStyles.text1L,
                     ),

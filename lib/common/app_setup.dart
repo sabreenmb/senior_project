@@ -498,7 +498,7 @@ class Setup {
 
   Future<void> loadSClubs() async {
     sClubsItems = [];
-    List<SClubModel> loadedClubsInfo = [];
+    List<StudentClubModel> loadedClubsInfo = [];
 
     try {
       final response = await http.get(FirebaseAPI.url('studentClubsDB'));
@@ -507,7 +507,7 @@ class Setup {
       }
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        loadedClubsInfo.add(SClubModel(
+        loadedClubsInfo.add(StudentClubModel(
           id: item.key,
           name: item.value['club_name'],
           logo: item.value['club_logo'],

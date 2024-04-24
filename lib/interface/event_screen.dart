@@ -11,7 +11,7 @@ import 'package:senior_project/model/courses_model.dart';
 import 'package:senior_project/model/other_events_model.dart';
 import 'package:senior_project/model/workshop_model.dart';
 import 'package:senior_project/common/theme.dart';
-import 'package:senior_project/widgets/conf_card.dart';
+import 'package:senior_project/widgets/conferences_card.dart';
 import 'package:senior_project/widgets/other_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:senior_project/widgets/workshop_card.dart';
@@ -410,7 +410,7 @@ class _EventState extends State<EventScreen> {
                                 buildExpandedWidget(
                                     confItems,
                                     searchConfList,
-                                    (item) => ConfCard(item),
+                                    (item) => ConferencesCard(item),
                                     'eventsConferencesDB'),
 
                               if (isSelectedOther && otherItems.isNotEmpty)

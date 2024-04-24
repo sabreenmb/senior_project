@@ -8,18 +8,18 @@ import 'package:url_launcher/url_launcher.dart';
 import '../model/student_club_model.dart';
 import '../common/theme.dart';
 
-class ClubDetails extends StatefulWidget {
-  SClubModel clubDetails;
-  ClubDetails(this.clubDetails, {super.key});
+class StudentClubDetails extends StatefulWidget {
+  StudentClubModel clubDetails;
+  StudentClubDetails(this.clubDetails, {super.key});
   @override
-  State<ClubDetails> createState() => _ClubDetailsState();
+  State<StudentClubDetails> createState() => _StudentClubDetailsState();
 }
 
-class _ClubDetailsState extends State<ClubDetails> {
+class _StudentClubDetailsState extends State<StudentClubDetails> {
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
-    SClubModel clubDetails = widget.clubDetails;
+    StudentClubModel clubDetails = widget.clubDetails;
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,

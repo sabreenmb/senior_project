@@ -1,26 +1,24 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
-
+// ignore_for_file: must_be_immutable
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../interface/StudentClubDetails.dart';
 import '../model/student_club_model.dart';
 import '../common/theme.dart';
 
-class ClubsCard extends StatelessWidget {
-  SClubModel clubDetails;
+class StudentClubCard extends StatelessWidget {
+  StudentClubModel sClubDetails;
 
-  ClubsCard(this.clubDetails, {super.key});
+  StudentClubCard(this.sClubDetails, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ClubDetails(clubDetails)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => StudentClubDetails(sClubDetails)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -36,12 +34,6 @@ class ClubsCard extends StatelessWidget {
               ),
               blurRadius: 7.5,
             ),
-            BoxShadow(
-              color: Color.fromARGB(0, 255, 255, 255),
-              offset: Offset(0.0, 0.0),
-              blurRadius: 0.0,
-              spreadRadius: 0.0,
-            ),
           ],
         ),
         child: Column(
@@ -55,11 +47,12 @@ class ClubsCard extends StatelessWidget {
                 height: 80,
                 margin: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 20.0),
-                child: clubDetails.logo == "empty"
-                    ? Image(image: AssetImage('assets/images/logo-icon.png'))
+                child: sClubDetails.logo == "empty"
+                    ? const Image(
+                        image: AssetImage('assets/images/logo-icon.png'))
                     : FutureBuilder<void>(
                         future: precacheImage(
-                          CachedNetworkImageProvider(clubDetails.logo!),
+                          CachedNetworkImageProvider(sClubDetails.logo!),
                           context,
                         ),
                         builder: (context, snapshot) {
@@ -74,11 +67,11 @@ class ClubsCard extends StatelessWidget {
                               ),
                             );
                           } else if (snapshot.hasError) {
-                            return Text(
+                            return const Text(
                                 'Error loading image'); // Handle error loading image
                           } else {
                             return CachedNetworkImage(
-                              imageUrl: clubDetails.logo!,
+                              imageUrl: sClubDetails.logo!,
                               fit: BoxFit.cover,
                             );
                           }
@@ -86,8 +79,12 @@ class ClubsCard extends StatelessWidget {
                       ),
               ),
             ),
-            Text(clubDetails.name!,
-                textAlign: TextAlign.center, style: TextStyles.heading1L),
+            Text(
+              sClubDetails.name!,
+              textAlign: TextAlign.center,
+              style: TextStyles.heading1L,
+              maxLines: 2,
+            ),
           ],
         ),
       ),
