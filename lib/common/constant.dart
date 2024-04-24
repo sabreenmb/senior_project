@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/common/push_notification.dart';
 import 'firebase_api.dart';
@@ -23,12 +24,14 @@ import '../model/workshop_model.dart';
 bool isLoading = false;
 bool isOffline = false;
 var connectivityResult = (Connectivity().checkConnectivity());
+final user = FirebaseAuth.instance.currentUser;
 
 PushNotification notificationServices = PushNotification();
 UserInformationModel userInfo = UserInformationModel();
 PsychGuidanceModel pg = PsychGuidanceModel();
 DocumentReference<Map<String, dynamic>> userProfileDoc =
     FirebaseAPI.currentUserInfo();
+final firebase = FirebaseAuth.instance;
 
 //Lists use through all app
 List<UserInformationModel> allUsers = [];

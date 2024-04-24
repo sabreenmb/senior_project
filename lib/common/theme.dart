@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomColors {
+  static const Color red = Colors.red;
   static const Color black = Colors.black;
   static const Color blackLowTrans = Color(0x42000000);
   static const Color lightBlue = Color(0xff83CCEA);

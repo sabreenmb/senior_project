@@ -2,22 +2,17 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/HomeScreen.dart';
-import 'package:senior_project/common/push_notification.dart';
 import 'package:senior_project/common/theme.dart';
 import '../common/constant.dart';
 import '../common/app_setup.dart';
 import '../common/common_functions.dart';
 import '../common/network_page.dart';
-import 'services_screen.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 
-final _firebase = FirebaseAuth.instance;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,15 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // Check if the user is already authenticated
-    network();
   }
-
-  // Future<bool> checkNetworkConnection() async {
-  //   var connectivityResult = await Connectivity().checkConnectivity();
-  //   return connectivityResult != ConnectivityResult.none;
-  // }
-
   void _submit() async {
     _newVal = false;
     final isValid = _formKey.currentState!.validate();
@@ -57,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _formKey.currentState!.save();
     try {
       setState(() => isLoading = true);
-      final userCridential = await _firebase.signInWithEmailAndPassword(
+      final userCredential = await firebase.signInWithEmailAndPassword(
         email: _enteredID,
         password: _enteredPass,
       );
@@ -65,15 +52,18 @@ class _LoginScreenState extends State<LoginScreen> {
       await Setup.loadUserData(_enteredID);
       await Setup().build();
       Setup().build2();
-      Navigator.pushReplacement(
-        context,
+
+      Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
       );
-    } on FirebaseAuthException catch (error) {
+
+    } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';
       });
-      print(error.message ?? 'Athuntication Faild');
+      if (kDebugMode) {
+        print( '${e.message}Athuntication Faild');
+      }
     } finally {
       setState(() => isLoading = false);
     }
@@ -91,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: CustomColors.white,
         resizeToAvoidBottomInset: true,
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, false),
           inAsyncCall: isLoading,
@@ -107,8 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Image(
                       image: AssetImage(
                           'assets/images/logo/Sabreen_Logo_NoEdge1.png'),
-                      // width: 95,
-                      // height: 130,
                     ),
                   ),
                   Container(
@@ -204,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(height: topMargin),
                               Text(
                                 errorMessage,
-                                style: const TextStyle(color: Colors.red),
+                                style: const TextStyle(color: CustomColors.red),
                               ),
                               const SizedBox(
                                 height: 100,
@@ -219,40 +207,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () async {
                                   await network();
                                   if (isOffline) {
+                                    if (!context.mounted) {
+                                      return;
+                                    }
                                     await Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const NetworkConnection()));
-                                    //todo  networkPopup(context,false);
+                                            const NetworkConnection()));
                                   } else {
                                     _submit();
                                   }
                                 },
-                                //() async {
-                                // isOnline = await checkNetworkConnection();
-                                // if (isOnline) {
-                                //   _submit();
-                                // }else{
-                                //   showDialog(
-                                //     context: context,
-                                //     builder: (BuildContext context) {
-                                //       return AlertDialog(
-                                //         title: Text('Network Status'),
-                                //         content: Text('No internet connection.'),
-                                //         actions: [
-                                //           TextButton(
-                                //             child: Text('OK'),
-                                //             onPressed: () {
-                                //               Navigator.of(context).pop();
-                                //             },
-                                //           ),
-                                //         ],
-                                //       );
-                                //     },
-                                //   );
-                                // }
-                                // },
                                 child: Text("تسجيل الدخول",
                                     style: TextStyles.btnText),
                               )
