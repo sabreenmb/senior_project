@@ -189,8 +189,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    // _snapshot();
-    //// ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
