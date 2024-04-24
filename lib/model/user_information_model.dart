@@ -1,6 +1,6 @@
 class UserInformationModel {
   //Variables
-  late String image_url;
+  late String imageUrl;
   late String userID;
   late String rule;
   late String name;
@@ -13,7 +13,7 @@ class UserInformationModel {
   late Map<String, dynamic> offersPreferences;
 
   UserInformationModel({
-    this.image_url = '',
+    this.imageUrl = '',
     this.userID = '',
     this.rule = '',
     this.name = '',
@@ -36,20 +36,6 @@ class UserInformationModel {
       'عقارات وبناء': false,
     },
   });
-  //Constructor
-  // enteredUserInfo({
-  //   required this.image_url,
-  //   required this.userID,
-  //   required this.rule,
-  //   required this.name,
-  //   required this.collage,
-  //   required this.major,
-  //   required this.intrests,
-  //   required this.hobbies,
-  //   required this.skills,
-  //   required this.pushToken,
-  //   required this.offersPreferences,
-  // });
 
   UserInformationModel.fromJson(Map<String, dynamic> json) {
     userID = json['userID'] ?? '';
@@ -61,7 +47,6 @@ class UserInformationModel {
     hobbies = json['userID'] ?? '';
     skills = json['userID'] ?? '';
     pushToken = json['pushToken'] ?? '';
-    // offersPreferences = json['offersPreferences'] ?? '';
     if (json['offersPreferences'] != null &&
         json['offersPreferences'] is Map<String, dynamic>) {
       offersPreferences = json['offersPreferences'] as Map<String, dynamic>;
@@ -72,7 +57,7 @@ class UserInformationModel {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['image_url'] = image_url;
+    map['image_url'] = imageUrl;
     map['intrests'] = intrests;
     map['hobbies'] = hobbies;
     map['skills'] = skills;

@@ -1,10 +1,6 @@
-// ignore_for_file: unused_field
-
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
@@ -24,15 +20,9 @@ class CurrentChats extends StatefulWidget {
 
 class _CurrentChatsState extends State<CurrentChats>
     with SingleTickerProviderStateMixin {
-  late List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 2;
-  //search
-  final _userInputController = TextEditingController();
-  //filter
-  bool isSearch = false;
-  bool isNew = false;
   late AnimationController _animationController;
   late StreamSubscription connSub;
+
   void checkConnectivity(List<ConnectivityResult> result) {
     switch (result[0]) {
       case ConnectivityResult.mobile || ConnectivityResult.wifi:
@@ -54,9 +44,6 @@ class _CurrentChatsState extends State<CurrentChats>
     }
   }
 
-  //manar from here
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   @override
   void dispose() {
     _animationController.dispose();
@@ -76,25 +63,8 @@ class _CurrentChatsState extends State<CurrentChats>
     );
   }
 
-  void _goToAllUsers() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AllUsersScreen(),
-      ),
-    );
-  }
-
-  Stream<QuerySnapshot> getUsers() {
-    return FirebaseFirestore.instance
-        .collection("chat_rooms")
-        .orderBy('lastMsgTime', descending: true)
-        .snapshots();
-  }
-
   @override
   Widget build(BuildContext context) {
-    print('heeeeeeeeeereeeeeeeeeee');
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
@@ -107,7 +77,6 @@ class _CurrentChatsState extends State<CurrentChats>
           elevation: 0,
           title: Text("الرسائل الخاصة", style: TextStyles.pageTitle),
           centerTitle: true,
-          // actions: <Widget>[
           leading: IconButton(
             icon: const Icon(Icons.add_circle_outline_rounded,
                 color: CustomColors.darkGrey),
@@ -115,12 +84,14 @@ class _CurrentChatsState extends State<CurrentChats>
             hoverColor: CustomColors.white,
             padding: const EdgeInsets.only(right: 4, top: 4),
             onPressed: () {
-              if (isOffline) {
-              } else {}
-              _goToAllUsers();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AllUsersScreen(),
+                ),
+              );
             },
           ),
-          // ],
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
         endDrawer: SideDrawer(
@@ -128,7 +99,7 @@ class _CurrentChatsState extends State<CurrentChats>
         ),
         bottomNavigationBar: buildBottomBar(context, 2, false),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
@@ -157,6 +128,12 @@ class _CurrentChatsState extends State<CurrentChats>
                                 'assets/images/NoInternet_newo.png'),
                           ))
                         : Container(
+                            clipBehavior: Clip.hardEdge,
+                            decoration: const BoxDecoration(
+                                color: CustomColors.backgroundColor,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(70),
+                                    topRight: Radius.circular(70))),
                             padding: const EdgeInsets.all(10),
                             child: _buildUsersList(),
                           ),
@@ -206,7 +183,6 @@ class _CurrentChatsState extends State<CurrentChats>
       readF: temp['readF'],
       lastMsgTime: temp['lastMsgTime'],
     );
-    // bool isMe = data['user1'] == userInfo.userID ? true : false;
     bool isMe = data.user1 == userInfo.userID ? true : false;
     if (data.user1 == userInfo.userID || data.user2 == userInfo.userID) {
       String recevierUserID = isMe ? data.user2 : data.user1;

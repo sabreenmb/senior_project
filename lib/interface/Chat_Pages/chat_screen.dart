@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_service.dart';
@@ -12,7 +10,6 @@ import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/model/message_info_model.dart';
 import 'package:senior_project/widgets/chat_bubble.dart';
 import 'package:senior_project/common/theme.dart';
-
 import '../../common/common_functions.dart';
 
 class RealChatPage extends StatefulWidget {
@@ -31,7 +28,6 @@ class _RealChatPageState extends State<RealChatPage>
   List<MessageInfoModel> _list = [];
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
-  // final ScrollController _scrollController = ScrollController();
 
   void checkConnectivity(List<ConnectivityResult> result) {
     switch (result[0]) {
@@ -113,10 +109,10 @@ class _RealChatPageState extends State<RealChatPage>
                 onTap: () {
                   _goToUserProfile();
                 },
-                child: widget.otherUserInfo.image_url == ''
-                    ? const Icon(
+                child: widget.otherUserInfo.imageUrl == ''
+                    ? Icon(
                         Icons.account_circle_outlined,
-                        color: Color.fromARGB(163, 51, 51, 51),
+                        color: CustomColors.darkGrey.withOpacity(0.8),
                         size: 40,
                       )
                     : ClipRRect(
@@ -125,10 +121,10 @@ class _RealChatPageState extends State<RealChatPage>
                           width: 38,
                           height: 38,
                           fit: BoxFit.cover,
-                          imageUrl: widget.otherUserInfo.image_url,
-                          errorWidget: (context, url, error) => const Icon(
+                          imageUrl: widget.otherUserInfo.imageUrl,
+                          errorWidget: (context, url, error) => Icon(
                             Icons.account_circle_outlined,
-                            color: Color.fromARGB(163, 51, 51, 51),
+                            color: CustomColors.darkGrey.withOpacity(0.8),
                             size: 40,
                           ),
                         ),
@@ -151,7 +147,7 @@ class _RealChatPageState extends State<RealChatPage>
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
@@ -233,7 +229,6 @@ class _RealChatPageState extends State<RealChatPage>
                 return ListView.builder(
                     reverse: true,
                     itemCount: _list.length,
-                    // padding: EdgeInsets.only(top: mq.height * .01),
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return _buildMessageItem(_list[index]);
@@ -259,7 +254,7 @@ class _RealChatPageState extends State<RealChatPage>
     }
 
     return Padding(
-      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8),
       child: ChatBubble(
         message: message,
       ),
@@ -267,52 +262,56 @@ class _RealChatPageState extends State<RealChatPage>
   }
 
   Widget _buildMessageInput() {
-    return Container(
-      color: CustomColors.noColor,
-      padding: const EdgeInsets.only(bottom: 15, right: 10, left: 10, top: 8),
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0),
       child: Container(
-        height: 55,
-        decoration: BoxDecoration(
-          color: CustomColors.lightGreyLowTrans.withOpacity(0.25),
-          borderRadius: BorderRadius.circular(40),
-        ),
-        padding: const EdgeInsets.only(right: 15, left: 5),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                onTap: () {},
-                controller: _messageController,
-                obscureText: false,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "ادخل الرسالة...",
+        color: CustomColors.white.withOpacity(0.4),
+        padding: const EdgeInsets.only(bottom: 10, right: 5, left: 5, top: 8),
+        child: Container(
+          height: 55,
+          decoration: BoxDecoration(
+            color: CustomColors.lightGreyLowTrans.withOpacity(0.25),
+            borderRadius: BorderRadius.circular(40),
+          ),
+          padding: const EdgeInsets.only(right: 15, left: 5),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  onTap: () {},
+                  controller: _messageController,
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "ادخل الرسالة...",
+                  ),
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(bottom: 2),
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                color: CustomColors.lightBlue.withOpacity(0.7),
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed: () {
-                  if (isOffline) {
-                    showNetWidgetDialog(context);
-                  } else {
-                    sendMessage();
-                  }
-                },
-                icon: Icon(
-                  Icons.send_rounded,
-                  size: 35,
-                  color: CustomColors.darkGrey.withOpacity(0.6),
+              Container(
+                // alignment: Alignment.center,
+                padding: const EdgeInsets.only(bottom: 3),
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: CustomColors.lightBlue.withOpacity(0.7),
+                  shape: BoxShape.circle,
                 ),
-              ),
-            )
-          ],
+                child: IconButton(
+                  onPressed: () {
+                    if (isOffline) {
+                      showNetWidgetDialog(context);
+                    } else {
+                      sendMessage();
+                    }
+                  },
+                  icon: Icon(
+                    Icons.send_rounded,
+                    size: 35,
+                    color: CustomColors.darkGrey.withOpacity(0.6),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

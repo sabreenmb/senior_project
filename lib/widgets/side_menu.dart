@@ -43,7 +43,7 @@ class SideDrawer extends StatelessWidget {
                           width: 3,
                         ),
                       ),
-                      child: userInfo.image_url == ''
+                      child: userInfo.imageUrl == ''
                           ? Container(
                               alignment: Alignment.center,
                               child: SvgPicture.asset(
@@ -58,7 +58,7 @@ class SideDrawer extends StatelessWidget {
                                   width: 145,
                                   height: 150,
                                   fit: BoxFit.cover,
-                                  imageUrl: userInfo.image_url,
+                                  imageUrl: userInfo.imageUrl,
                                   errorWidget: (context, url, error) =>
                                       Container(
                                         padding: const EdgeInsets.all(20),
@@ -184,7 +184,7 @@ class SideDrawer extends StatelessWidget {
                                       const Color.fromARGB(0, 15, 66, 186),
                                   child: Stack(
                                     children: [
-                                      userInfo.image_url == ''
+                                      userInfo.imageUrl == ''
                                           ? Container(
                                               padding: const EdgeInsets.all(20),
                                               alignment: Alignment.topCenter,
@@ -210,7 +210,7 @@ class SideDrawer extends StatelessWidget {
                                                   width: 120,
                                                   height: 120,
                                                   fit: BoxFit.cover,
-                                                  imageUrl: userInfo.image_url,
+                                                  imageUrl: userInfo.imageUrl,
                                                   placeholder: (context, url) =>
                                                       const CircularProgressIndicator(),
                                                   errorWidget: (context, url,

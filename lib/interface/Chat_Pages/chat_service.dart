@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/chat_info_model.dart';
 import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/model/message_info_model.dart';
-import 'package:senior_project/common/push_notification.dart';
 
 class ChatService extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -13,7 +12,6 @@ class ChatService extends ChangeNotifier {
   Future<void> sendMessage(
       UserInformationModel otherUserInfo, String message) async {
     //get current user info ----
-
     try {
       final time = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -63,9 +61,9 @@ class ChatService extends ChangeNotifier {
           .then((value) => notificationServices.sendPushNotification(
               otherUserInfo, message));
     } catch (error) {
-      // Handle the error condition
-      print("Error sending message: $error");
-      // You can display an error message or perform any other necessary actions
+      if (kDebugMode) {
+        print("Error sending message");
+      }
     }
   }
 
@@ -110,10 +108,4 @@ class ChatService extends ChangeNotifier {
 
     _firestore.collection("chat_rooms").doc(chatRoomID).update({'readF': time});
   }
-
-// Future<void> updateActiveStatus(bool isOnline) async {
-//     _firestore.collection('userProfile').doc(userInfo.userID).update({
-//       'push_token': userInfo.pushToken,
-//     });
-//   }
 }

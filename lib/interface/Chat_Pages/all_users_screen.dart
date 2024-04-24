@@ -1,14 +1,9 @@
-// ignore_for_file: unused_field
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/widgets/user_chat_item.dart';
 import 'package:senior_project/common/theme.dart';
-
 import '../../common/common_functions.dart';
 
 class AllUsersScreen extends StatefulWidget {
@@ -20,14 +15,8 @@ class AllUsersScreen extends StatefulWidget {
 
 class _AllUsersState extends State<AllUsersScreen>
     with SingleTickerProviderStateMixin {
-  final int _selectedPageIndex = 2;
-
-  final _userInputController = TextEditingController();
-  List<UserInfo> _list = [];
   late AnimationController _animationController;
   late Stream<QuerySnapshot> users;
-  //manar from here
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -68,7 +57,7 @@ class _AllUsersState extends State<AllUsersScreen>
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
         ),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
@@ -81,6 +70,7 @@ class _AllUsersState extends State<AllUsersScreen>
                     child: Stack(
                   children: [
                     Container(
+                      clipBehavior: Clip.hardEdge,
                       decoration: const BoxDecoration(
                           color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.only(
@@ -88,6 +78,12 @@ class _AllUsersState extends State<AllUsersScreen>
                               topRight: Radius.circular(40))),
                     ),
                     Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: const BoxDecoration(
+                          color: CustomColors.backgroundColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(70),
+                              topRight: Radius.circular(70))),
                       padding: const EdgeInsets.all(10),
                       child: _buildUsersList(),
                     ),
@@ -103,12 +99,9 @@ class _AllUsersState extends State<AllUsersScreen>
 
   Widget _buildUsersList() {
     return ListView.builder(
-        // reverse: true,
         itemCount: allUsers.length,
-        // padding: EdgeInsets.only(top: mq.height * .01),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          print(allUsers.elementAt(3).userID);
           return UserChatItem(
             context: context,
             otherUserInfo: allUsers[index],

@@ -129,7 +129,7 @@ class Setup {
     final userProfileData =
         await userProfileDoc.get().then((snapshot) => snapshot.data());
 
-    userInfo.image_url = userProfileData?['image_url'];
+    userInfo.imageUrl = userProfileData?['image_url'];
     userInfo.userID = userProfileData?['userID'];
     userInfo.rule = userProfileData?['rule'];
     userInfo.name = userProfileData?['name'];
@@ -166,7 +166,7 @@ class Setup {
           intrests: data['intrests'],
           hobbies: data['hobbies'],
           skills: data['skills'],
-          image_url: data["image_url"],
+          imageUrl: data["image_url"],
           pushToken: data["pushToken"],
           offersPreferences: data['offersPreferences'],
         );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomColors {
-  static const Color black =  Color(0x42000000);
+  static const Color black = Color(0x42000000);
   static const Color lightBlue = Color(0xff83CCEA);
   static const Color darkGrey = Color(0xff535D74);
   static const Color pink = Color(0xffF2D1BE);
@@ -22,6 +22,8 @@ class TextStyles {
       color: CustomColors.darkGrey, fontWeight: FontWeight.w400, fontSize: 25);
   static TextStyle subtitlePink = GoogleFonts.getFont("Almarai",
       color: CustomColors.pink, fontWeight: FontWeight.bold, fontSize: 25);
+  static TextStyle subtitleGrey = GoogleFonts.getFont("Almarai",
+      color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 25);
   static TextStyle menuTitle = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 20);
   static TextStyle heading1D = GoogleFonts.getFont("Almarai",
@@ -36,6 +38,8 @@ class TextStyles {
       color: CustomColors.lightGrey, fontWeight: FontWeight.bold, fontSize: 15);
   static TextStyle heading3B = GoogleFonts.getFont("Almarai",
       color: CustomColors.lightBlue, fontWeight: FontWeight.bold, fontSize: 14);
+  static TextStyle heading3G = GoogleFonts.getFont("Almarai",
+      color: CustomColors.lightGrey, fontWeight: FontWeight.w400, fontSize: 14);
   static TextStyle text1L = GoogleFonts.getFont("Almarai",
       color: CustomColors.lightGrey, fontWeight: FontWeight.w400, fontSize: 12);
   static TextStyle text1D = GoogleFonts.getFont("Almarai",

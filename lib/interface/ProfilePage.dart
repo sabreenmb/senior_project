@@ -24,16 +24,16 @@ class _ProfilePageState extends State<ProfilePage> {
       Map.fromEntries(userInfo.offersPreferences.entries);
 
   final _formKey = GlobalKey<FormState>();
-  String _image = userInfo.image_url;
+  String _image = userInfo.imageUrl;
   void _submit() async {
     _formKey.currentState!.save();
     // updateProfilePicture(File(_image!));
     try {
-      userInfo.image_url = _image;
+      userInfo.imageUrl = _image;
       userInfo.offersPreferences = tempOffersPreferences;
       // Save data to Firestore
       await userProfileDoc.update({
-        'image_url': userInfo.image_url,
+        'image_url': userInfo.imageUrl,
         'intrests': userInfo.intrests,
         'hobbies': userInfo.hobbies,
         'skills': userInfo.skills,
@@ -252,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               0, 15, 66, 186),
                                           child: Stack(
                                             children: [
-                                              userInfo.image_url == ''
+                                              userInfo.imageUrl == ''
                                                   ? Container(
                                                       padding:
                                                           const EdgeInsets.all(
