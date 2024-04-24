@@ -1,17 +1,18 @@
 // ignore_for_file: must_be_immutable
+// ignore_for_file: deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/Chat_Pages/chat_screen.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../model/lost_item_model.dart';
 import '../common/theme.dart';
 
 class LostCard extends StatelessWidget {
-  LostItemModel lostItemReport;
-  LostCard(this.lostItemReport, {super.key});
+  LostItemModel lostItem;
+  LostCard(this.lostItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,48 +27,69 @@ class LostCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
-              // mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(22),
                   child: SizedBox(
                     width: 95,
                     height: 130,
-                    child: lostItemReport.photo == "empty"
-                        ? Image(
-                            image: AssetImage('assets/images/logo-icon.png'))
+                    child: lostItem.photo == "empty"
+                        ?           Container(
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset(
+                          'assets/icons/lost-items.svg',
+                          height: 100,
+                          width: 100,
+                          color: CustomColors.darkGrey,
+                        ))
                         : FutureBuilder<void>(
-                            future: precacheImage(
-                              CachedNetworkImageProvider(lostItemReport.photo!),
-                              context,
+                      future: precacheImage(
+                        CachedNetworkImageProvider(lostItem.photo!),
+                        context,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: Colors.grey[300]!,
+                            enabled: true,
+                            child: Container(
+                              color: CustomColors.white,
                             ),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Shimmer.fromColors(
-                                  baseColor: Colors.white,
-                                  highlightColor: Colors.grey[300]!,
-                                  enabled: true,
-                                  child: Container(
-                                    color: Colors.white,
-                                  ),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text(
-                                    'Error loading image'); // Handle error loading image
-                              } else {
-                                return CachedNetworkImage(
-                                  imageUrl: lostItemReport.photo!,
-                                  fit: BoxFit.fill,
-                                );
-                              }
-                            },
-                          ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container(
+                              width: 95,
+                              height: 130,
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 70,
+                                height: 70,
+                                child: SvgPicture.asset(
+                                  'assets/icons/lost-items.svg',
+                                  color: CustomColors.darkGrey.withOpacity(0.7),
+                                ),
+                              )); // Handle error loading image
+                        } else {
+                          return  CachedNetworkImage(
+                              width: 95,
+                              height: 130,
+                              fit: BoxFit.fill,
+                              imageUrl: lostItem.photo!,
+                              errorWidget: (context, url, error) => Container(
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset(
+                                    'assets/icons/lost-items.svg',
+                                    height: 100,
+                                    width: 100,
+                                    color: CustomColors.darkGrey,
+                                  )));
+                        }
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
+                ),                Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15.0, vertical: 5),
@@ -77,7 +99,7 @@ class LostCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          lostItemReport.category!,
+                          lostItem.category!,
                           textAlign: TextAlign.right,
                           style: TextStyles.heading3B,
                         ),
@@ -85,7 +107,7 @@ class LostCard extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          lostItemReport.desription!,
+                          lostItem.desription!,
                           textAlign: TextAlign.right,
                           style: TextStyles.text1D,
                         ),
@@ -104,7 +126,7 @@ class LostCard extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              lostItemReport.lostDate!,
+                              lostItem.lostDate!,
                               textAlign: TextAlign.right,
                               style: TextStyles.text1L,
                             ),
@@ -124,7 +146,7 @@ class LostCard extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              lostItemReport.expectedPlace!,
+                              lostItem.expectedPlace!,
                               textAlign: TextAlign.right,
                               style: TextStyles.text1L,
                             ),
@@ -144,7 +166,7 @@ class LostCard extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              lostItemReport.phoneNumber!,
+                              lostItem.phoneNumber!,
                               textAlign: TextAlign.right,
                               style: TextStyles.text1L,
                             ),
@@ -157,8 +179,7 @@ class LostCard extends StatelessWidget {
               ],
             ),
           ),
-          //todo manar
-          lostItemReport.creatorID != userInfo.userID
+          lostItem.creatorID != userInfo.userID
               ? Positioned(
                   top: 9,
                   left: 15,
@@ -170,8 +191,7 @@ class LostCard extends StatelessWidget {
                           builder: (context) => RealChatPage(
                             otherUserInfo: allUsers[allUsers.indexWhere(
                                 (element) =>
-                                    element.userID ==
-                                    lostItemReport.creatorID)],
+                                    element.userID == lostItem.creatorID)],
                           ),
                         ),
                       );
