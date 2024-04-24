@@ -153,7 +153,7 @@ class SideDrawer extends StatelessWidget {
                               ),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: CustomColors.black,
+                                  color: CustomColors.blackLowTrans,
                                   blurRadius: 10.0,
                                   offset: Offset(0, 2),
                                 ),
