@@ -210,7 +210,6 @@ class _StudyGroupScreenState extends State<StudyGroupScreen>
                                     setState(() {});
                                   },
                                   onSubmitted: (text) {
-                                    //todo the same value of on icon presed
                                     searchSessionList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
@@ -304,7 +303,6 @@ Widget _buildCardList() {
       final Map<dynamic, dynamic> data =
           snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
 
-      // todo make sure it works
       final List<StudentGroupModel> reports = data.entries.map((entry) {
         final key = entry.key;
         final value = entry.value;
@@ -319,7 +317,6 @@ Widget _buildCardList() {
       }).toList();
       studyGroupItems.clear();
       studyGroupItems = reports;
-      // todo store the values
       return ListView.builder(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(bottom: 10),

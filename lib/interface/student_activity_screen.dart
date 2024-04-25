@@ -213,7 +213,6 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
                                       setState(() {});
                                     },
                                     onSubmitted: (text) {
-                                      //todo the same value of on icon presed
                                       searchActivityList.clear();
                                       filterSearchResults(
                                           _userInputController.text,
@@ -293,7 +292,6 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
         final Map<dynamic, dynamic> data =
             snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
 
-        // todo make sure it works
         final List<StudentActivityModel> reports = data.entries.map((entry) {
           final key = entry.key;
           final value = entry.value;
@@ -308,7 +306,6 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
         }).toList();
         sActivitiesItems.clear();
         sActivitiesItems = reports;
-        // todo store the values
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.only(bottom: 10),
