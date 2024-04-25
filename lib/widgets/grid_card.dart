@@ -121,7 +121,7 @@ class GridCard extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const StudentActivityScreen(),
+            builder: (context) => const StdActivityScreen(),
           ),
         );
         break;

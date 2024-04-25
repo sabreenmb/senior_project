@@ -1,31 +1,42 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unused_local_variable
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, unused_local_variable
 
 import 'dart:convert';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/model/student_activity_model.dart';
+import 'package:senior_project/model/student_group_model.dart';
 import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
 
-class StudentActivityCreateScreen extends StatefulWidget {
-  const StudentActivityCreateScreen({super.key});
+class StudyGroupFormScreen extends StatefulWidget {
+  const StudyGroupFormScreen({super.key});
 
   @override
-  State<StudentActivityCreateScreen> createState() =>
-      _StudentActivityCreateScreenState();
+  State<StudyGroupFormScreen> createState() => _StudyGroupFormScreenState();
 }
 
-class _StudentActivityCreateScreenState
-    extends State<StudentActivityCreateScreen> {
-  StudentActivityModel studentActivityItem = StudentActivityModel(
-      id: '', name: '', date: '', time: '', location: '', numOfPerson: '');
+class _StudyGroupFormScreenState extends State<StudyGroupFormScreen> {
+  List<String> subjectsList = [
+    'ESPE 201 - مقدمة تربية خاصة',
+    'ELPR 101 - لغة انجليزية',
+    'SSSH 100 - مفاهيم اللياقة البدنية والصحة',
+    'BACA 211 - محاسبة مالية',
+    'BCHR 101 - البيئة القانونية للأعمال',
+    'ISLM 201 - عبادات ومعاملات',
+    'SCMT 221 - جبر خطي',
+    'CCCY 225 -  أمن برمجيات',
+    'CCSW 438 - مواضيع متقدمة في هندسة برمجيات',
+    'اخرى'
+  ];
+  StudentGroupModel studentGroupItem = StudentGroupModel(
+      id: '', name: '', date: '', time: '', location: '', numPerson: '');
+  String? _selectedSubject;
   DateTime _selectedDate = DateTime.now();
   TextEditingController dateInput = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -92,23 +103,23 @@ class _StudentActivityCreateScreenState
         FocusScope.of(context).unfocus();
       });
     }
-    _createStudentActivityState();
+    _createGroupState();
   }
 
-  void _createStudentActivityState() async {
+  void _createGroupState() async {
     try {
       final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-          'create-activity.json');
+          'create-group.json');
       final response = await http.post(
         url,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: json.encode(studentActivityItem.toJson()),
+        body: json.encode(studentGroupItem.toJson()),
       );
     } catch (e) {
       if (kDebugMode) {
-        print('Error in creating student activity');
+        print('Error in creating study group');
       }
     }
 
@@ -134,7 +145,7 @@ class _StudentActivityCreateScreenState
               Navigator.pop(context, false);
             },
           ),
-          title: Text("انشاء نشاط", style: TextStyles.pageTitle),
+          title: Text("انشاء جلسة مذاكرة", style: TextStyles.pageTitle),
           centerTitle: true,
         ),
         body: ModalProgressHUD(
@@ -168,32 +179,75 @@ class _StudentActivityCreateScreenState
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               const SizedBox(height: 12.0),
-                              TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                maxLines: 1,
-                                decoration: const InputDecoration(
-                                  labelText: 'اسم النشاط',
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: CustomColors.lightBlue,
+                              SizedBox(
+                                width: 100,
+                                child: DropdownButtonFormField2<String>(
+                                  isExpanded: true,
+                                  decoration: const InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.book_outlined,
+                                      color: CustomColors.lightGrey,
+                                    ),
+                                    labelText: 'اسم و رمز المادة',
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: CustomColors.lightBlue,
+                                      ),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: CustomColors.lightBlue,
+                                      ),
                                     ),
                                   ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: CustomColors.lightBlue,
+                                  value: _selectedSubject,
+                                  items: subjectsList.map((name) {
+                                    return DropdownMenuItem(
+                                      value: name,
+                                      child: Text(
+                                        name,
+                                        style: TextStyles.heading2D,
+                                        overflow: TextOverflow
+                                            .ellipsis, // Add this line
+                                        maxLines: 2,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'الرجاء تعبئة الحقل';
+                                    }
+                                    return null;
+                                  },
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedSubject = value!;
+                                    });
+                                  },
+                                  onSaved: (value) {
+                                    studentGroupItem.name = _selectedSubject;
+                                  },
+                                  //هذا اللاين حق الكود مو راضي ينحذف ولازم احذفه
+                                  iconStyleData: const IconStyleData(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: CustomColors.darkGrey,
                                     ),
+                                    iconSize: 24,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    maxHeight: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
                                   ),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.trim().isEmpty) {
-                                    return 'الرجاء تعبئة الحقل';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  studentActivityItem.name = value;
-                                },
                               ),
                               const SizedBox(height: 12.0),
                               Row(
@@ -209,7 +263,7 @@ class _StudentActivityCreateScreenState
                                             Icons.date_range_outlined,
                                             color: CustomColors.lightGrey,
                                           ),
-                                          labelText: "تاريخ النشاط",
+                                          labelText: "تاريخ الجلسة",
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
                                               color: CustomColors.lightBlue,
@@ -240,7 +294,7 @@ class _StudentActivityCreateScreenState
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          studentActivityItem.date = value;
+                                          studentGroupItem.date = value;
                                         },
                                       ),
                                     ),
@@ -262,7 +316,7 @@ class _StudentActivityCreateScreenState
                                             Icons.timer_sharp,
                                             color: CustomColors.lightGrey,
                                           ),
-                                          labelText: "وقت النشاط",
+                                          labelText: "وقت الجلسة",
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
                                               color: CustomColors.lightBlue,
@@ -284,10 +338,11 @@ class _StudentActivityCreateScreenState
                                               value.trim().isEmpty) {
                                             return 'الرجاء تعبئة الحقل';
                                           }
+                                          // Add additional validation if needed
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          studentActivityItem.time = value;
+                                          studentGroupItem.time = value;
                                         },
                                       ),
                                     ),
@@ -303,9 +358,8 @@ class _StudentActivityCreateScreenState
                                     Icons.location_on,
                                     color: CustomColors.lightGrey,
                                   ),
-                                  labelText: 'مكان النشاط',
-                                  hintText:
-                                      'مثال: مبنى كلية العلوم، بهو كلية الحاسبات...',
+                                  labelText: 'مكان الجلسة',
+                                  hintText: 'مثال: المقهى، المكتبة، البهو...',
                                   hintStyle: TextStyles.text1D,
                                   focusedBorder: const UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -325,15 +379,12 @@ class _StudentActivityCreateScreenState
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  studentActivityItem.location = value;
+                                  studentGroupItem.location = value;
                                 },
                               ),
-                              const Text(
+                              Text(
                                 '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
-                                style: TextStyle(
-                                  color: CustomColors.darkGrey,
-                                  fontSize: 12.0,
-                                ),
+                                style: TextStyles.text1D,
                               ),
                               const SizedBox(height: 12.0),
                               TextFormField(
@@ -342,6 +393,7 @@ class _StudentActivityCreateScreenState
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
                                   suffixIcon: Icon(
+                                    //تغيير الايقونه هنا
                                     Icons.people,
                                     color: CustomColors.lightGrey,
                                   ),
@@ -367,7 +419,7 @@ class _StudentActivityCreateScreenState
                                     final int? number = int.tryParse(value);
                                     if (number == null) {
                                       return 'الرجاء إدخال رقم صحيح';
-                                    } else if (number <= 2) {
+                                    } else if (number < 2) {
                                       return 'الرجاء إدخال رقم أكبر من 2';
                                     } else if (number >= 100) {
                                       return 'الرجاء إدخال رقم أقل من 100';
@@ -376,7 +428,7 @@ class _StudentActivityCreateScreenState
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  studentActivityItem.numOfPerson = value;
+                                  studentGroupItem.numPerson = value;
                                 },
                               ),
                               const SizedBox(height: 32.0),

@@ -44,7 +44,7 @@ class _SaveCardState extends State<SaveCard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const StudentActivityScreen()),
+                      builder: (context) => const StdActivityScreen()),
                 );
               } else if (widget.serviceName == 'جلسة مذاكرة') {
                 Navigator.push(

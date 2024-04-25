@@ -6,7 +6,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/student_activity_create_screen.dart';
+import 'package:senior_project/interface/student_activity_form_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/student_activity_model.dart';
 import 'package:senior_project/common/theme.dart';
@@ -17,14 +17,14 @@ import 'package:shimmer/shimmer.dart';
 
 import '../common/firebase_api.dart';
 
-class StudentActivityScreen extends StatefulWidget {
-  const StudentActivityScreen({super.key});
+class StdActivityScreen extends StatefulWidget {
+  const StdActivityScreen({super.key});
 
   @override
-  State<StudentActivityScreen> createState() => _StudentActivityScreenState();
+  State<StdActivityScreen> createState() => _StdActivityScreenState();
 }
 
-class _StudentActivityScreenState extends State<StudentActivityScreen>
+class _StdActivityScreenState extends State<StdActivityScreen>
     with SingleTickerProviderStateMixin {
   late StreamSubscription connSub;
   //search
@@ -120,7 +120,7 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
                 showNetWidgetDialog(context);
               } else {
                 await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) => const StudentActivityCreateScreen()));
+                    builder: (ctx) => const StdActivityFormScreen()));
               }
             },
             child: const Icon(Icons.add),
