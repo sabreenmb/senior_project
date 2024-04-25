@@ -1,17 +1,15 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/add_found_item_screen.dart';
-import 'package:senior_project/interface/add_lost_item_screen.dart';
-import 'package:senior_project/interface/services_screen.dart';
+import 'package:senior_project/interface/found_form_screen.dart';
+import 'package:senior_project/interface/lost_form_screen.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/found_card.dart';
 import 'package:senior_project/widgets/lost_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../common/constant.dart';
 import '../common/firebase_api.dart';
 import '../model/found_item_model.dart';
@@ -58,8 +56,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   bool isLost = true;
   bool isSearch = false;
   bool isButtonClicked = false;
-  // List<LostItemReport> _lostItemReport = [];
-  // List<FoundItemReport> _foundItemReport = [];
   //create button
   bool _isExpanded = false;
   late AnimationController _animationController;
@@ -68,7 +64,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   @override
   void dispose() {
     connSub.cancel();
-
     _animationController.dispose();
     super.dispose();
   }
@@ -77,7 +72,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
   void initState() {
     super.initState();
     connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
-
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -88,14 +82,14 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     setState(() {
       isButtonClicked = true;
       _isExpanded = !_isExpanded;
-      if (_isExpanded) {
-        _animationController.forward();
-      } else {
-        _animationController.reverse();
-      }
-    });
-  }
 
+    });
+    if (_isExpanded) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
   @override
   Widget build(BuildContext context) {
 // ignore: deprecated_member_use
@@ -131,14 +125,14 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           heroTag: "btn1",
           backgroundColor: CustomColors.lightBlue,
           hoverElevation: 10,
-          splashColor: Colors.grey,
+          splashColor: CustomColors.lightGreyLowTrans,
           tooltip: '',
           elevation: 4,
           onPressed: _toggleExpanded,
           child: _isExpanded ? const Icon(Icons.close) : const Icon(Icons.add),
         ),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
@@ -160,8 +154,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                     isOffline
                         ? Center(
                             child: SizedBox(
-                              // padding: EdgeInsets.only(bottom: 20),
-                              // alignment: Alignment.topCenter,
                               height: 200,
                               child: Image.asset(
                                   'assets/images/NoInternet_newo.png'),
@@ -236,7 +228,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                     setState(() {});
                                   },
                                   onSubmitted: (text) {
-                                    //todo the same value of on icon presed
                                     isLost
                                         ? searchLostList.clear()
                                         : searchFoundList.clear();
@@ -270,7 +261,6 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                         child: ElevatedButton(
                                           onPressed: () {
                                             FocusScope.of(context).unfocus();
-
                                             if (isLost != true) {
                                               setState(() {
                                                 isButtonClicked = false;
@@ -286,7 +276,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                               fixedSize: const Size(150, 40),
                                               side: BorderSide(
                                                   color: isLost
-                                                      ? Colors.transparent
+                                                      ? CustomColors.noColor
                                                       : CustomColors.darkGrey,
                                                   width: 1),
                                               elevation: 0,
@@ -296,7 +286,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                               ),
                                               backgroundColor: isLost
                                                   ? CustomColors.pink
-                                                  : Colors.transparent),
+                                                  : CustomColors.noColor),
                                           child: Text("المفقودة",
                                               style: TextStyles.heading2D),
                                         ),
@@ -321,7 +311,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                               fixedSize: const Size(150, 40),
                                               side: BorderSide(
                                                   color: !isLost
-                                                      ? Colors.transparent
+                                                      ? CustomColors.noColor
                                                       : CustomColors.darkGrey,
                                                   width: 1),
                                               elevation: 0,
@@ -331,7 +321,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                               ),
                                               backgroundColor: !isLost
                                                   ? CustomColors.pink
-                                                  : Colors.transparent),
+                                                  : CustomColors.noColor),
                                           child: Text(
                                             "الموجودة",
                                             style: TextStyles.heading2D,
@@ -382,15 +372,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                                                       : FoundCard(
                                                           searchFoundList[
                                                               index]))
-                                          : _buildcardList()
-
-                                      // : ListView.builder(
-                                      //     itemCount: isLost
-                                      //         ? lostItemReport.length
-                                      //         : foundItemReport.length,
-                                      //     itemBuilder: (context, index) => isLost
-                                      //         ? LostCard(lostItemReport[index])
-                                      //         : FoundCard(foundItemReport[index])),
+                                          : _buildCardList()
                                       ),
                                 )),
                             ],
@@ -412,33 +394,34 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                               children: [
                                 if (_isExpanded) ...[
                                   _buildOption('إنشاء إعلان موجود', () async {
-                                    bool result = false;
                                     try {
-                                      result = await Navigator.of(context).push(
+                                    await Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (ctx) =>
-                                                  const AddFoundItemScreen()));
-                                    } catch (error) {}
-                                    _toggleExpanded();
-                                    if (result) {
-                                      // _LoadFoundItems();
+                                                  const FoundFormScreen()));
+                                    } catch (error) {
+                                        if (kDebugMode) {
+                                          print('حدث خطأ');
+                                        }
                                     }
+                                    _toggleExpanded();
+
                                   }),
                                   const SizedBox(height: 16.0),
                                   _buildOption(
                                     'إنشاء إعلان مفقود',
                                     () async {
-                                      bool result = false;
                                       try {
-                                        result = await Navigator.of(context)
+                                         await Navigator.of(context)
                                             .push(MaterialPageRoute(
                                                 builder: (ctx) =>
-                                                    const AddLostItemScreen()));
-                                      } catch (error) {}
-                                      _toggleExpanded();
-                                      if (result) {
-                                        //_LoadLostItems();
+                                                    const LostFormScreen()));
+                                      } catch (error) {
+                                        if (kDebugMode) {
+                                          print('حدث خطأ');
+                                        }
                                       }
+                                      _toggleExpanded();
                                     },
                                   ),
                                 ],
@@ -492,20 +475,19 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
     );
   }
 
-  Widget _buildcardList() {
+  Widget _buildCardList() {
     return StreamBuilder(
-      stream:
-          FirebaseAPI.databaseReference(isLost ? 'Lost-Items' : 'Found-Items'),
+      stream: FirebaseAPI.databaseReference(isLost ? 'Lost-Items' : 'Found-Items'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return const Text('حدث خطأ اثناء تحميل البيانات');
         }
 
-        if (snapshot.connectionState == ConnectionState.waiting &&
-            isButtonClicked == false) {
+        if ((snapshot.connectionState == ConnectionState.waiting) && isButtonClicked == false) {
+          if((isLost?lostItems.isNotEmpty:foundItems.isNotEmpty)){
           return Shimmer.fromColors(
-            baseColor: Colors.white,
-            highlightColor: Colors.grey[300]!,
+            baseColor: CustomColors.white,
+            highlightColor: CustomColors.highlightColor,
             enabled: true,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -520,19 +502,38 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                 }
               },
             ),
-          );
+          );}else{
+            return Shimmer.fromColors(
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
+              enabled: true,
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 10),
+                  itemCount:1,
+                  itemBuilder: (context, index) {
+                    return LostCard(LostItemModel(id: '', photo: '', category: '', lostDate: '', expectedPlace: '', phoneNumber: '', desription: '', creatorID: '',));
+                  }
+              ),
+            );
+          }
         }
+        final data = snapshot.data?.snapshot.value;
 
-        final Map<dynamic, dynamic> data =
-            snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
         if (data == null) {
-          return Text('No data available');
-        }
-
+          return Center(
+            child: SizedBox(
+              height: 200,
+              child:
+              Image.asset('assets/images/no_content_removebg_preview.png'),
+            ),
+          );        }
+        final Map<dynamic, dynamic> data2 =
+        snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
         List<dynamic> reports;
         if (isLost) {
           lostItems.clear();
-          reports = data.entries.map((entry) {
+          reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
             return LostItemModel(
@@ -549,7 +550,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
           lostItems = reports.cast<LostItemModel>();
         } else {
           foundItems.clear();
-          reports = data.entries.map((entry) {
+          reports = data2.entries.map((entry) {
             final key = entry.key;
             final value = entry.value;
             return FoundItemModel(

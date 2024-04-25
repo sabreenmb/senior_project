@@ -16,11 +16,6 @@ class OffersListScreen extends StatefulWidget {
 
 class _OffersListState extends State<OffersListScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use
     return WillPopScope(

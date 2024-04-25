@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:senior_project/interface/Clinic.dart';
-import 'package:senior_project/interface/OfferCategoryScreen.dart';
+import 'package:senior_project/interface/offer_categories_screen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 import 'package:shimmer/shimmer.dart';
-import '../interface/OffersListScreen.dart';
+import '../interface/offers_list_screen.dart';
 import '../interface/student_clubs_screen.dart';
 import '../interface/vol_op_screen.dart';
 import '../interface/event_screen.dart';
@@ -145,9 +145,9 @@ class GridCard extends StatelessWidget {
   }
 
   void _navigateOnOffers(BuildContext context) async {
-    await Navigator.pushReplacement(
+    await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => OfferCategoryScreen(i, details)));
+            builder: (context) => OfferCategoriesScreen(i, details)));
   }
 }

@@ -2,31 +2,28 @@
 
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-//import 'package:senior_project/interface/LostAndFoundScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/firebase_api.dart';
 import '../model/found_item_model.dart';
-import '../common/theme.dart'; //.
+import '../common/theme.dart';
 
 
-
-class AddFoundItemScreen extends StatefulWidget {
-  const AddFoundItemScreen({super.key});
+class FoundFormScreen extends StatefulWidget {
+  const FoundFormScreen({super.key});
 
   @override
-  State<AddFoundItemScreen> createState() => _AddFoundItemState();
+  State<FoundFormScreen> createState() => _FoundFormState();
 }
 
-class _AddFoundItemState extends State<AddFoundItemScreen> {
+class _FoundFormState extends State<FoundFormScreen> {
   List<String> categories = [
     'بطاقات',
     'نقود',
@@ -37,7 +34,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
     'أغراض شخصية',
     'اخرى'
   ];
-  FoundItemModel foundItemReport = FoundItemModel(
+  FoundItemModel foundItem = FoundItemModel(
       id: '',
       photo: '',
       category: '',
@@ -116,7 +113,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       });
       await storageRef.putFile(_selectedImage!);
       _imageUrl = await storageRef.getDownloadURL();
-      print(_imageUrl);
     } finally {
       setState(() {
         isLoading = false;
@@ -124,7 +120,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
       });
     }
 
-    foundItemReport.photo = _imageUrl;
+    foundItem.photo = _imageUrl;
     _createFoundItem();
   }
 
@@ -135,14 +131,17 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: json.encode(foundItemReport.toJson()),
+        body: json.encode(foundItem.toJson()),
       );
-    } catch (e) {}
-
+    } catch (e) {
+      if (kDebugMode) {
+        print('حدث خطأ');
+      }
+    }
     if (!context.mounted) {
       return;
     }
-    Navigator.pop(context, true);
+    Navigator.pop(context);
   }
 
   @override
@@ -167,7 +166,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
           centerTitle: true,
         ),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
@@ -207,7 +206,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             color: imageEmpty
-                                                ? Colors.red
+                                                ? CustomColors.red
                                                 : CustomColors.lightBlue,
                                             width: 1.0,
                                           ),
@@ -230,7 +229,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                                     )
                                                   : Image.asset(
                                                       'assets/images/take_photo.png',
-                                                      //  _imageUrl,
                                                       height:
                                                           screenWidth * 0.57,
                                                       width: 170,
@@ -291,7 +289,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                   });
                                 },
                                 onSaved: (value) {
-                                  foundItemReport.category = _selectedCategory;
+                                  foundItem.category = _selectedCategory;
                                 },
                                 iconStyleData: const IconStyleData(
                                   icon: Icon(
@@ -340,7 +338,6 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                           await _selectDate(context);
                                         },
                                         validator: (value) {
-                                          print(value);
                                           if (value == null ||
                                               value.trim().isEmpty) {
                                             return 'الرجاء تعبئة الحقل';
@@ -355,7 +352,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          foundItemReport.foundDate = value;
+                                          foundItem.foundDate = value;
                                         },
                                       ),
                                     ),
@@ -390,7 +387,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  foundItemReport.foundPlace = value;
+                                  foundItem.foundPlace = value;
                                 },
                               ),
                               const SizedBox(height: 12.0),
@@ -421,7 +418,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  foundItemReport.receivePlace = value;
+                                  foundItem.receivePlace = value;
                                 },
                               ),
                               const SizedBox(height: 12.0),
@@ -449,7 +446,7 @@ class _AddFoundItemState extends State<AddFoundItemScreen> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  foundItemReport.description = value;
+                                  foundItem.description = value;
                                 },
                               ),
                               const SizedBox(height: 32.0),

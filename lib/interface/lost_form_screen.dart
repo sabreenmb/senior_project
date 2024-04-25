@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -9,20 +10,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/firebase_api.dart';
 import '../model/lost_item_model.dart';
 import '../common/theme.dart';
 
-class AddLostItemScreen extends StatefulWidget {
-  const AddLostItemScreen({super.key});
+class LostFormScreen extends StatefulWidget {
+  const LostFormScreen({super.key});
   @override
-  State<AddLostItemScreen> createState() => _AddLostItemScreenState();
+  State<LostFormScreen> createState() => _LostFormState();
 }
 
-class _AddLostItemScreenState extends State<AddLostItemScreen> {
+class _LostFormState extends State<LostFormScreen> {
   List<String> categories = [
     'بطاقات',
     'نقود',
@@ -33,7 +33,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
     'أغراض شخصية',
     'اخرى'
   ];
-  LostItemModel lostItemReport = LostItemModel(
+  LostItemModel lostItem = LostItemModel(
     id: '',
     photo: '',
     category: '',
@@ -83,7 +83,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
   void _takePhoto() async {
     final picker = ImagePicker();
     XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    print('${pickedFile?.path}');
     if (pickedFile == null) {
       return;
     }
@@ -91,7 +90,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
       _selectedImage = File(pickedFile.path);
     });
   }
-
   void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
@@ -99,7 +97,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
     }
     _formKey.currentState!.save();
     final storageRef = FirebaseAPI.fireStorageRef('lost_images', uniqueFileName);
-
     if (_selectedImage == null) {
       _imageUrl = "empty";
     } else {
@@ -109,7 +106,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
         });
         await storageRef.putFile(_selectedImage!);
         _imageUrl = await storageRef.getDownloadURL();
-        print(_imageUrl);
       } finally {
         setState(() {
           isLoading = false;
@@ -117,22 +113,24 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
         });
       }
     }
-    lostItemReport.photo = _imageUrl;
+    lostItem.photo = _imageUrl;
     _createLostItem();
   }
 
   void _createLostItem() async {
     try {
-      // final url = Uri.https('senior-project-72daf-default-rtdb.firebaseio.com',
-      //     'Lost-Items.json');
       final response = await http.post(
         FirebaseAPI.url('Lost-Items'),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: json.encode(lostItemReport.toJson()),
+        body: json.encode(lostItem.toJson()),
       );
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print('حدث خطأ');
+      }
+    }
 
     if (!context.mounted) {
       return;
@@ -284,7 +282,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                   });
                                 },
                                 onSaved: (value) {
-                                  lostItemReport.category = _selectedCategory;
+                                  lostItem.category = _selectedCategory;
                                 },
                                 iconStyleData: const IconStyleData(
                                   icon: Icon(
@@ -332,7 +330,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                           await _selectDate(context);
                                         },
                                         validator: (value) {
-                                          print(value);
                                           if (value == null ||
                                               value.trim().isEmpty) {
                                             return 'الرجاء تعبئة الحقل';
@@ -349,7 +346,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                         autovalidateMode:
                                             AutovalidateMode.onUserInteraction,
                                         onSaved: (value) {
-                                          lostItemReport.lostDate = value;
+                                          lostItem.lostDate = value;
                                         },
                                       ),
                                     ),
@@ -385,7 +382,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 onSaved: (value) {
-                                  lostItemReport.expectedPlace = value;
+                                  lostItem.expectedPlace = value;
                                 },
                               ),
                               //Phone
@@ -409,7 +406,6 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                   ),
                                 ),
                                 onChanged: (phone) {
-                                  // print(phone.completeNumber);
                                 },
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
@@ -429,7 +425,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 onSaved: (phone) {
-                                  lostItemReport.phoneNumber = phone;
+                                  lostItem.phoneNumber = phone;
                                 },
                               ),
                               //Description
@@ -458,7 +454,7 @@ class _AddLostItemScreenState extends State<AddLostItemScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 onSaved: (value) {
-                                  lostItemReport.desription = value;
+                                  lostItem.desription = value;
                                 },
                               ),
                               //Submit Button

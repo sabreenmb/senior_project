@@ -1,27 +1,25 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:shimmer/shimmer.dart';
-
+import 'package:flutter_svg/svg.dart';
 import '../model/offer_info_model.dart';
 import '../common/theme.dart';
 
-class OfferDetails extends StatefulWidget {
-  OfferInfoModel offerInfo;
+class OfferDetailsScreen extends StatefulWidget {
+  final OfferInfoModel offerInfo;
 
-  OfferDetails(this.offerInfo, {super.key});
+  const OfferDetailsScreen(this.offerInfo, {super.key});
   @override
-  State<OfferDetails> createState() => _OfferDetailsState();
+  State<OfferDetailsScreen> createState() => _OfferDetailsScreenState();
 }
 
-class _OfferDetailsState extends State<OfferDetails> {
+class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
     OfferInfoModel offerInfo = widget.offerInfo;
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -85,64 +83,62 @@ class _OfferDetailsState extends State<OfferDetails> {
                             const SizedBox(
                               height: 15,
                             ),
-                            _buildInfoColumn("خصم يصل الى :",
-                                '  ' + offerInfo.discount! + '%'),
-                            _buildInfoColumn("صلاحية الخصم إلى  :",
-                                '  ' + offerInfo.expDate!),
-                            _buildInfoColumn("الفئة المستهدفة  :",
-                                ' ' + offerInfo.targetUsers!),
-                            _buildInfoColumn(
-                                "وسيلة التواصل  :", ' ' + offerInfo.contact!),
                             Expanded(
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 10, bottom: 10),
-                                      width: 200,
-                                      height: 1,
-                                      color: CustomColors.lightGreyLowTrans,
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        if (!isClicked) {
-                                          setState(() {
-                                            // searchList = getValidCertificates();
-                                            isClicked = true;
-                                          });
-                                        }
+                                    _buildInfoColumn("خصم يصل الى :",
+                                        '  ${offerInfo.discount!}%'),
+                                    _buildInfoColumn("صلاحية الخصم إلى  :",
+                                        '  ${offerInfo.expDate!}'),
+                                    _buildInfoColumn("وسيلة التواصل  :",
+                                        ' ${offerInfo.contact!}'),
+                                    _buildInfoColumn("الفئة المستهدفة  :",
+                                        ' ${offerInfo.targetUsers!}'),
 
-                                        // Clipboard.setData(
-                                        //         new ClipboardData(text: offerInfo.code!))
-                                        //     .then((_) {
-                                        //   ScaffoldMessenger.of(context).showSnackBar(
-                                        //       SnackBar(
-                                        //           content: Text('${offerInfo.code} !')));
-                                        // });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          fixedSize: const Size(170, 40),
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(27),
-                                          ),
-                                          backgroundColor:
-                                              CustomColors.lightBlue),
-                                      child: Text("احصل على الخصم",
-                                          style: TextStyles.btnText),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(
-                                          isClicked ? offerInfo.code! : ' ',
-                                          style: TextStyles.heading3B),
-                                    )
                                   ]),
-                            )
+                            ),
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 10, bottom: 10),
+                                    width: 200,
+                                    height: 1,
+                                    color: CustomColors.lightGreyLowTrans,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (!isClicked) {
+                                        setState(() {
+                                          isClicked = true;
+                                        });
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: const Size(170, 40),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(27),
+                                        ),
+                                        backgroundColor:
+                                            CustomColors.lightBlue),
+                                    child: Text("احصل على الخصم",
+                                        style: TextStyles.btnText),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(
+                                        isClicked ? offerInfo.code! : ' ',
+                                        style: TextStyles.heading3B),
+                                  )
+                                ])
                           ],
                         ),
                       ),
@@ -169,40 +165,29 @@ class _OfferDetailsState extends State<OfferDetails> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: SizedBox(
-                          width: 95,
-                          height: 130,
-                          child: offerInfo.logo == "empty"
-                              ? Image(
-                                  image:
-                                      AssetImage('assets/images/logo-icon.png'))
-                              : FutureBuilder<void>(
-                                  future: precacheImage(
-                                    CachedNetworkImageProvider(offerInfo.logo!),
-                                    context,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Shimmer.fromColors(
-                                        baseColor: Colors.white,
-                                        highlightColor: Colors.grey[300]!,
-                                        enabled: true,
-                                        child: Container(
-                                          color: Colors.white,
-                                        ),
-                                      );
-                                    } else if (snapshot.hasError) {
-                                      return Text(
-                                          'Error loading image'); // Handle error loading image
-                                    } else {
-                                      return CachedNetworkImage(
-                                        imageUrl: offerInfo.logo!,
-                                        fit: BoxFit.cover,
-                                      );
-                                    }
-                                  },
-                                ),
-                        ),
+                            width: 95,
+                            height: 130,
+                            child: offerInfo.logo == "empty"
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      'assets/icons/offers.svg',
+                                      height: 100,
+                                      width: 100,
+                                      color: CustomColors.darkGrey,
+                                    ))
+                                : CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: offerInfo.logo!,
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                            alignment: Alignment.center,
+                                            child: SvgPicture.asset(
+                                              'assets/icons/offers.svg',
+                                              height: 100,
+                                              width: 100,
+                                              color: CustomColors.darkGrey,
+                                            )))),
                       ),
                     ),
                   )
@@ -245,26 +230,27 @@ class _OfferDetailsState extends State<OfferDetails> {
   }
 
   Widget _buildInfoColumn(String label, String value) {
-    double width = MediaQuery.of(context).size.width / 20;
-    print(width);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyles.text1D,
-            textAlign: TextAlign.left,
-          ),
-          const SizedBox(height: 5),
           Expanded(
-            child: Text(
-              value,
-              style: TextStyles.text1L,
-              maxLines: 5,
+            child: RichText(
               textAlign: TextAlign.right,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: label,
+                    style: TextStyles.text1D.copyWith(height: 2),
+                  ),
+                  TextSpan(
+                    text: ' $value',
+                    style: TextStyles.text1L.copyWith(height: 2),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

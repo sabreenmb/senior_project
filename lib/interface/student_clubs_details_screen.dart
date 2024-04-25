@@ -231,23 +231,26 @@ class SClubDetailsScreen extends StatelessWidget {
 
   Widget _buildInfoColumn(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyles.text1D,
-            textAlign: TextAlign.left,
-          ),
-          const SizedBox(height: 5),
           Expanded(
-            child: Text(
-              value,
-              maxLines: 2,
-              style: TextStyles.text1L,
-              textAlign: TextAlign.right,
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: label,
+                    style: TextStyles.text1D.copyWith(height: 1.5),
+                  ),
+                  TextSpan(
+                    text: ' $value',
+                    style: TextStyles.text1L.copyWith(height: 1.5),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
