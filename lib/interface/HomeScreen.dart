@@ -156,7 +156,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                 ),
               )
             : HomeOfferCard(recommendedOffers[0]);
-        ;
       },
     );
   }
