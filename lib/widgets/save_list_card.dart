@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:senior_project/interface/student_activity.dart';
-import 'package:senior_project/interface/study_group.dart';
+import 'package:senior_project/interface/student_activity_screen.dart';
+import 'package:senior_project/interface/study_group_screen.dart';
 
 import '../common/constant.dart';
 import '../interface/VolunteerOpportunities.dart';
@@ -44,12 +44,12 @@ class _SaveCardState extends State<SaveCard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const StudentActivity()),
+                      builder: (context) => const StudentActivityScreen()),
                 );
               } else if (widget.serviceName == 'جلسة مذاكرة') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const StudyGroup()),
+                  MaterialPageRoute(builder: (context) => const StudyGroupScreen()),
                 );
               } else {
                 Navigator.push(
