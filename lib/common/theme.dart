@@ -30,6 +30,9 @@ class TextStyles {
       color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 25);
   static TextStyle menuTitle = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 20);
+  static TextStyle profileTitle = GoogleFonts.getFont("Almarai",
+      color: CustomColors.lightBlue, fontWeight: FontWeight.bold, fontSize: 20);
+
   static TextStyle heading1D = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 18);
   static TextStyle heading1B = GoogleFonts.getFont("Almarai",

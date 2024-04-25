@@ -1,14 +1,13 @@
-// ignore_for_file: dead_code, deprecated_member_use
+// ignore_for_file: dead_code, deprecated_member_use, use_build_context_synchronously
 
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
@@ -18,7 +17,6 @@ class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
-
 class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> tempOffersPreferences =
       Map.fromEntries(userInfo.offersPreferences.entries);
@@ -27,11 +25,9 @@ class _ProfilePageState extends State<ProfilePage> {
   String _image = userInfo.imageUrl;
   void _submit() async {
     _formKey.currentState!.save();
-    // updateProfilePicture(File(_image!));
     try {
       userInfo.imageUrl = _image;
       userInfo.offersPreferences = tempOffersPreferences;
-      // Save data to Firestore
       await userProfileDoc.update({
         'image_url': userInfo.imageUrl,
         'intrests': userInfo.intrests,
@@ -53,9 +49,11 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     } catch (e) {
       // Handle any errors that occur during saving
-      print('يوجد خطأ حاول مرة أخرى $e');
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('حدث خطأ أثناء تحديث البيانات')));
+               const SnackBar(content: Text('حدث خطأ أثناء تحديث البيانات')));
+      if (kDebugMode) {
+        print('يوجد خطأ حاول مرة أخرى');
+      }
     } finally {
       int falseNum = 0;
       List<dynamic> tempOffer = [];
@@ -67,7 +65,6 @@ class _ProfilePageState extends State<ProfilePage> {
           tempOffer.addAll(item['categoryList']);
           falseNum++;
         }
-        // for()
       }
       if (falseNum > 9 || recommendedOffers.isEmpty) {
         recommendedOffers = tempOffer;
@@ -91,6 +88,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
     //updating image in firestore database
     _image = await ref.getDownloadURL();
+
+    setState(()  {
+      isLoading =false;
+    });
   }
 
   void _showBottomSheet() {
@@ -107,13 +108,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 bottom: MediaQuery.of(context).size.height * .05),
             children: [
               //pick profile picture label
-              const Text('اختر صورة للملف الشخصي',
+               Text('اختر صورة للملف الشخصي',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-
+                  style: TextStyles.menuTitle),
               //for adding some space
               SizedBox(height: MediaQuery.of(context).size.height * .02),
-
               //buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,33 +120,30 @@ class _ProfilePageState extends State<ProfilePage> {
                   //pick from gallery button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: CustomColors.white,
                         shape: const BeveledRectangleBorder(),
                         shadowColor: CustomColors.lightGreyLowTrans,
                         fixedSize: Size(MediaQuery.of(context).size.width * .3,
                             MediaQuery.of(context).size.height * .15)),
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
-
                       // Pick an image
                       final XFile? image = await picker.pickImage(
                           source: ImageSource.gallery, imageQuality: 80);
                       if (image != null) {
-                        // log('Image Path: ${image.path}');
-                        setState(() {
-                          _image = image.path;
+                        setState(()  {
+                          isLoading =true;
                         });
-                        updateProfilePicture(File(_image));
+                         updateProfilePicture(File(image.path));
                         // for hiding bottom sheet
+
                         Navigator.pop(context);
                       }
                     },
-                    // child: Container(),
                     child: Image.asset(
                       'assets/images/logo-icon.png',
                     ),
                   ),
-
                   //take picture from camera button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -158,24 +154,18 @@ class _ProfilePageState extends State<ProfilePage> {
                             MediaQuery.of(context).size.height * .15)),
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
-
                       // Pick an image
                       final XFile? image = await picker.pickImage(
                           source: ImageSource.camera, imageQuality: 80);
                       if (image != null) {
-                        // log('Image Path: ${image.path}');
-                        setState(() {
-                          _image = image.path;
-                          // updateProfilePicture(File(_image!));
+                        setState(()  {
+                          isLoading =true;
                         });
-                        updateProfilePicture(File(_image));
-                        // APIs.updateProfilePicture(File(_image!));
+                         updateProfilePicture(File(image.path));
                         // for hiding bottom sheet
                         Navigator.pop(context);
                       }
                     },
-
-                    // child: Container(),
                     child: Image.asset(
                       'assets/images/take_photo.png',
                     ),
@@ -210,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
             centerTitle: true,
           ),
           body: ModalProgressHUD(
-            color: Colors.black,
+            color: CustomColors.black,
             opacity: 0.5,
             progressIndicator: loadingFunction(context, true),
             inAsyncCall: isLoading,
@@ -233,296 +223,278 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         ListView(
                           children: [
-                            Container(
-                              // color: Colors.cyan,
-                              // margin: const EdgeInsets.all(20),
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      // const SizedBox(height: 12.0),
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 80,
-                                          backgroundColor: const Color.fromARGB(
-                                              0, 15, 66, 186),
-                                          child: Stack(
-                                            children: [
-                                              userInfo.imageUrl == ''
-                                                  ? Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              20),
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                      height: 140,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                          color: CustomColors
-                                                              .darkGrey,
-                                                          width: 3,
-                                                        ),
-                                                      ),
-                                                      child: SvgPicture.asset(
-                                                        'assets/icons/UserProfile.svg',
-                                                        height: 100,
-                                                        width: 100,
+                            SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    // const SizedBox(height: 12.0),
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 80,
+                                        backgroundColor: const Color.fromARGB(
+                                            0, 15, 66, 186),
+                                        child: Stack(
+                                          children: [
+                                            _image == ''
+                                                ? Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    height: 140,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
                                                         color: CustomColors
                                                             .darkGrey,
+                                                        width: 3,
                                                       ),
-                                                    )
-                                                  : ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      child: CachedNetworkImage(
-                                                          width: 140,
-                                                          height: 140,
-                                                          fit: BoxFit.cover,
-                                                          imageUrl: _image,
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        20),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .topCenter,
-                                                                height: 140,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  border: Border
+                                                    ),
+                                                    child: SvgPicture.asset(
+                                                      'assets/icons/UserProfile.svg',
+                                                      height: 100,
+                                                      width: 100,
+                                                      color: CustomColors
+                                                          .darkGrey,
+                                                    ),
+                                                  )
+                                                : ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    child: CachedNetworkImage(
+                                                        width: 140,
+                                                        height: 140,
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: _image,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Container(
+                                                              padding:
+                                                                  const EdgeInsets
                                                                       .all(
-                                                                    color: CustomColors
-                                                                        .darkGrey,
-                                                                    width: 3,
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  'assets/icons/UserProfile.svg',
-                                                                  height: 100,
-                                                                  width: 100,
+                                                                      20),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topCenter,
+                                                              height: 140,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                border: Border
+                                                                    .all(
                                                                   color: CustomColors
                                                                       .darkGrey,
+                                                                  width: 3,
                                                                 ),
-                                                              )),
-                                                    ),
-                                              Positioned(
-                                                right: -9,
-                                                bottom: 3,
-                                                child: CircleAvatar(
-                                                  radius: 25,
-                                                  backgroundColor:
-                                                      CustomColors.white,
-                                                  child: IconButton(
-                                                    icon: const Icon(
-                                                      Icons.camera_alt_rounded,
-                                                      //Icons.camera_rounded,
-                                                      color: CustomColors
-                                                          .lightBlue,
-                                                      size: 35,
-                                                    ),
-                                                    onPressed: () {
-                                                      _showBottomSheet();
+                                                              ),
+                                                              child:
+                                                                  SvgPicture
+                                                                      .asset(
+                                                                'assets/icons/UserProfile.svg',
+                                                                height: 100,
+                                                                width: 100,
+                                                                color: CustomColors
+                                                                    .darkGrey,
+                                                              ),
+                                                            )),
+                                                  ),
+                                            Positioned(
+                                              right: -9,
+                                              bottom: 3,
+                                              child: CircleAvatar(
+                                                radius: 25,
+                                                backgroundColor:
+                                                    CustomColors.white,
+                                                child: IconButton(
+                                                  icon: const Icon(
+                                                    Icons.camera_alt_rounded,
+                                                    //Icons.camera_rounded,
+                                                    color: CustomColors
+                                                        .lightBlue,
+                                                    size: 35,
+                                                  ),
+                                                  onPressed: () {
+                                                    _showBottomSheet();
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Text(
+                                        userInfo.name,
+                                        style: TextStyles.profileTitle
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        userInfo.collage,
+                                        style:TextStyles.heading1D
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        userInfo.major,
+                                        style:  TextStyles.heading2D,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        autovalidateMode: AutovalidateMode
+                                            .onUserInteraction,
+                                        decoration: const InputDecoration(
+                                          labelText: "الاهتمامات",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        initialValue: userInfo.intrests,
+                                        onSaved: (value) {
+                                          userInfo.intrests = value!;
+                                        },
+                                      ),
+                                      const SizedBox(height: 10),
+                                      TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        autovalidateMode: AutovalidateMode
+                                            .onUserInteraction,
+                                        decoration: const InputDecoration(
+                                          labelText: 'الهوايات',
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        initialValue: userInfo.hobbies,
+                                        onSaved: (value) {
+                                          userInfo.hobbies = value!;
+                                        },
+                                      ),
+                                      const SizedBox(height: 10),
+                                      TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        autovalidateMode: AutovalidateMode
+                                            .onUserInteraction,
+                                        decoration: const InputDecoration(
+                                          labelText:
+                                              ' ما يمكنك اضافتة للمجتمع؟ ',
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: CustomColors.lightBlue,
+                                            ),
+                                          ),
+                                        ),
+                                        initialValue: userInfo.skills,
+                                        onSaved: (value) {
+                                          userInfo.skills = value!;
+                                        },
+                                      ),
+                                      const SizedBox(height: 20.0),
+                                      Column(
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 15.0),
+                                            alignment: Alignment.centerRight,
+                                            // color: Colors.amber,
+                                            child: Text(
+                                              'اختر تفضيلات العروض:',
+                                              style: TextStyles.heading2D,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 105,
+                                            child: ListView(
+                                              scrollDirection:
+                                                  Axis.horizontal,
+                                              children: [
+                                                ...List.generate(
+                                                  offers.length,
+                                                  (index) => offerItem(
+                                                    index,
+                                                    (bool value) {
+                                                      fun(value, index);
+                                                      setState(() {});
                                                     },
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Text(
-                                          userInfo.name,
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              color: CustomColors.lightBlue,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          userInfo.collage,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: CustomColors.darkGrey),
-                                        ),
-                                        const SizedBox(height: 6),
-                                        Text(
-                                          userInfo.major,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              color: CustomColors.darkGrey),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          decoration: const InputDecoration(
-                                            labelText: "الاهتمامات",
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: CustomColors.lightBlue,
-                                              ),
+                                              ],
                                             ),
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: CustomColors.lightBlue,
-                                              ),
-                                            ),
-                                          ),
-                                          initialValue: userInfo.intrests,
-                                          onSaved: (value) {
-                                            userInfo.intrests = value!;
-                                          },
-                                        ),
-                                        const SizedBox(height: 10),
-                                        TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          decoration: const InputDecoration(
-                                            labelText: 'الهوايات',
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: CustomColors.lightBlue,
-                                              ),
-                                            ),
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: CustomColors.lightBlue,
-                                              ),
-                                            ),
-                                          ),
-                                          initialValue: userInfo.hobbies,
-                                          onSaved: (value) {
-                                            userInfo.hobbies = value!;
-                                          },
-                                        ),
-                                        const SizedBox(height: 10),
-                                        TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          decoration: const InputDecoration(
-                                            labelText:
-                                                ' ما يمكنك اضافتة للمجتمع؟ ',
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: CustomColors.lightBlue,
-                                              ),
-                                            ),
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: CustomColors.lightBlue,
-                                              ),
-                                            ),
-                                          ),
-                                          initialValue: userInfo.skills,
-                                          onSaved: (value) {
-                                            userInfo.skills = value!;
-                                          },
-                                        ),
-                                        const SizedBox(height: 20.0),
-                                        Column(
-                                          // mainAxisAlignment:
-                                          //     MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 15.0),
-                                              alignment: Alignment.centerRight,
-                                              // color: Colors.amber,
-                                              child: const Text(
-                                                'اختر تفضيلات العروض:',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color:
-                                                        CustomColors.darkGrey),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              // color: Color.fromARGB(
-                                              //     255, 253, 229, 226),
-                                              height: 105,
-                                              // width: 32,
-                                              child: ListView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                children: [
-                                                  ...List.generate(
-                                                    offers.length,
-                                                    (index) => OfferItem(
-                                                      index,
-                                                      (bool value) {
-                                                        fun(value, index);
-                                                        print(
-                                                            "oooooooooooooooooooooooooooooooooooooooooooooooooo");
-                                                        print(
-                                                            tempOffersPreferences);
-                                                        setState(() {});
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(height: 40.0),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 90),
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await network();
-                                              if (isOffline) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: const Text(
-                                                        'لم يتم تحديث البيانات لتعذر الاتصال بالانترنت'),
-                                                    duration: const Duration(
-                                                        seconds: 1),
-                                                    backgroundColor:
-                                                        CustomColors.darkGrey,
-                                                    behavior: SnackBarBehavior
-                                                        .floating,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                    ),
-                                                  ),
-                                                );
-                                              } else {
-                                                _submit();
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 40.0),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 90),
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            await network();
+                                            if (isOffline) {
+                                              if (!context.mounted) {
+                                                return;
                                               }
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                fixedSize: const Size(175, 50),
-                                                elevation: 0,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: const Text(
+                                                      'لم يتم تحديث البيانات لتعذر الاتصال بالانترنت'),
+                                                  duration: const Duration(
+                                                      seconds: 1),
+                                                  backgroundColor:
+                                                      CustomColors.darkGrey,
+                                                  behavior: SnackBarBehavior
+                                                      .floating,
+                                                  shape:
+                                                      RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
                                                 ),
-                                                backgroundColor:
-                                                    CustomColors.lightBlue),
-                                            child: Text("تحديث",
-                                                style: TextStyles.btnText),
-                                          ),
+                                              );
+                                            } else {
+                                              _submit();
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              fixedSize: const Size(175, 50),
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              backgroundColor:
+                                                  CustomColors.lightBlue),
+                                          child: Text("تحديث",
+                                              style: TextStyles.btnText),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -553,14 +525,14 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Widget OfferItem(int index, ValueChanged<bool> onSelected) {
-    bool _isSelected = tempOffersPreferences[offers[index]['offerCategory']];
+  Widget offerItem(int index, ValueChanged<bool> onSelected) {
+    bool isSelected = tempOffersPreferences[offers[index]['offerCategory']];
 
     return GestureDetector(
       onTap: () {
         setState(() {
-          _isSelected = !_isSelected;
-          onSelected(_isSelected);
+          isSelected = !isSelected;
+          onSelected(isSelected);
         });
       },
       child: Container(
