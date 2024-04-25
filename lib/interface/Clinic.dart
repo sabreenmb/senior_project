@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/model/clinic_model.dart';
-import 'package:senior_project/common/theme.dart';
-import 'package:senior_project/widgets/clinic_card.dart';
 import 'package:senior_project/common/common_functions.dart';
+import 'package:senior_project/common/constant.dart';
+import 'package:senior_project/common/theme.dart';
+import 'package:senior_project/model/clinic_model.dart';
+import 'package:senior_project/widgets/clinic_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -48,8 +47,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print('build enter');
-// ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -68,7 +65,6 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Navigator.pop(context);
-
                 },
               );
             },
@@ -78,7 +74,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
           onProfileTap: () => goToProfilePage(context),
         ),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
@@ -110,13 +106,9 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                               textInputAction: TextInputAction.search,
                               textAlignVertical: TextAlignVertical.bottom,
                               textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                color: CustomColors.darkGrey,
-                              ),
+                              style: TextStyles.heading2D,
                               decoration: InputDecoration(
-                                hintStyle: const TextStyle(
-                                  color: CustomColors.darkGrey,
-                                ),
+                                hintStyle: TextStyles.heading2D,
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40),
                                   borderSide: const BorderSide(
@@ -230,14 +222,11 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                                           if (showDateHeader)
                                             Container(
                                               padding: const EdgeInsets.all(6),
-                                              color: TextStyles.heading3B.color,
+                                              color: CustomColors.lightBlue,
                                               width: double.infinity,
                                               child: Text(
                                                 date,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: CustomColors.darkGrey,
-                                                ),
+                                                style: TextStyles.heading3D,
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -304,17 +293,14 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
             searchPerformedAndEmpty = false;
           });
         },
-        backgroundColor: Colors.grey[200],
+        backgroundColor: CustomColors.backgroundColor,
         selectedColor: CustomColors.pink,
-        labelStyle: TextStyle(
-          color: isChipSelected ? Colors.white : Colors.black,
-          fontSize: 16,
-        ),
+        labelStyle: TextStyles.heading2D,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         side: BorderSide(
-          color: isChipSelected ? Colors.transparent : CustomColors.darkGrey,
+          color: isChipSelected ? CustomColors.noColor : CustomColors.darkGrey,
           width: 1,
         ),
       ),

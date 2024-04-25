@@ -15,8 +15,7 @@ class CustomColors {
   static const Color lightGreyLowTrans = Color.fromRGBO(171, 171, 171, 0.5);
   static const Color lightBlueLowTrans = Color.fromARGB(168, 131, 205, 234);
   static const Color noColor = Color.fromRGBO(171, 171, 171, 0.0);
-  static const Color highlightColor =  Color(0xFFE0E0E0);
-
+  static const Color highlightColor = Color(0xFFE0E0E0);
 }
 
 class TextStyles {
@@ -35,6 +34,8 @@ class TextStyles {
 
   static TextStyle heading1D = GoogleFonts.getFont("Almarai",
       color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 18);
+  static TextStyle heading3D = GoogleFonts.getFont("Almarai",
+      color: CustomColors.darkGrey, fontWeight: FontWeight.bold, fontSize: 16);
   static TextStyle heading1B = GoogleFonts.getFont("Almarai",
       color: CustomColors.lightBlue, fontWeight: FontWeight.bold, fontSize: 16);
   static TextStyle heading2D = GoogleFonts.getFont("Almarai",

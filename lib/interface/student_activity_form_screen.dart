@@ -1,12 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unused_local_variable
 
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/model/student_activity_model.dart';
+
 import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
@@ -15,12 +17,10 @@ class StdActivityFormScreen extends StatefulWidget {
   const StdActivityFormScreen({super.key});
 
   @override
-  State<StdActivityFormScreen> createState() =>
-      _StdActivityFormScreenState();
+  State<StdActivityFormScreen> createState() => _StdActivityFormScreenState();
 }
 
-class _StdActivityFormScreenState
-    extends State<StdActivityFormScreen> {
+class _StdActivityFormScreenState extends State<StdActivityFormScreen> {
   StudentActivityModel studentActivityItem = StudentActivityModel(
       id: '', name: '', date: '', time: '', location: '', numOfPerson: '');
   DateTime _selectedDate = DateTime.now();
@@ -328,12 +328,9 @@ class _StdActivityFormScreenState
                                   studentActivityItem.location = value;
                                 },
                               ),
-                              const Text(
+                              Text(
                                 '* ملاحظة:  الرجاء التاكد من ان المكان متاح في الوقت المطلوب',
-                                style: TextStyle(
-                                  color: CustomColors.darkGrey,
-                                  fontSize: 12.0,
-                                ),
+                                style: TextStyles.text1D,
                               ),
                               const SizedBox(height: 12.0),
                               TextFormField(
