@@ -9,7 +9,7 @@ import 'package:senior_project/interface/study_group_form_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/student_group_model.dart';
 import 'package:senior_project/common/theme.dart';
-import 'package:senior_project/widgets/study_goup_card.dart';
+import 'package:senior_project/widgets/study_group_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -27,7 +27,7 @@ class _StudyGroupScreenState extends State<StudyGroupScreen>
     with SingleTickerProviderStateMixin {
   late StreamSubscription connSub;
   //search
-  List<StudentGroupModel> searchSessionList = [];
+  List<StudyGroupModel> searchSessionList = [];
   final _userInputController = TextEditingController();
   //filter
   bool isSearch = false;
@@ -237,22 +237,20 @@ class _StudyGroupScreenState extends State<StudyGroupScreen>
                                     ),
                                   ),
                                 ),
-                              if (studyGroupItems.isNotEmpty)
-                                Expanded(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: MediaQuery.removePadding(
-                                      context: context,
-                                      removeTop: true,
-                                      child: isSearch
-                                          ? ListView.builder(
-                                              itemCount:
-                                                  searchSessionList.length,
-                                              itemBuilder: (context, index) =>
-                                                  StudyGroupCard(
-                                                      searchSessionList[index]))
-                                          : _buildCardList()),
-                                )),
+                              Expanded(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: MediaQuery.removePadding(
+                                    context: context,
+                                    removeTop: true,
+                                    child: isSearch
+                                        ? ListView.builder(
+                                            itemCount: searchSessionList.length,
+                                            itemBuilder: (context, index) =>
+                                                StudyGroupCard(
+                                                    searchSessionList[index]))
+                                        : _buildCardList()),
+                              )),
                             ],
                           ),
                   ],
@@ -281,32 +279,63 @@ Widget _buildCardList() {
     stream: FirebaseAPI.databaseReference('create-group'),
     builder: (context, snapshot) {
       if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
+        return const Text('حدث خطأ اثناء تحميل البيانات');
       }
 
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Colors.grey[300]!,
-          enabled: true,
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: 10),
-            itemCount: studyGroupItems.length,
-            itemBuilder: (context, index) {
-              return StudyGroupCard(studyGroupItems[0]);
-            },
+        if (studyGroupItems.isEmpty) {
+          return Shimmer.fromColors(
+            baseColor: CustomColors.white,
+            highlightColor: CustomColors.highlightColor,
+            enabled: true,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 10),
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                return StudyGroupCard(StudyGroupModel(
+                  time: '',
+                  id: '',
+                  name: ' ',
+                  date: '',
+                  location: '',
+                  numPerson: '',
+                ));
+              },
+            ),
+          );
+        } else {
+          return Shimmer.fromColors(
+            baseColor: CustomColors.white,
+            highlightColor: CustomColors.highlightColor,
+            enabled: true,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 10),
+              itemCount: studyGroupItems.length,
+              itemBuilder: (context, index) {
+                return StudyGroupCard(studyGroupItems[index]);
+              },
+            ),
+          );
+        }
+      }
+
+      final data = snapshot.data?.snapshot.value;
+      if (data == null || data == 'placeholder') {
+        return Center(
+          child: SizedBox(
+            height: 200,
+            child: Image.asset('assets/images/no_content_removebg_preview.png'),
           ),
         );
       }
+      Map<dynamic, dynamic> data2 = data as Map<dynamic, dynamic>;
 
-      final Map<dynamic, dynamic> data =
-          snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
-
-      final List<StudentGroupModel> reports = data.entries.map((entry) {
+      final List<StudyGroupModel> reports = data2.entries.map((entry) {
         final key = entry.key;
         final value = entry.value;
-        return StudentGroupModel(
+        return StudyGroupModel(
           id: key,
           name: value['name'],
           date: value['date'],

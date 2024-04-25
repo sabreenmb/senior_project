@@ -32,7 +32,7 @@ class _StudyGroupFormScreenState extends State<StudyGroupFormScreen> {
     'CCSW 438 - مواضيع متقدمة في هندسة برمجيات',
     'اخرى'
   ];
-  StudentGroupModel studentGroupItem = StudentGroupModel(
+  StudyGroupModel studentGroupItem = StudyGroupModel(
       id: '', name: '', date: '', time: '', location: '', numPerson: '');
   String? _selectedSubject;
   DateTime _selectedDate = DateTime.now();

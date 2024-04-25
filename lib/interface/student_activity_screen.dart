@@ -238,23 +238,22 @@ class _StdActivityScreenState extends State<StdActivityScreen>
                                       ),
                                     ),
                                   ),
-                                if (sActivitiesItems.isNotEmpty)
-                                  Expanded(
-                                      child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MediaQuery.removePadding(
-                                        context: context,
-                                        removeTop: true,
-                                        child: isSearch
-                                            ? ListView.builder(
-                                                itemCount:
-                                                    searchActivityList.length,
-                                                itemBuilder: (context, index) =>
-                                                    StudentActivityCard(
-                                                        searchActivityList[
-                                                            index]))
-                                            : _buildCardList()),
-                                  )),
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MediaQuery.removePadding(
+                                      context: context,
+                                      removeTop: true,
+                                      child: isSearch
+                                          ? ListView.builder(
+                                              itemCount:
+                                                  searchActivityList.length,
+                                              itemBuilder: (context, index) =>
+                                                  StudentActivityCard(
+                                                      searchActivityList[
+                                                          index]))
+                                          : _buildCardList()),
+                                )),
                               ],
                             ),
                     ],
@@ -271,28 +270,60 @@ class _StdActivityScreenState extends State<StdActivityScreen>
       stream: FirebaseAPI.databaseReference('create-activity'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text('Error');
+          return const Text('حدث خطأ اثناء تحميل البيانات');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            enabled: true,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 10),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return StudentActivityCard(sActivitiesItems[0]);
-              },
+          if (sActivitiesItems.isEmpty) {
+            return Shimmer.fromColors(
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
+              enabled: true,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 10),
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return StudentActivityCard(StudentActivityModel(
+                    time: '',
+                    id: '',
+                    name: ' ',
+                    date: '',
+                    location: '',
+                    numOfPerson: '',
+                  ));
+                },
+              ),
+            );
+          } else {
+            return Shimmer.fromColors(
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
+              enabled: true,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 10),
+                itemCount: sActivitiesItems.length,
+                itemBuilder: (context, index) {
+                  return StudentActivityCard(sActivitiesItems[index]);
+                },
+              ),
+            );
+          }
+        }
+
+        final data = snapshot.data?.snapshot.value;
+        if (data == null || data == 'placeholder') {
+          return Center(
+            child: SizedBox(
+              height: 200,
+              child:
+                  Image.asset('assets/images/no_content_removebg_preview.png'),
             ),
           );
         }
+        Map<dynamic, dynamic> data2 = data as Map<dynamic, dynamic>;
 
-        final Map<dynamic, dynamic> data =
-            snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
-
-        final List<StudentActivityModel> reports = data.entries.map((entry) {
+        final List<StudentActivityModel> reports = data2.entries.map((entry) {
           final key = entry.key;
           final value = entry.value;
           return StudentActivityModel(

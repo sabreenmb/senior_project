@@ -8,7 +8,7 @@ import 'package:senior_project/common/constant.dart';
 import '../common/theme.dart';
 
 class StudyGroupCard extends StatefulWidget {
-  StudentGroupModel studyGroup;
+  StudyGroupModel studyGroup;
   StudyGroupCard(this.studyGroup, {super.key});
 
   @override

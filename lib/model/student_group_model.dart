@@ -1,4 +1,4 @@
-class StudentGroupModel {
+class StudyGroupModel {
   //Variables
   String? id;
   String? name;
@@ -8,7 +8,7 @@ class StudentGroupModel {
   String? numPerson;
 
   //Constructor
-  StudentGroupModel({
+  StudyGroupModel({
     required this.id,
     required this.name,
     required this.date,
