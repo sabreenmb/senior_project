@@ -34,6 +34,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -166,7 +167,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildHorizontalScrollableCards(List<DynamicItemModel> details) {
-    return Container(
+    return SizedBox(
       height: 240,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,

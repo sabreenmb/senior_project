@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/HomeScreen.dart';
+import 'package:senior_project/interface/home_screen.dart';
 import 'package:senior_project/common/theme.dart';
 import '../common/constant.dart';
 import '../common/app_setup.dart';
