@@ -12,12 +12,12 @@ import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileScreenState extends State<ProfileScreen> {
   Map<String, dynamic> tempOffersPreferences =
       Map.fromEntries(userInfo.offersPreferences.entries);
 

@@ -7,7 +7,7 @@ import '../model/dynamic_item_model.dart';
 import 'constant.dart';
 import '../interface/Chat_Pages/current_chats.dart';
 import '../interface/HomeScreen.dart';
-import '../interface/ProfilePage.dart';
+import '../interface/profile_screen.dart';
 import 'package:senior_project/interface/save_list_screen.dart';
 import '../interface/services_screen.dart';
 
@@ -266,7 +266,7 @@ void goToProfilePage(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => const ProfilePage(),
+      builder: (context) => const ProfileScreen(),
     ),
   );
 }

@@ -46,7 +46,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ServisesScreen()));
+                          builder: (context) => const ServicesScreen()));
                 },
               );
             },
