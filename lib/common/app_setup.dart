@@ -30,7 +30,7 @@ class Setup {
     loadWorkshops();
     loadConferences();
     loadOtherEvents();
-    loadVolOp();
+   // loadVolOp();
     await loadOffers();
   }
 

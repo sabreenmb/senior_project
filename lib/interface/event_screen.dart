@@ -361,21 +361,22 @@ class _EventState extends State<EventScreen> {
                                     ),
                                   ),
                                 ),
-                              if (!isSearch &&
-                                  ((isSelectedCourse && courseItems.isEmpty) ||
-                                      (isSelectedWorkshop &&
-                                          workshopItems.isEmpty) ||
-                                      (isSelectedConfre && confItems.isEmpty) ||
-                                      (isSelectedOther && otherItems.isEmpty)))
-                                Expanded(
-                                  child: Center(
-                                    child: SizedBox(
-                                      height: 200,
-                                      child: Image.asset(
-                                          'assets/images/no_content_removebg_preview.png'),
-                                    ),
-                                  ),
-                                ),
+                              //todo sabrene test
+                              // if (!isSearch &&
+                              //     ((isSelectedCourse && courseItems.isEmpty) ||
+                              //         (isSelectedWorkshop &&
+                              //             workshopItems.isEmpty) ||
+                              //         (isSelectedConfre && confItems.isEmpty) ||
+                              //         (isSelectedOther && otherItems.isEmpty)))
+                              //   Expanded(
+                              //     child: Center(
+                              //       child: SizedBox(
+                              //         height: 200,
+                              //         child: Image.asset(
+                              //             'assets/images/no_content_removebg_preview.png'),
+                              //       ),
+                              //     ),
+                              //   ),
 
                               // if (isSelectedCourse
                               //     ? (isSearch
@@ -392,28 +393,28 @@ class _EventState extends State<EventScreen> {
                               //       ),
                               //     ),
                               //   ),
-                              if (isSelectedCourse && courseItems.isNotEmpty)
+                              if (isSelectedCourse )
                                 buildExpandedWidget(
                                     courseItems,
                                     searchCourseList,
                                     (item) => CoursesCard(item),
                                     'eventsCoursesDB'),
 
-                              if (isSelectedWorkshop && workshopItems.isNotEmpty)
+                              if (isSelectedWorkshop )
                                 buildExpandedWidget(
                                     workshopItems,
                                     searchWorkshopList,
                                     (item) => WorkshopCard(item),
                                     'eventsWorkshopsDB'),
 
-                              if (isSelectedConfre && confItems.isNotEmpty)
+                              if (isSelectedConfre)
                                 buildExpandedWidget(
                                     confItems,
                                     searchConfList,
                                     (item) => ConferencesCard(item),
                                     'eventsConferencesDB'),
 
-                              if (isSelectedOther && otherItems.isNotEmpty)
+                              if (isSelectedOther )
                                 buildExpandedWidget(
                                     otherItems,
                                     searchOtherList,
@@ -455,7 +456,8 @@ class _EventState extends State<EventScreen> {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return loadingFunction(context, true);
-          if (itemList.isEmpty) {
+          if (itemList.isEmpty)
+          {
             return Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.grey[300]!,

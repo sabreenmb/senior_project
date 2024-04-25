@@ -1,17 +1,14 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-//import 'package:senior_project/interface/create_group.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/vol_op_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/op_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../common/firebase_api.dart';
 import '../common/common_functions.dart';
 
@@ -51,7 +48,6 @@ class _VolunteerOpState extends State<VolunteerOp>
     super.initState();
     connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
   }
-
   @override
   void dispose() {
     connSub.cancel();
@@ -60,7 +56,7 @@ class _VolunteerOpState extends State<VolunteerOp>
 
   @override
   Widget build(BuildContext context) {
-// ignore: deprecated_member_use
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -92,7 +88,7 @@ class _VolunteerOpState extends State<VolunteerOp>
         ),
         bottomNavigationBar: buildBottomBar(context, 1, true),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
@@ -128,24 +124,13 @@ class _VolunteerOpState extends State<VolunteerOp>
                                 padding:
                                     const EdgeInsets.only(left: 15, right: 15),
                               ),
-                              (volOpItems.isNotEmpty)
-                                  ? Expanded(
-                                      child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: MediaQuery.removePadding(
-                                          context: context,
-                                          removeTop: true,
-                                          child: _buildCardsList()),
-                                    ))
-                                  : Expanded(
-                                      child: Center(
-                                        child: SizedBox(
-                                          height: 200,
-                                          child: Image.asset(
-                                              'assets/images/no_content_removebg_preview.png'),
-                                        ),
-                                      ),
-                                    ),
+                              Expanded(
+                                        child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MediaQuery.removePadding(
+                                            context: context,
+                                            removeTop: true,
+                                            child: _buildCardsList()),))
                             ],
                           ),
                   ],
@@ -163,9 +148,8 @@ class _VolunteerOpState extends State<VolunteerOp>
       stream: FirebaseAPI.databaseReference('opportunities'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return const Text('حدث خطأ اثناء تحميل البيانات');
         }
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           if (volOpItems.isEmpty) {
             return Shimmer.fromColors(
@@ -217,16 +201,12 @@ class _VolunteerOpState extends State<VolunteerOp>
             ),
           );
         }
-
         Map<dynamic, dynamic> data2 = data as Map<dynamic, dynamic>;
-
-// todo make sure it works
         final List<VolOpModel> reports = data2.entries.map((entry) {
           final key = entry.key;
           final value = entry.value;
           return VolOpModel(
             id: key,
-            //model name : firebase name
             name: value['op_name'],
             date: value['op_date'],
             time: value['op_time'],
@@ -238,7 +218,6 @@ class _VolunteerOpState extends State<VolunteerOp>
         }).toList();
         volOpItems.clear();
         volOpItems = reports;
-        // to do store the values
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.only(bottom: 10),
