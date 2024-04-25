@@ -69,8 +69,9 @@ class _PsychGuidanceState extends State<PsychGuidance>
                   child: Stack(
                     children: [
                       SingleChildScrollView(
+                        reverse: true,
                         child: Container(
-                          // height: MediaQuery.of(context).size.height / 2.2,
+                          height: MediaQuery.of(context).size.height / 2.4,
                           decoration: const BoxDecoration(
                             color: CustomColors.pink,
                             borderRadius: BorderRadius.only(
@@ -92,46 +93,50 @@ class _PsychGuidanceState extends State<PsychGuidance>
                     ],
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('أنت تستحق ان تكون سعيداً ',
-                              style: TextStyles.subtitlePink),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            ' تذكر...\n لا تخف من طلب المساعدة. مع الدعم المناسب , يمكنك أن تتحسن .',
-                            style: TextStyles.text2D,
-                            textAlign: TextAlign.center,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(10),
-                            padding: const EdgeInsets.symmetric(horizontal: 80),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                await Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PsychGuidanceDetails()));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(175, 40),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: CustomColors.lightBlue),
-                              child: Text("اطلب المساعدة",
-                                  style: TextStyles.btnText),
+                Expanded(
+                  child: SingleChildScrollView(
+                    reverse: false,
+                    child: Padding(
+                        padding: const EdgeInsets.all(25.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('أنت تستحق ان تكون سعيداً ',
+                                style: TextStyles.subtitlePink),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          )
-                        ],
-                      )),
+                            Text(
+                              ' تذكر...\n لا تخف من طلب المساعدة. مع الدعم المناسب , يمكنك أن تتحسن .',
+                              style: TextStyles.text2D,
+                              textAlign: TextAlign.center,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 80),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PsychGuidanceDetails()));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    fixedSize: const Size(175, 40),
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    backgroundColor: CustomColors.lightBlue),
+                                child: Text("اطلب المساعدة",
+                                    style: TextStyles.btnText),
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
                 ),
               ],
             ),
