@@ -11,8 +11,8 @@ import '../interface/StudentClubsScreen.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
 import '../interface/psychGuidance.dart';
-import '../interface/student_activity.dart';
-import '../interface/study_group.dart';
+import '../interface/student_activity_screen.dart';
+import '../interface/study_group_screen.dart';
 import '../common/theme.dart';
 
 class GridCard extends StatelessWidget {
@@ -115,13 +115,13 @@ class GridCard extends StatelessWidget {
         break;
       case 5:
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const StudyGroup()));
+            MaterialPageRoute(builder: (context) => const StudyGroupScreen()));
         break;
       case 6:
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const StudentActivity(),
+            builder: (context) => const StudentActivityScreen(),
           ),
         );
         break;

@@ -1,39 +1,40 @@
-import 'dart:async';
+// ignore_for_file: deprecated_member_use
 
+import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/create_student_activity.dart';
+import 'package:senior_project/interface/study_group_create_screen.dart';
 import 'package:senior_project/interface/services_screen.dart';
-import 'package:senior_project/model/student_activity_model.dart';
+import 'package:senior_project/model/student_group_model.dart';
 import 'package:senior_project/common/theme.dart';
-import 'package:senior_project/common/common_functions.dart';
-import 'package:senior_project/widgets/student_activity_card.dart';
+import 'package:senior_project/widgets/study_goup_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../common/firebase_api.dart';
+import '../common/common_functions.dart';
 
-class StudentActivity extends StatefulWidget {
-  const StudentActivity({super.key});
+class StudyGroupScreen extends StatefulWidget {
+  const StudyGroupScreen({super.key});
 
   @override
-  State<StudentActivity> createState() => _StudentActivityState();
+  State<StudyGroupScreen> createState() => _StudyGroupScreenState();
 }
 
-class _StudentActivityState extends State<StudentActivity>
+class _StudyGroupScreenState extends State<StudyGroupScreen>
     with SingleTickerProviderStateMixin {
   late StreamSubscription connSub;
   //search
-  List<StudentActivityModel> searchActivityList = [];
-
+  List<StudentGroupModel> searchSessionList = [];
   final _userInputController = TextEditingController();
   //filter
   bool isSearch = false;
   bool isNew = false;
+
   //create button
   late AnimationController _animationController;
-
   void checkConnectivity(List<ConnectivityResult> result) {
     switch (result[0]) {
       case ConnectivityResult.mobile || ConnectivityResult.wifi:
@@ -74,59 +75,60 @@ class _StudentActivityState extends State<StudentActivity>
 
   @override
   Widget build(BuildContext context) {
-    print('build enter');
-// ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: CustomColors.pink,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: CustomColors.pink,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: CustomColors.pink,
-            elevation: 0,
-            title: Text("أنشطة طلابية", style: TextStyles.pageTitle),
-            centerTitle: true,
-            iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ServisesScreen()));
-                  },
-                );
-              },
-            ),
-          ),
-          endDrawer: SideDrawer(
-            onProfileTap: () => goToProfilePage(context),
-          ),
-          bottomNavigationBar: buildBottomBarWF(context, 2),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: FloatingActionButton(
-            heroTag: "btn1",
-            backgroundColor: CustomColors.lightBlue,
-            hoverElevation: 10,
-            splashColor: Colors.grey,
-            tooltip: '',
-            elevation: 4,
-            onPressed: () async {
-              if (isOffline) {
-                showNetWidgetDialog(context);
-              } else {
-                await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) => const CreateStudentActivity()));
-              }
-              //_LoadCreatedActivities();
+          elevation: 0,
+          title: Text("جلسة مذاكرة", style: TextStyles.pageTitle),
+          centerTitle: true,
+          iconTheme: const IconThemeData(color: CustomColors.darkGrey),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ServisesScreen()));
+                },
+              );
             },
-            child: const Icon(Icons.add),
           ),
-          body: SafeArea(
+        ),
+        endDrawer: SideDrawer(
+          onProfileTap: () => goToProfilePage(context),
+        ),
+        bottomNavigationBar: buildBottomBarWF(context, 2),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          heroTag: "btn1",
+          backgroundColor: CustomColors.lightBlue,
+          hoverElevation: 10,
+          splashColor: CustomColors.lightGrey,
+          tooltip: '',
+          elevation: 4,
+          onPressed: () async {
+            if (isOffline) {
+              showNetWidgetDialog(context);
+            } else {
+              await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) => const StudyGroupCreateScreen()));
+            }
+          },
+          child: const Icon(Icons.add),
+        ),
+        body: ModalProgressHUD(
+          color: CustomColors.black,
+          opacity: 0.5,
+          progressIndicator: loadingFunction(context, true),
+          inAsyncCall: isLoading,
+          child: SafeArea(
             bottom: false,
             child: Column(
               children: [
@@ -144,8 +146,6 @@ class _StudentActivityState extends State<StudentActivity>
                     isOffline
                         ? Center(
                             child: SizedBox(
-                              // padding: EdgeInsets.only(bottom: 20),
-                              // alignment: Alignment.topCenter,
                               height: 200,
                               child: Image.asset(
                                   'assets/images/NoInternet_newo.png'),
@@ -164,13 +164,8 @@ class _StudentActivityState extends State<StudentActivity>
                                   textInputAction: TextInputAction.search,
                                   textAlignVertical: TextAlignVertical.bottom,
                                   textAlign: TextAlign.start,
-                                  style: const TextStyle(
-                                    color: CustomColors.darkGrey,
-                                  ),
                                   decoration: InputDecoration(
-                                    hintStyle: const TextStyle(
-                                      color: CustomColors.darkGrey,
-                                    ),
+                                    hintStyle: TextStyles.heading2D,
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(40),
                                       borderSide: const BorderSide(
@@ -183,10 +178,10 @@ class _StudentActivityState extends State<StudentActivity>
                                           color: CustomColors.darkGrey,
                                         ),
                                         onPressed: () {
-                                          searchActivityList.clear();
+                                          searchSessionList.clear();
                                           filterSearchResults(
                                               _userInputController.text,
-                                              sActivitiesItems);
+                                              studyGroupItems);
                                           FocusScope.of(context).unfocus();
                                         }),
                                     hintText: 'ابحث',
@@ -216,22 +211,21 @@ class _StudentActivityState extends State<StudentActivity>
                                   },
                                   onSubmitted: (text) {
                                     //todo the same value of on icon presed
-                                    searchActivityList.clear();
+                                    searchSessionList.clear();
                                     filterSearchResults(
                                         _userInputController.text,
-                                        sActivitiesItems);
+                                        studyGroupItems);
                                     FocusScope.of(context).unfocus();
                                   },
                                   onTap: () {
                                     isSearch = true;
-                                    searchActivityList.clear();
-                                    // searchActivityList.clear();
+                                    searchSessionList.clear();
                                   },
                                 ),
                               ),
                               if ((isSearch
-                                  ? searchActivityList.isEmpty
-                                  : sActivitiesItems.isEmpty))
+                                  ? searchSessionList.isEmpty
+                                  : studyGroupItems.isEmpty))
                                 Expanded(
                                   child: Center(
                                     child: SizedBox(
@@ -244,7 +238,7 @@ class _StudentActivityState extends State<StudentActivity>
                                     ),
                                   ),
                                 ),
-                              if (sActivitiesItems.isNotEmpty)
+                              if (studyGroupItems.isNotEmpty)
                                 Expanded(
                                     child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -254,20 +248,11 @@ class _StudentActivityState extends State<StudentActivity>
                                       child: isSearch
                                           ? ListView.builder(
                                               itemCount:
-                                                  searchActivityList.length,
+                                                  searchSessionList.length,
                                               itemBuilder: (context, index) =>
-                                                  StudentActivityCard(
-                                                      searchActivityList[
-                                                          index]))
-                                          : _buildCardList()
-                                      // ListView.builder(
-                                      //     itemCount: createStudentActivityReport.length,
-                                      //
-                                      //     itemBuilder: (context, index) =>
-                                      //             CreateStudentActivityCard(
-                                      //                 _createStudentActivityReport[
-                                      //                     index])),
-                                      ),
+                                                  StudyGroupCard(
+                                                      searchSessionList[index]))
+                                          : _buildCardList()),
                                 )),
                             ],
                           ),
@@ -275,69 +260,9 @@ class _StudentActivityState extends State<StudentActivity>
                 ))
               ],
             ),
-          )),
-    );
-  }
-
-  Widget _buildCardList() {
-    return StreamBuilder(
-      stream: FirebaseAPI.databaseReference('create-activity'),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // return loadingFunction(context, true);
-          return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            enabled: true,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 10),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return StudentActivityCard(
-                    sActivitiesItems[0]);
-              },
-            ),
-          );
-        }
-
-        final Map<dynamic, dynamic> data =
-            snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
-        if (data == null) {
-          return Text('No data available');
-        }
-
-// todo make sure it works
-        final List<StudentActivityModel> reports =
-            data.entries.map((entry) {
-          final key = entry.key;
-          final value = entry.value;
-          return StudentActivityModel(
-            numOfPerson: value['NumOfPerson'],
-            date: value['date'],
-            name: value['name'],
-            time: value['time'],
-            location: value['location'],
-            id: key,
-          );
-        }).toList();
-        sActivitiesItems.clear();
-        sActivitiesItems = reports;
-        // to do store the values
-        return ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.only(bottom: 10),
-          itemCount: reports.length,
-          itemBuilder: (context, index) {
-            final report = reports[index];
-            return StudentActivityCard(report);
-          },
-        );
-      },
+          ),
+        ),
+      ),
     );
   }
 
@@ -345,17 +270,65 @@ class _StudentActivityState extends State<StudentActivity>
     setState(() {
       for (int item = 0; item < ls.length; item++) {
         if (ls[item].name!.toLowerCase().contains(query.toLowerCase().trim())) {
-          searchActivityList.add(ls[item]);
-        } //Add
-        // else {
-        //   if (ls[item]
-        //       .category!
-        //       .toLowerCase()
-        //       .contains(query.toLowerCase().trim())) {
-        //     searchSessionList.add(ls[item]);
-        //   }
-        // }
+          searchSessionList.add(ls[item]);
+        }
       }
     });
   }
+}
+
+Widget _buildCardList() {
+  return StreamBuilder(
+    stream: FirebaseAPI.databaseReference('create-group'),
+    builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      }
+
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Colors.grey[300]!,
+          enabled: true,
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 10),
+            itemCount: studyGroupItems.length,
+            itemBuilder: (context, index) {
+              return StudyGroupCard(studyGroupItems[0]);
+            },
+          ),
+        );
+      }
+
+      final Map<dynamic, dynamic> data =
+          snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
+
+      // todo make sure it works
+      final List<StudentGroupModel> reports = data.entries.map((entry) {
+        final key = entry.key;
+        final value = entry.value;
+        return StudentGroupModel(
+          id: key,
+          name: value['name'],
+          date: value['date'],
+          time: value['time'],
+          location: value['location'],
+          numPerson: value['NumPerson'],
+        );
+      }).toList();
+      studyGroupItems.clear();
+      studyGroupItems = reports;
+      // todo store the values
+      return ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 10),
+        itemCount: reports.length,
+        itemBuilder: (context, index) {
+          final report = reports[index];
+          return StudyGroupCard(report);
+        },
+      );
+    },
+  );
 }
