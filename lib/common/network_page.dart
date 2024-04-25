@@ -6,7 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../interface/login_screen.dart';
 import 'common_functions.dart';
 import 'constant.dart';
-import '../interface/LaunchScreen.dart';
+import '../interface/launch_screen.dart';
 import 'theme.dart';
 
 class NetworkConnection extends StatefulWidget {

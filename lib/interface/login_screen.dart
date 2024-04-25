@@ -52,10 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
       await Setup.loadUserData(_enteredID);
       await Setup().build();
       Setup().build2();
+      if (mounted) {
+        Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      }
 
-      Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
+
 
     } on FirebaseAuthException catch (e) {
       setState(() {
