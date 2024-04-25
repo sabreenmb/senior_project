@@ -47,6 +47,7 @@ class _VolunteerOpState extends State<VolunteerOp>
     super.initState();
     connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
   }
+
   @override
   void dispose() {
     connSub.cancel();
@@ -121,12 +122,13 @@ class _VolunteerOpState extends State<VolunteerOp>
                                     const EdgeInsets.only(left: 15, right: 15),
                               ),
                               Expanded(
-                                        child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: MediaQuery.removePadding(
-                                            context: context,
-                                            removeTop: true,
-                                            child: _buildCardsList()),))
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: MediaQuery.removePadding(
+                                    context: context,
+                                    removeTop: true,
+                                    child: _buildCardsList()),
+                              ))
                             ],
                           ),
                   ],
@@ -149,8 +151,8 @@ class _VolunteerOpState extends State<VolunteerOp>
         if (snapshot.connectionState == ConnectionState.waiting) {
           if (volOpItems.isEmpty) {
             return Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.grey[300]!,
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
               enabled: true,
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -172,8 +174,8 @@ class _VolunteerOpState extends State<VolunteerOp>
             );
           } else {
             return Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.grey[300]!,
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
               enabled: true,
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),

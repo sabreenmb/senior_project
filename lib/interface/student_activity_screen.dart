@@ -5,7 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/student_activity_create_screen.dart';
+import 'package:senior_project/interface/student_activity_form_screen.dart';
 import 'package:senior_project/model/student_activity_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/common/common_functions.dart';
@@ -14,14 +14,14 @@ import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
 import '../common/firebase_api.dart';
 
-class StudentActivityScreen extends StatefulWidget {
-  const StudentActivityScreen({super.key});
+class StdActivityScreen extends StatefulWidget {
+  const StdActivityScreen({super.key});
 
   @override
-  State<StudentActivityScreen> createState() => _StudentActivityScreenState();
+  State<StdActivityScreen> createState() => _StdActivityScreenState();
 }
 
-class _StudentActivityScreenState extends State<StudentActivityScreen>
+class _StdActivityScreenState extends State<StdActivityScreen>
     with SingleTickerProviderStateMixin {
   late StreamSubscription connSub;
   //search
@@ -114,7 +114,7 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
                 showNetWidgetDialog(context);
               } else {
                 await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) => const StudentActivityCreateScreen()));
+                    builder: (ctx) => const StdActivityFormScreen()));
               }
             },
             child: const Icon(Icons.add),
@@ -207,7 +207,6 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
                                       setState(() {});
                                     },
                                     onSubmitted: (text) {
-                                      //todo the same value of on icon presed
                                       searchActivityList.clear();
                                       filterSearchResults(
                                           _userInputController.text,
@@ -233,23 +232,22 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
                                       ),
                                     ),
                                   ),
-                                if (sActivitiesItems.isNotEmpty)
-                                  Expanded(
-                                      child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MediaQuery.removePadding(
-                                        context: context,
-                                        removeTop: true,
-                                        child: isSearch
-                                            ? ListView.builder(
-                                                itemCount:
-                                                    searchActivityList.length,
-                                                itemBuilder: (context, index) =>
-                                                    StudentActivityCard(
-                                                        searchActivityList[
-                                                            index]))
-                                            : _buildCardList()),
-                                  )),
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MediaQuery.removePadding(
+                                      context: context,
+                                      removeTop: true,
+                                      child: isSearch
+                                          ? ListView.builder(
+                                              itemCount:
+                                                  searchActivityList.length,
+                                              itemBuilder: (context, index) =>
+                                                  StudentActivityCard(
+                                                      searchActivityList[
+                                                          index]))
+                                          : _buildCardList()),
+                                )),
                               ],
                             ),
                     ],
@@ -266,29 +264,60 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
       stream: FirebaseAPI.databaseReference('create-activity'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text('Error');
+          return const Text('حدث خطأ اثناء تحميل البيانات');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            enabled: true,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 10),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return StudentActivityCard(sActivitiesItems[0]);
-              },
+          if (sActivitiesItems.isEmpty) {
+            return Shimmer.fromColors(
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
+              enabled: true,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 10),
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return StudentActivityCard(StudentActivityModel(
+                    time: '',
+                    id: '',
+                    name: ' ',
+                    date: '',
+                    location: '',
+                    numOfPerson: '',
+                  ));
+                },
+              ),
+            );
+          } else {
+            return Shimmer.fromColors(
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
+              enabled: true,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 10),
+                itemCount: sActivitiesItems.length,
+                itemBuilder: (context, index) {
+                  return StudentActivityCard(sActivitiesItems[index]);
+                },
+              ),
+            );
+          }
+        }
+
+        final data = snapshot.data?.snapshot.value;
+        if (data == null || data == 'placeholder') {
+          return Center(
+            child: SizedBox(
+              height: 200,
+              child:
+                  Image.asset('assets/images/no_content_removebg_preview.png'),
             ),
           );
         }
+        Map<dynamic, dynamic> data2 = data as Map<dynamic, dynamic>;
 
-        final Map<dynamic, dynamic> data =
-            snapshot.data?.snapshot.value as Map<dynamic, dynamic>;
-
-        // todo make sure it works
-        final List<StudentActivityModel> reports = data.entries.map((entry) {
+        final List<StudentActivityModel> reports = data2.entries.map((entry) {
           final key = entry.key;
           final value = entry.value;
           return StudentActivityModel(
@@ -302,7 +331,6 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
         }).toList();
         sActivitiesItems.clear();
         sActivitiesItems = reports;
-        // todo store the values
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.only(bottom: 10),

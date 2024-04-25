@@ -30,7 +30,7 @@ class Setup {
     loadWorkshops();
     loadConferences();
     loadOtherEvents();
-   // loadVolOp();
+    // loadVolOp();
     await loadOffers();
   }
 
@@ -592,7 +592,7 @@ class Setup {
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
         if (getValidityF(item.value['date'])) {
-          studyGroupItems.add(StudentGroupModel(
+          studyGroupItems.add(StudyGroupModel(
             id: item.key,
             name: item.value['name'],
             date: item.value['date'],

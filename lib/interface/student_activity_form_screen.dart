@@ -11,16 +11,16 @@ import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
 
-class StudentActivityCreateScreen extends StatefulWidget {
-  const StudentActivityCreateScreen({super.key});
+class StdActivityFormScreen extends StatefulWidget {
+  const StdActivityFormScreen({super.key});
 
   @override
-  State<StudentActivityCreateScreen> createState() =>
-      _StudentActivityCreateScreenState();
+  State<StdActivityFormScreen> createState() =>
+      _StdActivityFormScreenState();
 }
 
-class _StudentActivityCreateScreenState
-    extends State<StudentActivityCreateScreen> {
+class _StdActivityFormScreenState
+    extends State<StdActivityFormScreen> {
   StudentActivityModel studentActivityItem = StudentActivityModel(
       id: '', name: '', date: '', time: '', location: '', numOfPerson: '');
   DateTime _selectedDate = DateTime.now();

@@ -10,7 +10,7 @@ import '../interface/OffersListScreen.dart';
 import '../interface/student_clubs_screen.dart';
 import '../interface/vol_op_screen.dart';
 import '../interface/event_screen.dart';
-import '../interface/psychGuidance.dart';
+import '../interface/psych_guidance.dart';
 import '../interface/student_activity_screen.dart';
 import '../interface/study_group_screen.dart';
 import '../common/theme.dart';
@@ -121,7 +121,7 @@ class GridCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const StudentActivityScreen(),
+            builder: (context) => const StdActivityScreen(),
           ),
         );
         break;

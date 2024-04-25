@@ -12,14 +12,14 @@ import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
 
-class StudyGroupCreateScreen extends StatefulWidget {
-  const StudyGroupCreateScreen({super.key});
+class StudyGroupFormScreen extends StatefulWidget {
+  const StudyGroupFormScreen({super.key});
 
   @override
-  State<StudyGroupCreateScreen> createState() => _StudyGroupCreateScreenState();
+  State<StudyGroupFormScreen> createState() => _StudyGroupFormScreenState();
 }
 
-class _StudyGroupCreateScreenState extends State<StudyGroupCreateScreen> {
+class _StudyGroupFormScreenState extends State<StudyGroupFormScreen> {
   List<String> subjectsList = [
     'ESPE 201 - مقدمة تربية خاصة',
     'ELPR 101 - لغة انجليزية',
@@ -32,7 +32,7 @@ class _StudyGroupCreateScreenState extends State<StudyGroupCreateScreen> {
     'CCSW 438 - مواضيع متقدمة في هندسة برمجيات',
     'اخرى'
   ];
-  StudentGroupModel studentGroupItem = StudentGroupModel(
+  StudyGroupModel studentGroupItem = StudyGroupModel(
       id: '', name: '', date: '', time: '', location: '', numPerson: '');
   String? _selectedSubject;
   DateTime _selectedDate = DateTime.now();

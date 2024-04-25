@@ -29,7 +29,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    //todo move it to the login screen
     network();
 
     homeCards();
@@ -157,7 +156,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
                 ),
               )
             : HomeOfferCard(recommendedOffers[0]);
-        ;
       },
     );
   }
