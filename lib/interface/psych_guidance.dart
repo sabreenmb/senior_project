@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/common/common_functions.dart';
+import 'package:senior_project/interface/services_screen.dart';
+
 import '../common/constant.dart';
 import '../common/theme.dart';
 import '../widgets/side_menu.dart';
-
 import 'psych_guidance_details.dart';
 
 class PsychGuidance extends StatefulWidget {
@@ -68,23 +68,25 @@ class _PsychGuidanceState extends State<PsychGuidance>
                 Expanded(
                   child: Stack(
                     children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height / 2.2,
-                        decoration: const BoxDecoration(
-                          color: CustomColors.pink,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(50),
-                            bottomRight: Radius.circular(50),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/brain.png',
-                              fit: BoxFit.contain,
+                      SingleChildScrollView(
+                        child: Container(
+                          // height: MediaQuery.of(context).size.height / 2.2,
+                          decoration: const BoxDecoration(
+                            color: CustomColors.pink,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(50),
+                              bottomRight: Radius.circular(50),
                             ),
-                          ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/brain.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

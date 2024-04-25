@@ -1,13 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/common/common_functions.dart';
+import 'package:senior_project/interface/services_screen.dart';
+
 import '../common/constant.dart';
 import '../common/theme.dart';
 import 'Chat_Pages/chat_screen.dart';
@@ -103,7 +104,7 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                       children: [
                         Container(
                           margin: const EdgeInsets.only(
-                              left: 12, right: 12, bottom: 90, top: 30),
+                              left: 12, right: 12, bottom: 45, top: 10),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -227,11 +228,9 @@ class _PsychGuidanceState extends State<PsychGuidanceDetails>
                             ],
                           ),
                         ),
-                        Container(
-                          child: Image.asset(
-                            'assets/images/mind-removebg.png',
-                            fit: BoxFit.fill,
-                          ),
+                        Image.asset(
+                          'assets/images/mind-removebg.png',
+                          fit: BoxFit.fill,
                         ),
                       ],
                     ),
