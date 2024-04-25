@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/common/common_functions.dart';
+import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/home_offer_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:shimmer/shimmer.dart';
@@ -37,7 +34,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -60,7 +56,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
           child: SafeArea(
             bottom: false,
             child: Column(
-              // mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 15),
                 Expanded(
@@ -103,9 +98,6 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildCard() {
-    // List<dynamic> categoryList = offers[1]['categoryList'];
-    // bool autoplayEnabled = categoryList.length > 1;
-
     return FutureBuilder(
       future: Future.wait(
         recommendedOffers.map((offer) =>
@@ -114,8 +106,8 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Shimmer.fromColors(
-            baseColor: Colors.white,
-            highlightColor: Colors.grey[300]!,
+            baseColor: CustomColors.white,
+            highlightColor: CustomColors.highlightColor,
             enabled: true,
             child: CarouselSlider(
               items: [
@@ -167,19 +159,13 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
         alignment: Alignment.centerRight,
         child: Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: CustomColors.darkGrey,
-          ),
+          style: TextStyles.heading1D,
         ),
       ),
     );
   }
 
   Widget _buildHorizontalScrollableCards(List<DynamicItemModel> details) {
-    print('fiss');
-    print(courseItems.length);
     return Container(
       height: 240,
       child: ListView.builder(
