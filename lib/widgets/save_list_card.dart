@@ -4,7 +4,7 @@ import 'package:senior_project/interface/student_activity_screen.dart';
 import 'package:senior_project/interface/study_group_screen.dart';
 
 import '../common/constant.dart';
-import '../interface/VolunteerOpportunities.dart';
+import '../interface/vol_op_screen.dart';
 import '../interface/event_screen.dart';
 import '../model/saved_list_model.dart';
 import '../common/theme.dart';
