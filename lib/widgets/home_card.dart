@@ -26,12 +26,12 @@ class _HomeCardState extends State<HomeCard> {
     return InkWell(
       onTap: () {
         if (widget.serviceName == 'volunteerOp') {
-          Navigator.pushReplacement(
+          Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => const VolunteerOp()));
         } else {
-          Navigator.pushReplacement(
+          Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => const EventScreen()));

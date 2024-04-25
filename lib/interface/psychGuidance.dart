@@ -55,10 +55,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
               return IconButton(
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ServicesScreen()));
+                  Navigator.pop(context);
                 },
               );
             },

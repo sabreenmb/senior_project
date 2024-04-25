@@ -16,10 +16,10 @@ class SavedListModel {
     'volunteerOp': 'فرصة تطوعية',
     'conferences': 'مؤتمر',
     'studentActivities': 'نشاط طلابي',
-    'cources': 'دورة',
+    'courses': 'دورة',
     'workshops': 'ورشة عمل',
-    'otherEvents': 'أخرى',
-    'studyGroubs': 'جلسة مذاكرة',
+    'otherEvents': 'فعاليات أخرى',
+    'studyGroups': 'جلسة مذاكرة',
   };
   static bool findId(String id) {
     bool isSaved = false;

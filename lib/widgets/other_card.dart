@@ -24,7 +24,7 @@ class _OtherCardState extends State<OtherCard> {
     SavedListModel savedItem = SavedListModel(
         serviceName: 'otherEvents',
         dynamicObject: widget.otherEventsItem,
-        icon: services[6]['icon']);
+        icon: services[4]['icon']);
     isSaved = SavedListModel.findId(widget.otherEventsItem.id.toString());
 
     return Card(

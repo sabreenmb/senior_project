@@ -1,9 +1,9 @@
+
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
@@ -52,6 +52,7 @@ class _StudentClubsState extends State<StudentClubsScreen>
     connSub.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,13 +67,10 @@ class _StudentClubsState extends State<StudentClubsScreen>
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ServicesScreen()));},
-            );
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                });
           },
         ),
       ),
@@ -111,7 +109,8 @@ class _StudentClubsState extends State<StudentClubsScreen>
                       : Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 15.0),
-                          child: _buildSClubsList(),),
+                          child: _buildSClubsList(),
+                        ),
                 ],
               ))
             ],

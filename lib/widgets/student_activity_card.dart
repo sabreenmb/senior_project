@@ -25,7 +25,6 @@ class _StudentActivityCardState extends State<StudentActivityCard> {
         dynamicObject: widget.studentActivity,
         icon: services[6]['icon']);
     isSaved = SavedListModel.findId(widget.studentActivity.id.toString());
-
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(

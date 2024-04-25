@@ -1,26 +1,18 @@
+
+// ignore_for_file: deprecated_member_use
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_svg/svg.dart';
+import '../common/common_functions.dart';
 import '../model/student_club_model.dart';
 import '../common/theme.dart';
 
-class StudentClubDetails extends StatefulWidget {
-  StudentClubModel clubDetails;
-  StudentClubDetails(this.clubDetails, {super.key});
-  @override
-  State<StudentClubDetails> createState() => _StudentClubDetailsState();
-}
-
-class _StudentClubDetailsState extends State<StudentClubDetails> {
-  bool isClicked = false;
+class SClubDetailsScreen extends StatelessWidget {
+  final StudentClubModel sClubDetails;
+  const SClubDetailsScreen(this.sClubDetails, {super.key});
   @override
   Widget build(BuildContext context) {
-    StudentClubModel clubDetails = widget.clubDetails;
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -55,10 +47,6 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                             color: CustomColors.white),
                         onPressed: () {
                           Navigator.pop(context);
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => SearchScreen()));
                         },
                       ),
                     ),
@@ -83,7 +71,7 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                               height: 50,
                             ),
                             Text(
-                              clubDetails.name!,
+                              sClubDetails.name!,
                               textAlign: TextAlign.center,
                               style: TextStyles.heading1D,
                               maxLines: 2,
@@ -94,7 +82,7 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                             Expanded(
                               child: Center(
                                 child: Text(
-                                  clubDetails.details!,
+                                  sClubDetails.details!,
                                   textAlign: TextAlign.center,
                                   maxLines: 8,
                                   overflow: TextOverflow.ellipsis,
@@ -106,11 +94,11 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                               height: 15,
                             ),
                             _buildInfoColumn(
-                                "قائد/ة النادي:  ", clubDetails.leader!),
+                                "قائد/ة النادي:  ", sClubDetails.leader!),
                             _buildInfoColumn(
-                                "موعد فتح التسجيل:  ", clubDetails.regTime!),
+                                "موعد فتح التسجيل:  ", sClubDetails.regTime!),
                             _buildInfoColumn(
-                                "وسيلة التواصل : ", clubDetails.contact!),
+                                "وسيلة التواصل : ", sClubDetails.contact!),
                           ],
                         ),
                       ),
@@ -134,46 +122,38 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
                       ),
-                      child: ClipRRect(
+
+                      child:  ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          height: 80,
                           margin: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
-                          child: clubDetails.logo == "empty"
-                              ? Image(
-                                  image:
-                                      AssetImage('assets/images/logo-icon.png'))
-                              : FutureBuilder<void>(
-                                  future: precacheImage(
-                                    CachedNetworkImageProvider(
-                                        clubDetails.logo!),
-                                    context,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Shimmer.fromColors(
-                                        baseColor: Colors.white,
-                                        highlightColor: Colors.grey[300]!,
-                                        enabled: true,
-                                        child: Container(
-                                          color: Colors.white,
-                                        ),
-                                      );
-                                    } else if (snapshot.hasError) {
-                                      return Text(
-                                          'Error loading image'); // Handle error loading image
-                                    } else {
-                                      return CachedNetworkImage(
-                                        imageUrl: clubDetails.logo!,
-                                        fit: BoxFit.contain,
-                                      );
-                                    }
-                                  },
-                                ),
+                          height: 80,
+                          child: sClubDetails.logo == "empty"
+                              ? Container(
+                              alignment: Alignment.center,
+                              child: SvgPicture.asset(
+                                'assets/icons/students-clubs.svg',
+                                height: 100,
+                                width: 100,
+                                color: CustomColors.darkGrey,
+                              ))
+                              : CachedNetworkImage(
+                              fit: BoxFit.contain,
+                              imageUrl: sClubDetails.logo!,
+                              errorWidget: (context, url, error) =>
+                                  Container(
+                                      alignment: Alignment.center,
+                                      child: SvgPicture.asset(
+                                        'assets/icons/students-clubs.svg',
+                                        height: 100,
+                                        width: 100,
+                                        color: CustomColors.darkGrey,
+                                      ))
+                          ),
                         ),
                       ),
+
                     ),
                   ),
                 ],
@@ -185,7 +165,7 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        if (clubDetails.membersLink == "") {
+                        if (sClubDetails.membersLink == "") {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: const Text('التسجيل غير متاح حاليًا. '),
@@ -198,7 +178,7 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                             ),
                           );
                         } else {
-                          _launchURL(clubDetails.membersLink!, context);
+                          launchURL(sClubDetails.membersLink!, context);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -207,13 +187,13 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(27),
                         ),
-                        backgroundColor: CustomColors.lightBlue,
+                        backgroundColor: sClubDetails.membersLink == ""?CustomColors.lightGrey:CustomColors.lightBlue,
                       ),
                       child: Text("انضم للأعضاء", style: TextStyles.btnText),
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (clubDetails.mngLink == "") {
+                        if (sClubDetails.mngLink == "") {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: const Text('التسجيل غير متاح حاليًا. '),
@@ -226,7 +206,7 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                             ),
                           );
                         } else {
-                          _launchURL(clubDetails.mngLink!, context);
+                          launchURL(sClubDetails.mngLink!, context);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -235,7 +215,7 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(27),
                         ),
-                        backgroundColor: CustomColors.lightBlue,
+                        backgroundColor:sClubDetails.mngLink == ""?CustomColors.lightGrey: CustomColors.lightBlue,
                       ),
                       child: Text("انضم للإدارة", style: TextStyles.btnText),
                     ),
@@ -249,27 +229,9 @@ class _StudentClubDetailsState extends State<StudentClubDetails> {
     );
   }
 
-  Future<void> _launchURL(String? urlString, BuildContext context) async {
-    if (urlString == null || urlString.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('The URL is not available.')),
-      );
-      return;
-    }
-    final Uri url = Uri.parse(urlString);
-
-    if (!await launchUrl(url)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not launch $urlString')),
-      );
-    }
-  }
-
   Widget _buildInfoColumn(String label, String value) {
-    double width = MediaQuery.of(context).size.width / 20;
-    print(width);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 35, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

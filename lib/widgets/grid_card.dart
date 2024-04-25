@@ -80,13 +80,13 @@ class GridCard extends StatelessWidget {
   void _navigateOnServises(BuildContext context) {
     switch (i) {
       case 0:
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => const LostAndFoundScreen()));
         break;
       case 1:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const VolunteerOp(),
@@ -94,11 +94,11 @@ class GridCard extends StatelessWidget {
         );
         break;
       case 2:
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const OffersListScreen()));
         break;
       case 3:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const StudentClubsScreen(),
@@ -106,7 +106,7 @@ class GridCard extends StatelessWidget {
         );
         break;
       case 4:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const EventScreen(),
@@ -114,11 +114,11 @@ class GridCard extends StatelessWidget {
         );
         break;
       case 5:
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const StudyGroupScreen()));
         break;
       case 6:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const StudentActivityScreen(),
@@ -126,7 +126,7 @@ class GridCard extends StatelessWidget {
         );
         break;
       case 7:
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const Clinic(),
@@ -134,7 +134,7 @@ class GridCard extends StatelessWidget {
       );
       break;
       case 8:
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const PsychGuidance(),

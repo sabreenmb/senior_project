@@ -80,6 +80,10 @@ class _EventState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final previousRoute = ModalRoute.of(context)?.settings;
+
+    print('ouna2');
+    print(previousRoute);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -97,10 +101,7 @@ class _EventState extends State<EventScreen> {
                 return IconButton(
                   icon: const Icon(Icons.arrow_back_ios),
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ServicesScreen()));
+                    Navigator.pop(context);
                   },
                 );
               },

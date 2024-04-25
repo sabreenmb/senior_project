@@ -7,20 +7,11 @@ import 'package:senior_project/widgets/side_menu.dart';
 
 class SaveListScreen extends StatefulWidget {
   const SaveListScreen({super.key});
-
   @override
   State<SaveListScreen> createState() => _SaveListScreenState();
 }
-
 class _SaveListScreenState extends State<SaveListScreen>
     with SingleTickerProviderStateMixin {
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +24,6 @@ class _SaveListScreenState extends State<SaveListScreen>
         title: Text("قائمة المحفوظات", style: TextStyles.pageTitle),
         centerTitle: false,
         iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-        // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
       ),
       endDrawer: SideDrawer(
         onProfileTap: () => goToProfilePage(context),
@@ -61,13 +51,10 @@ class _SaveListScreenState extends State<SaveListScreen>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
                   ),
-                  // child: _buildItems(),
                 ),
                 saveList.isEmpty?
                     Center(child: Text('لا توجد محفوظات',style: TextStyles.pageTitle2)):
-
                 _buildItems(),
-
               ],
             ))
           ],
@@ -77,20 +64,15 @@ class _SaveListScreenState extends State<SaveListScreen>
   }
 
   Widget _buildItems() {
-
     return  Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
-          // scrollDirection: Axis.,
           itemCount: saveList.length,
           itemBuilder: (context, index) => SaveCard(
                 saveList[index].item,
                 saveList[index].serviceName,
                 saveList[index].icon,
               )),
-
-      // ),
-      // ),
     );
   }
 }

@@ -21,7 +21,7 @@ class _CoursesCardState extends State<CoursesCard> {
   Widget build(BuildContext context) {
     bool isSaved;
     SavedListModel savedItem = SavedListModel(
-        serviceName: 'cources',
+        serviceName: 'courses',
         dynamicObject: widget.courseItem,
         icon: services[4]['icon']);
     isSaved = SavedListModel.findId(widget.courseItem.id.toString());

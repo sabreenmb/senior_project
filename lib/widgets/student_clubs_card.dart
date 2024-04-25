@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
-import '../interface/StudentClubDetails.dart';
+import '../interface/student_clubs_details_screen.dart';
 import '../model/student_club_model.dart';
 import '../common/theme.dart';
 
@@ -19,7 +19,7 @@ class StudentClubCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => StudentClubDetails(sClubDetails)));
+                builder: (context) => SClubDetailsScreen(sClubDetails)));
       },
       child: Container(
         decoration: BoxDecoration(

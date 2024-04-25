@@ -110,13 +110,13 @@ class Setup {
       saveItemsCollection.doc('workshops').set({
         'items': items,
       });
-      saveItemsCollection.doc('cources').set({
+      saveItemsCollection.doc('courses').set({
         'items': items,
       });
       saveItemsCollection.doc('otherEvents').set({
         'items': items,
       });
-      saveItemsCollection.doc('studyGroubs').set({
+      saveItemsCollection.doc('studyGroups').set({
         'items': items,
       });
       saveItemsCollection.doc('studentActivities').set({
@@ -263,7 +263,7 @@ class Setup {
 
     try {
       DocumentSnapshot documentSnapshot =
-          await userProfileDoc.collection("saveItems").doc('cources').get();
+          await userProfileDoc.collection("saveItems").doc('courses').get();
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
       var items = data['items'] as List<dynamic>;
@@ -426,7 +426,7 @@ class Setup {
             otherItems.indexWhere((item) => item.id.toString() == id);
         if (flag) {
           saveList.add(DynamicItemModel(
-              serviceName: 'أخرى',
+              serviceName: 'فعاليات أخرى',
               item: otherItems[matchingIndex],
               icon: services[4]['icon']));
         }
@@ -574,7 +574,7 @@ class Setup {
           saveList.add(DynamicItemModel(
               serviceName: 'نشاط طلابي',
               item: sActivitiesItems[matchingIndex],
-              icon: services[1]['icon']));
+              icon: services[6]['icon']));
         }
       }
     } catch (e) {
@@ -610,7 +610,7 @@ class Setup {
 
     try {
       DocumentSnapshot documentSnapshot =
-          await userProfileDoc.collection("saveItems").doc('studyGroubs').get();
+          await userProfileDoc.collection("saveItems").doc('studyGroups').get();
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
       var items = data['items'] as List<dynamic>;

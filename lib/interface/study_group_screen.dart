@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/interface/study_group_create_screen.dart';
-import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/student_group_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/study_goup_card.dart';
@@ -92,10 +91,7 @@ class _StudyGroupScreenState extends State<StudyGroupScreen>
               return IconButton(
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ServicesScreen()));
+                  Navigator.pop(context);
                 },
               );
             },

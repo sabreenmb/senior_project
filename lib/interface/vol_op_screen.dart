@@ -3,7 +3,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/model/vol_op_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/op_card.dart';
@@ -74,10 +73,7 @@ class _VolunteerOpState extends State<VolunteerOp>
               return IconButton(
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ServicesScreen()));
+                  Navigator.pop(context);
                 },
               );
             },
