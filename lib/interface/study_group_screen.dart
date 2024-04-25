@@ -95,7 +95,7 @@ class _StudyGroupScreenState extends State<StudyGroupScreen>
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ServisesScreen()));
+                          builder: (context) => const ServicesScreen()));
                 },
               );
             },

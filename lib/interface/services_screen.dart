@@ -1,72 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:senior_project/interface/Chat_Pages/current_chats.dart';
-import 'package:senior_project/interface/ProfilePage.dart';
 import 'package:senior_project/widgets/side_menu.dart';
-
+import '../common/common_functions.dart';
 import '../common/constant.dart';
 import '../common/theme.dart';
 import '../widgets/grid_card.dart';
-import 'HomeScreen.dart';
-import 'save_list_screen.dart';
 
-class ServisesScreen extends StatefulWidget {
-  const ServisesScreen({super.key});
+
+class ServicesScreen extends StatefulWidget {
+  const ServicesScreen({super.key});
 
   @override
-  State<ServisesScreen> createState() => _ServisesState();
+  State<ServicesScreen> createState() => _ServicesState();
 }
 
-class _ServisesState extends State<ServisesScreen> {
-  // ignore: unused_field
-  int _selectedPageIndex = 1;
+class _ServicesState extends State<ServicesScreen> {
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
-
-    //Move it to approprite place (home screen maybe)
-    // notificationServices.getFirebaseMessagingToken();
-    notificationServices.forgroundMessage();
-    notificationServices.firebaseInit(context);
-    notificationServices.setupInteractMessage(context);
-    // notificationServices.isTokenRefresh();
-
-    // notificationServices.getDeviceToken().then((value) {
-    //   if (kDebugMode) {
-    //     print('device token');
-    //     print(value);
-    //   }
-    // });
-  }
-
-  void _selectPage(int index) {
-    setState(() {
-      if (index == 0) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-      } else if (index == 1) {
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (_) => ServisesScreen()));
-      } else if (index == 2) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const CurrentChats()));
-      } else if (index == 3) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const SaveListScreen()));
-      }
-      _selectedPageIndex = index;
-    });
-  }
-
-  void goToProfilePage() {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
-    );
+    //todo notification testing
+    // notificationServices.forgroundMessage();
+    // notificationServices.firebaseInit(context);
+    // notificationServices.setupInteractMessage(context);
   }
 
   @override
@@ -83,47 +37,11 @@ class _ServisesState extends State<ServisesScreen> {
           title: Text("الخدمات", style: TextStyles.pageTitle),
           centerTitle: false,
           iconTheme: const IconThemeData(color: CustomColors.darkGrey),
-          // Drawer: SideDrawer(onProfileTap: goToProfilePage, )
         ),
         endDrawer: SideDrawer(
-          onProfileTap: goToProfilePage,
+          onProfileTap:  () => goToProfilePage(context),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 0.1,
-          clipBehavior: Clip.none,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight * 1.2,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: BottomNavigationBar(
-                onTap: _selectPage,
-                unselectedItemColor: CustomColors.darkGrey,
-                selectedItemColor: CustomColors.lightBlue,
-                currentIndex: 1,
-                items: const [
-                  BottomNavigationBarItem(
-                    label: 'الرئيسية',
-                    icon: Icon(Icons.home_outlined),
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.apps), label: 'الخدمات'),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.messenger_outline,
-                      ),
-                      label: 'الدردشة'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark_border), label: 'المحفوظات'),
-                ],
-              ),
-            ),
-          ),
-        ),
+          bottomNavigationBar: buildBottomBar(context, 1, true),
         body: SafeArea(
           bottom: false,
           child: Column(
@@ -149,12 +67,7 @@ class _ServisesState extends State<ServisesScreen> {
                                 mainAxisSpacing: 25.0,
                                 crossAxisSpacing: 10.0,
                                 childAspectRatio: 1.3),
-                        itemCount: services.length,
-                        itemBuilder: (context, i) => GridCard(
-                              services[i],
-                              i,
-                              true,
-                            )),
+                        itemCount: services.length, itemBuilder: (context, i) => GridCard(services[i], i, true,)),
                   ),
                 ],
               ))

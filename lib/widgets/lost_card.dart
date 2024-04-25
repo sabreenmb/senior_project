@@ -89,7 +89,8 @@ class LostCard extends StatelessWidget {
                       },
                     ),
                   ),
-                ),                Expanded(
+                ),
+                Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15.0, vertical: 5),

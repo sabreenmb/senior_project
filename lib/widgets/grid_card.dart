@@ -7,7 +7,7 @@ import 'package:senior_project/interface/OfferCategoryScreen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import '../interface/OffersListScreen.dart';
-import '../interface/StudentClubsScreen.dart';
+import '../interface/student_clubs_screen.dart';
 import '../interface/VolunteerOpportunities.dart';
 import '../interface/event_screen.dart';
 import '../interface/psychGuidance.dart';

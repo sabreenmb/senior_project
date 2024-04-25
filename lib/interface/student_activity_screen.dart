@@ -96,7 +96,7 @@ class _StudentActivityScreenState extends State<StudentActivityScreen>
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ServisesScreen()));
+                            builder: (context) => const ServicesScreen()));
                   },
                 );
               },

@@ -70,7 +70,7 @@ class _ClinicState extends State<Clinic> with SingleTickerProviderStateMixin {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ServisesScreen()));
+                          builder: (context) => const ServicesScreen()));
                 },
               );
             },

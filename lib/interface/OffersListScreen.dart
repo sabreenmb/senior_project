@@ -42,7 +42,7 @@ class _OffersListState extends State<OffersListScreen> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ServisesScreen()));
+                          builder: (context) => const ServicesScreen()));
                 },
               );
             },

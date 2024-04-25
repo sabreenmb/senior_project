@@ -31,7 +31,7 @@ Widget buildBottomBarWF(BuildContext context, int index) {
                   MaterialPageRoute(builder: (_) => const HomeScreen()));
             } else if (newIndex == 1) {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const ServisesScreen()));
+                  MaterialPageRoute(builder: (_) => const ServicesScreen()));
             } else if (newIndex == 3) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) => const CurrentChats()));
@@ -91,7 +91,7 @@ Widget buildBottomBar(BuildContext context, int index, bool isService,
                   MaterialPageRoute(builder: (_) => const HomeScreen()));
             } else if (newIndex == 1) {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const ServisesScreen()));
+                  MaterialPageRoute(builder: (_) => const ServicesScreen()));
             } else if (newIndex == 2) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) => const CurrentChats()));

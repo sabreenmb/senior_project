@@ -77,7 +77,7 @@ class _VolunteerOpState extends State<VolunteerOp>
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ServisesScreen()));
+                          builder: (context) => const ServicesScreen()));
                 },
               );
             },

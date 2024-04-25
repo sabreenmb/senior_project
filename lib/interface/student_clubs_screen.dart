@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/interface/services_screen.dart';
 import 'package:senior_project/widgets/side_menu.dart';
-
 import '../common/constant.dart';
 import '../common/theme.dart';
 import '../widgets/student_clubs_card.dart';
@@ -20,7 +19,6 @@ class StudentClubsScreen extends StatefulWidget {
 
 class _StudentClubsState extends State<StudentClubsScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
   late StreamSubscription connSub;
   void checkConnectivity(List<ConnectivityResult> result) {
     switch (result[0]) {
@@ -47,35 +45,13 @@ class _StudentClubsState extends State<StudentClubsScreen>
   void initState() {
     super.initState();
     connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
   }
 
   @override
   void dispose() {
     connSub.cancel();
-
-    _animationController.dispose();
     super.dispose();
   }
-
-  // ignore: unused_field
-
-  Widget _buildSClubsList() {
-    return GridView(
-      physics: const BouncingScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20.0,
-          crossAxisSpacing: 10.0,
-          childAspectRatio: 1.1),
-      children: sClubsItems.map<Widget>((doc) => StudentClubCard(doc)).toList(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,8 +71,7 @@ class _StudentClubsState extends State<StudentClubsScreen>
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ServisesScreen()));
-              },
+                        builder: (context) => const ServicesScreen()));},
             );
           },
         ),
@@ -106,7 +81,7 @@ class _StudentClubsState extends State<StudentClubsScreen>
       ),
       bottomNavigationBar: buildBottomBar(context, 1, true),
       body: ModalProgressHUD(
-        color: Colors.black,
+        color: CustomColors.black,
         opacity: 0.5,
         progressIndicator: loadingFunction(context, true),
         inAsyncCall: isLoading,
@@ -128,8 +103,6 @@ class _StudentClubsState extends State<StudentClubsScreen>
                   isOffline
                       ? Center(
                           child: SizedBox(
-                            // padding: EdgeInsets.only(bottom: 20),
-                            // alignment: Alignment.topCenter,
                             height: 200,
                             child: Image.asset(
                                 'assets/images/NoInternet_newo.png'),
@@ -138,14 +111,25 @@ class _StudentClubsState extends State<StudentClubsScreen>
                       : Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 15.0),
-                          child: _buildSClubsList(),
-                        ),
+                          child: _buildSClubsList(),),
                 ],
               ))
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSClubsList() {
+    return GridView(
+      physics: const BouncingScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 20.0,
+          crossAxisSpacing: 10.0,
+          childAspectRatio: 1.1),
+      children: sClubsItems.map<Widget>((doc) => StudentClubCard(doc)).toList(),
     );
   }
 }

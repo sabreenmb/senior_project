@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 import '../interface/StudentClubDetails.dart';
 import '../model/student_club_model.dart';
@@ -42,41 +43,31 @@ class StudentClubCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
                 height: 80,
-                margin: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 20.0),
                 child: sClubDetails.logo == "empty"
-                    ? const Image(
-                        image: AssetImage('assets/images/logo-icon.png'))
-                    : FutureBuilder<void>(
-                        future: precacheImage(
-                          CachedNetworkImageProvider(sClubDetails.logo!),
-                          context,
-                        ),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Shimmer.fromColors(
-                              baseColor: Colors.white,
-                              highlightColor: Colors.grey[300]!,
-                              enabled: true,
-                              child: Container(
-                                color: Colors.white,
-                              ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return const Text(
-                                'Error loading image'); // Handle error loading image
-                          } else {
-                            return CachedNetworkImage(
-                              imageUrl: sClubDetails.logo!,
-                              fit: BoxFit.cover,
-                            );
-                          }
-                        },
-                      ),
+                    ? Container(
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      'assets/icons/students-clubs.svg',
+                      height: 100,
+                      width: 100,
+                      color: CustomColors.darkGrey,
+                    ))
+                    : CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: sClubDetails.logo!,
+                    errorWidget: (context, url, error) =>
+                        Container(
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              'assets/icons/students-clubs.svg',
+                              height: 100,
+                              width: 100,
+                              color: CustomColors.darkGrey,
+                            ))
+                ),
               ),
             ),
             Text(
@@ -84,6 +75,7 @@ class StudentClubCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyles.heading1L,
               maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

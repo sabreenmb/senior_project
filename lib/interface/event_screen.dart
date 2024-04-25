@@ -100,7 +100,7 @@ class _EventState extends State<EventScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ServisesScreen()));
+                            builder: (context) => const ServicesScreen()));
                   },
                 );
               },

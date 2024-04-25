@@ -119,7 +119,7 @@ class _LostAndFoundState extends State<LostAndFoundScreen>
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ServisesScreen()));
+                          builder: (context) => const ServicesScreen()));
                 },
               );
             },
