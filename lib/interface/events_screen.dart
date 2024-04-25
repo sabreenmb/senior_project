@@ -1,7 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -16,11 +15,9 @@ import 'package:senior_project/widgets/other_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
 import 'package:senior_project/widgets/workshop_card.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../common/firebase_api.dart';
 import '../common/common_functions.dart';
 import '../widgets/course_card.dart';
-import 'services_screen.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({super.key});
@@ -80,10 +77,7 @@ class _EventState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final previousRoute = ModalRoute.of(context)?.settings;
-
-    print('ouna2');
-    print(previousRoute);
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -112,7 +106,7 @@ class _EventState extends State<EventScreen> {
           ),
           bottomNavigationBar: buildBottomBar(context, 1, true),
           body: ModalProgressHUD(
-              color: Colors.black,
+              color: CustomColors.black,
               opacity: 0.5,
               progressIndicator: loadingFunction(context, true),
               inAsyncCall: isLoading,
@@ -132,8 +126,6 @@ class _EventState extends State<EventScreen> {
                       isOffline
                           ? Center(
                               child: SizedBox(
-                                // padding: EdgeInsets.only(bottom: 20),
-                                // alignment: Alignment.topCenter,
                                 height: 200,
                                 child: Image.asset(
                                     'assets/images/NoInternet_newo.png'),
@@ -209,11 +201,6 @@ class _EventState extends State<EventScreen> {
                                     setState(() {});
                                   },
                                   onSubmitted: (text) {
-                                    // isSelected
-                                    //     ? searchCourseList.clear()
-                                    //     : searchWorkshopList.clear();
-                                    // searchConfList.clear();
-                                    // searchOtherList.clear();
                                     filterSearchResults(
                                       _userInputController.text,
                                       isSelectedCourse
@@ -226,7 +213,6 @@ class _EventState extends State<EventScreen> {
                                                       ? otherItems
                                                       : [],
                                     );
-
                                     FocusScope.of(context).unfocus();
                                   },
                                   onTap: () {
@@ -250,11 +236,9 @@ class _EventState extends State<EventScreen> {
                                     children: [
                                       getFilterButton(() {
                                         FocusScope.of(context).unfocus();
-
                                         if (!isSelectedCourse) {
                                           isSelectedCourse = !isSelectedCourse;
                                           setState(() {
-                                            // searchList = getValidCertificates();
                                             if (isSelectedCourse == true) {
                                               isSelectedConfre = false;
                                               isSelectedWorkshop = false;
@@ -269,16 +253,14 @@ class _EventState extends State<EventScreen> {
                                       },
                                           isSelectedCourse
                                               ? CustomColors.pink
-                                              : Colors.transparent,
+                                              : CustomColors.noColor,
                                           "الدورات"),
                                       getFilterButton(() {
                                         FocusScope.of(context).unfocus();
-
                                         if (!isSelectedWorkshop) {
                                           isSelectedWorkshop =
                                               !isSelectedWorkshop;
                                           setState(() {
-                                            // searchList = getValidCertificates();
                                             if (isSelectedWorkshop == true) {
                                               isSelectedConfre = false;
                                               isSelectedCourse = false;
@@ -293,7 +275,7 @@ class _EventState extends State<EventScreen> {
                                       },
                                           isSelectedWorkshop
                                               ? CustomColors.pink
-                                              : Colors.transparent,
+                                              : CustomColors.noColor,
                                           "ورش عمل"),
                                       getFilterButton(() {
                                         FocusScope.of(context).unfocus();
@@ -301,7 +283,6 @@ class _EventState extends State<EventScreen> {
                                         if (!isSelectedConfre) {
                                           isSelectedConfre = !isSelectedConfre;
                                           setState(() {
-                                            // searchList = getValidCertificates();
                                             if (isSelectedConfre == true) {
                                               isSelectedCourse = false;
                                               isSelectedWorkshop = false;
@@ -316,14 +297,13 @@ class _EventState extends State<EventScreen> {
                                       },
                                           isSelectedConfre
                                               ? CustomColors.pink
-                                              : Colors.transparent,
+                                              : CustomColors.noColor,
                                           "المؤتمرات"),
                                       getFilterButton(() {
                                         FocusScope.of(context).unfocus();
                                         if (!isSelectedOther) {
                                           isSelectedOther = !isSelectedOther;
                                           setState(() {
-                                            // searchList = getValidCertificates();
                                             if (isSelectedOther == true) {
                                               isSelectedConfre = false;
                                               isSelectedWorkshop = false;
@@ -338,7 +318,7 @@ class _EventState extends State<EventScreen> {
                                       },
                                           isSelectedOther
                                               ? CustomColors.pink
-                                              : Colors.transparent,
+                                              : CustomColors.noColor,
                                           "اخرى"),
                                     ],
                                   ),
@@ -362,38 +342,6 @@ class _EventState extends State<EventScreen> {
                                     ),
                                   ),
                                 ),
-                              //todo sabrene test
-                              // if (!isSearch &&
-                              //     ((isSelectedCourse && courseItems.isEmpty) ||
-                              //         (isSelectedWorkshop &&
-                              //             workshopItems.isEmpty) ||
-                              //         (isSelectedConfre && confItems.isEmpty) ||
-                              //         (isSelectedOther && otherItems.isEmpty)))
-                              //   Expanded(
-                              //     child: Center(
-                              //       child: SizedBox(
-                              //         height: 200,
-                              //         child: Image.asset(
-                              //             'assets/images/no_content_removebg_preview.png'),
-                              //       ),
-                              //     ),
-                              //   ),
-
-                              // if (isSelectedCourse
-                              //     ? (isSearch
-                              //         ? searchCourseList.isEmpty
-                              //         : _courseItem.isEmpty)
-                              //     : false)
-                              //   Expanded(
-                              //     child: Center(
-                              //       child: Container(
-                              //         // padding: EdgeInsets.only(bottom: 20),
-                              //         // alignment: Alignment.topCenter,
-                              //         height: 200,
-                              //         child: Image.asset('assets/images/notFound.png'),
-                              //       ),
-                              //     ),
-                              //   ),
                               if (isSelectedCourse )
                                 buildExpandedWidget(
                                     courseItems,
@@ -452,16 +400,15 @@ class _EventState extends State<EventScreen> {
       stream: FirebaseAPI.databaseReference(name),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return const Text('حدث خطأ اثناء تحميل البيانات');
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // return loadingFunction(context, true);
           if (itemList.isEmpty)
           {
             return Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.grey[300]!,
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
               enabled: true,
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -482,8 +429,8 @@ class _EventState extends State<EventScreen> {
             );
           } else {
             return Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.grey[300]!,
+              baseColor: CustomColors.white,
+              highlightColor: CustomColors.highlightColor,
               enabled: true,
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),

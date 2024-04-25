@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:senior_project/interface/Clinic.dart';
+import 'package:senior_project/interface/clinic_screen.dart';
 import 'package:senior_project/interface/offer_categories_screen.dart';
 import 'package:senior_project/interface/lost_and_found_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import '../interface/offers_list_screen.dart';
 import '../interface/student_clubs_screen.dart';
 import '../interface/vol_op_screen.dart';
-import '../interface/event_screen.dart';
+import '../interface/events_screen.dart';
 import '../interface/psych_guidance.dart';
 import '../interface/student_activity_screen.dart';
 import '../interface/study_group_screen.dart';

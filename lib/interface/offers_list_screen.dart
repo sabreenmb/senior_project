@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/widgets/grid_card.dart';
 import 'package:senior_project/widgets/side_menu.dart';
-
 import '../common/constant.dart';
 import '../common/theme.dart';
 import '../common/common_functions.dart';
 
 class OffersListScreen extends StatefulWidget {
   const OffersListScreen({super.key});
-
   @override
   State<OffersListScreen> createState() => _OffersListState();
 }
-
 class _OffersListState extends State<OffersListScreen> {
   @override
   Widget build(BuildContext context) {
