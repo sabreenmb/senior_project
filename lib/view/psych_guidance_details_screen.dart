@@ -7,20 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/common_functions.dart';
-import 'package:senior_project/interface/services_screen.dart';
 
 import '../common/constant.dart';
 import '../common/theme.dart';
 import 'Chat_Pages/chat_screen.dart';
 
-class PsychGuidanceDetails extends StatefulWidget {
-  const PsychGuidanceDetails({super.key});
+class PsychGuidanceDetailsScreen extends StatefulWidget {
+  const PsychGuidanceDetailsScreen({super.key});
 
   @override
-  State<PsychGuidanceDetails> createState() => _PsychGuidanceState();
+  State<PsychGuidanceDetailsScreen> createState() => _PsychGuidanceState();
 }
 
-class _PsychGuidanceState extends State<PsychGuidanceDetails>
+class _PsychGuidanceState extends State<PsychGuidanceDetailsScreen>
     with SingleTickerProviderStateMixin {
   late StreamSubscription connSub;
   void checkConnectivity(List<ConnectivityResult> result) {

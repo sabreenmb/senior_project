@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/Chat_Pages/chat_screen.dart';
-import 'package:senior_project/interface/Chat_Pages/helper/my_date_util.dart';
-import 'package:senior_project/interface/Chat_Pages/other_user_profile_screen.dart';
+import 'package:senior_project/view/Chat_Pages/chat_screen.dart';
+import 'package:senior_project/view/Chat_Pages/helper/my_date_util.dart';
+import 'package:senior_project/view/Chat_Pages/other_user_profile_screen.dart';
 import 'package:senior_project/model/chat_info_model.dart';
 import 'package:senior_project/model/user_information_model.dart';
 import 'package:senior_project/common/theme.dart';

@@ -5,7 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/study_group_form_screen.dart';
+import 'package:senior_project/view/study_group_form_screen.dart';
 import 'package:senior_project/model/student_group_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/widgets/study_group_card.dart';

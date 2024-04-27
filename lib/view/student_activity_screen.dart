@@ -5,7 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/constant.dart';
-import 'package:senior_project/interface/student_activity_form_screen.dart';
+import 'package:senior_project/view/student_activity_form_screen.dart';
 import 'package:senior_project/model/student_activity_model.dart';
 import 'package:senior_project/common/theme.dart';
 import 'package:senior_project/common/common_functions.dart';

@@ -2,17 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:senior_project/interface/clinic_screen.dart';
-import 'package:senior_project/interface/offer_categories_screen.dart';
-import 'package:senior_project/interface/lost_and_found_screen.dart';
+import 'package:senior_project/view/clinic_screen.dart';
+import 'package:senior_project/view/offer_categories_screen.dart';
+import 'package:senior_project/view/lost_and_found_screen.dart';
 import 'package:shimmer/shimmer.dart';
-import '../interface/offers_list_screen.dart';
-import '../interface/student_clubs_screen.dart';
-import '../interface/vol_op_screen.dart';
-import '../interface/events_screen.dart';
-import '../interface/psych_guidance.dart';
-import '../interface/student_activity_screen.dart';
-import '../interface/study_group_screen.dart';
+import '../view/offers_list_screen.dart';
+import '../view/student_clubs_screen.dart';
+import '../view/vol_op_screen.dart';
+import '../view/events_screen.dart';
+import '../view/psych_guidance_screen.dart';
+import '../view/student_activity_screen.dart';
+import '../view/study_group_screen.dart';
 import '../common/theme.dart';
 
 class GridCard extends StatelessWidget {
@@ -137,7 +137,7 @@ class GridCard extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const PsychGuidance(),
+          builder: (context) => const PsychGuidanceScreen(),
         ),
       );
       break;

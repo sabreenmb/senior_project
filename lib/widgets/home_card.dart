@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../interface/vol_op_screen.dart';
-import '../interface/events_screen.dart';
+import '../view/vol_op_screen.dart';
+import '../view/events_screen.dart';
 import '../common/theme.dart';
 
 class HomeCard extends StatefulWidget {

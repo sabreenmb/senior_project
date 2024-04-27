@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../interface/login_screen.dart';
+import '../view/login_screen.dart';
 import 'common_functions.dart';
 import 'constant.dart';
-import '../interface/launch_screen.dart';
+import '../view/launch_screen.dart';
 import 'theme.dart';
 
 class NetworkConnection extends StatefulWidget {

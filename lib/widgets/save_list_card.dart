@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:senior_project/interface/student_activity_screen.dart';
-import 'package:senior_project/interface/study_group_screen.dart';
-
+import 'package:senior_project/view/student_activity_screen.dart';
+import 'package:senior_project/view/study_group_screen.dart';
 import '../common/constant.dart';
-import '../interface/vol_op_screen.dart';
-import '../interface/events_screen.dart';
+import '../view/vol_op_screen.dart';
+import '../view/events_screen.dart';
 import '../model/saved_list_model.dart';
 import '../common/theme.dart';
 

@@ -1,15 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:senior_project/common/theme.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../model/dynamic_item_model.dart';
 import 'constant.dart';
-import '../interface/Chat_Pages/current_chats.dart';
-import '../interface/home_screen.dart';
-import '../interface/profile_screen.dart';
-import 'package:senior_project/interface/save_list_screen.dart';
-import '../interface/services_screen.dart';
+import '../view/Chat_Pages/current_chats.dart';
+import '../view/home_screen.dart';
+import '../view/profile_screen.dart';
+import 'package:senior_project/view/save_list_screen.dart';
+import '../view/services_screen.dart';
 
 Widget buildBottomBarWF(BuildContext context, int index) {
   return BottomAppBar(
@@ -128,26 +127,6 @@ Widget buildBottomBar(BuildContext context, int index, bool isService,
           ],
         ),
       ),
-    ),
-  );
-}
-
-//todo sabreenaaa shimmer
-Widget loadingCards(BuildContext context) {
-  return Shimmer.fromColors(
-    baseColor: Colors.grey.shade300,
-    highlightColor: Colors.grey.shade100,
-    enabled: true,
-    child: ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 10),
-      itemCount: 4,
-      itemBuilder: (context, index) {
-        return const SizedBox(
-          height: 100,
-          width: 400,
-        );
-      },
     ),
   );
 }
@@ -277,7 +256,7 @@ void showNetWidgetDialog(BuildContext context) {
       builder: (BuildContext context) {
         return AlertDialog(
           titlePadding: EdgeInsets.zero,
-          contentPadding: EdgeInsets.fromLTRB(12, 30, 12, 12),
+          contentPadding: const EdgeInsets.fromLTRB(12, 30, 12, 12),
           insetPadding:
               const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
           shape: RoundedRectangleBorder(
@@ -289,7 +268,7 @@ void showNetWidgetDialog(BuildContext context) {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
@@ -297,8 +276,8 @@ void showNetWidgetDialog(BuildContext context) {
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.red, width: 2),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.close,
                       size: 50,
@@ -331,12 +310,12 @@ void showNetWidgetDialog(BuildContext context) {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 40),
                       backgroundColor: CustomColors.lightBlue,
-                      side: BorderSide(color: CustomColors.lightBlue, width: 1),
+                      side: const BorderSide(color: CustomColors.lightBlue, width: 1),
                       elevation: 0.0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'حسناً',
                       style: TextStyle(color: CustomColors.white),
                     ),
@@ -348,6 +327,7 @@ void showNetWidgetDialog(BuildContext context) {
         );
       });
 }
+
 Future<void> launchURL(String? urlString, BuildContext context) async {
   if (urlString == null || urlString.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -358,6 +338,9 @@ Future<void> launchURL(String? urlString, BuildContext context) async {
   final Uri url = Uri.parse(urlString);
 
   if (!await launchUrl(url)) {
+    if(!context.mounted){
+      return;
+    }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Could not launch $urlString')),
     );

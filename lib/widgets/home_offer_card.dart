@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../common/theme.dart';
-import '../interface/offer_details.dart';
+import '../view/offer_details.dart';
 import '../model/offer_info_model.dart';
 
 class HomeOfferCard extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:senior_project/model/user_information_model.dart';
-import 'package:senior_project/common/push_notification.dart';
+import 'package:senior_project/controller/push_notification.dart';
 import 'firebase_api.dart';
 import '../model/dynamic_item_model.dart';
 import '../model/student_club_model.dart';

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:senior_project/common/constant.dart';
 import 'package:senior_project/model/saved_list_model.dart';
 import 'package:senior_project/model/student_activity_model.dart';
-
 import '../common/theme.dart';
 
 class StudentActivityCard extends StatefulWidget {

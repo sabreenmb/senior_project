@@ -3,21 +3,21 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:senior_project/common/common_functions.dart';
-import 'package:senior_project/interface/services_screen.dart';
+import 'package:senior_project/view/services_screen.dart';
 
 import '../common/constant.dart';
 import '../common/theme.dart';
 import '../widgets/side_menu.dart';
-import 'psych_guidance_details.dart';
+import 'psych_guidance_details_screen.dart';
 
-class PsychGuidance extends StatefulWidget {
-  const PsychGuidance({super.key});
+class PsychGuidanceScreen extends StatefulWidget {
+  const PsychGuidanceScreen({super.key});
 
   @override
-  State<PsychGuidance> createState() => _PsychGuidanceState();
+  State<PsychGuidanceScreen> createState() => _PsychGuidanceScreenState();
 }
 
-class _PsychGuidanceState extends State<PsychGuidance>
+class _PsychGuidanceScreenState extends State<PsychGuidanceScreen>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
@@ -121,7 +121,7 @@ class _PsychGuidanceState extends State<PsychGuidance>
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const PsychGuidanceDetails()));
+                                              const PsychGuidanceDetailsScreen()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     fixedSize: const Size(175, 40),
