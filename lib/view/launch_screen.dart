@@ -13,7 +13,6 @@ import '../common/constant.dart';
 import '../common/network_page.dart';
 import 'login_screen.dart';
 
-
 class LaunchScreen extends StatefulWidget {
   const LaunchScreen({super.key});
 
@@ -49,12 +48,16 @@ class _LaunchScreenState extends State<LaunchScreen> {
     super.initState();
     connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
     Future.delayed(const Duration(seconds: 1), () {
+      notificationServices.forgroundMessage();
+      notificationServices.firebaseInit(context);
       setup();
     });
   }
+
   Future<void> setup() async {
     await _checkToken();
   }
+
   @override
   void dispose() {
     connSub.cancel();
@@ -89,8 +92,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
       if (kDebugMode) {
         print('we do not have a token');
       }
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
     }
   }
 

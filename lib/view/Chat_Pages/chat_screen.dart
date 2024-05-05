@@ -28,6 +28,20 @@ class _RealChatPageState extends State<RealChatPage>
   List<MessageInfoModel> _list = [];
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
+  final FocusNode _messageFocusNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(_messageFocusNode);
+    });
+  }
 
   void checkConnectivity(List<ConnectivityResult> result) {
     switch (result[0]) {
@@ -66,18 +80,9 @@ class _RealChatPageState extends State<RealChatPage>
   void dispose() {
     _animationController.dispose();
     connSub.cancel();
+    _messageFocusNode.dispose();
 
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    connSub = Connectivity().onConnectivityChanged.listen(checkConnectivity);
   }
 
   void _goToUserProfile() {
@@ -270,7 +275,7 @@ class _RealChatPageState extends State<RealChatPage>
         child: Container(
           height: 55,
           decoration: BoxDecoration(
-            color: CustomColors.lightGreyLowTrans.withOpacity(0.25),
+            color: CustomColors.lightGreyLowTrans.withOpacity(0.15),
             borderRadius: BorderRadius.circular(40),
           ),
           padding: const EdgeInsets.only(right: 15, left: 5),
@@ -278,6 +283,7 @@ class _RealChatPageState extends State<RealChatPage>
             children: [
               Expanded(
                 child: TextField(
+                  focusNode: _messageFocusNode,
                   onTap: () {},
                   controller: _messageController,
                   obscureText: false,
@@ -288,7 +294,6 @@ class _RealChatPageState extends State<RealChatPage>
                 ),
               ),
               Container(
-                // alignment: Alignment.center,
                 padding: const EdgeInsets.only(bottom: 3),
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(

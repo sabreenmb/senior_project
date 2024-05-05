@@ -23,6 +23,7 @@ import '../model/workshop_model.dart';
 //Common use variables
 bool isLoading = false;
 bool isOffline = false;
+bool isForeground = true;
 var connectivityResult = (Connectivity().checkConnectivity());
 final user = FirebaseAuth.instance.currentUser;
 
