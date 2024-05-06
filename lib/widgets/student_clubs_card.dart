@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, deprecated_member_use
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -47,26 +47,24 @@ class StudentClubCard extends StatelessWidget {
                 height: 80,
                 child: sClubDetails.logo == "empty"
                     ? Container(
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset(
-                      'assets/icons/students-clubs.svg',
-                      height: 100,
-                      width: 100,
-                      color: CustomColors.darkGrey,
-                    ))
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset(
+                          'assets/icons/students-clubs.svg',
+                          height: 100,
+                          width: 100,
+                          color: CustomColors.darkGrey,
+                        ))
                     : CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: sClubDetails.logo!,
-                    errorWidget: (context, url, error) =>
-                        Container(
+                        fit: BoxFit.cover,
+                        imageUrl: sClubDetails.logo!,
+                        errorWidget: (context, url, error) => Container(
                             alignment: Alignment.center,
                             child: SvgPicture.asset(
                               'assets/icons/students-clubs.svg',
                               height: 100,
                               width: 100,
                               color: CustomColors.darkGrey,
-                            ))
-                ),
+                            ))),
               ),
             ),
             Text(

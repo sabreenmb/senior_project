@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, use_build_context_synchronously
 
 import 'dart:convert';
 import 'dart:io';
@@ -14,7 +14,6 @@ import '../common/constant.dart';
 import '../common/firebase_api.dart';
 import '../model/found_item_model.dart';
 import '../common/theme.dart';
-
 
 class FoundFormScreen extends StatefulWidget {
   const FoundFormScreen({super.key});
@@ -468,7 +467,8 @@ class _FoundFormState extends State<FoundFormScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       backgroundColor: CustomColors.lightBlue),
-                                  child: Text("انشاء", style: TextStyles.btnText),
+                                  child:
+                                      Text("انشاء", style: TextStyles.btnText),
                                 ),
                               ),
                             ],

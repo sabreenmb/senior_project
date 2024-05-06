@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages, unused_local_variable
+// ignore_for_file: depend_on_referenced_packages, unused_local_variable, use_build_context_synchronously
 
 import 'dart:convert';
 import 'dart:io';
@@ -90,13 +90,15 @@ class _LostFormState extends State<LostFormScreen> {
       _selectedImage = File(pickedFile.path);
     });
   }
+
   void _checkInputValue() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState!.save();
-    final storageRef = FirebaseAPI.fireStorageRef('lost_images', uniqueFileName);
+    final storageRef =
+        FirebaseAPI.fireStorageRef('lost_images', uniqueFileName);
     if (_selectedImage == null) {
       _imageUrl = "empty";
     } else {
@@ -405,8 +407,7 @@ class _LostFormState extends State<LostFormScreen> {
                                     ),
                                   ),
                                 ),
-                                onChanged: (phone) {
-                                },
+                                onChanged: (phone) {},
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
@@ -477,7 +478,8 @@ class _LostFormState extends State<LostFormScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       backgroundColor: CustomColors.lightBlue),
-                                  child: Text("انشاء", style: TextStyles.btnText),
+                                  child:
+                                      Text("انشاء", style: TextStyles.btnText),
                                 ),
                               ),
                             ],

@@ -21,11 +21,11 @@ Widget buildBottomBarWF(BuildContext context, int index) {
       width: MediaQuery.of(context).size.width,
       child: Container(
         decoration: const BoxDecoration(
-          color:CustomColors.white,
-                      ),
+          color: CustomColors.white,
+        ),
         child: BottomNavigationBar(
           onTap: (int newIndex) {
-            if(index==newIndex) {
+            if (index == newIndex) {
               return;
             }
             if (newIndex == 0) {
@@ -88,7 +88,7 @@ Widget buildBottomBar(BuildContext context, int index, bool isService,
           showSelectedLabels: isService ? false : true,
           landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
           onTap: (int newIndex) {
-            if(index==newIndex&& !isService) {
+            if (index == newIndex && !isService) {
               return;
             }
             if (newIndex == 0) {
@@ -287,7 +287,7 @@ void showNetWidgetDialog(BuildContext context) {
                     child: Icon(
                       Icons.close,
                       size: 50,
-                      color: Colors.red,
+                      color: CustomColors.red,
                     ),
                   ),
                 ),
@@ -316,7 +316,8 @@ void showNetWidgetDialog(BuildContext context) {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 40),
                       backgroundColor: CustomColors.lightBlue,
-                      side: const BorderSide(color: CustomColors.lightBlue, width: 1),
+                      side: const BorderSide(
+                          color: CustomColors.lightBlue, width: 1),
                       elevation: 0.0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -344,7 +345,7 @@ Future<void> launchURL(String? urlString, BuildContext context) async {
   final Uri url = Uri.parse(urlString);
 
   if (!await launchUrl(url)) {
-    if(!context.mounted){
+    if (!context.mounted) {
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
@@ -352,4 +353,3 @@ Future<void> launchURL(String? urlString, BuildContext context) async {
     );
   }
 }
-
