@@ -107,8 +107,6 @@ class _VolunteerOpState extends State<VolunteerOp>
                     isOffline
                         ? Center(
                             child: SizedBox(
-                              // padding: EdgeInsets.only(bottom: 20),
-                              // alignment: Alignment.topCenter,
                               height: 200,
                               child: Image.asset(
                                   'assets/images/NoInternet_newo.png'),

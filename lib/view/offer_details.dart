@@ -41,11 +41,11 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                   Positioned(
                     child: AppBar(
                       systemOverlayStyle: const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
+                        statusBarColor: CustomColors.noColor,
                         statusBarIconBrightness: Brightness.light,
                         statusBarBrightness: Brightness.light,
                       ),
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: CustomColors.noColor,
                       elevation: 0,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back_ios,
@@ -152,7 +152,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: CustomColors.lightGrey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
                             offset: const Offset(
@@ -160,7 +160,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
+                        color: CustomColors.white,
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
@@ -202,7 +202,7 @@ class _OfferDetailsScreenState extends State<OfferDetailsScreen> {
                     border: Border(
                         top: BorderSide(
                             width: 2, color: CustomColors.lightGreyLowTrans)),
-                    color: Colors.white,
+                    color: CustomColors.white,
                   ),
                   child: MediaQuery.removePadding(
                     context: context,

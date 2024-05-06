@@ -62,14 +62,14 @@ class UserChatItem extends StatelessWidget {
                         width: 15,
                         height: 15,
                         decoration: BoxDecoration(
-                            color: Colors.blue,
+                            color: CustomColors.realBlue,
                             borderRadius: BorderRadius.circular(10)),
                       )
                     // message sent time
                     : Text(
                         MyDateUtil.getLastMessageTime(
                             context: context, time: chatInfo!.lastMsgTime),
-                        style: const TextStyle(color: Colors.black54),
+                        style: const TextStyle(color: CustomColors.black),
                       ),
             leading: GestureDetector(
               onTap: () {

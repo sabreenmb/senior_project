@@ -420,7 +420,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             margin: const EdgeInsets.only(
                                                 bottom: 15.0),
                                             alignment: Alignment.centerRight,
-                                            // color: Colors.amber,
                                             child: Text(
                                               'اختر تفضيلات العروض:',
                                               style: TextStyles.heading2D,

@@ -12,7 +12,7 @@ import '../view/services_screen.dart';
 
 Widget buildBottomBarWF(BuildContext context, int index) {
   return BottomAppBar(
-    color: Colors.white,
+    color: CustomColors.white,
     shape: const CircularNotchedRectangle(),
     notchMargin: 0.1,
     clipBehavior: Clip.none,
@@ -21,10 +21,13 @@ Widget buildBottomBarWF(BuildContext context, int index) {
       width: MediaQuery.of(context).size.width,
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
+          color:CustomColors.white,
+                      ),
         child: BottomNavigationBar(
           onTap: (int newIndex) {
+            if(index==newIndex) {
+              return;
+            }
             if (newIndex == 0) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) => const HomeScreen()));
@@ -70,7 +73,7 @@ Widget buildBottomBarWF(BuildContext context, int index) {
 Widget buildBottomBar(BuildContext context, int index, bool isService,
     {bool isSaved = false}) {
   return BottomAppBar(
-    color: Colors.white,
+    color: CustomColors.white,
     shape: const CircularNotchedRectangle(),
     notchMargin: 0.1,
     clipBehavior: Clip.none,
@@ -79,12 +82,15 @@ Widget buildBottomBar(BuildContext context, int index, bool isService,
       width: MediaQuery.of(context).size.width,
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: CustomColors.white,
         ),
         child: BottomNavigationBar(
           showSelectedLabels: isService ? false : true,
           landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
           onTap: (int newIndex) {
+            if(index==newIndex&& !isService) {
+              return;
+            }
             if (newIndex == 0) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) => const HomeScreen()));
@@ -274,7 +280,7 @@ void showNetWidgetDialog(BuildContext context) {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.red, width: 2),
+                    border: Border.all(color: CustomColors.red, width: 2),
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),

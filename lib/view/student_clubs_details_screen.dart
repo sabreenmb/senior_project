@@ -36,11 +36,11 @@ class SClubDetailsScreen extends StatelessWidget {
                   Positioned(
                     child: AppBar(
                       systemOverlayStyle: const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
+                        statusBarColor: CustomColors.noColor,
                         statusBarIconBrightness: Brightness.light,
                         statusBarBrightness: Brightness.light,
                       ),
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: CustomColors.noColor,
                       elevation: 0,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back_ios,
@@ -112,7 +112,7 @@ class SClubDetailsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: CustomColors.lightGrey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
                             offset: const Offset(
@@ -120,7 +120,7 @@ class SClubDetailsScreen extends StatelessWidget {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
+                        color: CustomColors.white,
                       ),
 
                       child:  ClipRRect(

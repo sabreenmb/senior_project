@@ -14,14 +14,7 @@ class ServicesScreen extends StatefulWidget {
 }
 
 class _ServicesState extends State<ServicesScreen> {
-  @override
-  void initState() {
-    super.initState();
-    //todo notification testing
-    // notificationServices.forgroundMessage();
-    // notificationServices.firebaseInit(context);
-    // notificationServices.setupInteractMessage(context);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +34,7 @@ class _ServicesState extends State<ServicesScreen> {
         endDrawer: SideDrawer(
           onProfileTap:  () => goToProfilePage(context),
         ),
-          bottomNavigationBar: buildBottomBar(context, 1, true),
+        bottomNavigationBar: buildBottomBar(context, 1, false),
         body: SafeArea(
           bottom: false,
           child: Column(

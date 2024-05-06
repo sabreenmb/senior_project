@@ -161,7 +161,7 @@ class _LostFormState extends State<LostFormScreen> {
           centerTitle: true,
         ),
         body: ModalProgressHUD(
-          color: Colors.black,
+          color: CustomColors.black,
           opacity: 0.5,
           progressIndicator: loadingFunction(context, true),
           inAsyncCall: isLoading,
