@@ -81,19 +81,6 @@ class ChatService extends ChangeNotifier {
         .snapshots();
   }
 
-  Future<bool> isChatExist(String chatRoomID) async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection("chat_rooms")
-        .doc(chatRoomID)
-        .get();
-
-    if (!snapshot.exists) {
-      return false;
-    }
-
-    return true;
-  }
-
   Future<void> updateMessageReadStatus(MessageInfoModel message) async {
     List<String> ids = [message.senderID, message.receiverID];
     ids.sort();
@@ -107,5 +94,18 @@ class ChatService extends ChangeNotifier {
         .update({'readF': time});
 
     _firestore.collection("chat_rooms").doc(chatRoomID).update({'readF': time});
+  }
+
+  Future<bool> isChatExist(String chatRoomID) async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("chat_rooms")
+        .doc(chatRoomID)
+        .get();
+
+    if (!snapshot.exists) {
+      return false;
+    }
+
+    return true;
   }
 }

@@ -23,14 +23,13 @@ import '../model/vol_op_model.dart';
 import '../model/workshop_model.dart';
 
 class Setup {
-  Setup();
   Future<void> build() async {
     saveList = [];
     loadCourses();
     loadWorkshops();
     loadConferences();
     loadOtherEvents();
-    // loadVolOp();
+    loadVolOp();
     await loadOffers();
   }
 
@@ -191,7 +190,7 @@ class Setup {
       final response = await http.get(FirebaseAPI.url('offersdb'));
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        if (getValidityF(item.value['of_expDate'])) {
+        if (isFutureValidity(item.value['of_expDate'])) {
           loadedOfferInfo.add(OfferInfoModel(
             id: item.key,
             timestamp: item.value['timestamp'],
@@ -246,7 +245,7 @@ class Setup {
     }
     final Map<String, dynamic> data = json.decode(response.body);
     for (final item in data.entries) {
-      if (getValidityF(item.value['course_date']) == true) {
+      if (isFutureValidity(item.value['course_date']) == true) {
         loadedCourseItems.add(CoursesModel(
           id: item.key,
           name: item.value['course_name'],
@@ -297,7 +296,7 @@ class Setup {
     }
     final Map<String, dynamic> data = json.decode(response.body);
     for (final item in data.entries) {
-      if (getValidityF(item.value['workshop_date']) == true) {
+      if (isFutureValidity(item.value['workshop_date']) == true) {
         loadedWorkshopsItems.add(WorkshopModel(
           id: item.key,
           name: item.value['workshop_name'],
@@ -348,7 +347,7 @@ class Setup {
     final Map<String, dynamic> data = json.decode(response.body);
 
     for (final item in data.entries) {
-      if (getValidityF(item.value['conference_date']) == true) {
+      if (isFutureValidity(item.value['conference_date']) == true) {
         loadedConferencesItems.add(ConferencesModel(
           id: item.key,
           name: item.value['conference_name'],
@@ -398,7 +397,7 @@ class Setup {
     final Map<String, dynamic> eventData = json.decode(response.body);
 
     for (final item in eventData.entries) {
-      if (getValidityF(item.value['OEvent_date']) == true) {
+      if (isFutureValidity(item.value['OEvent_date']) == true) {
         loadedOtherEventsItems.add(OtherEventsModel(
           id: item.key,
           name: item.value['OEvent_name'],
@@ -449,7 +448,7 @@ class Setup {
       }
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        if (getValidityF(item.value['op_date']) == true) {
+        if (isFutureValidity(item.value['op_date']) == true) {
           loadedVolunteerOp.add(VolOpModel(
             id: item.key,
             name: item.value['op_name'],
@@ -537,7 +536,7 @@ class Setup {
 
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        if (getValidityF(item.value['date'])) {
+        if (isFutureValidity(item.value['date'])) {
           loadedCreatedStudentActivity.add(StudentActivityModel(
             id: item.key,
             name: item.value['name'],
@@ -591,7 +590,7 @@ class Setup {
 
       final Map<String, dynamic> data = json.decode(response.body);
       for (final item in data.entries) {
-        if (getValidityF(item.value['date'])) {
+        if (isFutureValidity(item.value['date'])) {
           studyGroupItems.add(StudyGroupModel(
             id: item.key,
             name: item.value['name'],

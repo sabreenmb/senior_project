@@ -21,6 +21,8 @@ class SavedListModel {
     'otherEvents': 'فعاليات أخرى',
     'studyGroups': 'جلسة مذاكرة',
   };
+
+  // check item id
   static bool findId(String id) {
     bool isSaved = false;
     saveList.any((item) => item.item.id == id)
@@ -29,7 +31,7 @@ class SavedListModel {
     return isSaved;
   }
 
-  bool addToSave(bool isSaved) {
+  bool handelSaveItem(bool isSaved) {
     isSaved = !isSaved;
     if (isSaved) {
       saveList.add(
@@ -49,6 +51,7 @@ class SavedListModel {
     return isSaved;
   }
 
+  //add item to firebase
   Future<void> addItem(String itemId) async {
     try {
       // Retrieve the document
@@ -79,6 +82,7 @@ class SavedListModel {
     }
   }
 
+  //remove item from firebase
   Future<void> removeItem(String itemId, {bool isSaveScreen = false}) async {
     try {
       String doc = isSaveScreen ? getKeyFromValue(serviceName) : serviceName;
@@ -103,7 +107,6 @@ class SavedListModel {
       await userProfileDoc.collection('saveItems').doc(doc).update({
         'items': FieldValue.arrayRemove([itemId])
       });
-
     } catch (e) {
       if (kDebugMode) {
         print('Error removing item');

@@ -28,12 +28,13 @@ class _OtherCardState extends State<OtherCard> {
     isSaved = SavedListModel.findId(widget.otherEventsItem.id.toString());
 
     return Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        child: Stack(children: [
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      child: Stack(
+        children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
             child: Column(
@@ -126,7 +127,7 @@ class _OtherCardState extends State<OtherCard> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  isSaved = savedItem.addToSave(isSaved);
+                  isSaved = savedItem.handelSaveItem(isSaved);
                 });
               },
               icon: Icon(
@@ -145,11 +146,11 @@ class _OtherCardState extends State<OtherCard> {
                 child: Text(
                   'سجل',
                   style: TextStyles.text1B,
-
                 ),
               ),
             )
-        ],),);
+        ],
+      ),
+    );
   }
-
 }

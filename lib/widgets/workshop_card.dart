@@ -119,7 +119,7 @@ class _WorkshopCardState extends State<WorkshopCard> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  isSaved = savedItem.addToSave(isSaved);
+                  isSaved = savedItem.handelSaveItem(isSaved);
                 });
               },
               icon: Icon(
@@ -136,11 +136,10 @@ class _WorkshopCardState extends State<WorkshopCard> {
                   launchURL(widget.workshopItem.workshopLink!, context),
               child: Text(
                 'سجل',
-                style:  TextStyles.text1B,
+                style: TextStyles.text1B,
               ),
             ),
           )
         ]));
   }
-
 }

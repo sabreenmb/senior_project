@@ -27,6 +27,9 @@ class _StdActivityFormScreenState extends State<StdActivityFormScreen> {
   TextEditingController dateInput = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  TimeOfDay _selectedTime =
+      TimeOfDay.now(); // Use TimeOfDay to represent the selected time
+  TextEditingController timeInput = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime currentDate = _selectedDate;
@@ -56,10 +59,6 @@ class _StdActivityFormScreenState extends State<StdActivityFormScreen> {
       });
     }
   }
-
-  TimeOfDay _selectedTime =
-      TimeOfDay.now(); // Use TimeOfDay to represent the selected time
-  TextEditingController timeInput = TextEditingController();
 
   Future<void> _selectTime(BuildContext context) async {
     TimeOfDay? pickedTime = await showTimePicker(

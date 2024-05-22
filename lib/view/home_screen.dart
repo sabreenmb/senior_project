@@ -26,7 +26,7 @@ class _HomeState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    network();
+    checkNetworkConnectivity();
 
     homeCards();
     getTodayList();

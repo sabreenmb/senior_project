@@ -122,7 +122,7 @@ class _CoursesCardState extends State<CoursesCard> {
           child: IconButton(
             onPressed: () {
               setState(() {
-                isSaved = savedItem.addToSave(isSaved);
+                isSaved = savedItem.handelSaveItem(isSaved);
               });
             },
             icon: Icon(

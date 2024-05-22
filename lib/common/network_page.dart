@@ -110,7 +110,7 @@ class _NetworkConnectionState extends State<NetworkConnection> {
                           });
                           Future.delayed(const Duration(seconds: 1))
                               .then((_) async {
-                            await network();
+                            await checkNetworkConnectivity();
                             if (isOffline) {
                               setState(() {
                                 isLoading = false;

@@ -50,6 +50,7 @@ class _LostFormState extends State<LostFormScreen> {
   TextEditingController dateInput = TextEditingController();
   String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
   final _formKey = GlobalKey<FormState>();
+
   Future<void> _selectDate(BuildContext context) async {
     DateTime currentDate = _selectedDate;
     DateTime? picked = await showDatePicker(

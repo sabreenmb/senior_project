@@ -452,7 +452,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             horizontal: 90),
                                         child: ElevatedButton(
                                           onPressed: () async {
-                                            await network();
+                                            await checkNetworkConnectivity();
                                             if (isOffline) {
                                               if (!context.mounted) {
                                                 return;

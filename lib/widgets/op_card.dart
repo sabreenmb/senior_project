@@ -13,7 +13,6 @@ class OpCard extends StatefulWidget {
 
   @override
   State<OpCard> createState() => _OpCardState();
-
 }
 
 class _OpCardState extends State<OpCard> {
@@ -126,7 +125,7 @@ class _OpCardState extends State<OpCard> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  isSaved = savedItem.addToSave(isSaved);
+                  isSaved = savedItem.handelSaveItem(isSaved);
                 });
               },
               icon: Icon(
@@ -140,11 +139,10 @@ class _OpCardState extends State<OpCard> {
               bottom: 2.0,
               left: 8.0,
               child: TextButton(
-                onPressed: () =>
-                    launchURL(widget.volOpItem.opLink!, context),
+                onPressed: () => launchURL(widget.volOpItem.opLink!, context),
                 child: Text(
                   'سجل',
-                  style:  TextStyles.text1B,
+                  style: TextStyles.text1B,
                 ),
               ),
             ),
@@ -152,5 +150,4 @@ class _OpCardState extends State<OpCard> {
       ),
     );
   }
-
 }

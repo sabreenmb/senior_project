@@ -138,7 +138,7 @@ class _StudentActivityCardState extends State<StudentActivityCard> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  isSaved = savedItem.addToSave(isSaved);
+                  isSaved = savedItem.handelSaveItem(isSaved);
                 });
               },
               icon: Icon(

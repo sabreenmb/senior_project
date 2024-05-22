@@ -171,12 +171,12 @@ Widget loadingFunction(BuildContext context, bool load) {
   );
 }
 
-Future<void> network() async {
+Future<void> checkNetworkConnectivity() async {
   final connectivityResult = await Connectivity().checkConnectivity();
   isOffline = (connectivityResult[0] == ConnectivityResult.none);
 }
 
-bool getValidity(String time) {
+bool isToday(String time) {
   DateTime expiryDate = DateTime.parse(time);
   DateTime now = DateTime.now();
 
@@ -187,7 +187,7 @@ bool getValidity(String time) {
   }
 }
 
-bool getValidityF(String time) {
+bool isFutureValidity(String time) {
   DateTime expiryDate = DateTime.parse(time);
   DateTime now = DateTime.now();
 
@@ -240,7 +240,7 @@ void getTodayList() {
 //data list may changed to a copy list
 
   for (int i = 0; i < combinedList.length; i++) {
-    if (getValidity(combinedList[i].item.date) == true) {
+    if (isToday(combinedList[i].item.date) == true) {
       todayList.add(combinedList[i]);
     }
   }

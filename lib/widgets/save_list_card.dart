@@ -48,7 +48,8 @@ class _SaveCardState extends State<SaveCard> {
               } else if (widget.serviceName == 'جلسة مذاكرة') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const StudyGroupScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const StudyGroupScreen()),
                 );
               } else {
                 Navigator.push(

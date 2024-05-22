@@ -13,7 +13,6 @@ import '../controller/app_setup.dart';
 import '../common/common_functions.dart';
 import '../common/network_page.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
@@ -32,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
   }
+
   void _submit() async {
     _newVal = false;
     final isValid = _formKey.currentState!.validate();
@@ -53,19 +53,17 @@ class _LoginScreenState extends State<LoginScreen> {
       await Setup().build();
       Setup().build2();
       if (mounted) {
-        Navigator.pushReplacement(context,
+        Navigator.pushReplacement(
+          context,
           MaterialPageRoute(builder: (_) => const HomeScreen()),
         );
       }
-
-
-
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = 'الرقم الجامعي أو الرقم السري غير صحيح، حاول مرة أخرى.';
       });
       if (kDebugMode) {
-        print( '${e.message}Athuntication Faild');
+        print('${e.message}Athuntication Faild');
       }
     } finally {
       setState(() => isLoading = false);
@@ -208,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius:
                                             BorderRadius.circular(27))),
                                 onPressed: () async {
-                                  await network();
+                                  await checkNetworkConnectivity();
                                   if (isOffline) {
                                     if (!context.mounted) {
                                       return;
@@ -217,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                            const NetworkConnection()));
+                                                const NetworkConnection()));
                                   } else {
                                     _submit();
                                   }

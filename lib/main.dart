@@ -8,6 +8,7 @@ import 'package:senior_project/common/constant.dart';
 
 import 'firebase_options.dart';
 import 'view/launch_screen.dart';
+import 'package:dcdg/dcdg.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
